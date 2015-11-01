@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost:3306
--- Время создания: Окт 20 2015 г., 13:26
+-- Время создания: Ноя 02 2015 г., 02:33
 -- Версия сервера: 5.5.42
 -- Версия PHP: 5.3.29
 
@@ -640,7 +640,7 @@ CREATE TABLE `oc_customer` (
   `safe` tinyint(1) NOT NULL,
   `token` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_customer`
@@ -648,7 +648,8 @@ CREATE TABLE `oc_customer` (
 
 INSERT INTO `oc_customer` (`customer_id`, `customer_group_id`, `store_id`, `firstname`, `lastname`, `email`, `image`, `telephone`, `fax`, `password`, `salt`, `cart`, `wishlist`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `approved`, `safe`, `token`, `date_added`) VALUES
 (62, 2, 0, 'Юрий', 'Бреславец', 'casejoke@gmail.com', 'http://cs624829.vk.me/v624829223/3b798/Gez2JVPw85M.jpg', '213123', '', 'fe03015bc01e7f91eb24a8e28d2649b6f8b6be47', '256160eb3', '', '', 0, 0, '', '::1', 1, 1, 0, '', '2015-10-11 20:45:33'),
-(63, 2, 0, 'Yura', 'Breslavec', 'auto_silver@mail.ru', 'http://graph.facebook.com/100002432633167/picture?type=large', '99090909', '', '9a42187256ff88b6658cf94e6232710d329aad04', '0e7539e58', '', '', 0, 0, '', '::1', 1, 1, 0, '', '2015-10-11 21:01:31');
+(63, 2, 0, 'Yura', 'Breslavec', 'auto_silver@mail.ru', 'http://graph.facebook.com/100002432633167/picture?type=large', '99090909', '', '9a42187256ff88b6658cf94e6232710d329aad04', '0e7539e58', '', '', 0, 0, '', '::1', 1, 1, 0, '', '2015-10-11 21:01:31'),
+(65, 1, 0, 'Ntcnbv', 'NTCNBV', 'auti_silver@mail.ru', '', '123123123', '', 'e6809c323c310e501b4bed215d9257aec96a16ef', '7e43a043f', '', '', 0, 0, '', '::1', 1, 1, 0, '', '2015-10-31 17:10:58');
 
 -- --------------------------------------------------------
 
@@ -663,7 +664,7 @@ CREATE TABLE `oc_customer_activity` (
   `data` text NOT NULL,
   `ip` varchar(40) NOT NULL,
   `date_added` datetime NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=178 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=207 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_customer_activity`
@@ -846,7 +847,36 @@ INSERT INTO `oc_customer_activity` (`activity_id`, `customer_id`, `key`, `data`,
 (174, 63, 'edit group', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-19 00:09:57'),
 (175, 63, 'edit group', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-19 00:13:33'),
 (176, 63, 'edit group', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-19 00:15:11'),
-(177, 63, 'edit', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-19 02:10:04');
+(177, 63, 'edit', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-19 02:10:04'),
+(178, 62, 'login', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-10-27 00:35:54'),
+(179, 62, 'edit group', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-10-27 00:36:19'),
+(180, 62, 'login', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-10-28 20:27:52'),
+(181, 63, 'login', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-30 03:17:03'),
+(182, 62, 'login', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-10-31 15:05:11'),
+(183, 63, 'login', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-31 15:05:28'),
+(184, 65, 'register', 'a:2:{s:11:"customer_id";i:65;s:4:"name";s:13:"Ntcnbv NTCNBV";}', '::1', '2015-10-31 17:10:58'),
+(185, 63, 'login', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-31 17:11:17'),
+(186, 62, 'login', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-10-31 18:00:10'),
+(187, 63, 'login', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-31 19:19:59'),
+(188, 62, 'login', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-10-31 19:22:15'),
+(189, 62, 'edit group', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-10-31 19:36:15'),
+(190, 62, 'edit group', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-10-31 19:39:47'),
+(191, 62, 'edit group', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-10-31 19:40:11'),
+(192, 63, 'login', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-31 19:55:38'),
+(193, 63, 'edit group', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-31 20:11:39'),
+(194, 63, 'edit group', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-31 20:12:23'),
+(195, 63, 'edit group', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-31 21:14:08'),
+(196, 63, 'edit group', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-31 22:04:17'),
+(197, 63, 'edit group', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-10-31 23:01:45'),
+(198, 62, 'login', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-11-01 13:45:45'),
+(199, 62, 'edit project', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-11-01 14:22:40'),
+(200, 62, 'edit project', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-11-01 14:23:12'),
+(201, 62, 'edit project', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-11-01 14:25:54'),
+(202, 62, 'edit group', 'a:2:{s:11:"customer_id";s:2:"62";s:4:"name";s:27:"Юрий Бреславец";}', '::1', '2015-11-01 18:53:30'),
+(203, 63, 'login', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-11-01 21:24:43'),
+(204, 63, 'edit project', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-11-01 21:42:27'),
+(205, 63, 'edit project', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-11-01 22:29:41'),
+(206, 63, 'edit project', 'a:2:{s:11:"customer_id";s:2:"63";s:4:"name";s:14:"Yura Breslavec";}', '::1', '2015-11-01 22:32:37');
 
 -- --------------------------------------------------------
 
@@ -930,7 +960,7 @@ CREATE TABLE `oc_customer_ip` (
   `customer_id` int(11) NOT NULL,
   `ip` varchar(40) NOT NULL,
   `date_added` datetime NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_customer_ip`
@@ -938,7 +968,8 @@ CREATE TABLE `oc_customer_ip` (
 
 INSERT INTO `oc_customer_ip` (`customer_ip_id`, `customer_id`, `ip`, `date_added`) VALUES
 (102, 62, '::1', '2015-10-11 20:45:33'),
-(103, 63, '::1', '2015-10-11 21:01:37');
+(103, 63, '::1', '2015-10-11 21:01:37'),
+(105, 65, '::1', '2015-10-31 17:10:58');
 
 -- --------------------------------------------------------
 
@@ -953,7 +984,7 @@ CREATE TABLE `oc_customer_login` (
   `total` int(4) NOT NULL,
   `date_added` datetime NOT NULL,
   `date_modified` datetime NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_customer_login`
@@ -973,7 +1004,8 @@ INSERT INTO `oc_customer_login` (`customer_login_id`, `email`, `ip`, `total`, `d
 (24, '', '83.237.8.93', 1, '2015-09-02 22:11:24', '2015-09-02 22:11:24'),
 (26, '89263464465', '185.79.102.41', 1, '2015-09-03 22:13:51', '2015-09-03 22:13:51'),
 (28, 'bilal.aliverdiev@mail.ru', '83.220.239.92', 2, '2015-09-07 12:08:39', '2015-09-07 12:09:12'),
-(29, 'bilal.aliverdiev@mail.ru', '83.220.238.235', 1, '2015-09-07 12:39:37', '2015-09-07 12:39:37');
+(29, 'bilal.aliverdiev@mail.ru', '83.220.238.235', 1, '2015-09-07 12:39:37', '2015-09-07 12:39:37'),
+(30, 'admin', '::1', 2, '2015-10-27 01:35:49', '2015-10-28 19:29:35');
 
 -- --------------------------------------------------------
 
@@ -1031,9 +1063,24 @@ CREATE TABLE `oc_customer_stats` (
 --
 
 CREATE TABLE `oc_customer_to_init_group` (
+  `customer_to_init_group_id` int(11) NOT NULL,
   `init_group_id` int(11) NOT NULL,
-  `customer_id` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `customer_id` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `oc_customer_to_init_group`
+--
+
+INSERT INTO `oc_customer_to_init_group` (`customer_to_init_group_id`, `init_group_id`, `customer_id`, `status`, `date_added`) VALUES
+(18, 10, 65, 2, '2015-11-01 21:24:51'),
+(17, 13, 65, 1, '2015-10-31 19:42:11'),
+(15, 10, 62, 1, '2015-10-31 17:09:35'),
+(16, 13, 63, 1, '2015-10-31 19:42:10'),
+(19, 11, 62, 2, '2015-11-01 21:25:01'),
+(20, 11, 65, 2, '2015-11-01 21:25:02');
 
 -- --------------------------------------------------------
 
@@ -1230,14 +1277,15 @@ CREATE TABLE `oc_information` (
   `bottom` int(1) NOT NULL DEFAULT '0',
   `sort_order` int(3) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_information`
 --
 
 INSERT INTO `oc_information` (`information_id`, `image`, `bottom`, `sort_order`, `status`) VALUES
-(8, 'catalog/default/about_us.jpg', 0, 0, 1);
+(8, 'catalog/default/home_banner/banner_2.jpg', 0, 0, 1),
+(9, 'catalog/default/home_banner/banner_4.jpg', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1260,9 +1308,8 @@ CREATE TABLE `oc_information_description` (
 --
 
 INSERT INTO `oc_information_description` (`information_id`, `language_id`, `title`, `description`, `meta_title`, `meta_description`, `meta_keyword`) VALUES
-(8, 2, 'О нас', '&lt;!-- ABOUT --&gt;\r\n		&lt;section class=&quot;module&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;div class=&quot;row&quot;&gt;\r\n\r\n					&lt;!-- ABOUT STUDIO  --&gt;\r\n					&lt;div class=&quot;col-sm-4&quot;&gt;\r\n\r\n						&lt;h4 class=&quot;font-alt m-t-0 m-b-20&quot;&gt;О&amp;nbsp;нашем портале&lt;/h4&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;Если Вы&amp;nbsp;не&amp;nbsp;знаете, где и&amp;nbsp;с&amp;nbsp;кем поиграть в&amp;nbsp;футбол в&amp;nbsp;Москве, то&amp;nbsp;портал любительского футбола footbic.ru ответит на&amp;nbsp;эти вопросы. Footbic&amp;nbsp;— это аббревиатура названия любительской футбольной лиги «Bicicletta football» (порт. bicicleta&amp;nbsp;— «удар ножницами»). &lt;/p&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;&lt;a href=&quot;#testimonials&quot; class=&quot;section-scroll&quot;&gt;Отзывы →&lt;/a&gt;&lt;/p&gt;\r\n\r\n\r\n\r\n\r\n	\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /ABOUT STUDIO  --&gt;\r\n\r\n					&lt;!-- WHAT WE DO --&gt;\r\n					&lt;div class=&quot;col-sm-4&quot;&gt;\r\n\r\n						&lt;h4 class=&quot;font-alt m-t-0 m-b-20&quot;&gt;Что мы&amp;nbsp;делаем&lt;/h4&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;Мы&amp;nbsp;сотрудничаем с&amp;nbsp;лучшими футбольными полями Москвы, на&amp;nbsp;которых проводим регулярные любительские игры и&amp;nbsp;любительские турниры различного масштаба.Footbic.ru&amp;nbsp;— это Ваш шанс заявить о&amp;nbsp;себе на&amp;nbsp;уровне любительского футбола, быстрый способ найти себе команду, присоединиться к&amp;nbsp;многочисленным участникам футбольных соревнований, получить незабываемые эмоции от&amp;nbsp;игры.&lt;/p&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;&lt;a href=&quot;#services&quot; class=&quot;section-scroll&quot;&gt;Наши услуги →&lt;/a&gt;&lt;/p&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /WHAT WE DO --&gt;\r\n\r\n					&lt;!-- SKILLS --&gt;\r\n					&lt;div class=&quot;col-sm-4&quot;&gt;\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Качество полей&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;80&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;80%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Организация&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;90&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;90%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Уровень угры&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;70&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;70%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Атмосфера&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;95&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;95%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /SKILLS --&gt;\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /ABOUT --&gt;\r\n\r\n		&lt;!-- COUNTERS --&gt;\r\n		&lt;section class=&quot;module module-video bg-dark&quot; data-background=&quot;http://local.opencms/image/cache/catalog/default/about_ush-1920x1280.jpg&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;div class=&quot;row&quot;&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;font-alt counter-number&quot; data-number=&quot;270&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Количество игр\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;font-alt counter-number&quot; data-number=&quot;3.4&quot;&gt;&lt;span&gt;&lt;/span&gt;К&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Забитых голов\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;font-alt counter-number&quot; data-number=&quot;220&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Всего футболистов\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;counter-number&quot; data-number=&quot;98&quot;&gt;&lt;span&gt;&lt;/span&gt;%&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Довольных игроков\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;!-- YOUTUBE VIDEO--&gt;\r\n			&lt;div class=&quot;video-player&quot; data-property=&quot;{videoURL:''https://www.youtube.com/watch?v=0pXYp72dwl0'', containment:''.module-video'', quality:''large'', startAt:0, autoPlay:true, loop:true, opacity:1, showControls:false, showYTLogo:false, vol:0, mute:true}&quot;&gt;&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n			&lt;!-- /YOUTUBE VIDEO--&gt;\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /COUNTERS --&gt;\r\n\r\n		&lt;!-- SERVICES --&gt;\r\n		&lt;section id=&quot;services&quot; class=&quot;module&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;!-- MODULE TITLE --&gt;\r\n				&lt;div class=&quot;row&quot;&gt;\r\n					&lt;div class=&quot;col-sm-6 col-sm-offset-3&quot;&gt;\r\n						&lt;h2 class=&quot;module-title font-alt&quot;&gt;Услуги&lt;/h2&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n				&lt;!-- /MODULE TITLE --&gt;\r\n\r\n				&lt;div class=&quot;row multi-columns-row&quot;&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-timer&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Регулярные игры&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								6 раз в неделю, в удобное время, мы проводим регулярные футбольные игры и тренировки разных форматов: 5Х5; 6Х6; 8Х8. Записаться на игры могут как отдельные игроки, так и команды.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-trophy&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Турниры&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Организация интереснейших футбольных турниров разного масштаба: от небольших однодневных до крупных сезонных мероприятий.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-football&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Футбольные поля&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Мы предлагаем лучшие футбольные поля и футзалы Москвы. Удачное расположение, идеальное качество покрытий, наличие душевых и раздевалок - неотъемлемая часть всех площадок.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-star-half&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Подробная статистика&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Для всех футболистов footbic.ru доступна интерактивная статистика результативности. Мы ведем подробную статистику регулярных игр любительской футбольной лиги и разнообразных турниров. \r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-film-outline&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Медиа&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Динамичные HD-видеоотчеты, красочные фотоотчеты в любую погоду и время года.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-people&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Допольнительно&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Организация корпоративных лиг и турниров, проведение спортивных мероприятий, разработка комплектов футбольной формы.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /SERVICES --&gt;\r\n&lt;!-- STANDARD PARALLAX FILM --&gt;\r\n		&lt;section class=&quot;module module-parallax&quot; data-background=&quot;/image/catalog/default/about_us_end.jpg&quot;&gt;\r\n\r\n			\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /STANDARD PARALLAX FILM --&gt;\r\n		&lt;!-- TESTIMONIALS --&gt;\r\n		&lt;section id=&quot;testimonials&quot; class=&quot;module module-parallax bg-light-60&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;div class=&quot;row&quot;&gt;\r\n					&lt;div class=&quot;col-sm-12 text-center&quot;&gt;\r\n					&lt;h2 class=&quot;module-title font-alt&quot;&gt;Отзывы&lt;/h2&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;div class=&quot;col-sm-6 col-sm-offset-3&quot;&gt;\r\n\r\n						&lt;!-- TESTIMONIALS CAROUSEL --&gt;\r\n						&lt;div class=&quot;owl-carousel slider-testimonials text-center&quot;&gt;\r\n\r\n							&lt;!-- SLIDE 1 --&gt;\r\n							&lt;div class=&quot;item&quot;&gt;\r\n								&lt;h5 class=&quot;module-icon m-b-20&quot;&gt;\r\n									&lt;i class=&quot;ion-ios-chatboxes-outline&quot;&gt;&lt;/i&gt;\r\n								&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;font-serif m-b-20&quot;&gt;\r\n									Приезжали с другом в четверг на Киевскую побегать. Манеж просто отпад!! От метро рукой подать. Газон, освещение, раздевалки все на уровне. Поиграли отлично. По-любому приедем еще!.\r\n								&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;quote-author font-alt&quot;&gt;Дмитрий Николаев&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;!-- /SLIDE 1 --&gt;\r\n\r\n							&lt;!-- SLIDE 2 --&gt;\r\n							&lt;div class=&quot;item&quot;&gt;\r\n								&lt;h5 class=&quot;module-icon m-b-20&quot;&gt;\r\n									&lt;i class=&quot;ion-ios-chatboxes-outline&quot;&gt;&lt;/i&gt;\r\n								&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;font-serif m-b-20&quot;&gt;\r\n									Регулярно здесь играю. Организация игр на высоком уровне. Есть послематчевая статистика и видеоотчеты . Видно, что ребята постарались. Очень радует атмосфера на площадках. Так держать! Всем советую.\r\n								&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;quote-author font-alt&quot;&gt;Павел Игнатов&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;!-- /SLIDE 2 --&gt;\r\n\r\n							&lt;!-- SLIDE 3 --&gt;\r\n							&lt;div class=&quot;item&quot;&gt;\r\n								&lt;h5 class=&quot;module-icon m-b-20&quot;&gt;\r\n									&lt;i class=&quot;ion-ios-chatboxes-outline&quot;&gt;&lt;/i&gt;\r\n								&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;font-serif m-b-20&quot;&gt;\r\n									Мы с ребятами участвовали в турнире в Сокольниках. Площадка эта - высший класс и играть там можно хоть круглый год. Газон немного подстерся, но в целом отлично. Раздевалки, душевые-все как надо. Сам турнир прошел великолепно. В плане организации претензий нет. Заняли второе место. Ждем следующих турниров.\r\n								&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;quote-author font-alt&quot;&gt;Игорь Гагарин&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;!-- /SLIDE 3 --&gt;\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;!-- /TESTIMONIALS CAROUSEL --&gt;\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /TESTIMONIALS --&gt;', 'О нас', 'О нас', ''),
-(8, 4, 'О нас', '&lt;!-- ABOUT --&gt;\r\n		&lt;section class=&quot;module&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;div class=&quot;row&quot;&gt;\r\n\r\n					&lt;!-- ABOUT STUDIO  --&gt;\r\n					&lt;div class=&quot;col-sm-4&quot;&gt;\r\n\r\n						&lt;h4 class=&quot;font-alt m-t-0 m-b-20&quot;&gt;О&amp;nbsp;нашем портале&lt;/h4&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;Если Вы&amp;nbsp;не&amp;nbsp;знаете, где и&amp;nbsp;с&amp;nbsp;кем поиграть в&amp;nbsp;футбол в&amp;nbsp;Москве, то&amp;nbsp;портал любительского футбола footbic.ru ответит на&amp;nbsp;эти вопросы. Footbic&amp;nbsp;— это аббревиатура названия любительской футбольной лиги «Bicicletta football» (порт. bicicleta&amp;nbsp;— «удар ножницами»). &lt;/p&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;&lt;a href=&quot;#testimonials&quot; class=&quot;section-scroll&quot;&gt;Отзывы →&lt;/a&gt;&lt;/p&gt;\r\n\r\n\r\n\r\n\r\n	\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /ABOUT STUDIO  --&gt;\r\n\r\n					&lt;!-- WHAT WE DO --&gt;\r\n					&lt;div class=&quot;col-sm-4&quot;&gt;\r\n\r\n						&lt;h4 class=&quot;font-alt m-t-0 m-b-20&quot;&gt;Что мы&amp;nbsp;делаем&lt;/h4&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;Мы&amp;nbsp;сотрудничаем с&amp;nbsp;лучшими футбольными полями Москвы, на&amp;nbsp;которых проводим регулярные любительские игры и&amp;nbsp;любительские турниры различного масштаба.Footbic.ru&amp;nbsp;— это Ваш шанс заявить о&amp;nbsp;себе на&amp;nbsp;уровне любительского футбола, быстрый способ найти себе команду, присоединиться к&amp;nbsp;многочисленным участникам футбольных соревнований, получить незабываемые эмоции от&amp;nbsp;игры.&lt;/p&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;&lt;a href=&quot;#services&quot; class=&quot;section-scroll&quot;&gt;Наши услуги →&lt;/a&gt;&lt;/p&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /WHAT WE DO --&gt;\r\n\r\n					&lt;!-- SKILLS --&gt;\r\n					&lt;div class=&quot;col-sm-4&quot;&gt;\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Качество полей&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;80&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;80%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Организация&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;90&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;90%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Уровень угры&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;70&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;70%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Атмосфера&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;95&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;95%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /SKILLS --&gt;\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /ABOUT --&gt;\r\n\r\n		&lt;!-- COUNTERS --&gt;\r\n		&lt;section class=&quot;module module-video bg-dark&quot; data-background=&quot;http://local.opencms/image/cache/catalog/default/about_ush-1920x1280.jpg&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;div class=&quot;row&quot;&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;font-alt counter-number&quot; data-number=&quot;270&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Количество игр\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;font-alt counter-number&quot; data-number=&quot;3.4&quot;&gt;&lt;span&gt;&lt;/span&gt;К&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Забитых голов\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;font-alt counter-number&quot; data-number=&quot;220&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Всего футболистов\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;counter-number&quot; data-number=&quot;98&quot;&gt;&lt;span&gt;&lt;/span&gt;%&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Довольных игроков\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;!-- YOUTUBE VIDEO--&gt;\r\n			&lt;div class=&quot;video-player&quot; data-property=&quot;{videoURL:''https://www.youtube.com/watch?v=0pXYp72dwl0'', containment:''.module-video'', quality:''large'', startAt:0, autoPlay:true, loop:true, opacity:1, showControls:false, showYTLogo:false, vol:0, mute:true}&quot;&gt;&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n			&lt;!-- /YOUTUBE VIDEO--&gt;\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /COUNTERS --&gt;\r\n\r\n		&lt;!-- SERVICES --&gt;\r\n		&lt;section id=&quot;services&quot; class=&quot;module&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;!-- MODULE TITLE --&gt;\r\n				&lt;div class=&quot;row&quot;&gt;\r\n					&lt;div class=&quot;col-sm-6 col-sm-offset-3&quot;&gt;\r\n						&lt;h2 class=&quot;module-title font-alt&quot;&gt;Услуги&lt;/h2&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n				&lt;!-- /MODULE TITLE --&gt;\r\n\r\n				&lt;div class=&quot;row multi-columns-row&quot;&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-timer&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Регулярные игры&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								6 раз в неделю, в удобное время, мы проводим регулярные футбольные игры и тренировки разных форматов: 5Х5; 6Х6; 8Х8. Записаться на игры могут как отдельные игроки, так и команды.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-trophy&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Турниры&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Организация интереснейших футбольных турниров разного масштаба: от небольших однодневных до крупных сезонных мероприятий.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-football&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Футбольные поля&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Мы предлагаем лучшие футбольные поля и футзалы Москвы. Удачное расположение, идеальное качество покрытий, наличие душевых и раздевалок - неотъемлемая часть всех площадок.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-star-half&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Подробная статистика&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Для всех футболистов footbic.ru доступна интерактивная статистика результативности. Мы ведем подробную статистику регулярных игр любительской футбольной лиги и разнообразных турниров. \r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-film-outline&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Медиа&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Динамичные HD-видеоотчеты, красочные фотоотчеты в любую погоду и время года.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-people&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Допольнительно&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Организация корпоративных лиг и турниров, проведение спортивных мероприятий, разработка комплектов футбольной формы.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /SERVICES --&gt;\r\n&lt;!-- STANDARD PARALLAX FILM --&gt;\r\n		&lt;section class=&quot;module module-parallax&quot; data-background=&quot;/image/catalog/default/about_us_end.jpg&quot;&gt;\r\n\r\n			\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /STANDARD PARALLAX FILM --&gt;\r\n		&lt;!-- TESTIMONIALS --&gt;\r\n		&lt;section id=&quot;testimonials&quot; class=&quot;module module-parallax bg-light-60&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;div class=&quot;row&quot;&gt;\r\n					&lt;div class=&quot;col-sm-12 text-center&quot;&gt;\r\n					&lt;h2 class=&quot;module-title font-alt&quot;&gt;Отзывы&lt;/h2&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;div class=&quot;col-sm-6 col-sm-offset-3&quot;&gt;\r\n\r\n						&lt;!-- TESTIMONIALS CAROUSEL --&gt;\r\n						&lt;div class=&quot;owl-carousel slider-testimonials text-center&quot;&gt;\r\n\r\n							&lt;!-- SLIDE 1 --&gt;\r\n							&lt;div class=&quot;item&quot;&gt;\r\n								&lt;h5 class=&quot;module-icon m-b-20&quot;&gt;\r\n									&lt;i class=&quot;ion-ios-chatboxes-outline&quot;&gt;&lt;/i&gt;\r\n								&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;font-serif m-b-20&quot;&gt;\r\n									Приезжали с другом в четверг на Киевскую побегать. Манеж просто отпад!! От метро рукой подать. Газон, освещение, раздевалки все на уровне. Поиграли отлично. По-любому приедем еще!.\r\n								&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;quote-author font-alt&quot;&gt;Дмитрий Николаев&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;!-- /SLIDE 1 --&gt;\r\n\r\n							&lt;!-- SLIDE 2 --&gt;\r\n							&lt;div class=&quot;item&quot;&gt;\r\n								&lt;h5 class=&quot;module-icon m-b-20&quot;&gt;\r\n									&lt;i class=&quot;ion-ios-chatboxes-outline&quot;&gt;&lt;/i&gt;\r\n								&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;font-serif m-b-20&quot;&gt;\r\n									Регулярно здесь играю. Организация игр на высоком уровне. Есть послематчевая статистика и видеоотчеты . Видно, что ребята постарались. Очень радует атмосфера на площадках. Так держать! Всем советую.\r\n								&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;quote-author font-alt&quot;&gt;Павел Игнатов&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;!-- /SLIDE 2 --&gt;\r\n\r\n							&lt;!-- SLIDE 3 --&gt;\r\n							&lt;div class=&quot;item&quot;&gt;\r\n								&lt;h5 class=&quot;module-icon m-b-20&quot;&gt;\r\n									&lt;i class=&quot;ion-ios-chatboxes-outline&quot;&gt;&lt;/i&gt;\r\n								&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;font-serif m-b-20&quot;&gt;\r\n									Мы с ребятами участвовали в турнире в Сокольниках. Площадка эта - высший класс и играть там можно хоть круглый год. Газон немного подстерся, но в целом отлично. Раздевалки, душевые-все как надо. Сам турнир прошел великолепно. В плане организации претензий нет. Заняли второе место. Ждем следующих турниров.\r\n								&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;quote-author font-alt&quot;&gt;Игорь Гагарин&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;!-- /SLIDE 3 --&gt;\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;!-- /TESTIMONIALS CAROUSEL --&gt;\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /TESTIMONIALS --&gt;', '', '', ''),
-(8, 5, 'О нас', '&lt;!-- ABOUT --&gt;\r\n		&lt;section class=&quot;module&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;div class=&quot;row&quot;&gt;\r\n\r\n					&lt;!-- ABOUT STUDIO  --&gt;\r\n					&lt;div class=&quot;col-sm-4&quot;&gt;\r\n\r\n						&lt;h4 class=&quot;font-alt m-t-0 m-b-20&quot;&gt;О&amp;nbsp;нашем портале&lt;/h4&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;Если Вы&amp;nbsp;не&amp;nbsp;знаете, где и&amp;nbsp;с&amp;nbsp;кем поиграть в&amp;nbsp;футбол в&amp;nbsp;Москве, то&amp;nbsp;портал любительского футбола footbic.ru ответит на&amp;nbsp;эти вопросы. Footbic&amp;nbsp;— это аббревиатура названия любительской футбольной лиги «Bicicletta football» (порт. bicicleta&amp;nbsp;— «удар ножницами»). &lt;/p&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;&lt;a href=&quot;#testimonials&quot; class=&quot;section-scroll&quot;&gt;Отзывы →&lt;/a&gt;&lt;/p&gt;\r\n\r\n\r\n\r\n\r\n	\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /ABOUT STUDIO  --&gt;\r\n\r\n					&lt;!-- WHAT WE DO --&gt;\r\n					&lt;div class=&quot;col-sm-4&quot;&gt;\r\n\r\n						&lt;h4 class=&quot;font-alt m-t-0 m-b-20&quot;&gt;Что мы&amp;nbsp;делаем&lt;/h4&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;Мы&amp;nbsp;сотрудничаем с&amp;nbsp;лучшими футбольными полями Москвы, на&amp;nbsp;которых проводим регулярные любительские игры и&amp;nbsp;любительские турниры различного масштаба.Footbic.ru&amp;nbsp;— это Ваш шанс заявить о&amp;nbsp;себе на&amp;nbsp;уровне любительского футбола, быстрый способ найти себе команду, присоединиться к&amp;nbsp;многочисленным участникам футбольных соревнований, получить незабываемые эмоции от&amp;nbsp;игры.&lt;/p&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;p&gt;&lt;a href=&quot;#services&quot; class=&quot;section-scroll&quot;&gt;Наши услуги →&lt;/a&gt;&lt;/p&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /WHAT WE DO --&gt;\r\n\r\n					&lt;!-- SKILLS --&gt;\r\n					&lt;div class=&quot;col-sm-4&quot;&gt;\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Качество полей&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;80&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;80%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Организация&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;90&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;90%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Уровень угры&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;70&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;70%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n						&lt;h6 class=&quot;progress-title font-alt&quot;&gt;Атмосфера&lt;/h6&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;div class=&quot;progress&quot;&gt;\r\n							&lt;div class=&quot;progress-bar &quot; aria-valuenow=&quot;95&quot; role=&quot;progressbar&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;\r\n								&lt;span class=&quot;font-alt&quot;&gt;95%&lt;/span&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /SKILLS --&gt;\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /ABOUT --&gt;\r\n\r\n		&lt;!-- COUNTERS --&gt;\r\n		&lt;section class=&quot;module module-video bg-dark&quot; data-background=&quot;http://local.opencms/image/cache/catalog/default/about_ush-1920x1280.jpg&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;div class=&quot;row&quot;&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;font-alt counter-number&quot; data-number=&quot;270&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Количество игр\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;font-alt counter-number&quot; data-number=&quot;3.4&quot;&gt;&lt;span&gt;&lt;/span&gt;К&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Забитых голов\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;font-alt counter-number&quot; data-number=&quot;220&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Всего футболистов\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n					&lt;!-- COUNTER --&gt;\r\n					&lt;div class=&quot;col-sm-3 m-b-md-20&quot;&gt;\r\n						&lt;div class=&quot;counter-item&quot;&gt;\r\n							&lt;div class=&quot;counter-title font-alt&quot;&gt;\r\n								&lt;h5 class=&quot;counter-number&quot; data-number=&quot;98&quot;&gt;&lt;span&gt;&lt;/span&gt;%&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								Довольных игроков\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /COUNTER --&gt;\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;!-- YOUTUBE VIDEO--&gt;\r\n			&lt;div class=&quot;video-player&quot; data-property=&quot;{videoURL:''https://www.youtube.com/watch?v=0pXYp72dwl0'', containment:''.module-video'', quality:''large'', startAt:0, autoPlay:true, loop:true, opacity:1, showControls:false, showYTLogo:false, vol:0, mute:true}&quot;&gt;&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n			&lt;!-- /YOUTUBE VIDEO--&gt;\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /COUNTERS --&gt;\r\n\r\n		&lt;!-- SERVICES --&gt;\r\n		&lt;section id=&quot;services&quot; class=&quot;module&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;!-- MODULE TITLE --&gt;\r\n				&lt;div class=&quot;row&quot;&gt;\r\n					&lt;div class=&quot;col-sm-6 col-sm-offset-3&quot;&gt;\r\n						&lt;h2 class=&quot;module-title font-alt&quot;&gt;Услуги&lt;/h2&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n				&lt;!-- /MODULE TITLE --&gt;\r\n\r\n				&lt;div class=&quot;row multi-columns-row&quot;&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-timer&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Регулярные игры&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								6 раз в неделю, в удобное время, мы проводим регулярные футбольные игры и тренировки разных форматов: 5Х5; 6Х6; 8Х8. Записаться на игры могут как отдельные игроки, так и команды.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-trophy&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Турниры&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Организация интереснейших футбольных турниров разного масштаба: от небольших однодневных до крупных сезонных мероприятий.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-football&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Футбольные поля&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Мы предлагаем лучшие футбольные поля и футзалы Москвы. Удачное расположение, идеальное качество покрытий, наличие душевых и раздевалок - неотъемлемая часть всех площадок.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-star-half&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Подробная статистика&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Для всех футболистов footbic.ru доступна интерактивная статистика результативности. Мы ведем подробную статистику регулярных игр любительской футбольной лиги и разнообразных турниров. \r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-film-outline&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Медиа&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Динамичные HD-видеоотчеты, красочные фотоотчеты в любую погоду и время года.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n					&lt;!-- CONTENT BOX --&gt;\r\n					&lt;div class=&quot;col-sm-6 col-md-4 col-lg-4&quot;&gt;\r\n						&lt;div class=&quot;content-box&quot;&gt;\r\n							&lt;div class=&quot;content-box-icon&quot;&gt;\r\n								&lt;i class=&quot;ion-ios-people&quot;&gt;&lt;/i&gt;\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;h5 class=&quot;content-box-title font-alt&quot;&gt;Допольнительно&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;div class=&quot;content-box-text&quot;&gt;\r\n								Организация корпоративных лиг и турниров, проведение спортивных мероприятий, разработка комплектов футбольной формы.\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;!-- /CONTENT BOX --&gt;\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /SERVICES --&gt;\r\n&lt;!-- STANDARD PARALLAX FILM --&gt;\r\n		&lt;section class=&quot;module module-parallax&quot; data-background=&quot;/image/catalog/default/about_us_end.jpg&quot;&gt;\r\n\r\n			\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /STANDARD PARALLAX FILM --&gt;\r\n		&lt;!-- TESTIMONIALS --&gt;\r\n		&lt;section id=&quot;testimonials&quot; class=&quot;module module-parallax bg-light-60&quot;&gt;\r\n\r\n			&lt;div class=&quot;container&quot;&gt;\r\n\r\n				&lt;div class=&quot;row&quot;&gt;\r\n					&lt;div class=&quot;col-sm-12 text-center&quot;&gt;\r\n					&lt;h2 class=&quot;module-title font-alt&quot;&gt;Отзывы&lt;/h2&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n					&lt;div class=&quot;col-sm-6 col-sm-offset-3&quot;&gt;\r\n\r\n						&lt;!-- TESTIMONIALS CAROUSEL --&gt;\r\n						&lt;div class=&quot;owl-carousel slider-testimonials text-center&quot;&gt;\r\n\r\n							&lt;!-- SLIDE 1 --&gt;\r\n							&lt;div class=&quot;item&quot;&gt;\r\n								&lt;h5 class=&quot;module-icon m-b-20&quot;&gt;\r\n									&lt;i class=&quot;ion-ios-chatboxes-outline&quot;&gt;&lt;/i&gt;\r\n								&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;font-serif m-b-20&quot;&gt;\r\n									Приезжали с другом в четверг на Киевскую побегать. Манеж просто отпад!! От метро рукой подать. Газон, освещение, раздевалки все на уровне. Поиграли отлично. По-любому приедем еще!.\r\n								&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;quote-author font-alt&quot;&gt;Дмитрий Николаев&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;!-- /SLIDE 1 --&gt;\r\n\r\n							&lt;!-- SLIDE 2 --&gt;\r\n							&lt;div class=&quot;item&quot;&gt;\r\n								&lt;h5 class=&quot;module-icon m-b-20&quot;&gt;\r\n									&lt;i class=&quot;ion-ios-chatboxes-outline&quot;&gt;&lt;/i&gt;\r\n								&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;font-serif m-b-20&quot;&gt;\r\n									Регулярно здесь играю. Организация игр на высоком уровне. Есть послематчевая статистика и видеоотчеты . Видно, что ребята постарались. Очень радует атмосфера на площадках. Так держать! Всем советую.\r\n								&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;quote-author font-alt&quot;&gt;Павел Игнатов&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;!-- /SLIDE 2 --&gt;\r\n\r\n							&lt;!-- SLIDE 3 --&gt;\r\n							&lt;div class=&quot;item&quot;&gt;\r\n								&lt;h5 class=&quot;module-icon m-b-20&quot;&gt;\r\n									&lt;i class=&quot;ion-ios-chatboxes-outline&quot;&gt;&lt;/i&gt;\r\n								&lt;/h5&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;font-serif m-b-20&quot;&gt;\r\n									Мы с ребятами участвовали в турнире в Сокольниках. Площадка эта - высший класс и играть там можно хоть круглый год. Газон немного подстерся, но в целом отлично. Раздевалки, душевые-все как надо. Сам турнир прошел великолепно. В плане организации претензий нет. Заняли второе место. Ждем следующих турниров.\r\n								&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n								&lt;div class=&quot;quote-author font-alt&quot;&gt;Игорь Гагарин&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n							&lt;!-- /SLIDE 3 --&gt;\r\n\r\n						&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n						&lt;!-- /TESTIMONIALS CAROUSEL --&gt;\r\n\r\n					&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n				&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n			&lt;/div&gt;\r\n\r\n\r\n\r\n\r\n\r\n\r\n		&lt;/section&gt;\r\n		&lt;!-- /TESTIMONIALS --&gt;', '', '', '');
+(8, 2, 'О нас', '&lt;p&gt;В 2006, по инициативе UJA-Federation of NY, стартовала первая в СНГ программа мини-грантов – Grassroots, для поддержки местных инициатив, направленных на развитие еврейского самосознания через образовательные и культурные проекты. &lt;/p&gt;&lt;p&gt;&lt;/p&gt;\r\n&lt;p&gt;В течение последующих лет другие крупные организации, такие как Еврейское Агентство, «Гилель» и др., запустили свои конкурсные программы поддержки независимых инициатив. В результате этих программ сформировалась международная сеть профессионалов, активистов и волонтеров, которые расширяют существующие рамки общин, обращаются к незадействованным слоям еврейского населения, а также создают уникальные идеи, методики и материалы для проектов в различных областях.&lt;/p&gt;\r\n&lt;p&gt;В последние годы был предпринят ряд шагов для создания и укрепления связей между подобными проектами и сообществами. В 2012 году была создана рабочая группа Jewish Grassroots, состоящая из профессионалов, осуществляющих программы поддержки инициатив, из таких организаций, как UJA-Federation of NY, Фонд «Генезис», инициатива «Хамама» Еврейского Агентства, Центр «Меламедия», Гилель и Джойнт. Данная группа поддержала инициативу Еврейского Агентства по созданию виртуальной платформы jewish-grassroots.org , призванной служить площадкой для сетевого сотрудничества и обмена лучшими практиками. Платформа была создана и запущена Еврейским Агентством в 2013 году, в 2014 году к поддержке платформы присоединилась UJA-Federation of NY, до конца 2014 года к ней планируют присоединиться дополнительные организации-партнеры.&lt;/p&gt;', 'О нас', 'О нас', ''),
+(9, 2, 'Организаторы', '&lt;div class=&quot;row&quot;&gt;\r\n								&lt;div class=&quot;col-sm-12&quot;&gt;	\r\n								&lt;p&gt;Интернет-сайт Jewish Grassroots был разработан и создан Еврейским Агентством. Это платформа для взаимодействия между независимыми еврейскими сообществами и поле сотрудничества крупнейших организаций и фондов, которые поддерживают образовательные и общинные инициативы в странах бывшего СССР:&lt;/p&gt;\r\n								&lt;/div&gt;\r\n								&lt;div class=&quot;col-sm-6 col-md-3&quot;&gt;	\r\n									&lt;img src=&quot;image/catalog/default/partners/partner_1.jpg&quot;&gt;\r\n								&lt;/div&gt;\r\n								&lt;div class=&quot;col-sm-6 col-md-3&quot;&gt;	\r\n									&lt;img src=&quot;image/catalog/default/partners/partner_2.jpg&quot;&gt;\r\n								&lt;/div&gt;\r\n								&lt;div class=&quot;col-sm-6 col-md-3&quot;&gt;	\r\n									&lt;img src=&quot;image/catalog/default/partners/partner_3.jpg&quot;&gt;\r\n								&lt;/div&gt;\r\n								&lt;div class=&quot;col-sm-6 col-md-3&quot;&gt;	\r\n									&lt;img src=&quot;image/catalog/default/partners/partner_4.jpg&quot;&gt;\r\n								&lt;/div&gt;\r\n								&lt;div class=&quot;col-sm-12&quot;&gt;	\r\n								&lt;p&gt;В 2006, по инициативе UJA-Federation of NY, стартовала первая в СНГ программа мини-грантов – Grassroots, для поддержки местных инициатив, направленных на развитие еврейского самосознания через образовательные и культурные проекты.\r\n\r\n								&lt;p&gt;В течение последующих лет другие крупные организации, такие как Еврейское Агентство, «Гилель» и др., запустили свои конкурсные программы поддержки независимых инициатив. В результате этих программ сформировалась международная сеть профессионалов, активистов и волонтеров, которые расширяют существующие рамки общин, обращаются к незадействованным слоям еврейского населения, а также создают уникальные идеи, методики и материалы для проектов в различных областях.\r\n								&lt;p&gt;В последние годы был предпринят ряд шагов для создания и укрепления связей между подобными проектами и сообществами. В 2012 году была создана рабочая группа Jewish Grassroots, состоящая из профессионалов, осуществляющих программы поддержки инициатив, из таких организаций, как UJA-Federation of NY, Фонд «Генезис», инициатива «Хамама» Еврейского Агентства, Центр «Меламедия», Гилель и Джойнт. Данная группа поддержала инициативу Еврейского Агентства по созданию виртуальной платформы jewish-grassroots.org , призванной служить площадкой для сетевого сотрудничества и обмена лучшими практиками. Платформа была создана и запущена Еврейским Агентством в 2013 году, в 2014 году к поддержке платформы присоединилась UJA-Federation of NY, до конца 2014 года к ней планируют присоединиться дополнительные организации-партнеры.\r\n								&lt;/div&gt;\r\n								&lt;/div&gt;', 'Организаторы', 'Организаторы', 'Организаторы');
 
 -- --------------------------------------------------------
 
@@ -1281,7 +1328,8 @@ CREATE TABLE `oc_information_to_layout` (
 --
 
 INSERT INTO `oc_information_to_layout` (`information_id`, `store_id`, `layout_id`) VALUES
-(8, 0, 18);
+(8, 0, 18),
+(9, 0, 11);
 
 -- --------------------------------------------------------
 
@@ -1299,7 +1347,8 @@ CREATE TABLE `oc_information_to_store` (
 --
 
 INSERT INTO `oc_information_to_store` (`information_id`, `store_id`) VALUES
-(8, 0);
+(8, 0),
+(9, 0);
 
 -- --------------------------------------------------------
 
@@ -1315,7 +1364,7 @@ CREATE TABLE `oc_init_group` (
   `visibility` tinyint(2) NOT NULL,
   `status` int(4) NOT NULL,
   `date_added` datetime NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_init_group`
@@ -1323,9 +1372,10 @@ CREATE TABLE `oc_init_group` (
 
 INSERT INTO `oc_init_group` (`init_group_id`, `customer_id`, `group_birthday`, `image`, `visibility`, `status`, `date_added`) VALUES
 (8, 63, '2015-09-27 00:00:00', 'd6887655e2d4ef5c83d5808433ab3eb8800d185b', 0, 0, '2015-10-18 22:06:02'),
-(10, 63, '2015-10-18 00:00:00', 'ee5bdaf4f80ecf6b115c2c5091a5cf766b84e7ce', 0, 0, '2015-10-19 00:09:57'),
+(10, 63, '2015-10-18 00:00:00', 'd26c59337c0488a3979af5eb0d9130cbb7ec5396', 0, 0, '2015-10-19 00:09:57'),
 (11, 63, '1989-10-16 00:00:00', '79aa52b8dc568199a10996cc7e5614b0fb09fe70', 0, 0, '2015-10-19 00:13:33'),
-(12, 63, '2015-10-18 00:00:00', '', 0, 0, '2015-10-19 00:15:11');
+(12, 63, '2015-10-18 00:00:00', 'bdb7bd30899ff4e901040ee4d4482938359525e7', 0, 0, '2015-10-19 00:15:11'),
+(13, 62, '2015-10-26 00:00:00', '453d906e651af4b82da5d991037a6e44f3ceb9e4', 0, 0, '2015-10-27 00:36:19');
 
 -- --------------------------------------------------------
 
@@ -1349,10 +1399,12 @@ CREATE TABLE `oc_init_group_description` (
 --
 
 INSERT INTO `oc_init_group_description` (`init_group_id`, `language_id`, `title`, `description`, `city_id`, `meta_title`, `meta_description`, `meta_keyword`) VALUES
+(8, 2, 'я супер новая Группа новос РЕННЕНЕН', '&lt;p&gt;Фиксация языка и фольклора евреев, говорящих на идиш; построение социальных и профессиональных связей, соединяющих носителей идиша и лингвистов-идишистов, а также энтузиастов, интересующихся ашкеназской культурой;&lt;/p&gt;\r\n&lt;p&gt;Фиксация языка и фольклора евреев, говорящих на идиш; построение социальных и профессиональных связей, соединяющих носителей идиша и лингвистов-идишистов, а также энтузиастов, интересующихся ашкеназской культурой;&lt;/p&gt;\r\n&lt;p&gt;Фиксация языка и фольклора евреев, говорящих на идиш; построение социальных и профессиональных связей, соединяющих носителей идиша и лингвистов-идишистов, а также энтузиастов, интересующихся ашкеназской культурой;&lt;/p&gt;\r\n&lt;p&gt;Фиксация языка и фольклора евреев, говорящих на идиш; построение социальных и профессиональных связей, соединяющих носителей идиша и лингвистов-идишистов, а также энтузиастов, интересующихся ашкеназской культурой;&lt;/p&gt;\r\n&lt;p&gt;Фиксация языка и фольклора евреев, говорящих на идиш; построение социальных и профессиональных связей, соединяющих носителей идиша и лингвистов-идишистов, а также энтузиастов, интересующихся ашкеназской культурой;&lt;/p&gt;\r\n&lt;p&gt;Фиксация языка и фольклора евреев, говорящих на идиш; построение социальных и профессиональных связей, соединяющих носителей идиша и лингвистов-идишистов, а также энтузиастов, интересующихся ашкеназской культурой;&lt;/p&gt;&lt;p&gt;Фиксация языка и фольклора евреев, говорящих на идиш; построение социальных и профессиональных связей, соединяющих носителей идиша и лингвистов-идишистов, а также энтузиастов, интересующихся ашкеназской культурой;&lt;/p&gt;\r\n&lt;p&gt;Фиксация языка и фольклора евреев, говорящих на идиш; построение социальных и профессиональных связей, соединяющих носителей идиша и лингвистов-идишистов, а также энтузиастов, интересующихся ашкеназской культурой;&lt;/p&gt;\r\n&lt;p&gt;Фиксация языка и фольклора евреев, говорящих на идиш; построение социальных и профессиональных связей, соединяющих носителей идиша и лингвистов-идишистов, а также энтузиастов, интересующихся ашкеназской культурой;&lt;/p&gt;\r\n', 0, '', '', ''),
 (10, 2, 'моя вторая группа', '&lt;p&gt;Описание группы&lt;/p&gt;', 0, '', '', ''),
-(8, 2, 'я супер новая Группа новос \\&quot;РЕННЕНЕН\\&quot;', '&lt;p&gt;Описаниеиааиаи&lt;/p&gt;', 0, '', '', ''),
 (11, 2, 'Моя новай успешная группа', '&lt;p&gt;Привет&amp;nbsp;&lt;/p&gt;', 0, '', '', ''),
-(12, 2, 'Моя новейшая  успешная группа', '&lt;p&gt;&lt;br&gt;&lt;/p&gt;', 0, '', '', '');
+(0, 2, 'Новая группа _qqq', '&lt;p&gt;Описание&lt;/p&gt;', 0, '', '', ''),
+(13, 2, 'Новая группа _qqq', '&lt;p&gt;The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.&lt;/p&gt;\r\n								&lt;p&gt;Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words.&lt;/p&gt;\r\n								&lt;blockquote&gt;\r\n									&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.&lt;/p&gt;\r\n								&lt;/blockquote&gt;\r\n								&lt;p&gt;If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages. The new common language will be more simple and regular than the existing European languages. It will be as simple as Occidental; in fact, it will be Occidental.&lt;/p&gt;\r\n								&lt;ul&gt;\r\n									&lt;li&gt;The European languages are members of the same family.&lt;/li&gt;\r\n									&lt;li&gt;Their separate existence is a myth.&lt;/li&gt;\r\n									&lt;li&gt;For science, music, sport, etc, Europe uses the same vocabulary.&lt;/li&gt;\r\n								&lt;/ul&gt;\r\n								&lt;p&gt;The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.&lt;/p&gt;', 0, '', '', ''),
+(12, 2, 'Моя новейшая  успешная группа', '&lt;p&gt;The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.&lt;/p&gt;            &lt;p&gt;Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words.&lt;/p&gt;            &lt;blockquote&gt;              &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.&lt;/p&gt;            &lt;/blockquote&gt;            &lt;p&gt;If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages. The new common language will be more simple and regular than the existing European languages. It will be as simple as Occidental; in fact, it will be Occidental.&lt;/p&gt;            &lt;ul&gt;              &lt;li&gt;The European languages are members of the same family.&lt;/li&gt;              &lt;li&gt;Their separate existence is a myth.&lt;/li&gt;              &lt;li&gt;For science, music, sport, etc, Europe uses the same vocabulary.&lt;/li&gt;            &lt;/ul&gt;            &lt;p&gt;The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.&lt;/p&gt;', 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -1387,7 +1439,7 @@ INSERT INTO `oc_language` (`language_id`, `name`, `code`, `locale`, `image`, `di
 CREATE TABLE `oc_layout` (
   `layout_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_layout`
@@ -1406,7 +1458,8 @@ INSERT INTO `oc_layout` (`layout_id`, `name`) VALUES
 (19, 'Ocassion'),
 (20, 'Timetable'),
 (21, 'Places'),
-(22, 'Statistics');
+(22, 'Statistics'),
+(23, 'list-user');
 
 -- --------------------------------------------------------
 
@@ -1420,13 +1473,14 @@ CREATE TABLE `oc_layout_module` (
   `code` varchar(64) NOT NULL,
   `position` varchar(14) NOT NULL,
   `sort_order` int(3) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=153 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=154 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_layout_module`
 --
 
 INSERT INTO `oc_layout_module` (`layout_module_id`, `layout_id`, `code`, `position`, `sort_order`) VALUES
+(153, 23, 'news', 'column_right', 10),
 (125, 21, 'news', 'column_right', 10),
 (152, 15, 'ulogin.38', 'column_right', 0);
 
@@ -1441,7 +1495,7 @@ CREATE TABLE `oc_layout_route` (
   `layout_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
   `route` varchar(255) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=128 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_layout_route`
@@ -1460,7 +1514,8 @@ INSERT INTO `oc_layout_route` (`layout_route_id`, `layout_id`, `store_id`, `rout
 (102, 21, 0, 'information/place/view'),
 (119, 22, 0, 'information/statistic'),
 (120, 20, 0, 'information/occasion/reports'),
-(121, 20, 0, 'information/occasion');
+(121, 20, 0, 'information/occasion'),
+(128, 23, 0, 'account/customers');
 
 -- --------------------------------------------------------
 
@@ -1814,16 +1869,15 @@ CREATE TABLE `oc_news` (
   `image` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL,
   `status` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_news`
 --
 
 INSERT INTO `oc_news` (`news_id`, `image`, `date_added`, `status`) VALUES
-(7, 'catalog/news/foto_6.jpg', '2015-07-01 01:52:02', 1),
-(8, 'catalog/news/Arsenal-FC-Arsenal-Football-Club-The-Gunners.jpg', '2015-07-03 21:02:13', 1),
-(9, 'catalog/ED4MQ8XACqk.jpg', '2015-08-04 13:06:14', 1);
+(10, 'catalog/default/home_banner/banner_3.jpg', '2015-11-01 23:22:09', 1),
+(11, 'catalog/default/home_banner/banner_1.jpg', '2015-11-01 23:26:18', 1);
 
 -- --------------------------------------------------------
 
@@ -1838,16 +1892,15 @@ CREATE TABLE `oc_news_description` (
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `description` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `short_description` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_news_description`
 --
 
 INSERT INTO `oc_news_description` (`news_description_id`, `news_id`, `language_id`, `title`, `description`, `short_description`) VALUES
-(23, 7, 2, 'Футбольный турнир «ОТКРЫТИЕ» ', '&lt;div class=&quot;post-header&quot;&gt;&lt;h2 class=&quot;post-title font-alt&quot;&gt;ПРИГЛАШАЕМ КОМАНДЫ ДЛЯ УЧАСТИЯ.&lt;/h2&gt;\r\n\r\n\r\n&lt;/div&gt;\r\n\r\n\r\n&lt;div class=&quot;owl-carousel slider-images&quot;&gt;	&lt;div class=&quot;item&quot;&gt;		&lt;img alt=&quot;&quot; src=&quot;image/catalog/news/totk/foto_2.jpg&quot;&gt;	&lt;/div&gt;\r\n\r\n\r\n	&lt;div class=&quot;item&quot;&gt;		&lt;img alt=&quot;&quot; src=&quot;image/catalog/news/totk/foto_1.jpg&quot;&gt;	&lt;/div&gt;\r\n\r\n\r\n	&lt;div class=&quot;item&quot;&gt;		&lt;img alt=&quot;&quot; src=&quot;image/catalog/news/totk/foto_3.jpg&quot;&gt;	&lt;/div&gt;\r\n\r\n\r\n	&lt;div class=&quot;item&quot;&gt;		&lt;img alt=&quot;&quot; src=&quot;image/catalog/news/totk/foto_4.jpg&quot;&gt;	&lt;/div&gt;\r\n\r\n\r\n&lt;/div&gt;\r\n\r\n\r\n&lt;p&gt;&lt;strong&gt;26.07.2015 в парке ВДНХ &lt;/strong&gt;состоится турнир &quot;Открытие&quot; по любительскому футболу.&lt;/p&gt;\r\n\r\n\r\n&lt;p&gt;16 команд в формате 5х5 со всей Москвы разыграют призовой фонд в размере 10 000 рублей, а также поборются за ценные призы от портала &lt;a href=&quot;http://FOOTBIC.RU&quot; target=&quot;_blank&quot;&gt;FOOTBIC.RU&lt;/a&gt;. Турнир состоит из группового этапа и стадии плейофф. Матчи пройдут на двух новых мини-футбольных полях с искусственной травой.&lt;/p&gt;\r\n\r\n\r\n&lt;p&gt; Приглашаем любительские команды принять участие в турнире и стать частью праздника мини-футбола в Москве.&lt;/p&gt;\r\n\r\n\r\n&lt;p&gt;Записаться можно по ссылке: &lt;a href=&quot;https://vk.com/topic-79947838_32329719&quot; target=&quot;_blank&quot;&gt;https://vk.com/topic-79947838_32329719&lt;/a&gt;&lt;/p&gt;\r\n\r\n\r\n&lt;p&gt;Заявка команды: &lt;span style=&quot;font-weight: bold;&quot;&gt;5-8 игроков&lt;/span&gt;.&lt;/p&gt;\r\n\r\n\r\n&lt;p&gt;Возраст участников - &lt;span style=&quot;font-weight: bold;&quot;&gt;не менее 16 лет&lt;/span&gt;.&lt;/p&gt;\r\n\r\n\r\n&lt;p&gt;Стоимость участия команды: &lt;span style=&quot;font-weight: bold;&quot;&gt;3000 рублей&lt;/span&gt;&lt;/p&gt;\r\n\r\n\r\n&lt;p&gt;Регламент турнира : &lt;a href=&quot;http://footbic.ru/Reglament_turnira.pdf&quot; target=&quot;_blank&quot;&gt;скачать&lt;/a&gt;&lt;/p&gt;', 'Футбольный турнир «ОТКРЫТИЕ»  Приглашаем команды для участия\r\n'),
-(24, 8, 2, 'Лучший игрок месяца (июнь)', '&lt;h2&gt;&lt;br&gt;&lt;/h2&gt;\r\n&lt;p&gt;&lt;strong&gt;&lt;img src=&quot;http://footbic.ru/image/catalog/2.jpg&quot;&gt;&lt;/strong&gt;&lt;/p&gt;\r\n&lt;p&gt;&lt;strong&gt;&amp;nbsp;&lt;/strong&gt;&lt;/p&gt;\r\n&lt;p&gt;&lt;strong&gt;Игроком месяца в июне стал Шушура Игорь!&lt;/strong&gt; &lt;/p&gt;\r\n&lt;p&gt;Игрок стабильно отдавал голевые передачи, поражал ворота соперников и неоднократно со своей командой завоевывал первое место по итогам игрового дня! За 5 игр отметился 26 голами и 23 голевыми передачами.&lt;br&gt;&lt;br&gt;Второе место занял Кулик Максим, за 4 игры отметившийся 20 голами и 15 передачами. В один из игровых дней смог набрать 19 очков. &lt;br style=&quot;display: none;&quot;&gt;&lt;a class=&quot;wall_post_more&quot; style=&quot;display: none;&quot;&gt;Показать полностью..&lt;/a&gt;&lt;span&gt;&lt;br&gt;&lt;br&gt;Третье место досталось Николаеву Дмитрию. За 5 игр футболист отметился 24 голами и 15 голевыми передачами.&lt;/span&gt;&lt;span&gt;&lt;br&gt;&lt;/span&gt;&lt;/p&gt;\r\n&lt;p&gt;&lt;span&gt;В качестве приза футболисты получили купоны на скидки и бесплатную игру.&lt;br&gt;Поздравляем Игоря с заслуженной победой!&lt;/span&gt;&lt;/p&gt;\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 'ЛУЧШИЙ ИГРОК МЕСЯЦА ИЮНЬ 2015'),
-(27, 9, 2, 'Лучший игрок меяца (июль)', '&lt;p&gt;&amp;nbsp;&lt;img src=&quot;http://footbic.ru/image/catalog/k55hPiMPQtY.jpg&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Игроком месяца в июле стал Захурдаев Фёдор.&lt;/strong&gt; За 4 игры футболист отметился 15 голами и 16 голевыми передачами в формате 5х5. Игрок несколько раз приводил свою команду к первому месту по итогам игрового дня, завоевывал звание MVP. Приложив немало усилий, Фёдор со своей командой занял третье место на турнире &quot;Открытие&quot;.&lt;br&gt;&lt;br&gt;Второе место занял Романенко Иван! Проведя за месяц 7 игр во всех форматах, игрок наколотил аж 44 гола. Также команда Ивана принимала участие в турнире &quot;Открытие&quot;, где он отметился тремя результативными ударами.&lt;br&gt;&lt;br&gt;Третьего места удостоился Шушура Игорь, за 7 игр во всех форматах  отметившийся 17 голами и 28 передачами. Команда Игоря не раз по результатам игрового дня занимала первое место, в чем немаленькая заслуга игрока.&lt;br&gt;&lt;br&gt;В качестве приза футболисты получили купоны на скидки и бесплатную игру.&lt;br&gt;Поздравляем Фёдора с заслуженной победой!&lt;/p&gt;', 'ЛУЧШИЙ ИГРОК МЕСЯЦА ИЮЛЬ 2015');
+(29, 10, 2, 'КОНКУРС МИСС ЕВРЕЙСКАЯ ЗВЕЗДА 2015', '&lt;p&gt;Весна - время обновления! Новые начинания, новые краски природы, новые чувства и , конечно же, время нового КОНКУРСА для прекрасных девушек! &lt;/p&gt;&lt;p&gt;C 12 мая по 22 мая пойдет национальный конкурс &quot;МИСС ЕВРЕЙСКАЯ ЗВЕЗДА&quot;&lt;/p&gt;&lt;p&gt;Подробная информация и анкета регистрации :&lt;a href=&quot;http://cont-com.ru/nashi-proekty/&quot;&gt;http://cont-com.ru/nashi-proekty/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Засияй по - новому вместе с нашим конкурсом!&lt;/p&gt;', 'Весна - время обновления! Новые начинания, новые краски природы, новые чувства и , конечно же, время нового КОНКУРСА для прекрасных девушек! '),
+(30, 11, 2, 'Тестирование новости с длинным предлинным заголовком предлинным заголовком', '&lt;div class=&quot;row&quot;&gt;\r\n								&lt;div class=&quot;col-sm-12&quot;&gt;	\r\n								&lt;p&gt;Интернет-сайт Jewish Grassroots был разработан и создан Еврейским Агентством. Это платформа для взаимодействия между независимыми еврейскими сообществами и поле сотрудничества крупнейших организаций и фондов, которые поддерживают образовательные и общинные инициативы в странах бывшего СССР:&lt;/p&gt;\r\n								&lt;/div&gt;\r\n								&lt;div class=&quot;col-sm-6 col-md-3&quot;&gt;	\r\n									&lt;img src=&quot;image/catalog/default/partners/partner_1.jpg&quot;&gt;\r\n								&lt;/div&gt;\r\n								&lt;div class=&quot;col-sm-6 col-md-3&quot;&gt;	\r\n									&lt;img src=&quot;image/catalog/default/partners/partner_2.jpg&quot;&gt;\r\n								&lt;/div&gt;\r\n								&lt;div class=&quot;col-sm-6 col-md-3&quot;&gt;	\r\n									&lt;img src=&quot;image/catalog/default/partners/partner_3.jpg&quot;&gt;\r\n								&lt;/div&gt;\r\n								&lt;div class=&quot;col-sm-6 col-md-3&quot;&gt;	\r\n									&lt;img src=&quot;image/catalog/default/partners/partner_4.jpg&quot;&gt;\r\n								&lt;/div&gt;\r\n								&lt;div class=&quot;col-sm-12&quot;&gt;	\r\n								&lt;p&gt;В 2006, по инициативе UJA-Federation of NY, стартовала первая в СНГ программа мини-грантов – Grassroots, для поддержки местных инициатив, направленных на развитие еврейского самосознания через образовательные и культурные проекты.\r\n\r\n								&lt;/p&gt;&lt;p&gt;В течение последующих лет другие крупные организации, такие как Еврейское Агентство, «Гилель» и др., запустили свои конкурсные программы поддержки независимых инициатив. В результате этих программ сформировалась международная сеть профессионалов, активистов и волонтеров, которые расширяют существующие рамки общин, обращаются к незадействованным слоям еврейского населения, а также создают уникальные идеи, методики и материалы для проектов в различных областях.\r\n								&lt;/p&gt;&lt;p&gt;В последние годы был предпринят ряд шагов для создания и укрепления связей между подобными проектами и сообществами. В 2012 году была создана рабочая группа Jewish Grassroots, состоящая из профессионалов, осуществляющих программы поддержки инициатив, из таких организаций, как UJA-Federation of NY, Фонд «Генезис», инициатива «Хамама» Еврейского Агентства, Центр «Меламедия», Гилель и Джойнт. Данная группа поддержала инициативу Еврейского Агентства по созданию виртуальной платформы jewish-grassroots.org , призванной служить площадкой для сетевого сотрудничества и обмена лучшими практиками. Платформа была создана и запущена Еврейским Агентством в 2013 году, в 2014 году к поддержке платформы присоединилась UJA-Federation of NY, до конца 2014 года к ней планируют присоединиться дополнительные организации-партнеры.\r\n								&lt;/p&gt;&lt;/div&gt;\r\n								&lt;/div&gt;', 'Интернет-сайт Jewish Grassroots был разработан и создан Еврейским Агентством. Это платформа для взаимодействия между независимыми еврейскими сообществами и поле сотрудничества крупнейших организаций и фондов, которые поддерживают образовательные и общинные инициативы в странах бывшего СССР:');
 
 -- --------------------------------------------------------
 
@@ -2143,6 +2196,55 @@ INSERT INTO `oc_place_image_description` (`place_image_id`, `language_id`, `plac
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `oc_project`
+--
+
+CREATE TABLE `oc_project` (
+  `project_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `project_birthday` datetime NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `visibility` tinyint(2) NOT NULL,
+  `status` int(4) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `oc_project`
+--
+
+INSERT INTO `oc_project` (`project_id`, `customer_id`, `project_birthday`, `image`, `visibility`, `status`, `date_added`) VALUES
+(16, 63, '2015-09-29 00:00:00', '0103efca8f22440bc502f25457118b393154a6f0', 0, 0, '2015-11-01 21:42:27'),
+(15, 62, '2015-10-31 00:00:00', 'f20a48022cacf1fbf9e127ca6065a71d2872abbd', 0, 0, '2015-11-01 14:23:12');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `oc_project_description`
+--
+
+CREATE TABLE `oc_project_description` (
+  `project_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `city_id` int(11) NOT NULL,
+  `meta_title` varchar(255) NOT NULL,
+  `meta_description` varchar(255) NOT NULL,
+  `meta_keyword` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `oc_project_description`
+--
+
+INSERT INTO `oc_project_description` (`project_id`, `language_id`, `title`, `description`, `city_id`, `meta_title`, `meta_description`, `meta_keyword`) VALUES
+(15, 2, 'Првиет я новый проект', '&lt;p&gt;The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.&lt;/p&gt;\r\n								&lt;p&gt;Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words.&lt;/p&gt;\r\n								&lt;blockquote&gt;\r\n									&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.&lt;/p&gt;\r\n								&lt;/blockquote&gt;\r\n								&lt;p&gt;If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages. The new common language will be more simple and regular than the existing European languages. It will be as simple as Occidental; in fact, it will be Occidental.&lt;/p&gt;\r\n								&lt;ul&gt;\r\n									&lt;li&gt;The European languages are members of the same family.&lt;/li&gt;\r\n									&lt;li&gt;Their separate existence is a myth.&lt;/li&gt;\r\n									&lt;li&gt;For science, music, sport, etc, Europe uses the same vocabulary.&lt;/li&gt;\r\n								&lt;/ul&gt;\r\n								&lt;p&gt;The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.&lt;/p&gt;', 0, '', '', ''),
+(16, 2, 'Новый проект с длинным длинным названием и ещё чуть чуть', '&lt;p&gt;The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.&lt;/p&gt;\r\n\r\n								&lt;p&gt;Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words.&lt;/p&gt;\r\n\r\n								&lt;blockquote&gt;\r\n\r\n									&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.&lt;/p&gt;\r\n\r\n								&lt;/blockquote&gt;\r\n\r\n								&lt;p&gt;If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages. The new common language will be more simple and regular than the existing European languages. It will be as simple as Occidental; in fact, it will be Occidental.&lt;/p&gt;\r\n\r\n								&lt;ul&gt;\r\n\r\n									&lt;li&gt;The European languages are members of the same family.&lt;/li&gt;\r\n\r\n									&lt;li&gt;Their separate existence is a myth.&lt;/li&gt;\r\n\r\n									&lt;li&gt;For science, music, sport, etc, Europe uses the same vocabulary.&lt;/li&gt;\r\n\r\n								&lt;/ul&gt;\r\n\r\n								&lt;p&gt;The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.&lt;/p&gt;', 0, '', '', '');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `oc_review`
 --
 
@@ -2428,7 +2530,7 @@ CREATE TABLE `oc_upload` (
   `filename` varchar(255) NOT NULL,
   `code` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_upload`
@@ -2437,6 +2539,14 @@ CREATE TABLE `oc_upload` (
 INSERT INTO `oc_upload` (`upload_id`, `name`, `filename`, `code`, `date_added`) VALUES
 (36, 'no-image.png', '03afdbd66e7929b125f8597834fa83a4/no-image.png.bd8bfcb8d6716eb4cf1379524ad30636', 'ee5bdaf4f80ecf6b115c2c5091a5cf766b84e7ce', '2015-10-19 00:09:54'),
 (37, 'image1.png', '03afdbd66e7929b125f8597834fa83a4/image1.png.9e47d6fab5f61aeba5f5d822a3d6c327', '79aa52b8dc568199a10996cc7e5614b0fb09fe70', '2015-10-19 00:13:23'),
+(38, '4.jpg', '44f683a84163b3523afe57c2e008bc8c/4.jpg.9629291cc3ae03fbd4e8e61c9aca13a5', '453d906e651af4b82da5d991037a6e44f3ceb9e4', '2015-10-27 00:36:17'),
+(39, 'account.jpg', '03afdbd66e7929b125f8597834fa83a4/account.jpg.c6b2d9b39b42375f8f4f2e991554fc5e', '2cf6300c4355c0440113d6ff8f423ec84a23a54b', '2015-10-31 20:11:11'),
+(40, 'timetable.jpg', '03afdbd66e7929b125f8597834fa83a4/timetable.jpg.9295668214d9db4e238aa64c1572b63f', 'd26c59337c0488a3979af5eb0d9130cbb7ec5396', '2015-10-31 20:11:36'),
+(41, 'd7fhzWWWDTk.jpg', '03afdbd66e7929b125f8597834fa83a4/d7fhzWWWDTk.jpg.17efd93f5272fd21800d220a77fce5f8', 'c2b984254490abe00c591d2e2de2c288ff98ff1f', '2015-10-31 20:12:12'),
+(42, 'aboutus.jpg', '03afdbd66e7929b125f8597834fa83a4/aboutus.jpg.8f925ef941eb95e65f26dcc6dfda7e13', 'bdb7bd30899ff4e901040ee4d4482938359525e7', '2015-10-31 20:12:21'),
+(43, 'place.jpg', '44f683a84163b3523afe57c2e008bc8c/place.jpg.bb0d0b0418561beb7ead341db0eee719', '0c14bb3a824b9905e2a307faff7e89f472d7d8f9', '2015-11-01 14:22:34'),
+(44, 'place.jpg', '44f683a84163b3523afe57c2e008bc8c/place.jpg.4069878862dc2318bc44c644c519d466', 'f20a48022cacf1fbf9e127ca6065a71d2872abbd', '2015-11-01 14:23:10'),
+(45, 'main.jpg', '03afdbd66e7929b125f8597834fa83a4/main.jpg.18f770f783f0a95ca81b88ee7a8fa88e', '0103efca8f22440bc502f25457118b393154a6f0', '2015-11-01 21:42:24'),
 (35, 'noimage.png', '03afdbd66e7929b125f8597834fa83a4/noimage.png.e8077a80ddff7764fe8b32f47fad2cbd', 'd6887655e2d4ef5c83d5808433ab3eb8800d185b', '2015-10-18 22:05:57');
 
 -- --------------------------------------------------------
@@ -2449,7 +2559,7 @@ CREATE TABLE `oc_url_alias` (
   `url_alias_id` int(11) NOT NULL,
   `query` varchar(255) NOT NULL,
   `keyword` varchar(255) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=1099 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1128 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `oc_url_alias`
@@ -2457,8 +2567,7 @@ CREATE TABLE `oc_url_alias` (
 
 INSERT INTO `oc_url_alias` (`url_alias_id`, `query`, `keyword`) VALUES
 (877, 'account/password', 'change-password'),
-(1086, 'information_id=8', 'about_us'),
-(1059, 'news_id=8', 'best_player_june_2015'),
+(1127, 'contest/contest', 'list-contest'),
 (853, 'common/home', ''),
 (854, 'account/wishlist', 'wishlist'),
 (855, 'account/account', 'my-account'),
@@ -2467,7 +2576,7 @@ INSERT INTO `oc_url_alias` (`url_alias_id`, `query`, `keyword`) VALUES
 (858, 'account/login', 'login'),
 (859, 'account/logout', 'logout'),
 (860, 'account/order', 'order-history'),
-(914, 'information/news', 'news'),
+(1102, 'group/view', 'view-group'),
 (878, 'account/address', 'address-book'),
 (873, 'account/register', 'create-account'),
 (872, 'account/transaction', 'transactions'),
@@ -2496,24 +2605,23 @@ INSERT INTO `oc_url_alias` (`url_alias_id`, `query`, `keyword`) VALUES
 (887, 'affiliate/register', 'create-affiliate-account'),
 (888, 'affiliate/login', 'affiliate-login'),
 (890, 'account/success', 'create-success'),
-(1044, 'news_id=7', 'turnir_otkrutie'),
-(997, 'information/occasion/ajaxsendrecord', 'iwantplay'),
-(1015, 'place_id=5', 'mini_field_football_place_sokolniki'),
-(1004, 'information/place', 'places'),
-(1005, 'information/occasion', 'timetable'),
-(1008, 'place_id=0', ''),
-(1009, 'place_id=0', 'manezh_evropa'),
-(1014, 'place_id=0', 'manezh_europa'),
-(1016, 'place_id=0', 'assadasd'),
-(1096, 'place_id=7', 'manezh_europe'),
-(1021, 'place_id=8', '8х8_sokolniki'),
-(1097, 'group/edit', 'group_edit'),
-(1033, 'place_id=9', 'igra_savelovskaya'),
-(1098, 'project/edit', 'project_edit'),
-(1036, 'place_id=4', 'vdnh_field'),
-(1053, 'information/statistic', 'statistics'),
-(1084, 'information/occasion/reports', 'reports'),
-(1095, 'place_id=10', 'stadium_meteor');
+(1111, 'project/project', 'list-project'),
+(1103, 'group/edit', 'edit-group'),
+(1104, 'group/invite', 'group-invite'),
+(1105, 'group/invite/invite', 'invite-user'),
+(1106, 'group/invite/agree', 'user-agree-invite'),
+(1107, 'account/info', 'user'),
+(1108, 'project/edit', 'edit-project'),
+(1109, 'tool/upload', 'upload-file'),
+(1110, 'group/invite/uninvite', 'uninvite-user'),
+(1112, 'project/view', 'view-project'),
+(1113, 'project/edit', 'edit-project'),
+(1114, 'group/group', 'list-group'),
+(1115, 'account/customers', 'list-user'),
+(1120, 'information_id=8', 'about_us'),
+(1121, 'information/news', 'list-news'),
+(1124, 'information_id=9', 'partners-list'),
+(1126, 'news_id=10', 'zvezda_2025');
 
 -- --------------------------------------------------------
 
@@ -6982,7 +7090,8 @@ ALTER TABLE `oc_customer_stats`
 -- Индексы таблицы `oc_customer_to_init_group`
 --
 ALTER TABLE `oc_customer_to_init_group`
-  ADD PRIMARY KEY (`init_group_id`,`customer_id`);
+  ADD PRIMARY KEY (`customer_to_init_group_id`),
+  ADD KEY `init_group_id` (`init_group_id`,`customer_id`);
 
 --
 -- Индексы таблицы `oc_customer_transaction`
@@ -7251,6 +7360,18 @@ ALTER TABLE `oc_place_image_description`
   ADD PRIMARY KEY (`place_image_id`,`language_id`);
 
 --
+-- Индексы таблицы `oc_project`
+--
+ALTER TABLE `oc_project`
+  ADD PRIMARY KEY (`project_id`);
+
+--
+-- Индексы таблицы `oc_project_description`
+--
+ALTER TABLE `oc_project_description`
+  ADD PRIMARY KEY (`project_id`,`language_id`);
+
+--
 -- Индексы таблицы `oc_review`
 --
 ALTER TABLE `oc_review`
@@ -7396,12 +7517,12 @@ ALTER TABLE `oc_currency`
 -- AUTO_INCREMENT для таблицы `oc_customer`
 --
 ALTER TABLE `oc_customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=65;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=66;
 --
 -- AUTO_INCREMENT для таблицы `oc_customer_activity`
 --
 ALTER TABLE `oc_customer_activity`
-  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=178;
+  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=207;
 --
 -- AUTO_INCREMENT для таблицы `oc_customer_ban_ip`
 --
@@ -7421,12 +7542,12 @@ ALTER TABLE `oc_customer_history`
 -- AUTO_INCREMENT для таблицы `oc_customer_ip`
 --
 ALTER TABLE `oc_customer_ip`
-  MODIFY `customer_ip_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=105;
+  MODIFY `customer_ip_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=106;
 --
 -- AUTO_INCREMENT для таблицы `oc_customer_login`
 --
 ALTER TABLE `oc_customer_login`
-  MODIFY `customer_login_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
+  MODIFY `customer_login_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT для таблицы `oc_customer_reward`
 --
@@ -7437,6 +7558,11 @@ ALTER TABLE `oc_customer_reward`
 --
 ALTER TABLE `oc_customer_stats`
   MODIFY `customer_stat_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=228;
+--
+-- AUTO_INCREMENT для таблицы `oc_customer_to_init_group`
+--
+ALTER TABLE `oc_customer_to_init_group`
+  MODIFY `customer_to_init_group_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT для таблицы `oc_customer_transaction`
 --
@@ -7476,12 +7602,12 @@ ALTER TABLE `oc_geo_zone`
 -- AUTO_INCREMENT для таблицы `oc_information`
 --
 ALTER TABLE `oc_information`
-  MODIFY `information_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `information_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT для таблицы `oc_init_group`
 --
 ALTER TABLE `oc_init_group`
-  MODIFY `init_group_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+  MODIFY `init_group_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT для таблицы `oc_language`
 --
@@ -7491,17 +7617,17 @@ ALTER TABLE `oc_language`
 -- AUTO_INCREMENT для таблицы `oc_layout`
 --
 ALTER TABLE `oc_layout`
-  MODIFY `layout_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
+  MODIFY `layout_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT для таблицы `oc_layout_module`
 --
 ALTER TABLE `oc_layout_module`
-  MODIFY `layout_module_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=153;
+  MODIFY `layout_module_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=154;
 --
 -- AUTO_INCREMENT для таблицы `oc_layout_route`
 --
 ALTER TABLE `oc_layout_route`
-  MODIFY `layout_route_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=128;
+  MODIFY `layout_route_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=129;
 --
 -- AUTO_INCREMENT для таблицы `oc_location`
 --
@@ -7536,12 +7662,12 @@ ALTER TABLE `oc_module`
 -- AUTO_INCREMENT для таблицы `oc_news`
 --
 ALTER TABLE `oc_news`
-  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT для таблицы `oc_news_description`
 --
 ALTER TABLE `oc_news_description`
-  MODIFY `news_description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+  MODIFY `news_description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT для таблицы `oc_occasion`
 --
@@ -7578,6 +7704,11 @@ ALTER TABLE `oc_place`
 ALTER TABLE `oc_place_image`
   MODIFY `place_image_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=99;
 --
+-- AUTO_INCREMENT для таблицы `oc_project`
+--
+ALTER TABLE `oc_project`
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+--
 -- AUTO_INCREMENT для таблицы `oc_review`
 --
 ALTER TABLE `oc_review`
@@ -7611,12 +7742,12 @@ ALTER TABLE `oc_ulogin`
 -- AUTO_INCREMENT для таблицы `oc_upload`
 --
 ALTER TABLE `oc_upload`
-  MODIFY `upload_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
+  MODIFY `upload_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT для таблицы `oc_url_alias`
 --
 ALTER TABLE `oc_url_alias`
-  MODIFY `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1099;
+  MODIFY `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1128;
 --
 -- AUTO_INCREMENT для таблицы `oc_user`
 --
