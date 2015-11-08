@@ -6,8 +6,9 @@
 #template
 /source_admin_js_html_css
 /source_template_jewish
-
 /material_temp
+
+
 # System Cache Files
 /system/cache/*
 !/system/cache/index.html

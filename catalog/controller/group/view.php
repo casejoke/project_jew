@@ -119,11 +119,14 @@ class ControllerGroupView extends Controller {
 			if(preg_match('/http/', $result_cfg['image'])){
 				$image = $result_cfg['image'];
 			}else{
-				if (is_file(DIR_IMAGE . $result_cfg['image'])) {
-					$image = $this->model_tool_image->resize($result_cfg['image'], 400, 400, 'h');
-				}else{
-					$image = $this->model_tool_image->resize('no-image.png', 400, 400, 'h');
+				if (!empty($result_cfg['image'])) {
+					$upload_info = $this->model_tool_upload->getUploadByCode($result_cfg['image']);
+					$filename = $upload_info['filename'];
+					$image = $this->model_tool_upload->resize($filename , 300, 300,'h');
+				} else {
+					$image = $this->model_tool_image->resize('no-image.png', 300, 300,'h');
 				}
+				
 			}
 			$customer_id_hash = $result_cfg['customer_id'];
 			$actions = array(

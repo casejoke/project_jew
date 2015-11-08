@@ -46,10 +46,11 @@
                 <div class="col-sm-4 col-md-3 mb-sm-20 wow fadeInUp animated">
                   <div class="team-item">
                     <div class="team-image">
-                      <img src="<?php echo $avatar; ?>" alt="">
+                      <img src="<?php echo $avatar; ?>" alt="" id="i-account_image">
+                       <input type="hidden" name="image" value="<?php echo $image; ?>" />
                     </div>
                     <div class="team-descr font-alt">
-                      <div class="team-name"><a href="" class="btn btn-g btn-round btn-xs">Сменить аватар</a></div>
+                      <div class="team-name"><a href="#" class="btn btn-g btn-round " data-toggle="image" id="account_image">Сменить аватар</a></div>
                       <div class="team-role"></div>
                     </div>
                   </div>
@@ -70,10 +71,10 @@
                 <div class="col-sm-4 col-md-3 mb-sm-20 wow fadeInUp animated">
                   <div class="work-details text-center">
                     <h5 class="work-details-title font-alt">Редактирование профиля</h5>
-                    <a class="btn btn-g btn-round btn-xs m-b-20" href="<?php echo $edit; ?>"><?php echo $text_edit; ?></a>
+                    <a class="btn btn-g btn-round  m-b-20" href="<?php echo $edit; ?>"><?php echo $text_edit; ?></a>
                   </div>
                   <div class="work-details text-center">
-                    <a class="btn btn-g btn-round btn-xs m-b-20 " href="<?php echo $password; ?>"><?php echo $text_password; ?></a>
+                    <a class="btn btn-g btn-round  m-b-20 " href="<?php echo $password; ?>"><?php echo $text_password; ?></a>
                   </div>
                                     
                 </div>

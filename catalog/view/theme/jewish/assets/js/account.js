@@ -1,59 +1,62 @@
-var account = {
+var timer;
+var upload =  {
 	init:function(){
-		$(document).on(mouse_down,'.i_agree',function(e){
-			e.preventDefault();
-			var _a = $(this).attr('data-a');
-			var _b = $(this).attr('data-b');
-			account.agreeInvite(_a,_b);
-		});
+		if (typeof timer != 'undefined') {
+	      	clearInterval(timer);
+	  	}
 	},
-	agreeInvite:function(_a,_b){
-		var data = {};
-		data  = {
-			'a':_a,
-			'b':_b
-		};
-		var _change_btn  = '#invite_'+_a;
-		$.ajax({
-	        url: 'invite_user',
-	        type: 'post',
-	        dataType: 'json',
-	        data: data,
-	        cache: false,
-	   		beforeSend: function() {
-	           //старт 
-	           var _text_loading = $(_change_btn).attr('data-loading-text');
-	           $(_change_btn).html(_text_loading).addClass('disabled');
-	        },
-	        complete: function() {
-	          //стоп 
-	           //$(_change_btn).addClass('disabled').button('complete');
-	           
-	        },
-	        success: function(json) {
-				console.log(json);
-				if (json['error']) {
-					console.log(json['error']);
-					var _text_error = $(_change_btn).attr('data-error-text');
-	           		$(_change_btn).html(_text_error).removeClass('disabled');
-				}
+	uploadImage:function(_image_id){
+		var $img = $('#i-'+_image_id);
+		timer = setInterval(function() {
+		    if ($('#form-upload input[name=\'file\']').val() != '') {
+		      clearInterval(timer);
 
-				if (json['success']) {
-					console.log(json);
-					var _text_complete = $(_change_btn).attr('data-complete-text');
-	           		$(_change_btn).html(_text_complete).addClass('disabled');
-				}
+		      $.ajax({
+		        url: 'upload-avatar',
+		        type: 'post',
+		        dataType: 'json',
+		        data: new FormData($('#form-upload')[0]),
+		        cache: false,
+		        contentType: false,
+		        processData: false,
+		        beforeSend: function() {
+		           //старт загрузки
+		        },
+		        complete: function() {
+		          //стоп загрузки
+		        },
+		        success: function(json) {
+		          //$(node).parent().find('.text-danger').remove();
 
+		          if (json['error']) {
+		          	 console.log(json['error']);
+		           // $(node).parent().find('input').after('<div class="text-danger">' + json['error'] + '</div>');
+		          }
 
-
-
-	        },
-	        error: function(xhr, ajaxOptions, thrownError) {
-	          console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-	        }
-	      });
+		          if (json['success']) {
+		            console.log(json);
+		           $img.attr( 'src',json['thumb'] );
+		          }
+		        },
+		        error: function(xhr, ajaxOptions, thrownError) {
+		          alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		        }
+		      });
+		    }
+	  	}, 500);
 	}
 };
+
 $(document).ready(function() {
-	invite.init();
+	$(document).delegate('a[data-toggle=\'image\']', mouse_down, function(e) {
+		e.preventDefault();
+		 $('#form-upload').remove();
+
+		  $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+		  $('#form-upload input[name=\'file\']').trigger('click');	
+		  _image_id = $(this).attr('id');
+		  upload.init();
+		  upload.uploadImage(_image_id);		
+	});
 });

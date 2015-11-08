@@ -65,12 +65,11 @@
       <div class="collapse navbar-collapse" id="custom-collapse">
   
         <ul class="nav navbar-nav navbar-right">
-          
+          <li><a href="/"><?php echo $text_announcement; ?></a></li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $text_about; ?></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $text_about_us; ?></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="<?php echo $about_us;?>"><?php echo $text_about_us; ?></a></li>
-              <li><a href="/"><?php echo $text_announcement; ?></a></li>
+              <li><a href="<?php echo $about_us;?>"><?php echo $text_about; ?></a></li>
               <li><a href="partners-list"><?php echo $text_partners; ?></a></li>
               <li><a href="<?php echo $news;?>"><?php echo $text_news; ?></a></li>
               <li><a href="/"><?php echo $text_faq; ?></a></li>

@@ -86,12 +86,19 @@ class ControllerAccountAccount extends Controller {
 			if(preg_match('/http/', $customer_info['image'])){
 				$data['avatar'] = $customer_info['image'];
 			}else{
-				$data['avatar'] = $this->model_tool_image->resize($customer_info['image'], 360, 490, 'h');
+				$upload_info = $this->model_tool_upload->getUploadByCode($customer_info['image']);
+				$filename = $upload_info['filename'];
+				$data['avatar'] = $this->model_tool_upload->resize($filename , 360, 490, 'h');
 			}
 		}else{
 			$data['avatar'] = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
 		}
-		
+
+
+
+
+
+
 		
 		/******************* группы *******************/
 		$data['text_add_group'] = $this->language->get('text_add_group');
@@ -208,6 +215,12 @@ class ControllerAccountAccount extends Controller {
 		}
 		/******************* /.проекты *******************/
 
+		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/account.tpl')) {
+			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/account.js');
+		} else {
+			$this->document->addScript('catalog/view/theme/default/assets/js/account.js');
+		}
+
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
@@ -249,4 +262,102 @@ class ControllerAccountAccount extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+	public function upload() {
+		$this->load->language('tool/upload');
+
+		$json = array();
+
+		if (!empty($this->request->files['file']['name']) && is_file($this->request->files['file']['tmp_name'])) {
+			// Sanitize the filename
+			$filename = basename(preg_replace('/[^a-zA-Z0-9\.\-\s+]/', '', html_entity_decode($this->request->files['file']['name'], ENT_QUOTES, 'UTF-8')));
+
+			// Validate the filename length
+			if ((utf8_strlen($filename) < 3) || (utf8_strlen($filename) > 64)) {
+				$json['error'] = $this->language->get('error_filename');
+			}
+
+			// Allowed file extension types
+			$allowed = array();
+
+			$extension_allowed = preg_replace('~\r?\n~', "\n", $this->config->get('config_file_ext_allowed'));
+
+			$filetypes = explode("\n", $extension_allowed);
+
+			foreach ($filetypes as $filetype) {
+				$allowed[] = trim($filetype);
+			}
+
+			if (!in_array(strtolower(substr(strrchr($filename, '.'), 1)), $allowed)) {
+				$json['error'] = $this->language->get('error_filetype');
+			}
+
+			// Allowed file mime types
+			$allowed = array();
+
+			$mime_allowed = preg_replace('~\r?\n~', "\n", $this->config->get('config_file_mime_allowed'));
+
+			$filetypes = explode("\n", $mime_allowed);
+
+			foreach ($filetypes as $filetype) {
+				$allowed[] = trim($filetype);
+			}
+
+			if (!in_array($this->request->files['file']['type'], $allowed)) {
+				$json['error'] = $this->language->get('error_filetype');
+			}
+
+			// Check to see if any PHP files are trying to be uploaded
+			$content = file_get_contents($this->request->files['file']['tmp_name']);
+
+			if (preg_match('/\<\?php/i', $content)) {
+				$json['error'] = $this->language->get('error_filetype');
+			}
+
+			// Return any upload error
+			if ($this->request->files['file']['error'] != UPLOAD_ERR_OK) {
+				$json['error'] = $this->language->get('error_upload_' . $this->request->files['file']['error']);
+			}
+		} else {
+			$json['error'] = $this->language->get('error_upload');
+		}
+
+		if (!$json) {
+			
+			$code = md5(mt_rand());
+			if (!$this->customer->isLogged()) {
+				$file = $filename. '.' . $code ;
+			}else{
+				$customer_id = $this->customer->getId();
+				$folder_name = md5($customer_id).'/';
+				//создаем папку с назанием 
+				if (!is_dir(DIR_UPLOAD . $folder_name)) {
+					mkdir(DIR_UPLOAD . $folder_name, 0777);
+				}
+				$file = $folder_name . $filename. '.' . $code ;
+				//code поправить!!!!!!!
+			}
+			
+			move_uploaded_file($this->request->files['file']['tmp_name'], DIR_UPLOAD . $file  );
+
+			// Hide the uploaded file name so people can not link to it directly.
+			$this->load->model('tool/upload');
+			$this->load->model('account/customer');
+
+			$json['code'] = $this->model_tool_upload->addUpload($filename, $file);
+
+			//добавим изображение в аватар
+			$this->model_account_customer->changeAvatar($json['code']);
+
+			//рендерим изображение если это оно
+			$json['thumb'] = $this->model_tool_upload->resize($file , 360, 490, 'h');
+
+			$json['success'] = $this->language->get('text_upload');
+		}
+		
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
+
 }

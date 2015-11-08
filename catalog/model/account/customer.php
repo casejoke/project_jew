@@ -146,6 +146,12 @@ class ModelAccountCustomer extends Model {
 		$this->event->trigger('post.customer.edit', $customer_id);
 	}
 
+	public function changeAvatar($image){
+		$customer_id = $this->customer->getId();
+
+		$this->db->query("UPDATE " . DB_PREFIX . "customer SET 
+			image = '" . $image . "' WHERE customer_id = '" . (int)$customer_id . "'");
+	}
 	public function editPassword($email, $password) {
 		$this->event->trigger('pre.customer.edit.password');
 
@@ -178,7 +184,7 @@ class ModelAccountCustomer extends Model {
 	}
 
 	public function getInfoCustomersForGroups($customers) {
-		$sql = "SELECT * , CONCAT(firstname, ' ', lastname) AS name FROM " . DB_PREFIX . "customer";
+		$sql = "SELECT * , CONCAT(lastname, ' ', firstname) AS name FROM " . DB_PREFIX . "customer";
 		if (!empty($customers)) {
 			$implode = array();
 			
@@ -246,12 +252,12 @@ class ModelAccountCustomer extends Model {
 	}
 
 	public function getCustomers($data = array()) {
-		$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		$implode = array();
 
 		if (!empty($data['filter_name'])) {
-			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+			$implode[] = "CONCAT(c.lastname, ' ', c.firstname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
 		if (!empty($data['filter_email'])) {
