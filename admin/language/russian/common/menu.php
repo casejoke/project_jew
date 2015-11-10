@@ -111,9 +111,12 @@ $_['text_occasion_group']              = 'Формат игр';
 $_['text_place']          	           = 'Местонахождение';
 $_['text_occasion_record']             = 'Запись на игру';
 
-$_['text_age_groups']                  = 'Возрастные группы';
-$_['text_sex']                         = 'Пол';
-$_['text_nationality']                 = 'Национальность';
+$_['text_age_status']                  = 'Возрастные группы';
+$_['text_sex_status']                  = 'Пол';
+$_['text_nationality_status']          = 'Национальность';
 $_['text_professional_status']         = 'Проффесиональный статус';
 $_['text_demographic_status']          = 'Демографический статус';
+
+
+
 

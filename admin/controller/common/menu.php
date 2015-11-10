@@ -118,6 +118,14 @@ class ControllerCommonMenu extends Controller {
 		$data['text_place'] 	= $this->language->get('text_place');
 		$data['text_occasion_record'] 			= $this->language->get('text_occasion_record');
 
+		$data['text_age_status']      = $this->language->get('text_age_status');
+		$data['age_status'] = $this->url->link('localisation/age_status', 'token=' . $this->session->data['token'], 'SSL');
+		
+		$data['text_sex']      = $this->language->get('text_sex');
+		$data['text_nationality']      = $this->language->get('text_nationality');
+		$data['text_professional_status']      = $this->language->get('text_professional_status');
+		$data['text_demographic_status']      = $this->language->get('text_demographic_status');
+
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
 		$data['affiliate'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'], 'SSL');
 		$data['api'] = $this->url->link('user/api', 'token=' . $this->session->data['token'], 'SSL');

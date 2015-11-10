@@ -35,25 +35,22 @@
   </li>
    <li class="sub-menu">
    <a href=""><i class="md md-language"></i> <?php echo $text_localisation; ?></a>
-        <ul>
-          <li><a href="<?php echo $location; ?>"><?php echo $text_location; ?></a></li>
-          <li><a href="<?php echo $language; ?>"><?php echo $text_language; ?></a></li>
-          <li><a href="<?php echo $currency; ?>"><?php echo $text_currency; ?></a></li>
-          <li><a href="<?php echo $stock_status; ?>"><?php echo $text_stock_status; ?></a></li>
-          <li><a href="<?php echo $order_status; ?>"><?php echo $text_order_status; ?></a></li>
-          <li><a href="<?php echo $country; ?>"><?php echo $text_country; ?></a></li>
-          <li><a href="<?php echo $zone; ?>"><?php echo $text_zone; ?></a></li>
-          <li><a href="<?php echo $geo_zone; ?>"><?php echo $text_geo_zone; ?></a></li>
-          
-          <li><a href="<?php echo $length_class; ?>"><?php echo $text_length_class; ?></a></li>
-          <li><a href="<?php echo $weight_class; ?>"><?php echo $text_weight_class; ?></a></li>
-        </ul>
-      </li>
+    <ul>
+       
+      <li><a href="<?php echo $location; ?>"><?php echo $text_age_status; ?></a></li>
+      <li><a href="<?php echo $location; ?>"><?php echo $text_sex_status; ?></a></li>
+      <li><a href="<?php echo $location; ?>"><?php echo $text_nationality_status; ?></a></li>
+      <li><a href="<?php echo $location; ?>"><?php echo $text_professional_status; ?></a></li>
+      <li><a href="<?php echo $location; ?>"><?php echo $text_demographic_status; ?></a></li>
+      <li><a href="<?php echo $currency; ?>"><?php echo $text_currency; ?></a></li>
+      <li><a href="<?php echo $country; ?>"><?php echo $text_country; ?></a></li>
+    </ul>
+  </li>
 
   <li class="sub-menu">
     <a href=""><i class="md md-settings"></i> <?php echo $text_setting; ?></a>
     <ul>
-    
+      <li><a href="<?php echo $language; ?>"><?php echo $text_language; ?></a></li>
       <li><a href="<?php echo $module; ?>"><?php echo $text_module; ?></a></li>
       <li><a href="<?php echo $setting; ?>"><?php echo $text_setting; ?></a></li>
       <li><a href="<?php echo $layout; ?>"><?php echo $text_layout; ?></a></li>
