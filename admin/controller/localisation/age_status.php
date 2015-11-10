@@ -253,7 +253,7 @@ class ControllerLocalisationAgeStatus extends Controller {
     $data['column_left'] = $this->load->controller('common/column_left');
     $data['footer'] = $this->load->controller('common/footer');
 
-    $this->response->setOutput($this->load->view('localisation/age_status_list.tpl', $data));
+    $this->response->setOutput($this->load->view('localisation/age/age_status_list.tpl', $data));
   }
 
   protected function getForm() {
@@ -329,7 +329,7 @@ class ControllerLocalisationAgeStatus extends Controller {
     $data['column_left'] = $this->load->controller('common/column_left');
     $data['footer'] = $this->load->controller('common/footer');
 
-    $this->response->setOutput($this->load->view('localisation/age_status_form.tpl', $data));
+    $this->response->setOutput($this->load->view('localisation/age/age_status_form.tpl', $data));
   }
 
   protected function validateForm() {
@@ -351,16 +351,6 @@ class ControllerLocalisationAgeStatus extends Controller {
       $this->error['warning'] = $this->language->get('error_permission');
     }
 
-    $this->load->model('setting/store');
-    $this->load->model('catalog/product');
-
-    foreach ($this->request->post['selected'] as $age_status_id) {
-      $product_total = $this->model_catalog_product->getTotalProductsByAgeStatusId($age_status_id);
-
-      if ($product_total) {
-        $this->error['warning'] = sprintf($this->language->get('error_product'), $product_total);
-      }
-    }
 
     return !$this->error;
   }

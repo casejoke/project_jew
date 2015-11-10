@@ -121,8 +121,8 @@ class ControllerCommonMenu extends Controller {
 		$data['text_age_status']      = $this->language->get('text_age_status');
 		$data['age_status'] = $this->url->link('localisation/age_status', 'token=' . $this->session->data['token'], 'SSL');
 		
-		$data['text_sex']      = $this->language->get('text_sex');
-		$data['text_nationality']      = $this->language->get('text_nationality');
+		$data['text_sex_status']      = $this->language->get('text_sex_status');
+		$data['text_nationality_status']      = $this->language->get('text_nationality_status');
 		$data['text_professional_status']      = $this->language->get('text_professional_status');
 		$data['text_demographic_status']      = $this->language->get('text_demographic_status');
 

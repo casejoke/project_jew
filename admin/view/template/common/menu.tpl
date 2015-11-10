@@ -37,11 +37,11 @@
    <a href=""><i class="md md-language"></i> <?php echo $text_localisation; ?></a>
     <ul>
        
-      <li><a href="<?php echo $location; ?>"><?php echo $text_age_status; ?></a></li>
-      <li><a href="<?php echo $location; ?>"><?php echo $text_sex_status; ?></a></li>
-      <li><a href="<?php echo $location; ?>"><?php echo $text_nationality_status; ?></a></li>
-      <li><a href="<?php echo $location; ?>"><?php echo $text_professional_status; ?></a></li>
-      <li><a href="<?php echo $location; ?>"><?php echo $text_demographic_status; ?></a></li>
+      <li><a href="<?php echo $age_status; ?>"><?php echo $text_age_status; ?></a></li>
+      <li><a href="<?php echo $sex_status; ?>"><?php echo $text_sex_status; ?></a></li>
+      <li><a href="<?php echo $nationality_status; ?>"><?php echo $text_nationality_status; ?></a></li>
+      <li><a href="<?php echo $professional_status; ?>"><?php echo $text_professional_status; ?></a></li>
+      <li><a href="<?php echo $demographic_status; ?>"><?php echo $text_demographic_status; ?></a></li>
       <li><a href="<?php echo $currency; ?>"><?php echo $text_currency; ?></a></li>
       <li><a href="<?php echo $country; ?>"><?php echo $text_country; ?></a></li>
     </ul>
