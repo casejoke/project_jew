@@ -34,6 +34,7 @@ class ControllerProjectEdit extends Controller {
 
 		//подгрузим модели
 		$this->load->model('account/customer');
+		$this->load->model('group/group');
 		$this->load->model('project/project');
 		$this->load->model('tool/upload');
 		$this->load->model('tool/image');
@@ -162,7 +163,31 @@ class ControllerProjectEdit extends Controller {
 		$data['no_image'] = $this->model_tool_image->resize('noimage.png', 300, 300,'h');
 		$data['placeholder'] = $this->model_tool_image->resize('noimage.png', 300, 300,'h');
 
-		//дата создания группы
+
+		//список групп админа проекта
+		//$customer_id
+		//группы где пользователь администратор
+		$results_admin_groups = $this->model_group_group->getGroupsForAdmin($customer_id);
+
+		$data['admin_init_groups'] = array();
+		foreach ($results_admin_groups as $result) {
+			$data['init_groups'][] = array(
+				'group_id'		=> $result['init_group_id'],
+				'group_title' => $result['title']
+			);
+		}
+
+		print_r('<pre>');
+		print_r($data['init_groups']);
+		print_r('</pre>');
+		die();
+
+
+
+
+
+
+		//дата создания проекта
 		if (isset($this->request->post['project_birthday'])) {
 			$data['project_birthday'] = $this->request->post['project_birthday'];
 		} elseif (!empty($project_info)) {
