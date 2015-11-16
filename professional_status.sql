@@ -17,11 +17,11 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `oc_age_status`
+-- Структура таблицы `oc_professional_status`
 --
 
-CREATE TABLE `oc_age_status` (
-  `age_status_id` int(11) NOT NULL,
+CREATE TABLE `oc_professional_status` (
+  `professional_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
@@ -30,17 +30,17 @@ CREATE TABLE `oc_age_status` (
 --
 
 --
--- Индексы таблицы `oc_age_status`
+-- Индексы таблицы `oc_professional_status`
 --
-ALTER TABLE `oc_age_status`
-  ADD PRIMARY KEY (`age_status_id`,`language_id`);
+ALTER TABLE `oc_professional_status`
+  ADD PRIMARY KEY (`professional_status_id`,`language_id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT для таблицы `oc_age_status`
+-- AUTO_INCREMENT для таблицы `oc_professional_status`
 --
-ALTER TABLE `oc_age_status`
-  MODIFY `age_status_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+ALTER TABLE `oc_professional_status`
+  MODIFY `professional_status_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;

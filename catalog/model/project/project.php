@@ -8,6 +8,14 @@ class ModelProjectProject extends Model {
 			customer_id = '" . (int)$customer_id . "',
 			image = '" . $this->db->escape($data['image']) . "',
 			project_birthday = '" . $this->db->escape($data['project_birthday']) . "',
+			project_status_id = '" . (int)$data['project_status_id']. "', 
+			project_age = '" . (isset($data['age_status']) ? $this->db->escape(serialize($data['age_status'])) : '') . "',
+			project_sex = '" . (isset($data['sex_status']) ? $this->db->escape(serialize($data['sex_status'])) : '') . "',
+			project_nationality = '" . (isset($data['nationality_status']) ? $this->db->escape(serialize($data['nationality_status'])) : '') . "',
+			project_professional = '" . (isset($data['professional_status']) ? $this->db->escape(serialize($data['professional_status'])) : '') . "',
+			project_demographic = '" . (isset($data['demographic_status']) ? $this->db->escape(serialize($data['demographic_status'])) : '') . "',
+			project_budget = '" . (int)$data['project_budget']. "', 
+			project_currency_id = '" . (int)$data['project_currency_id']. "'
 			date_added = NOW()"
 		);
 
@@ -18,7 +26,10 @@ class ModelProjectProject extends Model {
 				project_id = '" . (int)$project_id . "', 
 				language_id = '" . (int)$language_id . "', 
 				title = '" . $this->db->escape($value['title']) . "',
-				description = '" . $this->db->escape($value['description']) . "'"
+				description = '" . $this->db->escape($value['description']) . "',
+				target = '" . $this->db->escape($value['target']) . "',
+				product = '" . $this->db->escape($value['product']) . "',
+				result = '" . $this->db->escape($value['result']) . "'"
 			);
 			/*
 				visibility = '" . (int)$data['visibility'] . "',
@@ -40,11 +51,18 @@ class ModelProjectProject extends Model {
 	}
 	public function editProject($project_id, $data,$customer_id) {
 		$this->event->trigger('pre.customer.project.edit', $data);
-
 		$this->db->query("UPDATE " . DB_PREFIX . "project SET 
 			customer_id = '" . (int)$customer_id . "',
 			image = '" . $this->db->escape($data['image']) . "',
-			project_birthday = '" . $this->db->escape($data['project_birthday']) . "'
+			project_birthday = '" . $this->db->escape($data['project_birthday']) . "',
+			project_status_id = '" . (int)$data['project_status_id']. "', 
+			project_age = '" . (isset($data['age_status']) ? $this->db->escape(serialize($data['age_status'])) : '') . "',
+			project_sex = '" . (isset($data['sex_status']) ? $this->db->escape(serialize($data['sex_status'])) : '') . "',
+			project_nationality = '" . (isset($data['nationality_status']) ? $this->db->escape(serialize($data['nationality_status'])) : '') . "',
+			project_professional = '" . (isset($data['professional_status']) ? $this->db->escape(serialize($data['professional_status'])) : '') . "',
+			project_demographic = '" . (isset($data['demographic_status']) ? $this->db->escape(serialize($data['demographic_status'])) : '') . "',
+			project_budget = '" . (int)$data['project_budget']. "', 
+			project_currency_id = '" . (int)$data['project_currency_id']. "'
 			WHERE project_id = '" . (int)$project_id . "'"
 		);
 
@@ -54,7 +72,10 @@ class ModelProjectProject extends Model {
 				project_id = '" . (int)$project_id . "', 
 				language_id = '" . (int)$language_id . "', 
 				title = '" . $this->db->escape($value['title']) . "',
-				description = '" . $this->db->escape($value['description']) . "'"
+				description = '" . $this->db->escape($value['description']) . "',
+				target = '" . $this->db->escape($value['target']) . "',
+				product = '" . $this->db->escape($value['product']) . "',
+				result = '" . $this->db->escape($value['result']) . "'"
 			);
 			/*
 				visibility = '" . (int)$data['visibility'] . "',
@@ -89,6 +110,9 @@ class ModelProjectProject extends Model {
 			$project_description_data[$result['language_id']] = array(
 				'title' 		   => $result['title'],
 				'description'      => $result['description'],
+				'target'      	   => $result['target'],
+				'product'     	   => $result['product'],
+				'result'      	   => $result['result'],
 				'meta_title'       => $result['meta_title'],
 				'meta_description' => $result['meta_description'],
 				'meta_keyword'     => $result['meta_keyword']
@@ -158,8 +182,259 @@ class ModelProjectProject extends Model {
 	}
 
 
-	///список возрастов
+	///список статусов для проекта
 
+	//статусы для проекта
+ 	public function getProjectStatuses($data = array()) {
+	    if ($data) {
+	      $sql = "SELECT * FROM " . DB_PREFIX . "project_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
+	      $sql .= " ORDER BY name";
+
+	      if (isset($data['order']) && ($data['order'] == 'DESC')) {
+	        $sql .= " DESC";
+	      } else {
+	        $sql .= " ASC";
+	      }
+
+	      if (isset($data['start']) || isset($data['limit'])) {
+	        if ($data['start'] < 0) {
+	          $data['start'] = 0;
+	        }
+
+	        if ($data['limit'] < 1) {
+	          $data['limit'] = 20;
+	        }
+
+	        $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+	      }
+
+	      $query = $this->db->query($sql);
+
+	      return $query->rows;
+	    } else {
+	      $project_status_data = $this->cache->get('project_status.' . (int)$this->config->get('config_language_id'));
+
+	      if (!$project_status_data) {
+	        $query = $this->db->query("SELECT project_status_id, name FROM " . DB_PREFIX . "project_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");
+
+	        $project_status_data = $query->rows;
+
+	        $this->cache->set('project_status.' . (int)$this->config->get('config_language_id'), $project_status_data);
+	      }
+
+	      return $project_status_data;
+	    }
+	  } 
+
+	public function getSexStatuses($data = array()) {
+	    if ($data) {
+	      $sql = "SELECT * FROM " . DB_PREFIX . "sex_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+	      $sql .= " ORDER BY name";
+
+	      if (isset($data['order']) && ($data['order'] == 'DESC')) {
+	        $sql .= " DESC";
+	      } else {
+	        $sql .= " ASC";
+	      }
+
+	      if (isset($data['start']) || isset($data['limit'])) {
+	        if ($data['start'] < 0) {
+	          $data['start'] = 0;
+	        }
+
+	        if ($data['limit'] < 1) {
+	          $data['limit'] = 20;
+	        }
+
+	        $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+	      }
+
+	      $query = $this->db->query($sql);
+
+	      return $query->rows;
+	    } else {
+	      $sex_status_data = $this->cache->get('sex_status.' . (int)$this->config->get('config_language_id'));
+
+	      if (!$sex_status_data) {
+	        $query = $this->db->query("SELECT sex_status_id, name FROM " . DB_PREFIX . "sex_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");
+
+	        $sex_status_data = $query->rows;
+
+	        $this->cache->set('sex_status.' . (int)$this->config->get('config_language_id'), $sex_status_data);
+	      }
+
+	      return $sex_status_data;
+	    }
+  	}
+  	//возратсы для проекта
+  	public function getAgeStatuses($data = array()) {
+	    if ($data) {
+	      $sql = "SELECT * FROM " . DB_PREFIX . "age_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+	      $sql .= " ORDER BY name";
+
+	      if (isset($data['order']) && ($data['order'] == 'DESC')) {
+	        $sql .= " DESC";
+	      } else {
+	        $sql .= " ASC";
+	      }
+
+	      if (isset($data['start']) || isset($data['limit'])) {
+	        if ($data['start'] < 0) {
+	          $data['start'] = 0;
+	        }
+
+	        if ($data['limit'] < 1) {
+	          $data['limit'] = 20;
+	        }
+
+	        $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+	      }
+
+	      $query = $this->db->query($sql);
+
+	      return $query->rows;
+	    } else {
+	      $age_status_data = $this->cache->get('age_status.' . (int)$this->config->get('config_language_id'));
+
+	      if (!$age_status_data) {
+	        $query = $this->db->query("SELECT age_status_id, name FROM " . DB_PREFIX . "age_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");
+
+	        $age_status_data = $query->rows;
+
+	        $this->cache->set('age_status.' . (int)$this->config->get('config_language_id'), $age_status_data);
+	      }
+
+	      return $age_status_data;
+	    }
+	  }
+
+	  public function getNationalityStatuses($data = array()) {
+	    if ($data) {
+	      $sql = "SELECT * FROM " . DB_PREFIX . "nationality_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+	      $sql .= " ORDER BY name";
+
+	      if (isset($data['order']) && ($data['order'] == 'DESC')) {
+	        $sql .= " DESC";
+	      } else {
+	        $sql .= " ASC";
+	      }
+
+	      if (isset($data['start']) || isset($data['limit'])) {
+	        if ($data['start'] < 0) {
+	          $data['start'] = 0;
+	        }
+
+	        if ($data['limit'] < 1) {
+	          $data['limit'] = 20;
+	        }
+
+	        $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+	      }
+
+	      $query = $this->db->query($sql);
+
+	      return $query->rows;
+	    } else {
+	      $nationality_status_data = $this->cache->get('nationality_status.' . (int)$this->config->get('config_language_id'));
+
+	      if (!$nationality_status_data) {
+	        $query = $this->db->query("SELECT nationality_status_id, name FROM " . DB_PREFIX . "nationality_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");
+
+	        $nationality_status_data = $query->rows;
+
+	        $this->cache->set('nationality_status.' . (int)$this->config->get('config_language_id'), $nationality_status_data);
+	      }
+
+	      return $nationality_status_data;
+	    }
+	  }
+
+  	public function getProfessionalStatuses($data = array()) {
+	    if ($data) {
+	      $sql = "SELECT * FROM " . DB_PREFIX . "professional_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+	      $sql .= " ORDER BY name";
+
+	      if (isset($data['order']) && ($data['order'] == 'DESC')) {
+	        $sql .= " DESC";
+	      } else {
+	        $sql .= " ASC";
+	      }
+
+	      if (isset($data['start']) || isset($data['limit'])) {
+	        if ($data['start'] < 0) {
+	          $data['start'] = 0;
+	        }
+
+	        if ($data['limit'] < 1) {
+	          $data['limit'] = 20;
+	        }
+
+	        $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+	      }
+
+	      $query = $this->db->query($sql);
+
+	      return $query->rows;
+	    } else {
+	      $professional_status_data = $this->cache->get('professional_status.' . (int)$this->config->get('config_language_id'));
+
+	      if (!$professional_status_data) {
+	        $query = $this->db->query("SELECT professional_status_id, name FROM " . DB_PREFIX . "professional_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");
+
+	        $professional_status_data = $query->rows;
+
+	        $this->cache->set('professional_status.' . (int)$this->config->get('config_language_id'), $professional_status_data);
+	      }
+
+	      return $professional_status_data;
+	    }
+	  }
+
+  	public function getDemographicStatuses($data = array()) {
+	    if ($data) {
+	      $sql = "SELECT * FROM " . DB_PREFIX . "demographic_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+	      $sql .= " ORDER BY name";
+
+	      if (isset($data['order']) && ($data['order'] == 'DESC')) {
+	        $sql .= " DESC";
+	      } else {
+	        $sql .= " ASC";
+	      }
+
+	      if (isset($data['start']) || isset($data['limit'])) {
+	        if ($data['start'] < 0) {
+	          $data['start'] = 0;
+	        }
+
+	        if ($data['limit'] < 1) {
+	          $data['limit'] = 20;
+	        }
+
+	        $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+	      }
+
+	      $query = $this->db->query($sql);
+
+	      return $query->rows;
+	    } else {
+	      $demographic_status_data = $this->cache->get('demographic_status.' . (int)$this->config->get('config_language_id'));
+
+	      if (!$demographic_status_data) {
+	        $query = $this->db->query("SELECT demographic_status_id, name FROM " . DB_PREFIX . "demographic_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");
+
+	        $demographic_status_data = $query->rows;
+
+	        $this->cache->set('demographic_status.' . (int)$this->config->get('config_language_id'), $demographic_status_data);
+	      }
+
+	      return $demographic_status_data;
+	    }
+	  }
 
 }

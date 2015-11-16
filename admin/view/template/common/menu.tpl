@@ -42,6 +42,7 @@
       <li><a href="<?php echo $nationality_status; ?>"><?php echo $text_nationality_status; ?></a></li>
       <li><a href="<?php echo $professional_status; ?>"><?php echo $text_professional_status; ?></a></li>
       <li><a href="<?php echo $demographic_status; ?>"><?php echo $text_demographic_status; ?></a></li>
+      <li><a href="<?php echo $project_status; ?>"><?php echo $text_project_status; ?></a></li>
       <li><a href="<?php echo $currency; ?>"><?php echo $text_currency; ?></a></li>
       <li><a href="<?php echo $country; ?>"><?php echo $text_country; ?></a></li>
     </ul>

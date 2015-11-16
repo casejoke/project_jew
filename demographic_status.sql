@@ -22,7 +22,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `oc_demographic_status` (
   `demographic_status_id` int(11) NOT NULL,
-  `langudemographic_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 --
@@ -33,7 +33,7 @@ CREATE TABLE `oc_demographic_status` (
 -- Индексы таблицы `oc_demographic_status`
 --
 ALTER TABLE `oc_demographic_status`
-  ADD PRIMARY KEY (`demographic_status_id`,`langudemographic_id`);
+  ADD PRIMARY KEY (`demographic_status_id`,`language_id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц

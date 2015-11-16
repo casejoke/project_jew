@@ -79,12 +79,23 @@ class ControllerProjectEdit extends Controller {
 
 		$data['entry_title'] 			= $this->language->get('entry_title');
 		$data['entry_description'] 		= $this->language->get('entry_description');
+		$data['entry_target'] 			= $this->language->get('entry_target');
+		$data['entry_result'] 			= $this->language->get('entry_result');
+		$data['entry_product'] 			= $this->language->get('entry_product');
+		$data['entry_project_status'] 			= $this->language->get('entry_project_status');
+		$data['entry_project_budget'] 			= $this->language->get('entry_project_budget');
 		$data['entry_image'] 			= $this->language->get('entry_image');
 		$data['entry_project_birthday'] 	= $this->language->get('entry_project_birthday');
 		$data['entry_project_email'] 		= $this->language->get('entry_project_email'); 
-		
+		$data['entry_sex_status'] 		= $this->language->get('entry_sex_status'); 
+		$data['entry_age_status'] 		= $this->language->get('entry_age_status'); 
+		$data['entry_nationality_status'] 		= $this->language->get('entry_nationality_status'); 
+		$data['entry_professional_status'] 		= $this->language->get('entry_professional_status'); 
+		$data['entry_demographic_status'] 		= $this->language->get('entry_demographic_status'); 
 		$data['text_submit']  = !isset($this->request->get['project_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 
+
+		$data['text_none'] 		= $this->language->get('text_none'); 
 
 		$this->document->setTitle(!isset($this->request->get['project_id']) ? $this->language->get('heading_title_add_project') : $this->language->get('heading_title_edit_project'));
 		$data['heading_title'] 	= !isset($this->request->get['project_id']) ? $this->language->get('heading_title_add_project') : $this->language->get('heading_title_edit_project');
@@ -160,8 +171,190 @@ class ControllerProjectEdit extends Controller {
 			$data['project_birthday'] = date('Y-m-d', time() - 86400);
 		}
 
+		//бюджет проекта
+		if (isset($this->request->post['project_budget'])) {
+			$data['project_budget'] = $this->request->post['project_budget'];
+		} elseif (!empty($project_info)) {
+			$data['project_budget'] = $project_info['project_budget'];
+		} else {
+			$data['project_budget'] = '';
+		}
+		//валюта проекта
+		$this->load->model('localisation/currency');
 
+		$data['currencies'] = array();
+
+		$results = $this->model_localisation_currency->getCurrencies();
+
+		foreach ($results as $result) {
+			if ($result['status']) {
+				$data['currencies'][] = array(
+					'currency_id'  => $result['currency_id'],
+					'title'        => $result['title'],
+					'code'         => $result['code'],
+					'symbol_left'  => $result['symbol_left'],
+					'symbol_right' => $result['symbol_right']
+				);
+			}
+		}
+
+		if (isset($this->request->post['project_currency_id'])) {
+			$data['project_currency_id'] = $this->request->post['project_currency_id'];
+		} elseif (!empty($project_info)) {
+			$data['project_currency_id'] = $project_info['project_currency_id'];
+		} else {
+			$data['project_currency_id'] = '';
+		}
+
+		//подгрузим список статусов для проекта
+		$filter_data = array();
+		$project_statuses_results = $this->model_project_project->getProjectStatuses($filter_data);
+		$data['project_statuses']  = array();
+		foreach ($project_statuses_results as $psr) {
+			$data['project_statuses'][]  = array(
+				'project_status_id' 	=> $psr['project_status_id'],
+				'project_status_title' 	=> $psr['name']
+			);
+		}
+
+		if (isset($this->request->post['project_status_id'])) {
+			$data['project_status_id'] = $this->request->post['project_status_id'];
+		} elseif (!empty($project_info)) {
+			$data['project_status_id'] = $project_info['project_status_id'];
+		} else {
+			$data['project_status_id'] = 0;
+		}
+
+		//целевые аудиториии
+		//пол
+
+		$filter_data = array();
+		$sex_statuses_results = $this->model_project_project->getSexStatuses($filter_data);
+		$data['sex_statuses']  = array();
+		$data['sex_statuses_desc'] = array();
+		foreach ($sex_statuses_results as $ssr) {
+			$data['sex_statuses'][]  = $ssr['sex_status_id'];
+		}
+		foreach ($sex_statuses_results as $ssr) {
+			$data['sex_statuses_desc'][$ssr['sex_status_id']] = array(
+				'title'  => $ssr['name']
+			);
+		}
+		if (isset($this->request->post['sex_status'])) {
+			$data['sex_status'] = $this->request->post['sex_status'];
+		} elseif (!empty($project_info)) {
+			if(!empty($project_info['project_sex'])){
+				$data['sex_status'] = unserialize($project_info['project_sex']);
+			}else{
+				$data['sex_status'] = array();
+			}
+		} else {
+			$data['sex_status'] = array();
+		}
+
+
+		//возраст
+		$filter_data = array();
+		$age_statuses_results = $this->model_project_project->getAgeStatuses($filter_data);
+		$data['age_statuses']  = array();
+		$data['age_statuses_desc'] = array();
+		foreach ($age_statuses_results as $ssr) {
+			$data['age_statuses'][]  = $ssr['age_status_id'];
+		}
+		foreach ($age_statuses_results as $ssr) {
+			$data['age_statuses_desc'][$ssr['age_status_id']] = array(
+				'title'  => $ssr['name']
+			);
+		}
+		if (isset($this->request->post['age_status'])) {
+			$data['age_status'] = $this->request->post['age_status'];
+		} elseif (!empty($project_info)) {
+			if(!empty($project_info['project_age'])){
+				$data['age_status'] = unserialize($project_info['project_age']);
+			}else{
+				$data['age_status'] = array();
+			}
+		} else {
+			$data['age_status'] = array();
+		}
+
+		//национальность ю религия
+		$filter_data = array();
+		$nationality_statuses_results = $this->model_project_project->getNationalityStatuses($filter_data);
+		$data['nationality_statuses']  = array();
+		$data['nationality_statuses_desc'] = array();
+		foreach ($nationality_statuses_results as $ssr) {
+			$data['nationality_statuses'][]  = $ssr['nationality_status_id'];
+		}
+		foreach ($nationality_statuses_results as $ssr) {
+			$data['nationality_statuses_desc'][$ssr['nationality_status_id']] = array(
+				'title'  => $ssr['name']
+			);
+		}
+		if (isset($this->request->post['nationality_status'])) {
+			$data['nationality_status'] = $this->request->post['nationality_status'];
+		} elseif (!empty($project_info)) {
+			if(!empty($project_info['project_nationality'])){
+				$data['nationality_status'] = unserialize($project_info['project_nationality']);
+			}else{
+				$data['nationality_status'] = array();
+			}
+		} else {
+			$data['nationality_status'] = array();
+		}
+		
+		//профессиональный статус
+
+    	$filter_data = array();
+		$professional_statuses_results = $this->model_project_project->getProfessionalStatuses($filter_data);
+		$data['professional_statuses']  = array();
+		$data['professional_statuses_desc'] = array();
+		foreach ($professional_statuses_results as $ssr) {
+			$data['professional_statuses'][]  = $ssr['professional_status_id'];
+		}
+		foreach ($professional_statuses_results as $ssr) {
+			$data['professional_statuses_desc'][$ssr['professional_status_id']] = array(
+				'title'  => $ssr['name']
+			);
+		}
+		if (isset($this->request->post['professional_status'])) {
+			$data['professional_status'] = $this->request->post['professional_status'];
+		} elseif (!empty($project_info)) {
+			if(!empty($project_info['project_professional'])){
+				$data['professional_status'] = unserialize($project_info['project_professional']);
+			}else{
+				$data['professional_status'] = array();
+			}
+		} else {
+			$data['professional_status'] = array();
+		}
+
+		//демографический статус
+		$filter_data = array();
+		$demographic_statuses_results = $this->model_project_project->getDemographicStatuses($filter_data);
+		$data['demographic_statuses']  = array();
+		$data['demographic_statuses_desc'] = array();
+		foreach ($demographic_statuses_results as $ssr) {
+			$data['demographic_statuses'][]  = $ssr['demographic_status_id'];
+		}
+		foreach ($demographic_statuses_results as $ssr) {
+			$data['demographic_statuses_desc'][$ssr['demographic_status_id']] = array(
+				'title'  => $ssr['name']
+			);
+		}
+		if (isset($this->request->post['demographic_status'])) {
+			$data['demographic_status'] = $this->request->post['demographic_status'];
+		} elseif (!empty($project_info)) {
+			if(!empty($project_info['project_demographic'])){
+				$data['demographic_status'] = unserialize($project_info['project_demographic']);
+			}else{
+				$data['demographic_status'] = array();
+			}
+		} else {
+			$data['demographic_status'] = array();
+		}
 /*
+				'sex_title' 		=> $ssr['name']
 
 		//видимость группы ????
 		if (isset($this->request->post['visibility'])) {

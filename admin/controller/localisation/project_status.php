@@ -1,26 +1,26 @@
 <?php
-class ControllerLocalisationDemographicStatus extends Controller {
+class ControllerLocalisationProjectStatus extends Controller {
   private $error = array();
 
   public function index() {
-    $this->load->language('localisation/demographic_status');
+    $this->load->language('localisation/project_status');
 
     $this->document->setTitle($this->language->get('heading_title'));
 
-    $this->load->model('localisation/demographic_status');
+    $this->load->model('localisation/project_status');
 
     $this->getList();
   }
 
   public function add() {
-    $this->load->language('localisation/demographic_status');
+    $this->load->language('localisation/project_status');
 
     $this->document->setTitle($this->language->get('heading_title'));
 
-    $this->load->model('localisation/demographic_status');
+    $this->load->model('localisation/project_status');
 
     if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-      $this->model_localisation_demographic_status->addDemographicStatus($this->request->post);
+      $this->model_localisation_project_status->addProjectStatus($this->request->post);
 
       $this->session->data['success'] = $this->language->get('text_success');
 
@@ -38,21 +38,21 @@ class ControllerLocalisationDemographicStatus extends Controller {
         $url .= '&page=' . $this->request->get['page'];
       }
 
-      $this->response->redirect($this->url->link('localisation/demographic_status', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+      $this->response->redirect($this->url->link('localisation/project_status', 'token=' . $this->session->data['token'] . $url, 'SSL'));
     }
 
     $this->getForm();
   }
 
   public function edit() {
-    $this->load->language('localisation/demographic_status');
+    $this->load->language('localisation/project_status');
 
     $this->document->setTitle($this->language->get('heading_title'));
 
-    $this->load->model('localisation/demographic_status');
+    $this->load->model('localisation/project_status');
 
     if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-      $this->model_localisation_demographic_status->editDemographicStatus($this->request->get['demographic_status_id'], $this->request->post);
+      $this->model_localisation_project_status->editProjectStatus($this->request->get['project_status_id'], $this->request->post);
 
       $this->session->data['success'] = $this->language->get('text_success');
 
@@ -70,22 +70,22 @@ class ControllerLocalisationDemographicStatus extends Controller {
         $url .= '&page=' . $this->request->get['page'];
       }
 
-      $this->response->redirect($this->url->link('localisation/demographic_status', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+      $this->response->redirect($this->url->link('localisation/project_status', 'token=' . $this->session->data['token'] . $url, 'SSL'));
     }
 
     $this->getForm();
   }
 
   public function delete() {
-    $this->load->language('localisation/demographic_status');
+    $this->load->language('localisation/project_status');
 
     $this->document->setTitle($this->language->get('heading_title'));
 
-    $this->load->model('localisation/demographic_status');
+    $this->load->model('localisation/project_status');
 
     if (isset($this->request->post['selected']) && $this->validateDelete()) {
-      foreach ($this->request->post['selected'] as $demographic_status_id) {
-        $this->model_localisation_demographic_status->deleteDemographicStatus($demographic_status_id);
+      foreach ($this->request->post['selected'] as $project_status_id) {
+        $this->model_localisation_project_status->deleteProjectStatus($project_status_id);
       }
 
       $this->session->data['success'] = $this->language->get('text_success');
@@ -104,7 +104,7 @@ class ControllerLocalisationDemographicStatus extends Controller {
         $url .= '&page=' . $this->request->get['page'];
       }
 
-      $this->response->redirect($this->url->link('localisation/demographic_status', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+      $this->response->redirect($this->url->link('localisation/project_status', 'token=' . $this->session->data['token'] . $url, 'SSL'));
     }
 
     $this->getList();
@@ -152,13 +152,13 @@ class ControllerLocalisationDemographicStatus extends Controller {
 
     $data['breadcrumbs'][] = array(
       'text' => $this->language->get('heading_title'),
-      'href' => $this->url->link('localisation/demographic_status', 'token=' . $this->session->data['token'] . $url, 'SSL')
+      'href' => $this->url->link('localisation/project_status', 'token=' . $this->session->data['token'] . $url, 'SSL')
     );
 
-    $data['add'] = $this->url->link('localisation/demographic_status/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
-    $data['delete'] = $this->url->link('localisation/demographic_status/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
+    $data['add'] = $this->url->link('localisation/project_status/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
+    $data['delete'] = $this->url->link('localisation/project_status/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
-    $data['demographic_statuses'] = array();
+    $data['project_statuses'] = array();
 
     $filter_data = array(
       'sort'  => $sort,
@@ -167,15 +167,15 @@ class ControllerLocalisationDemographicStatus extends Controller {
       'limit' => $this->config->get('config_limit_admin')
     );
 
-    $demographic_status_total = $this->model_localisation_demographic_status->getTotalDemographicStatuses();
+    $project_status_total = $this->model_localisation_project_status->getTotalProjectStatuses();
 
-    $results = $this->model_localisation_demographic_status->getDemographicStatuses($filter_data);
+    $results = $this->model_localisation_project_status->getProjectStatuses($filter_data);
 
     foreach ($results as $result) {
-      $data['demographic_statuses'][] = array(
-        'demographic_status_id' => $result['demographic_status_id'],
+      $data['project_statuses'][] = array(
+        'project_status_id' => $result['project_status_id'],
         'name'            => $result['name'],
-        'edit'            => $this->url->link('localisation/demographic_status/edit', 'token=' . $this->session->data['token'] . '&demographic_status_id=' . $result['demographic_status_id'] . $url, 'SSL')
+        'edit'            => $this->url->link('localisation/project_status/edit', 'token=' . $this->session->data['token'] . '&project_status_id=' . $result['project_status_id'] . $url, 'SSL')
       );
     }
 
@@ -224,7 +224,7 @@ class ControllerLocalisationDemographicStatus extends Controller {
       $url .= '&page=' . $this->request->get['page'];
     }
 
-    $data['sort_name'] = $this->url->link('localisation/demographic_status', 'token=' . $this->session->data['token'] . '&sort=name' . $url, 'SSL');
+    $data['sort_name'] = $this->url->link('localisation/project_status', 'token=' . $this->session->data['token'] . '&sort=name' . $url, 'SSL');
 
     $url = '';
 
@@ -237,14 +237,14 @@ class ControllerLocalisationDemographicStatus extends Controller {
     }
 
     $pagination = new Pagination();
-    $pagination->total = $demographic_status_total;
+    $pagination->total = $project_status_total;
     $pagination->page = $page;
     $pagination->limit = $this->config->get('config_limit_admin');
-    $pagination->url = $this->url->link('localisation/demographic_status', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+    $pagination->url = $this->url->link('localisation/project_status', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 
     $data['pagination'] = $pagination->render();
 
-    $data['results'] = sprintf($this->language->get('text_pagination'), ($demographic_status_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($demographic_status_total - $this->config->get('config_limit_admin'))) ? $demographic_status_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $demographic_status_total, ceil($demographic_status_total / $this->config->get('config_limit_admin')));
+    $data['results'] = sprintf($this->language->get('text_pagination'), ($project_status_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($project_status_total - $this->config->get('config_limit_admin'))) ? $project_status_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $project_status_total, ceil($project_status_total / $this->config->get('config_limit_admin')));
 
     $data['sort'] = $sort;
     $data['order'] = $order;
@@ -253,13 +253,13 @@ class ControllerLocalisationDemographicStatus extends Controller {
     $data['column_left'] = $this->load->controller('common/column_left');
     $data['footer'] = $this->load->controller('common/footer');
 
-    $this->response->setOutput($this->load->view('localisation/demographic/demographic_status_list.tpl', $data));
+    $this->response->setOutput($this->load->view('localisation/project/project_status_list.tpl', $data));
   }
 
   protected function getForm() {
     $data['heading_title'] = $this->language->get('heading_title');
 
-    $data['text_form'] = !isset($this->request->get['demographic_status_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+    $data['text_form'] = !isset($this->request->get['project_status_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 
     $data['entry_name'] = $this->language->get('entry_name');
     $data['entry_sort_order'] = $this->language->get('entry_sort_order');
@@ -302,44 +302,44 @@ class ControllerLocalisationDemographicStatus extends Controller {
 
     $data['breadcrumbs'][] = array(
       'text' => $this->language->get('heading_title'),
-      'href' => $this->url->link('localisation/demographic_status', 'token=' . $this->session->data['token'] . $url, 'SSL')
+      'href' => $this->url->link('localisation/project_status', 'token=' . $this->session->data['token'] . $url, 'SSL')
     );
 
-    if (!isset($this->request->get['demographic_status_id'])) {
-      $data['action'] = $this->url->link('localisation/demographic_status/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
+    if (!isset($this->request->get['project_status_id'])) {
+      $data['action'] = $this->url->link('localisation/project_status/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
     } else {
-      $data['action'] = $this->url->link('localisation/demographic_status/edit', 'token=' . $this->session->data['token'] . '&demographic_status_id=' . $this->request->get['demographic_status_id'] . $url, 'SSL');
+      $data['action'] = $this->url->link('localisation/project_status/edit', 'token=' . $this->session->data['token'] . '&project_status_id=' . $this->request->get['project_status_id'] . $url, 'SSL');
     }
 
-    $data['cancel'] = $this->url->link('localisation/demographic_status', 'token=' . $this->session->data['token'] . $url, 'SSL');
+    $data['cancel'] = $this->url->link('localisation/project_status', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
     $this->load->model('localisation/language');
 
     $data['languages'] = $this->model_localisation_language->getLanguages();
 
-    if (isset($this->request->post['demographic_status'])) {
-      $data['demographic_status'] = $this->request->post['demographic_status'];
-    } elseif (isset($this->request->get['demographic_status_id'])) {
-      $data['demographic_status'] = $this->model_localisation_demographic_status->getDemographicStatusDescriptions($this->request->get['demographic_status_id']);
+    if (isset($this->request->post['project_status'])) {
+      $data['project_status'] = $this->request->post['project_status'];
+    } elseif (isset($this->request->get['project_status_id'])) {
+      $data['project_status'] = $this->model_localisation_project_status->getProjectStatusDescriptions($this->request->get['project_status_id']);
     } else {
-      $data['demographic_status'] = array();
+      $data['project_status'] = array();
     }
 
     $data['header'] = $this->load->controller('common/header');
     $data['column_left'] = $this->load->controller('common/column_left');
     $data['footer'] = $this->load->controller('common/footer');
 
-    $this->response->setOutput($this->load->view('localisation/demographic/demographic_status_form.tpl', $data));
+    $this->response->setOutput($this->load->view('localisation/project/project_status_form.tpl', $data));
   }
 
   protected function validateForm() {
-    if (!$this->user->hasPermission('modify', 'localisation/demographic_status')) {
+    if (!$this->user->hasPermission('modify', 'localisation/project_status')) {
       $this->error['warning'] = $this->language->get('error_permission');
     }
 
-    foreach ($this->request->post['demographic_status'] as $langudemographic_id => $value) {
+    foreach ($this->request->post['project_status'] as $languproject_id => $value) {
       if ((utf8_strlen($value['name']) < 3) || (utf8_strlen($value['name']) > 32)) {
-        $this->error['name'][$langudemographic_id] = $this->language->get('error_name');
+        $this->error['name'][$languproject_id] = $this->language->get('error_name');
       }
     }
 
@@ -347,7 +347,7 @@ class ControllerLocalisationDemographicStatus extends Controller {
   }
 
   protected function validateDelete() {
-    if (!$this->user->hasPermission('modify', 'localisation/demographic_status')) {
+    if (!$this->user->hasPermission('modify', 'localisation/project_status')) {
       $this->error['warning'] = $this->language->get('error_permission');
     }
 

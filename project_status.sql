@@ -17,11 +17,11 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `oc_sex_status`
+-- Структура таблицы `oc_project_status`
 --
 
-CREATE TABLE `oc_sex_status` (
-  `sex_status_id` int(11) NOT NULL,
+CREATE TABLE `oc_project_status` (
+  `project_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
@@ -30,17 +30,17 @@ CREATE TABLE `oc_sex_status` (
 --
 
 --
--- Индексы таблицы `oc_sex_status`
+-- Индексы таблицы `oc_project_status`
 --
-ALTER TABLE `oc_sex_status`
-  ADD PRIMARY KEY (`sex_status_id`,`language_id`);
+ALTER TABLE `oc_project_status`
+  ADD PRIMARY KEY (`project_status_id`,`language_id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT для таблицы `oc_sex_status`
+-- AUTO_INCREMENT для таблицы `oc_project_status`
 --
-ALTER TABLE `oc_sex_status`
-  MODIFY `sex_status_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+ALTER TABLE `oc_project_status`
+  MODIFY `project_status_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;

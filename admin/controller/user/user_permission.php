@@ -370,6 +370,7 @@ class ControllerUserUserPermission extends Controller {
 		} else {
 			$data['access'] = array();
 		}
+		
 
 		if (isset($this->request->post['permission']['modify'])) {
 			$data['modify'] = $this->request->post['permission']['modify'];

@@ -8,14 +8,29 @@ $_['text_add']					= 'Создать';
 $_['text_edit']					= 'Обновить';
 $_['text_account']       		= 'Личный Кабинет';
 $_['text_edit']          		= 'Редактировать информацию';
-$_['text_create_success']       = 'Ваша группа была успешно созданна!';
-$_['text_edit_success']       	= 'Ваша группа была успешно обновлена!';
+$_['text_create_success']       = 'Проект был успешно создан!';
+$_['text_edit_success']       	= 'Проект был успешно обновлен!';
 
 // Entry
 $_['entry_title']    			= 'Название проекта';
 $_['entry_description']     	= 'Описание проекта';
+$_['entry_target']     			= 'Цель проекта';
+$_['entry_product']     		= 'Продукт проекта';
+$_['entry_result']     		    = 'Результат проекта';
+
+
+
+$_['help_product']				= '<span class="small">например, выставка, книга, фильм, серия лекций, визиты к пожилым, сценарий праздника и сам праздник (мероприятие), дискуссионный клуб, спектакль, концерт, тренинг  и т.д </span>';
 $_['entry_image']        	 	= 'Изображение для проекта';
 $_['entry_project_birthday']      = 'Дата создания проекта';
+$_['entry_project_budget']      = 'Бюджет проекта';
+$_['entry_sex_status']      	= 'Пол';
+$_['entry_project_status']     	= 'Статус проекта';
+$_['entry_age_status']     		= 'Возраст группы проекта';
+$_['entry_nationality_status']  = 'Религия / национальность';
+$_['entry_professional_status'] = 'Профессиональный статус';
+$_['entry_demographic_status']  = 'Демографический статус';
+
 
 $_['entry_email']        = 'E-Mail';
 $_['entry_telephone']    = 'Телефон';

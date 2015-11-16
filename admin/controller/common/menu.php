@@ -122,9 +122,15 @@ class ControllerCommonMenu extends Controller {
 		$data['age_status'] = $this->url->link('localisation/age_status', 'token=' . $this->session->data['token'], 'SSL');
 		
 		$data['text_sex_status']      = $this->language->get('text_sex_status');
+		$data['sex_status'] = $this->url->link('localisation/sex_status', 'token=' . $this->session->data['token'], 'SSL');
 		$data['text_nationality_status']      = $this->language->get('text_nationality_status');
+		$data['nationality_status'] = $this->url->link('localisation/nationality_status', 'token=' . $this->session->data['token'], 'SSL');
 		$data['text_professional_status']      = $this->language->get('text_professional_status');
+		$data['professional_status'] = $this->url->link('localisation/professional_status', 'token=' . $this->session->data['token'], 'SSL');
 		$data['text_demographic_status']      = $this->language->get('text_demographic_status');
+		$data['demographic_status'] = $this->url->link('localisation/demographic_status', 'token=' . $this->session->data['token'], 'SSL');
+		$data['text_project_status']      = $this->language->get('text_project_status');
+		$data['project_status'] = $this->url->link('localisation/project_status', 'token=' . $this->session->data['token'], 'SSL');
 
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
 		$data['affiliate'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'], 'SSL');

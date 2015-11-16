@@ -81,7 +81,7 @@ $_['text_upload']                      = 'Внешние загрузки';
 $_['text_user']                        = 'Администратор';
 $_['text_users']                       = 'Администраторы';
 $_['text_user_group']                  = 'Группа администраторов';
-$_['text_news']                  	     = 'Новости';
+$_['text_news']                  	   = 'Новости';
 $_['text_voucher']                     = 'Сертификаты';
 $_['text_voucher_theme']               = 'Тематика';
 $_['text_weight_class']                = 'Единицы веса';
@@ -116,6 +116,7 @@ $_['text_sex_status']                  = 'Пол';
 $_['text_nationality_status']          = 'Национальность';
 $_['text_professional_status']         = 'Проффесиональный статус';
 $_['text_demographic_status']          = 'Демографический статус';
+$_['text_project_status']          	   = 'Статус проектов';
 
 
 

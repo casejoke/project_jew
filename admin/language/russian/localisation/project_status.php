@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']    = 'Религия/национальность';
+$_['heading_title']    = 'Статус проекта';
 
 // Text
 $_['text_success']     = 'Изменения успешно изменены!';
