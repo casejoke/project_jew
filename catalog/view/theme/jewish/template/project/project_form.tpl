@@ -117,6 +117,26 @@
                   <input type="text" name="project_birthday" value="<?php echo $project_birthday; ?>"  id="input-project_birthday" class="form-control date-picker" />
                 </div><!--/.form-group-->
               </div>
+                
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="control-label" for="input-project_birthday"><?php echo $entry_init_group; ?></label>
+                  <select class="form-control" name="init_group_id">
+                    <option value="0"><?php echo $text_none; ?></option>
+                    <?php if (!empty($init_groups)) { ?>
+                      <?php foreach ($init_groups as $ig) { ?>
+                        <?php if ($ig['group_id'] == $init_group_id) { ?>
+                          <option value="<?php echo $ig['group_id']; ?>" selected="selected"><?php echo $ig['group_title']; ?></option>
+                        <?php } else { ?>
+                          <option value="<?php echo $ig['group_id']; ?>"><?php echo $ig['group_title']; ?></option>
+                        <?php } ?>
+                        
+                      <?php } ?>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
+
 
               <div class="col-sm-6">
                 <div class="form-group">

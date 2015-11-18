@@ -90,6 +90,7 @@ class ControllerProjectEdit extends Controller {
 		$data['entry_project_email'] 		= $this->language->get('entry_project_email'); 
 		$data['entry_sex_status'] 		= $this->language->get('entry_sex_status'); 
 		$data['entry_age_status'] 		= $this->language->get('entry_age_status'); 
+		$data['entry_init_group'] 		= $this->language->get('entry_init_group'); 
 		$data['entry_nationality_status'] 		= $this->language->get('entry_nationality_status'); 
 		$data['entry_professional_status'] 		= $this->language->get('entry_professional_status'); 
 		$data['entry_demographic_status'] 		= $this->language->get('entry_demographic_status'); 
@@ -177,11 +178,13 @@ class ControllerProjectEdit extends Controller {
 			);
 		}
 
-		print_r('<pre>');
-		print_r($data['init_groups']);
-		print_r('</pre>');
-		die();
-
+		if (isset($this->request->post['init_group_id'])) {
+			$data['init_group_id'] = $this->request->post['init_group_id'];
+		} elseif (!empty($project_info)) {
+			$data['init_group_id'] = $project_info['init_group_id'];
+		} else {
+			$data['init_group_id'] = 0;
+		}
 
 
 
