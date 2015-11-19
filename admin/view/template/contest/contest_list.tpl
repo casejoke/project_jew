@@ -12,8 +12,8 @@
                     <i class="md  md-note-add"></i>
                 </a>
             </li>
-            <li><button class="btn btn-info" onclick="$('#form-information').attr('action', '<?php echo $copy; ?>').submit()"> <?php echo $button_copy; ?></button></li>
-            <li><button class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-information').submit() : false;"> <?php echo $button_delete; ?></button></li>
+            <li><button class="btn btn-info" onclick="$('#form-contest').attr('action', '<?php echo $copy; ?>').submit()"> <?php echo $button_copy; ?></button></li>
+            <li><button class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-contest').submit() : false;"> <?php echo $button_delete; ?></button></li>
         </ul>
       </div>
       <div class="card-body card-padding table-responsive">
@@ -29,7 +29,7 @@
               <?php echo $success; ?>
           </div>
         <?php } ?>
-        <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-information">
+        <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-contest">
           <table class="table">
               <thead>
                   <tr>
@@ -50,10 +50,10 @@
                   <?php if ($contests) { ?>
                   <?php foreach ($contests as $contest) { ?>
                   <tr>
-                    <td class="text-center"><?php if (in_array($contest['id'], $selected)) { ?>
-                      <input type="checkbox" name="selected[]" value="<?php echo $contest['id']; ?>" checked="checked" />
+                    <td class="text-center"><?php if (in_array($contest['contest_id'], $selected)) { ?>
+                      <input type="checkbox" name="selected[]" value="<?php echo $contest['contest_id']; ?>" checked="checked" />
                       <?php } else { ?>
-                      <input type="checkbox" name="selected[]" value="<?php echo $contest['id']; ?>" />
+                      <input type="checkbox" name="selected[]" value="<?php echo $contest['contest_id']; ?>" />
                       <?php } ?></td>
                     <td class="text-left"><?php echo $contest['title']; ?></td>
                     <td class="text-center"><?php echo $contest['contest_date']; ?></td>

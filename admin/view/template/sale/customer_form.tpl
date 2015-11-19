@@ -4,7 +4,7 @@
   <div class="container">
     <div class="card">
       <div class="card-header">
-        <h2>Редактирование местоположения</h2>
+        <h2><?php echo $text_form; ?></h2>
         <ul class="actions">
             <li> <button type="submit" form="form-place"  class="btn btn-success"><?php echo $button_save; ?></button></li>
             <li>
@@ -18,7 +18,7 @@
 
          <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-pencil"></i> <?php echo $text_form; ?></h3>
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> </h3>
       </div>
       <div class="panel-body">
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-customer" class="form-horizontal">
@@ -98,7 +98,7 @@
                           <?php  } ?>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group hidden">
                         <label class="col-sm-2 control-label" for="input-fax"><?php echo $entry_fax; ?></label>
                         <div class="col-sm-10">
                           <input type="text" name="fax" value="<?php echo $fax; ?>" placeholder="<?php echo $entry_fax; ?>" id="input-fax" class="form-control" />
@@ -289,6 +289,22 @@
                           </select>
                         </div>
                       </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-customer_expert"><?php echo $entry_customer_expert; ?></label>
+                        <div class="col-sm-10">
+                          <select name="customer_expert" id="input-customer_expert" class="form-control">
+                            <?php if ($customer_expert) { ?>
+                            <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+                            <option value="0"><?php echo $text_disabled; ?></option>
+                            <?php } else { ?>
+                            <option value="1"><?php echo $text_enabled; ?></option>
+                            <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                            <?php } ?>
+                          </select>
+                        </div>
+                      </div>
+
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
                         <div class="col-sm-10">

@@ -14,11 +14,11 @@ class ModelContestContest extends Model {
 			date_result 	= '" . $this->db->escape($data['date_result']) . "',
 			date_finalist 	= '" . $this->db->escape($data['date_finalist']) . "'");
 
-		$id = $this->db->getLastId();
+		$contest_id = $this->db->getLastId();
 
 		foreach ($data['contest_description'] as $language_id => $value) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "contest_description SET 
-				id 			= '" . (int)$id . "', 
+				contest_id 			= '" . (int)$contest_id . "', 
 				language_id 		= '" . (int)$language_id . "', 
 				title 				= '" . $this->db->escape($value['title']) . "',
 				meta_title 			= '" . $this->db->escape($value['meta_title']) . "',
@@ -33,7 +33,20 @@ class ModelContestContest extends Model {
 				timeline_text 		= '" . $this->db->escape($value['timeline_text']) . "'");
 		}
 		
+		// связанные эксперты
+		if (!empty($data['contest_experts'])) {
+			foreach ($data['contest_experts'] as $contest_expert) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "contest_expert SET 
+					customer_id = '" . (int)$contest_expert['customer_id'] . "',
+					contest_id  = '" . (int)$contest_id . "'
+					
+				");
+			}
+		}/*
+
+
 		// связанные направления
+		
 		if (isset($data['contest_direction'])) {
 		
 			$lang_ids = array();
@@ -47,7 +60,7 @@ class ModelContestContest extends Model {
 						if (!isset($lang_ids[$k])){
 							
 							$this->db->query("INSERT INTO " . DB_PREFIX . "contest_direction SET 
-								parent_id = '" . (int)$id . "'
+								parent_id = '" . (int)$contest_id . "'
 							");
 			
 							$lang_ids[$k] = $this->db->getLastId();
@@ -79,21 +92,7 @@ class ModelContestContest extends Model {
 			}
 		}
 		
-		// связанные эксперты
-		if (isset($data['contest_expert']) && count($data['contest_expert'])) {
 		
-			$data['contest_expert'] = array_unique($data['contest_expert']);
-			
-			foreach ($data['contest_expert'] as $expert_id) {
-				
-				if ($expert_id > 0){
-					
-					$this->db->query("INSERT INTO " . DB_PREFIX . "contest_expert SET 
-						user_id = '" . (int)$expert_id . "', 
-						parent_id = '" . (int)$id . "'");
-				}	
-			}
-		}
 		
 		// связанные критерии
 		if (isset($data['contest_criteria'])) {
@@ -127,13 +126,13 @@ class ModelContestContest extends Model {
 				}
 			}
 		}
-
+		*/
 		$this->event->trigger('post.admin.contest.add', $id);
 
-		return $id;
+		return $contest_id;
 	}
 
-	public function editContest($id, $data) {
+	public function editContest($contest_id, $data) {
 		$this->event->trigger('pre.admin.contest.edit', $data);
 
 		$this->db->query("UPDATE " . DB_PREFIX . "contest SET 
@@ -146,13 +145,13 @@ class ModelContestContest extends Model {
 			date_rate 		= '" . $this->db->escape($data['date_rate']) . "',
 			date_result 	= '" . $this->db->escape($data['date_result']) . "',
 			date_finalist 	= '" . $this->db->escape($data['date_finalist']) . "'
-			WHERE id = '" . (int)$id . "'");
+			WHERE contest_id = '" . (int)$contest_id . "'");
 
-		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_description WHERE id = '" . (int)$id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_description WHERE contest_id = '" . (int)$contest_id . "'");
 
 		foreach ($data['contest_description'] as $language_id => $value) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "contest_description SET 
-				id 			= '" . (int)$id . "', 
+				contest_id 			= '" . (int)$contest_id . "', 
 				language_id 		= '" . (int)$language_id . "', 
 				title 				= '" . $this->db->escape($value['title']) . "',
 				meta_title 			= '" . $this->db->escape($value['meta_title']) . "',
@@ -166,14 +165,27 @@ class ModelContestContest extends Model {
 				contacts 			= '" . $this->db->escape($value['contacts']) . "',
 				timeline_text 		= '" . $this->db->escape($value['timeline_text']) . "'");
 		}
-		
+
+		// связанные эксперты
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_expert WHERE contest_id = '" . (int)$contest_id . "'");
+		if (isset($data['contest_experts'])) {
+			foreach ($data['contest_experts'] as $contest_expert) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "contest_expert SET 
+					customer_id = '" . (int)$contest_expert['customer_id'] . "',
+					contest_id  = '" . (int)$contest_id . "'
+					
+				");
+			}
+		}
+
+		/*
 		// связанные направления
 		
 		$this->db->query("DELETE cd.*, cdd.* 
 						  FROM " . DB_PREFIX . "contest_direction cd
 						  LEFT JOIN " . DB_PREFIX . "contest_direction_description cdd
 						  ON cd.id = cdd.id
-						  WHERE parent_id = '" . (int)$id . "'");
+						  WHERE parent_id = '" . (int)$contest_id . "'");
 		
 		if (isset($data['contest_direction'])) {
 		
@@ -188,7 +200,7 @@ class ModelContestContest extends Model {
 						if (!isset($lang_ids[$k])){
 							
 							$this->db->query("INSERT INTO " . DB_PREFIX . "contest_direction SET 
-								parent_id = '" . (int)$id . "'
+								parent_id = '" . (int)$contest_id . "'
 							");
 			
 							$lang_ids[$k] = $this->db->getLastId();
@@ -206,7 +218,7 @@ class ModelContestContest extends Model {
 		
 		// связанные файлы
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_file
-						  WHERE parent_id = '" . (int)$id . "'");
+						  WHERE parent_id = '" . (int)$contest_id . "'");
 						  
 		if (isset($data['contest_file']) && count($data['contest_file'])) {
 			
@@ -216,27 +228,14 @@ class ModelContestContest extends Model {
 					
 					$this->db->query("INSERT INTO " . DB_PREFIX . "contest_file SET 
 						file_id = '" . (int)$download_id . "', 
-						parent_id = '" . (int)$id . "'");
+						parent_id = '" . (int)$contest_id . "'");
 				}					
 			}
 		}
 
-		// связанные эксперты
-		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_expert
-						  WHERE parent_id = '" . (int)$id . "'");
-						  
-		if (isset($data['contest_expert']) && count($data['contest_expert'])) {
-			
-			foreach ($data['contest_expert'] as $expert_id) {
-				
-				if ($expert_id > 0){
-					
-					$this->db->query("INSERT INTO " . DB_PREFIX . "contest_expert SET 
-						user_id = '" . (int)$expert_id . "', 
-						parent_id = '" . (int)$id . "'");
-				}	
-			}
-		}
+		
+
+
 		
 		// связанные критерии
 						  
@@ -244,7 +243,7 @@ class ModelContestContest extends Model {
 						  FROM " . DB_PREFIX . "contest_criteria cc
 						  LEFT JOIN " . DB_PREFIX . "contest_criteria_description ccd
 						  ON cc.id = ccd.id
-						  WHERE parent_id = '" . (int)$id . "'
+						  WHERE parent_id = '" . (int)$contest_id . "'
 						  ORDER BY cc.id ASC");
 						  
 		if (isset($data['contest_criteria'])) {
@@ -262,7 +261,7 @@ class ModelContestContest extends Model {
 						if (!isset($lang_ids[$k])){
 							
 							$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria SET 
-								parent_id = '" . (int)$id . "',
+								parent_id = '" . (int)$contest_id . "',
 								weight = '" . (int)$weight[$k] . "'
 							");
 			
@@ -278,16 +277,17 @@ class ModelContestContest extends Model {
 				}
 			}
 		}
-
-		$this->event->trigger('post.admin.contest.edit', $id);
+*/
+		$this->event->trigger('post.admin.contest.edit', $contest_id);
 	}
 
-	public function deleteContest($id) {
-		$this->event->trigger('pre.admin.contest.delete', $id);
+	public function deleteContest($contest_id) {
+		$this->event->trigger('pre.admin.contest.delete', $contest_id);
 
-		$this->db->query("DELETE FROM " . DB_PREFIX . "contest WHERE id = '" . (int)$id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_description WHERE id = '" . (int)$id . "'");
-		$this->event->trigger('post.admin.contest.delete', $id);
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest WHERE contest_id = '" . (int)$contest_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_description WHERE contest_id = '" . (int)$contest_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_expert WHERE contest_id = '" . (int)$contest_id . "'");
+		$this->event->trigger('post.admin.contest.delete', $contest_id);
 	}
 	public function copyContest($id){
 		$this->event->trigger('pre.admin.contest.copy', $id);
@@ -306,7 +306,7 @@ class ModelContestContest extends Model {
 	}
 
 	public function getContests($data = array()) {
-		$sql = "SELECT * FROM " . DB_PREFIX . "contest d LEFT JOIN " . DB_PREFIX . "contest_description dd ON (d.id = dd.id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT * FROM " . DB_PREFIX . "contest d LEFT JOIN " . DB_PREFIX . "contest_description dd ON (d.contest_id = dd.contest_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND dd.title LIKE '" . $this->db->escape($data['filter_title']) . "%'";
@@ -401,22 +401,35 @@ class ModelContestContest extends Model {
 
 		return $files;
 	}
-	
+
+
+
 	// получение связанных с конкурсом экспертов
-	public function getContestExpert($id){
+	public function getContestExpert($contest_id) {
 		
-		$files = array();
-		
-		$query = $this->db->query("SELECT * 
-								   FROM " . DB_PREFIX . "contest_expert");
-		
-		foreach ($query->rows as $result) {
-		
-			$files[] = $result['user_id'];
+		$contest_expert = array();
+		$contest_expert_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_expert WHERE contest_id = '" . (int)$contest_id . "'");
+		if (!empty($occasion_contest_expert_query->rows)) {
+			$sql = "SELECT * , CONCAT(lastname, ' ', firstname) AS name FROM " . DB_PREFIX . "customer";
+			$implode = array();
+			
+			foreach ($contest_expert_query->rows as $customer_id) {
+				$implode[] = (int)$customer_id['customer_id'];
+			}
+
+			$sql .= " WHERE customer_id IN (" . implode(',', $implode) . ")";
+			$query = $this->db->query($sql);
+			$contest_expert = $query->rows;;
 		}
 
-		return $files;
+		
+		return $contest_expert;
 	}
+
+
+	
+	
+	
 	
 	// получение связанных с конкурсом критериев
 	public function getContestCriteria($id) {

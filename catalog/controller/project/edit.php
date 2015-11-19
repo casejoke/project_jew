@@ -179,11 +179,11 @@ class ControllerProjectEdit extends Controller {
 		}
 
 		if (isset($this->request->post['init_group_id'])) {
-			$data['init_group_id'] = $this->request->post['init_group_id'];
+			$data['project_init_group_id'] = $this->request->post['project_init_group_id'];
 		} elseif (!empty($project_info)) {
-			$data['init_group_id'] = $project_info['init_group_id'];
+			$data['project_init_group_id'] = $project_info['project_init_group_id'];
 		} else {
-			$data['init_group_id'] = 0;
+			$data['project_init_group_id'] = 0;
 		}
 
 

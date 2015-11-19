@@ -53,7 +53,7 @@ class ControllerContestContest extends Controller {
 		$this->load->model('contest/contest');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_contest_contest->editContest($this->request->get['id'], $this->request->post);
+			$this->model_contest_contest->editContest($this->request->get['contest_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -85,8 +85,8 @@ class ControllerContestContest extends Controller {
 		$this->load->model('contest/contest');
 
 		if (isset($this->request->post['selected']) && $this->validateDelete()) {
-			foreach ($this->request->post['selected'] as $id) {
-				$this->model_contest_contest->deleteContest($id);
+			foreach ($this->request->post['selected'] as $contest_id) {
+				$this->model_contest_contest->deleteContest($contest_id);
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -119,8 +119,8 @@ class ControllerContestContest extends Controller {
 		$this->load->model('contest/contest');
 
 		if (isset($this->request->post['selected']) && $this->validateCopy()) {
-			foreach ($this->request->post['selected'] as $id) {
-				$this->model_contest_contest->copyContest($id);
+			foreach ($this->request->post['selected'] as $contest_id) {
+				$this->model_contest_contest->copyContest($contest_id);
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -192,16 +192,16 @@ class ControllerContestContest extends Controller {
 
 		$contest_total = $this->model_contest_contest->getTotalContests();
 
-		$results = $this->model_contest_contest->getContests($filter_data);
+		$contests_results = $this->model_contest_contest->getContests($filter_data);
 		
-		if (count($results)){
+		if (!empty($contests_results)){
 			
-			foreach ($results as $result) {
+			foreach ($contests_results as $result) {
 				$data['contests'][] = array(
-					'id' => $result['id'],
-					'title'       => $result['title'],
-					'contest_date'		=> rus_date($this->language->get('default_date_format'), strtotime($result['date_start'])),
-					'edit'        => $this->url->link('contest/contest/edit', 'token=' . $this->session->data['token'] . '&id=' . $result['id'] . $url, 'SSL')
+					'contest_id' 	=> $result['contest_id'],
+					'title'       	=> $result['title'],
+					'contest_date'	=> rus_date($this->language->get('default_date_format'), strtotime($result['date_start'])),
+					'edit'        	=> $this->url->link('contest/contest/edit', 'token=' . $this->session->data['token'] . '&contest_id=' . $result['contest_id'] . $url, 'SSL')
 				);
 			}
 		}
@@ -285,11 +285,13 @@ class ControllerContestContest extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('contest/contest/contest_list.tpl', $data));
+		$this->response->setOutput($this->load->view('contest/contest_list.tpl', $data));
 	}
+
+
+	protected function getForm() {
 	
-	protected function assign_labels(){
-		
+		// инициализация подписей к полям
 		$data['heading_title'] = $this->language->get('heading_title');
 		$data['form_header'] = $this->language->get('form_header');
 
@@ -320,6 +322,7 @@ class ControllerContestContest extends Controller {
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
+		$data['button_remove'] = $this->language->get('button_remove');
 		$data['button_direction_add'] = $this->language->get('button_direction_add');
 		$data['button_direction_remove'] = $this->language->get('button_direction_remove');
 		$data['button_file_add'] = $this->language->get('button_file_add');
@@ -329,21 +332,15 @@ class ControllerContestContest extends Controller {
 		$data['button_criteria_remove'] = $this->language->get('button_criteria_remove');
 		$data['button_criteria_add'] = $this->language->get('button_criteria_add');
 
-		$data['tab_general'] = $this->language->get('tab_general');
-		$data['tab_timeline'] = $this->language->get('tab_timeline');
-		$data['tab_files'] = $this->language->get('tab_files');
-		$data['tab_expert'] = $this->language->get('tab_expert');
-		$data['tab_criteria'] = $this->language->get('tab_criteria');
-		$data['tab_direction'] = $this->language->get('tab_direction');
-		$data['tab_seo'] = $this->language->get('tab_seo');
-		
-		return $data;
-	}
-
-	protected function getForm() {
-	
-		// инициализация подписей к полям
-		$data = $this->assign_labels();
+		$data['tab_general'] 	= $this->language->get('tab_general');
+		$data['tab_timeline'] 	= $this->language->get('tab_timeline');
+		$data['tab_files'] 		= $this->language->get('tab_files');
+		$data['tab_expert'] 	= $this->language->get('tab_expert');
+		$data['tab_criteria'] 	= $this->language->get('tab_criteria');
+		$data['tab_direction'] 	= $this->language->get('tab_direction');
+		$data['tab_seo'] 		= $this->language->get('tab_seo');
+		$data['button_add'] 	= $this->language->get('button_add');
+		$data['text_none']  	= $this->language->get('text_none');	
 		
 		// инициализация ошибок
 		foreach($this->error as $field => $error){
@@ -351,12 +348,24 @@ class ControllerContestContest extends Controller {
 			$data["error_$field"] = $error;
 		}
 
+		if (isset($this->error['warning'])) {
+			$data['error_warning'] = $this->error['warning'];
+		} else {
+			$data['error_warning'] = '';
+		}
+
+		if (isset($this->error['contest_experts'])) {
+			$data['error_contest_experts'] = $this->error['contest_experts'];
+		} else {
+			$data['error_contest_experts'] = array();
+		}
+
 		$url = '';
 
-		if (!isset($this->request->get['id'])) {
+		if (!isset($this->request->get['contest_id'])) {
 			$data['action'] = $this->url->link('contest/contest/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		} else {
-			$data['action'] = $this->url->link('contest/contest/edit', 'token=' . $this->session->data['token'] . '&id=' . $this->request->get['id'] . $url, 'SSL');
+			$data['action'] = $this->url->link('contest/contest/edit', 'token=' . $this->session->data['token'] . '&contest_id=' . $this->request->get['contest_id'] . $url, 'SSL');
 		}
 
 		$data['cancel'] = $this->url->link('contest/contest', 'token=' . $this->session->data['token'] . $url, 'SSL');
@@ -367,10 +376,10 @@ class ControllerContestContest extends Controller {
 
 		$data['token'] = $this->session->data['token'];
 
-		if (isset($this->request->get['id'])) {
-			$data['id'] = $this->request->get['id'];
+		if (isset($this->request->get['contest_id'])) {
+			$data['contest_id'] = $this->request->get['contest_id'];
 		} else {
-			$data['id'] = 0;
+			$data['contest_id'] = 0;
 		}
 		
 		// передача данных в форму
@@ -409,15 +418,54 @@ class ControllerContestContest extends Controller {
 		$this->load->model('catalog/download');
 		$data['files'] = $this->model_catalog_download->getDownloads();
 		
-		// получение списка экспертов
+		
 		$this->load->model('user/user');
 		$data['experts'] = $this->model_user_user->getUsers(array('user_group_id'=>11));
+
+//**************************************************************************************************************///
+		
+		//********** эксперты ************//
+		//получим пользователей экспертов
+		$this->load->model('sale/customer');
+		$data['customers'] = array();
+
+		$filter_data = array(
+
+		);
+		$results_customers = $this->model_sale_customer->getCustomers($filter_data);
+
+		foreach ($results_customers as $rc) {
+			$data['customers'][] = array(
+				'customer_id'    => $rc['customer_id'],
+				'name'           => $rc['name']
+			);
+		}
+
+		// получение списка экспертов
+		if (isset($this->request->post['contest_experts'])) {
+			$contest_experts = $this->request->post['contest_experts'];
+		} elseif (isset($this->request->get['contest_id'])) {
+			$contest_experts = $this->model_contest_contest->getContestExpert($this->request->get['contest_id']);
+		} else {
+			$contest_experts = array();
+		}
+		$data['contest_experts'] = array();
+		foreach ($contest_experts as $contest_expert) {
+			$data['contest_experts'][] = array(
+				'customer_id'    => $contest_expert['customer_id']
+			);
+		}
+		//********** Поля для заявки ************//
+
+
+
+
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('contest/contest/contest_form.tpl', $data));
+		$this->response->setOutput($this->load->view('contest/contest_form.tpl', $data));
 	}
 
 	protected function validateForm() {
@@ -425,6 +473,8 @@ class ControllerContestContest extends Controller {
 		if (!$this->user->hasPermission('modify', 'contest/contest')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
+		
+
 		
 		foreach ($this->request->post['contest_description'] as $language_id => $value) {
 		
@@ -440,10 +490,17 @@ class ControllerContestContest extends Controller {
 		}
 		
 		if (empty($this->request->post['maxprice'])){
-				
 			$this->error['maxprice'] = $this->language->get('error_empty');
 		}
-		
+
+		if (isset($this->request->post['contest_experts'])) {
+			foreach ($this->request->post['contest_experts'] as $stats_id => $ce) {
+				if (!$ce['customer_id']) {  
+					$this->error['contest_experts'][$stats_id]= $this->language->get('error_expert_customer_id');
+				}
+			}	
+		}
+
 		return !$this->error;
 	}
 	protected function validateCopy(){

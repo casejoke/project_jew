@@ -22,6 +22,7 @@ $_['column_comment']        = 'Комментарий';
 $_['column_description']    = 'Описание';
 $_['column_amount']         = 'Amount';
 $_['column_points']         = 'Points';
+$_['column_customer_expert']= 'Эксперт';
 $_['column_ip']             = 'IP';
 $_['column_total']          = 'Total Accounts';
 $_['column_action']         = 'Действия';
@@ -54,6 +55,8 @@ $_['entry_points']          = 'Points';
 $_['entry_name']            = 'Customer Name';
 $_['entry_ip']              = 'IP';
 $_['entry_date_added']      = 'Date Added';
+$_['text_is_expert']        = 'Экперт';
+$_['text_is_not_expert']        = '-';
 
 // Help
 $_['help_safe']             = 'Set to true to avoid this customer from being caught by the anti-fraud system';

@@ -18,18 +18,21 @@
       
          <div role="tabpanel">
           <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-information" >
+            
             <ul class="tab-nav" role="tablist">
-                <li class="active"><a href="#tab-general" aria-controls="tab-general" role="tab" data-toggle="tab"><?php echo $tab_general; ?></a></li>
+                <li ><a href="#tab-general" aria-controls="tab-general" role="tab" data-toggle="tab"><?php echo $tab_general; ?></a></li>
+
                 <li><a href="#tab-direction" aria-controls="tab-direction" role="tab" data-toggle="tab"><?php echo $tab_direction; ?></a></li>
                 <li><a href="#tab-timeline" aria-controls="tab-timeline" role="tab" data-toggle="tab"><?php echo $tab_timeline; ?></a></li>
                 <li><a href="#tab-files" aria-controls="tab-files" role="tab" data-toggle="tab"><?php echo $tab_files; ?></a></li>
-                <li><a href="#tab-expert" aria-controls="tab-expert" role="tab" data-toggle="tab"><?php echo $tab_expert; ?></a></li>
-                <li><a href="#tab-criteria" aria-controls="tab-criteria" role="tab" data-toggle="tab"><?php echo $tab_criteria; ?></a></li>
+                <li class="active"><a href="#tab-expert" aria-controls="tab-expert" role="tab" data-toggle="tab"><?php echo $tab_expert; ?></a></li>
                 <li><a href="#tab-seo" aria-controls="tab-seo" role="tab" data-toggle="tab"><?php echo $tab_seo; ?></a></li>
+                <li><a href="#tab-criteria" aria-controls="tab-criteria" role="tab" data-toggle="tab"><?php echo $tab_criteria; ?></a></li>
+                
             </ul>
           
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="tab-general">
+                <div role="tabpanel" class="tab-pane " id="tab-general">
                   <div role="tabpanel"> 
                   	<ul class="tab-nav language-tab" role="tablist" id="language" data-tab-color="amber">
                         <?php foreach ($languages as $language) { ?>
@@ -197,58 +200,8 @@
                     </div><!-- /.tab-content -->
                   </div><!-- /.tabpanel -->
                 </div><!-- /#tab-general -->
-                
-                <div role="tabpanel" class="tab-pane" id="tab-seo">
-                
-                	<ul class="tab-nav language-tab" role="tablist" id="language" data-tab-color="amber">
-                        <?php foreach ($languages as $language) { ?>
-                          <li>
-                            <a href="#meta-language<?php echo $language['language_id']; ?>" data-toggle="tab">
-                              <?php echo $language['name']; ?>
-                            </a>
-                          </li>
-                        <?php } ?>
-                    </ul>
-                    <div class="tab-content">
-                      <?php foreach ($languages as $language) { ?>
-                        <div class="tab-pane" id="meta-language<?php echo $language['language_id']; ?>">
 
-                          <div class="card-body card-padding">
-                          
-                          		 <!-- meta_title -->
-			                      <div class="form-group">
-			                        <div class="fg-line">
-			                            <label class="control-label" for="input-meta-title<?php echo $language['language_id']; ?>"><?php echo $entry_meta_title; ?></label>
-			                            <input type="text" name="contest_description[<?php echo $language['language_id']; ?>][meta_title]" value="<?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['meta_title'] : ''; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
-			                        </div>
-			                      </div>
-			
-			                      <!-- meta_description -->
-			                      <div class="form-group">
-			                        <div class="fg-line">
-			                            <label class="control-label m-b-10" for="input-meta-description<?php echo $language['language_id']; ?>"><?php echo $entry_meta_description; ?></label>
-			                            <textarea name="contest_description[<?php echo $language['language_id']; ?>][meta_description]" class="form-control auto-size" rows="4" id="input-meta-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['meta_description'] : ''; ?></textarea>
-			                        </div>
-			                      </div>
-			                      
-			                      <!-- meta_keywords -->
-			                      <div class="form-group">
-			                        <div class="fg-line">
-			                            <label class="control-label m-b-10" for="input-meta-keyword<?php echo $language['language_id']; ?>"><?php echo $entry_meta_keyword; ?></label>
-			                            <textarea name="contest_description[<?php echo $language['language_id']; ?>][meta_keyword]" class="form-control auto-size" rows="4" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
-			                        </div>
-			                      </div>
-                          
-                          </div>
-                         </div>
-                      <?php } ?>
-                    </div>
-                  
-                    	
-                    	 
-                </div>
-                
-                <div role="tabpanel" class="tab-pane" id="tab-direction">
+             	<div role="tabpanel" class="tab-pane" id="tab-direction">
                   <div class="card-body card-padding">
                     	
                     	<!-- Направления конкурса  -->
@@ -290,9 +243,9 @@
                           </div>
 						
                   </div>
-                </div>
-
-                <div role="tabpanel" class="tab-pane" id="tab-timeline">
+                </div><!-- /#tab-direction -->
+                
+             	<div role="tabpanel" class="tab-pane" id="tab-timeline">
                   <div class="card-body card-padding">
                     	
                     	<!-- Начало приема заявок  -->
@@ -336,7 +289,7 @@
 						</div>
 						
                   </div>
-                </div>
+                </div><!-- /#tab-timeline -->
                 
                 <div role="tabpanel" class="tab-pane" id="tab-files">
                   <div class="card-body card-padding">
@@ -385,59 +338,113 @@
                     	</table>
                     	
                   </div>
-                </div>
-                
-                <div role="tabpanel" class="tab-pane" id="tab-expert">
+                </div><!-- /#tab-files -->
+
+			 	<div role="tabpanel " class="tab-pane active" id="tab-expert">
                   <div class="card-body card-padding">
-                    	
-                    	<!-- список экспертов -->
-                    	<table id="videos" class="table table-striped">
-                    		<thead>
-	                    		<th>Эксперт</th>
-	                    		<th></th>
-                    		</thead>
-                    		<tbody>                    			
-		                    	<?php foreach($contest_expert as $expert_id){ ?>
-									 <tr class="expert-row">
-										<td>
-											<select name="contest_expert[]" id="input-expert" class="form-control input-expert">
-			                                	    <option value="">Выберите эксперта</option>		                    			
-			                                	<?php foreach($experts as $expert){ ?>
-			                                		<option <?php echo ($expert['user_id'] == $expert_id) ? "selected" : "";?> value="<? echo $expert['user_id']; ?>"><?php echo "{$expert['firstname']} {$expert['lastname']}"; ?></option>
-			                                	<?php } ?>	                                 
-			                                </select>
-										</td>
-										<td class="text-right">
-			                    			<button onclick="deleteRow(this, 'expert');" type="button" data-toggle="tooltip" title="<?php echo $button_expert_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
-		                    			</td>
-									</tr>                    		
-		                    	<?php } ?>
-                    			<tr class="expert-row" style="display: none;">
-	                    			<td>
-		                    			<select name="contest_expert[]" id="input-expert" class="form-control input-expert">
-		                                	    <option value="">Выберите эксперта</option>		                    			
-		                                	<?php foreach($experts as $expert){ ?>
-		                                		<option value="<? echo $expert['user_id']; ?>"><?php echo "{$expert['firstname']} {$expert['lastname']}"; ?></option>
-		                                	<?php } ?>	                                 
-		                                </select>
-	                    			</td>
-	                    			<td class="text-right">
-		                    			<button onclick="deleteRow(this, 'expert');" type="button" data-toggle="tooltip" title="<?php echo $button_expert_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
-	                    			</td>
-                    			</tr>
-		                    	<tr>
-			                    	<td colspan="2" class="text-right">
-			                    		<button type="button" onclick="addRow('expert');" data-toggle="tooltip" title="<?php echo $button_expert_add; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>
-			                    	</td>
-		                    	</tr>
-                    		</tbody>
-                    	</table>
-                    	
-                  </div>
-                </div>
+                    <div class="row">
+                    	<div class="col-sm-12">
+                    		<!-- список экспертов -->
+	                    	<table id="experts" class="table table-striped">
+
+	                    		<tbody>                    			
+		                    		<?php $expert_row = 0; ?>
+			                        <?php foreach ($contest_experts as $contest_expert) { ?>
+				                        <tr id="expert-row<?php echo $expert_row; ?>">
+											<td>
+												<div class="form-group <?php if(!empty($error_contest_experts[$expert_row])) { ?>has-error <?php } ?>">
+					                              <div class="fg-line">
+					                                <div class="select">
+					                                  <select name="contest_experts[<?php echo $expert_row; ?>][customer_id]" id="input-expert_id" class="form-control">
+					                                    <option value="0"><?php echo $text_none; ?></option>
+					                                    <?php if (!empty($customers)) { ?>
+					                                      <?php foreach ($customers as $customer) { ?>
+					                                      <?php if ($customer['customer_id'] == $contest_expert['customer_id']) { ?>
+					                                        <option value="<?php echo $customer['customer_id']; ?>" selected="selected"><?php echo $customer['name']; ?></option>
+					                                      <?php } else { ?>
+					                                        <option value="<?php echo $customer['customer_id']; ?>"><?php echo $customer['name']; ?></option>
+					                                      <?php } ?>
+					                                      <?php } ?>
+					                                    <?php } ?>
+					                                  </select>
+					                                </div>
+					                              </div>
+					                            </div>
+												<?php if(!empty($error_contest_experts[$expert_row])) { ?>
+					                                <?php echo $error_contest_experts[$expert_row]; ?>
+					                              <?php } ?>
+											</td>
+											<td>
+											 	<button type="button" onclick="$('#expert-row<?php echo $expert_row; ?>, .tooltip').remove();" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger">
+					                              <i class="fa fa-minus-circle"></i>
+					                            </button>
+											</td>
+				                        </tr>
+									<?php $expert_row++; ?>
+									<?php } ?>
+		                    	</tbody>
+		                    	 <tfoot>
+		                            <tr>
+		                              <td colspan="2" class="text-center">
+		                              	<div class="col-sm-offset-4 col-sm-4">
+		                              		<button type="button" onclick="addExpert();" class="btn btn-primary btn-block"><i class="fa fa-plus-circle"> </i>  <?php echo $button_add; ?></button>
+										</div>
+		                              	</td>
+		                            </tr>
+		                          </tfoot>
+	                    	</table>
+                    	</div>
+                    </div>
+				</div>
+                </div><!-- /#tab-expert -->
+
+				<div role="tabpanel" class="tab-pane" id="tab-seo">
+                	<ul class="tab-nav language-tab" role="tablist" id="language" data-tab-color="amber">
+                        <?php foreach ($languages as $language) { ?>
+                          <li>
+                            <a href="#meta-language<?php echo $language['language_id']; ?>" data-toggle="tab">
+                              <?php echo $language['name']; ?>
+                            </a>
+                          </li>
+                        <?php } ?>
+                    </ul>
+                    <div class="tab-content">
+                      <?php foreach ($languages as $language) { ?>
+                        <div class="tab-pane" id="meta-language<?php echo $language['language_id']; ?>">
+
+                          <div class="card-body card-padding">
+                          
+                          		 <!-- meta_title -->
+			                      <div class="form-group">
+			                        <div class="fg-line">
+			                            <label class="control-label" for="input-meta-title<?php echo $language['language_id']; ?>"><?php echo $entry_meta_title; ?></label>
+			                            <input type="text" name="contest_description[<?php echo $language['language_id']; ?>][meta_title]" value="<?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['meta_title'] : ''; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
+			                        </div>
+			                      </div>
+			
+			                      <!-- meta_description -->
+			                      <div class="form-group">
+			                        <div class="fg-line">
+			                            <label class="control-label m-b-10" for="input-meta-description<?php echo $language['language_id']; ?>"><?php echo $entry_meta_description; ?></label>
+			                            <textarea name="contest_description[<?php echo $language['language_id']; ?>][meta_description]" class="form-control auto-size" rows="4" id="input-meta-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['meta_description'] : ''; ?></textarea>
+			                        </div>
+			                      </div>
+			                      
+			                      <!-- meta_keywords -->
+			                      <div class="form-group">
+			                        <div class="fg-line">
+			                            <label class="control-label m-b-10" for="input-meta-keyword<?php echo $language['language_id']; ?>"><?php echo $entry_meta_keyword; ?></label>
+			                            <textarea name="contest_description[<?php echo $language['language_id']; ?>][meta_keyword]" class="form-control auto-size" rows="4" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
+			                        </div>
+			                      </div>
+                          
+                          </div>
+                         </div>
+                      <?php } ?>
+                    </div>
+                </div><!-- /#tab-seo -->
                 
-                
-                <div role="tabpanel" class="tab-pane" id="tab-criteria">
+               	<div role="tabpanel" class="tab-pane" id="tab-criteria">
                   <div class="card-body card-padding">
                     	
                     	<!-- список критериев -->
@@ -516,9 +523,37 @@
 	  $('a:first', $(this)).tab('show');
   }) 
 //--></script>
+<script type="text/javascript"><!--
+var expert_row = <?php echo $expert_row; ?>;
+
+function addExpert() {
+  html  = '<tr id="expert-row' + expert_row + '">';
+  
+
+  html += '<td>';
+  html += '<div class="form-group"><div class="fg-line"><div class="select">';
+  html += '<select name="contest_experts[' + expert_row + '][customer_id]" id="input-customer_id" class="form-control">'
+  html += '<option value="0"><?php echo $text_none; ?></option>'
+  <?php if (!empty($customers)) { ?>
+    <?php foreach ($customers as $customer) { ?>
+    html += '<option value="<?php echo $customer['customer_id']; ?>"><?php echo $customer['name']; ?></option>';
+    <?php } ?>
+  <?php } ?>
+  html += '</select></div></div></div></td>';
+
+ 
+  html += '<td class="text-left"><button type="button" onclick="$(\'#expert-row' + expert_row  + '\').remove();" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+  html += '</tr>';
+  
+  $('#experts tbody').append(html);
+  
+  expert_row++;
+}
+//--></script>
+
 
 <script type="text/javascript"><!--
-	
+	/*
 	function deleteRow(sender, type){
 	
 		if ($('.' + type + '-row').length > 1){
@@ -538,6 +573,6 @@
  		.insertBefore($('.' + type + '-row').last())
  		.show()
  		.find('.input-' + type + '').val('');
-	}
+	}*/
 //--></script>
 <?php echo $footer; ?>
