@@ -25,6 +25,7 @@ $_['entry_image']        	 	= 'Изображение для проекта';
 $_['entry_project_birthday']      = 'Дата создания проекта';
 $_['entry_project_budget']      = 'Бюджет проекта';
 $_['entry_init_group']     		= 'Инициативная группа (если нужно)';
+
 $_['entry_sex_status']      	= 'Пол';
 $_['entry_project_status']     	= 'Статус проекта';
 $_['entry_age_status']     		= 'Возраст группы проекта';
