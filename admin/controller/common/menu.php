@@ -131,6 +131,10 @@ class ControllerCommonMenu extends Controller {
 		$data['demographic_status'] = $this->url->link('localisation/demographic_status', 'token=' . $this->session->data['token'], 'SSL');
 		$data['text_project_status']      = $this->language->get('text_project_status');
 		$data['project_status'] = $this->url->link('localisation/project_status', 'token=' . $this->session->data['token'], 'SSL');
+		
+		$data['text_category_request']      = $this->language->get('text_category_request');
+		$data['category_request'] = $this->url->link('localisation/category_request', 'token=' . $this->session->data['token'], 'SSL');
+
 
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
 		$data['affiliate'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'], 'SSL');
@@ -234,6 +238,8 @@ class ControllerCommonMenu extends Controller {
 		$data['occasion_record'] = $this->url->link('catalog/occasion_record', 'token=' . $this->session->data['token'], 'SSL');
 		$data['place'] = $this->url->link('catalog/place', 'token=' . $this->session->data['token'], 'SSL');
 		$data['customer_stats'] = $this->url->link('catalog/stats', 'token=' . $this->session->data['token'], 'SSL');
+
+
 
 		return $this->load->view('common/menu.tpl', $data);
 	}

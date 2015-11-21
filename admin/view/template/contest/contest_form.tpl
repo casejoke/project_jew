@@ -21,11 +21,13 @@
             
             <ul class="tab-nav" role="tablist">
                 <li ><a href="#tab-general" aria-controls="tab-general" role="tab" data-toggle="tab"><?php echo $tab_general; ?></a></li>
-
+				<li><a href="#tab-expert" aria-controls="tab-expert" role="tab" data-toggle="tab"><?php echo $tab_expert; ?></a></li>
+				<li class="active"><a href="#tab-request" aria-controls="tab-request" role="tab" data-toggle="tab"><?php echo $tab_request; ?></a></li>
+				
                 <li><a href="#tab-direction" aria-controls="tab-direction" role="tab" data-toggle="tab"><?php echo $tab_direction; ?></a></li>
                 <li><a href="#tab-timeline" aria-controls="tab-timeline" role="tab" data-toggle="tab"><?php echo $tab_timeline; ?></a></li>
                 <li><a href="#tab-files" aria-controls="tab-files" role="tab" data-toggle="tab"><?php echo $tab_files; ?></a></li>
-                <li class="active"><a href="#tab-expert" aria-controls="tab-expert" role="tab" data-toggle="tab"><?php echo $tab_expert; ?></a></li>
+                
                 <li><a href="#tab-seo" aria-controls="tab-seo" role="tab" data-toggle="tab"><?php echo $tab_seo; ?></a></li>
                 <li><a href="#tab-criteria" aria-controls="tab-criteria" role="tab" data-toggle="tab"><?php echo $tab_criteria; ?></a></li>
                 
@@ -200,6 +202,90 @@
                     </div><!-- /.tab-content -->
                   </div><!-- /.tabpanel -->
                 </div><!-- /#tab-general -->
+				
+				<div role="tabpanel " class="tab-pane" id="tab-expert">
+                  	<div class="card-body card-padding">
+                    <div class="row">
+                    	<div class="col-sm-12">
+                    		<!-- список экспертов -->
+	                    	<table id="experts" class="table table-striped">
+
+	                    		<tbody>                    			
+		                    		<?php $expert_row = 0; ?>
+			                        <?php foreach ($contest_experts as $contest_expert) { ?>
+				                        <tr id="expert-row<?php echo $expert_row; ?>">
+											<td>
+												<div class="form-group <?php if(!empty($error_contest_experts[$expert_row])) { ?>has-error <?php } ?>">
+					                              <div class="fg-line">
+					                                <div class="select">
+					                                  <select name="contest_experts[<?php echo $expert_row; ?>][customer_id]" id="input-expert_id" class="form-control">
+					                                    <option value="0"><?php echo $text_none; ?></option>
+					                                    <?php if (!empty($customers)) { ?>
+					                                      <?php foreach ($customers as $customer) { ?>
+					                                      <?php if ($customer['customer_id'] == $contest_expert['customer_id']) { ?>
+					                                        <option value="<?php echo $customer['customer_id']; ?>" selected="selected"><?php echo $customer['name']; ?></option>
+					                                      <?php } else { ?>
+					                                        <option value="<?php echo $customer['customer_id']; ?>"><?php echo $customer['name']; ?></option>
+					                                      <?php } ?>
+					                                      <?php } ?>
+					                                    <?php } ?>
+					                                  </select>
+					                                </div>
+					                              </div>
+					                            </div>
+												<?php if(!empty($error_contest_experts[$expert_row])) { ?>
+					                                <?php echo $error_contest_experts[$expert_row]; ?>
+					                              <?php } ?>
+											</td>
+											<td>
+											 	<button type="button" onclick="$('#expert-row<?php echo $expert_row; ?>, .tooltip').remove();" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger">
+					                              <i class="fa fa-minus-circle"></i>
+					                            </button>
+											</td>
+				                        </tr>
+									<?php $expert_row++; ?>
+									<?php } ?>
+		                    	</tbody>
+		                    	 <tfoot>
+		                            <tr>
+		                              <td colspan="2" class="text-center">
+		                              	<div class="col-sm-offset-4 col-sm-4">
+		                              		<button type="button" onclick="addExpert();" class="btn btn-primary btn-block"><i class="fa fa-plus-circle"> </i>  <?php echo $button_add; ?></button>
+										</div>
+		                              	</td>
+		                            </tr>
+		                          </tfoot>
+	                    	</table>
+                    	</div>
+                	</div>
+					</div>
+                </div><!-- /#tab-expert -->
+					
+				<div role="tabpanel" class="tab-pane active" id="tab-request">
+
+					<div class="panel-group" role="tablist" aria-multiselectable="true">
+						<?php $category_request_row = 0; ?>
+		                    <?php foreach ($category_requestes as $cr) { ?>
+		                    	<div class="panel panel-collapse">
+		                            <div class="panel-heading" role="tab" id="headingOne">
+		                                <h4 class="panel-title">
+		                                    <a data-toggle="collapse" data-parent="#accordion" href="#tab-category-request<?php echo $category_request_row; ?>" aria-expanded="true" aria-controls="tab-category-request<?php echo $category_request_row; ?>">
+		                                        <?php echo $cr['name']; ?>
+		                                    </a>
+		                                </h4>
+		                            </div>
+		                            <div id="tab-category-request<?php echo $category_request_row; ?>" class="collapse <?php echo (!$category_request_row)?'in':'';?>" role="tabpanel" aria-labelledby="headingOne">
+		                                <div class="panel-body">
+		                                    <?php echo $cr['name']; ?>
+		                                    <?php echo $cr['category_request_id']; ?>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    <?php $category_request_row++; ?>
+	                    <?php } ?>
+                    </div>
+                </div><!-- /#tab-request -->
+
 
              	<div role="tabpanel" class="tab-pane" id="tab-direction">
                   <div class="card-body card-padding">
@@ -339,64 +425,8 @@
                     	
                   </div>
                 </div><!-- /#tab-files -->
-
-			 	<div role="tabpanel " class="tab-pane active" id="tab-expert">
-                  <div class="card-body card-padding">
-                    <div class="row">
-                    	<div class="col-sm-12">
-                    		<!-- список экспертов -->
-	                    	<table id="experts" class="table table-striped">
-
-	                    		<tbody>                    			
-		                    		<?php $expert_row = 0; ?>
-			                        <?php foreach ($contest_experts as $contest_expert) { ?>
-				                        <tr id="expert-row<?php echo $expert_row; ?>">
-											<td>
-												<div class="form-group <?php if(!empty($error_contest_experts[$expert_row])) { ?>has-error <?php } ?>">
-					                              <div class="fg-line">
-					                                <div class="select">
-					                                  <select name="contest_experts[<?php echo $expert_row; ?>][customer_id]" id="input-expert_id" class="form-control">
-					                                    <option value="0"><?php echo $text_none; ?></option>
-					                                    <?php if (!empty($customers)) { ?>
-					                                      <?php foreach ($customers as $customer) { ?>
-					                                      <?php if ($customer['customer_id'] == $contest_expert['customer_id']) { ?>
-					                                        <option value="<?php echo $customer['customer_id']; ?>" selected="selected"><?php echo $customer['name']; ?></option>
-					                                      <?php } else { ?>
-					                                        <option value="<?php echo $customer['customer_id']; ?>"><?php echo $customer['name']; ?></option>
-					                                      <?php } ?>
-					                                      <?php } ?>
-					                                    <?php } ?>
-					                                  </select>
-					                                </div>
-					                              </div>
-					                            </div>
-												<?php if(!empty($error_contest_experts[$expert_row])) { ?>
-					                                <?php echo $error_contest_experts[$expert_row]; ?>
-					                              <?php } ?>
-											</td>
-											<td>
-											 	<button type="button" onclick="$('#expert-row<?php echo $expert_row; ?>, .tooltip').remove();" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger">
-					                              <i class="fa fa-minus-circle"></i>
-					                            </button>
-											</td>
-				                        </tr>
-									<?php $expert_row++; ?>
-									<?php } ?>
-		                    	</tbody>
-		                    	 <tfoot>
-		                            <tr>
-		                              <td colspan="2" class="text-center">
-		                              	<div class="col-sm-offset-4 col-sm-4">
-		                              		<button type="button" onclick="addExpert();" class="btn btn-primary btn-block"><i class="fa fa-plus-circle"> </i>  <?php echo $button_add; ?></button>
-										</div>
-		                              	</td>
-		                            </tr>
-		                          </tfoot>
-	                    	</table>
-                    	</div>
-                    </div>
-				</div>
-                </div><!-- /#tab-expert -->
+	
+			 	
 
 				<div role="tabpanel" class="tab-pane" id="tab-seo">
                 	<ul class="tab-nav language-tab" role="tablist" id="language" data-tab-color="amber">

@@ -4,8 +4,9 @@ $_['heading_title']     = 'Конкурсы';
 $_['form_header']     = 'Редактирование конкурса';
 
 // tab
-$_['tab_timeline']                   = 'График';
 $_['tab_direction']                   = 'Направления';
+$_['tab_timeline']                   = 'График';
+$_['tab_request']                   = 'Заявка';
 
 // button
 $_['button_direction_remove']      = 'Удалить направление';

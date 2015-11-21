@@ -346,6 +346,7 @@ class ModelContestContest extends Model {
 		return $query->rows;
 	}
 
+
 	public function getContestDescriptions($id,$copy = false) {
 		$contest_description_data = array();
 
@@ -366,7 +367,32 @@ class ModelContestContest extends Model {
 
 		return $contest_description_data;
 	}
-	
+	// получение связанных с конкурсом экспертов
+	public function getContestExpert($contest_id) {
+		
+		$contest_expert = array();
+		$contest_expert_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_expert WHERE contest_id = '" . (int)$contest_id . "'");
+		if (!empty($occasion_contest_expert_query->rows)) {
+			$sql = "SELECT * , CONCAT(lastname, ' ', firstname) AS name FROM " . DB_PREFIX . "customer";
+			$implode = array();
+			
+			foreach ($contest_expert_query->rows as $customer_id) {
+				$implode[] = (int)$customer_id['customer_id'];
+			}
+
+			$sql .= " WHERE customer_id IN (" . implode(',', $implode) . ")";
+			$query = $this->db->query($sql);
+			$contest_expert = $query->rows;
+		}
+
+		
+		return $contest_expert;
+	}
+
+
+
+
+
 	// получение связанных с конкурсом направлений
 	public function getContestdirections($id) {
 		
@@ -403,28 +429,6 @@ class ModelContestContest extends Model {
 	}
 
 
-
-	// получение связанных с конкурсом экспертов
-	public function getContestExpert($contest_id) {
-		
-		$contest_expert = array();
-		$contest_expert_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_expert WHERE contest_id = '" . (int)$contest_id . "'");
-		if (!empty($occasion_contest_expert_query->rows)) {
-			$sql = "SELECT * , CONCAT(lastname, ' ', firstname) AS name FROM " . DB_PREFIX . "customer";
-			$implode = array();
-			
-			foreach ($contest_expert_query->rows as $customer_id) {
-				$implode[] = (int)$customer_id['customer_id'];
-			}
-
-			$sql .= " WHERE customer_id IN (" . implode(',', $implode) . ")";
-			$query = $this->db->query($sql);
-			$contest_expert = $query->rows;;
-		}
-
-		
-		return $contest_expert;
-	}
 
 
 	

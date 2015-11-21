@@ -36,7 +36,7 @@
    <li class="sub-menu">
    <a href=""><i class="md md-language"></i> <?php echo $text_localisation; ?></a>
     <ul>
-       
+      <li><a href="<?php echo $category_request; ?>"><?php echo $text_category_request; ?></a></li> 
       <li><a href="<?php echo $age_status; ?>"><?php echo $text_age_status; ?></a></li>
       <li><a href="<?php echo $sex_status; ?>"><?php echo $text_sex_status; ?></a></li>
       <li><a href="<?php echo $nationality_status; ?>"><?php echo $text_nationality_status; ?></a></li>

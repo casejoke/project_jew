@@ -333,9 +333,11 @@ class ControllerContestContest extends Controller {
 		$data['button_criteria_add'] = $this->language->get('button_criteria_add');
 
 		$data['tab_general'] 	= $this->language->get('tab_general');
+		$data['tab_expert'] 	= $this->language->get('tab_expert');
+		$data['tab_request'] 	= $this->language->get('tab_request');
 		$data['tab_timeline'] 	= $this->language->get('tab_timeline');
 		$data['tab_files'] 		= $this->language->get('tab_files');
-		$data['tab_expert'] 	= $this->language->get('tab_expert');
+		
 		$data['tab_criteria'] 	= $this->language->get('tab_criteria');
 		$data['tab_direction'] 	= $this->language->get('tab_direction');
 		$data['tab_seo'] 		= $this->language->get('tab_seo');
@@ -423,15 +425,16 @@ class ControllerContestContest extends Controller {
 		$data['experts'] = $this->model_user_user->getUsers(array('user_group_id'=>11));
 
 //**************************************************************************************************************///
+		if (isset($this->request->get['occasion_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$contest_info = $this->model_contest_contest->getContest($this->request->get['id']);
+		}
 		
 		//********** эксперты ************//
 		//получим пользователей экспертов
 		$this->load->model('sale/customer');
 		$data['customers'] = array();
 
-		$filter_data = array(
-
-		);
+		$filter_data = array();
 		$results_customers = $this->model_sale_customer->getCustomers($filter_data);
 
 		foreach ($results_customers as $rc) {
@@ -457,8 +460,89 @@ class ControllerContestContest extends Controller {
 		}
 		//********** Поля для заявки ************//
 
+		
+		if (isset($this->request->post['contest_fields'])) {
+			$data['contest_fields'] = $this->request->post['contest_fields'];
+		} elseif (!empty($contest_info)) {
+			$data['contest_fields'] = $contest_info['contest_fields'];
+		} else {
+			$data['contest_fields'] = array();
+		}
+
+			//подтянем список доступных категорий
+		 	$this->load->model('localisation/category_request');
+			$data['category_requestes'] = array();
+			$filter_data = array(
+				'order' => 'ASC'
+			);
+			$category_request_results = $this->model_localisation_category_request->getCategoryRequestes($filter_data);
+			foreach ($category_request_results as $crr) {
+		      	$data['category_requestes'][] = array(
+		        	'category_request_id' 	=> $crr['category_request_id'],
+		        	'name'            		=> $crr['name'],
+		       	);
+		    }
+		    //подтянуть список полей уже сушествующие в системе
+		   
+
+		    $data['system_fields'] = array();
+		   	 //поля пользовтеля
+		   /* $data['fields']['system'][] = array(
+		    	'fields_name' 		=> 'firstname',
+		    	'fields_title'		=> $this->language->get('firstname'),
+		    	'fields_type' 		=> 'input',
+		    	'fields_system' 	=> 1,
+		    	'fields_required' 	=> 1
+		    	
 
 
+		    	'custom_field_id' => $result['custom_field_id'],
+				'name'            => $result['name'],
+				'location'        => $this->language->get('text_' . $result['location']),
+				'type'            => $type,
+				'status'          => $result['status'],
+				'sort_order'      => $result['sort_order'],
+		    );
+		    $data['fields']['custom'] = array();*/
+		    /*
+		    $customer_fields = $this->model_sale_customer->getColumnNameCustomers();
+		    print_r('<pre>');
+		    print_r($customer_fields );
+		    print_r('</pre>');
+		    die();
+		    switch ($result['type']) {
+				case 'select':
+					$type = $this->language->get('text_select');
+					break;
+				case 'radio':
+					$type = $this->language->get('text_radio');
+					break;
+				case 'checkbox':
+					$type = $this->language->get('text_checkbox');
+					break;
+				case 'input':
+					$type = $this->language->get('text_input');
+					break;
+				case 'text':
+					$type = $this->language->get('text_text');
+					break;
+				case 'textarea':
+					$type = $this->language->get('text_textarea');
+					break;
+				case 'file':
+					$type = $this->language->get('text_file');
+					break;
+				case 'date':
+					$type = $this->language->get('text_date');
+					break;
+				case 'datetime':
+					$type = $this->language->get('text_datetime');
+					break;
+				case 'time':
+					$type = $this->language->get('text_time');
+					break;
+			}
+			*/
 
 
 		$data['header'] = $this->load->controller('common/header');

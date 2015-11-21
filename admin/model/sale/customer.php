@@ -607,6 +607,11 @@ class ModelSaleCustomer extends Model {
 
 
 
+	public function getColumnNameCustomers(){
+		$sql = "SHOW COLUMNS FROM " . DB_PREFIX . "customer";
+		$query = $this->db->query($sql);
+		return $query->rows;
+	}
 
 
 }
