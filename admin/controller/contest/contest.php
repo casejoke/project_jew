@@ -296,6 +296,10 @@ class ControllerContestContest extends Controller {
 		$data['form_header'] = $this->language->get('form_header');
 
 		$data['text_form'] = !isset($this->request->get['id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+		$data['text_none'] = $this->language->get('text_none');
+		$data['text_enabled'] = $this->language->get('text_enabled');
+		$data['text_disabled'] = $this->language->get('text_disabled');
+
 		
 		$data['entry_title'] = $this->language->get('entry_title');
 		$data['entry_description'] = $this->language->get('entry_description');
@@ -345,15 +349,34 @@ class ControllerContestContest extends Controller {
 		$data['text_none']  	= $this->language->get('text_none');	
 		
 		// инициализация ошибок
-		foreach($this->error as $field => $error){
-			
-			$data["error_$field"] = $error;
-		}
-
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
 			$data['error_warning'] = '';
+		}
+
+		if (isset($this->error['title'])) {
+			$data['error_title'] = $this->error['title'];
+		} else {
+			$data['error_title'] = array();
+		}
+
+		if (isset($this->error['description'])) {
+			$data['error_description'] = $this->error['description'];
+		} else {
+			$data['error_description'] = array();
+		}
+
+		if (isset($this->error['meta_title'])) {
+			$data['error_meta_title'] = $this->error['meta_title'];
+		} else {
+			$data['error_meta_title'] = array();
+		}
+
+		if (isset($this->error['keyword'])) {
+			$data['error_keyword'] = $this->error['keyword'];
+		} else {
+			$data['error_keyword'] = '';
 		}
 
 		if (isset($this->error['contest_experts'])) {
@@ -393,15 +416,15 @@ class ControllerContestContest extends Controller {
 		elseif (isset($this->request->get['id'])) {
 		
 			// при выборе из бд
-			$data['contest_direction'] = $this->model_contest_contest->getContestDirections($this->request->get['id']);
-			$data['contest_description'] = $this->model_contest_contest->getContestDescriptions($this->request->get['id'],false);	
-			$data['contest_file'] = $this->model_contest_contest->getContestFile($this->request->get['id']);
-			$data['contest_expert'] = $this->model_contest_contest->getContestExpert($this->request->get['id']);
-			$data['contest_criteria'] = $this->model_contest_contest->getContestCriteria($this->request->get['id']);
+			$data['contest_direction'] = $this->model_contest_contest->getContestDirections($this->request->get['contest_id']);
+			
+			$data['contest_file'] = $this->model_contest_contest->getContestFile($this->request->get['contest_id']);
+			$data['contest_expert'] = $this->model_contest_contest->getContestExpert($this->request->get['contest_id']);
+			
 		
 			$data = array_merge(
 				$data, 
-				$this->model_contest_contest->getContest($this->request->get['id'])
+				$this->model_contest_contest->getContest($this->request->get['contest_id'])
 			);
 		} 
 		else {
@@ -410,11 +433,9 @@ class ControllerContestContest extends Controller {
 			$data['contest_file'] = $data['contest_expert'] = $data['contest_criteria'] = array();
 		}
 		
-		// получение типов конкурса
-		$data['contest_types'] = $this->model_contest_contest->getContestTypes();
 		
-		// получение статусов конкурса
-		$data['contest_statuses'] = $this->model_contest_contest->getContestStatuses();
+		
+		
 		
 		// получение списка файлов
 		$this->load->model('catalog/download');
@@ -425,10 +446,43 @@ class ControllerContestContest extends Controller {
 		$data['experts'] = $this->model_user_user->getUsers(array('user_group_id'=>11));
 
 //**************************************************************************************************************///
-		if (isset($this->request->get['occasion_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$contest_info = $this->model_contest_contest->getContest($this->request->get['id']);
+		if (isset($this->request->get['contest_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$contest_info = $this->model_contest_contest->getContest($this->request->get['contest_id']);
 		}
-		
+
+		if (isset($this->request->get['occasion_id'])) {
+			$data['contest_id'] = $this->request->get['contest_id'];
+		} else {
+			$data['contest_id'] = 0;
+		}
+		//поля из описания пконкурса
+		if (isset($this->request->post['contest_description'])) {
+			$data['contest_description'] = $this->request->post['contest_description'];
+		} elseif (isset($this->request->get['contest_id'])) {
+			$data['contest_description'] = $this->model_contest_contest->getContestDescriptions($this->request->get['contest_id'],false);
+		} else {
+			$data['contest_description'] = array();
+		}
+		//********** описание конкурса ************//
+		// получение типов конкурса
+		$data['contest_types'] = $this->model_contest_contest->getContestTypes();
+		if (isset($this->request->post['type'])) {
+			$data['type'] = $this->request->post['type'];
+		} elseif (!empty($contest_info)) {
+			$data['type'] = $contest_info['type'];
+		} else {
+			$data['type'] = 1;
+		}
+		// получение статусов конкурса
+		$data['contest_statuses'] = $this->model_contest_contest->getContestStatuses();
+		if (isset($this->request->post['status'])) {
+			$data['status'] = $this->request->post['status'];
+		} elseif (!empty($contest_info)) {
+			$data['status'] = $contest_info['status'];
+		} else {
+			$data['status'] = 1;
+		}
+
 		//********** эксперты ************//
 		//получим пользователей экспертов
 		$this->load->model('sale/customer');
@@ -458,16 +512,23 @@ class ControllerContestContest extends Controller {
 				'customer_id'    => $contest_expert['customer_id']
 			);
 		}
-		//********** Поля для заявки ************//
 
-		
-		if (isset($this->request->post['contest_fields'])) {
-			$data['contest_fields'] = $this->request->post['contest_fields'];
+
+		//********** эксперты ************//
+
+		$data['contest_criterias'] = $this->model_contest_contest->getContestCriteria($this->request->get['contest_id']);
+
+
+		//********** Поля для заявки ************//
+		if (isset($this->request->post['custom_fields'])) {
+			$data['custom_fields'] = $this->request->post['custom_fields'];
 		} elseif (!empty($contest_info)) {
-			$data['contest_fields'] = $contest_info['contest_fields'];
+			$data['custom_fields'] = unserialize($contest_info["contest_fields"]) ;
 		} else {
-			$data['contest_fields'] = array();
+			$data['custom_fields'] = array();
 		}
+		
+
 
 			//подтянем список доступных категорий
 		 	$this->load->model('localisation/category_request');
@@ -482,8 +543,79 @@ class ControllerContestContest extends Controller {
 		        	'name'            		=> $crr['name'],
 		       	);
 		    }
-		    //подтянуть список полей уже сушествующие в системе
+		    //подтянуть список полей для кактегорий
+		    $this->load->model('contest/contest_field');
+		  
+			$filter_data = array(
+				'order' => 'ASC'
+			);
+			$contest_fields_results = $this->model_contest_contest_field->getContestFields($filter_data); 
 		   
+			
+			$data['contest_fields'] = array();
+			foreach ($contest_fields_results as  $cfr) {
+
+				if(!empty( $data['custom_fields'][$cfr['location']])){
+					
+
+					foreach ( $data['custom_fields'][$cfr['location']] as $cvalue) {
+
+						if($cvalue['contest_field_id'] == $cfr['contest_field_id']){
+							$status  		=  $cvalue['status'];
+							$sort_order  	=  $cvalue['sort_order'];
+							
+						}
+					}
+
+					
+				} else {
+					$status  		=  0;
+					$sort_order  	=  0;
+				}
+					$data['contest_fields'][$cfr['location']][] = array(
+						'field_id'           	=> $cfr['contest_field_id'],
+						'field_title'           => $cfr['name'],
+						'field_type'          	=> $cfr['type'],
+						'field_system'          => $cfr['field_system'],
+						'field_system_table'    => $cfr['field_system_table'],
+
+						'status'				=> $status,
+						'sort_order'			=> $sort_order,
+					);
+
+			}
+			foreach ($data['contest_fields'] as  $cfr) {
+				usort($cfr, 'sortBySortOrder');
+			}
+
+
+
+			
+
+		    //подтянем список системных (постоянно есть в системе)
+			$data['text_customer'] = $this->language->get('text_customer');
+			$data['contest_field_system']['customer'] = array();
+
+			$data['contest_field_system']['customer'][] = array(
+				'field_title'          => $this->language->get('text_account_firstname'),
+				'field_source'		   => 'customer',		
+				'field_value' 		   => 'firstname'
+			);
+			$data['contest_field_system']['customer'][] = array(
+				'field_title'          => $this->language->get('text_account_lastname'),
+				'field_source'		   => 'customer',		
+				'field_value' 		   => 'lastname'
+			);
+			$data['contest_field_system']['customer'][] = array(
+				'field_title'          => $this->language->get('text_account_email'),
+				'field_source'		   => 'customer',		
+				'field_value' 		   => 'email'
+			);
+			$data['contest_field_system']['customer'][] = array(
+				'field_title'          => $this->language->get('text_account_telephone'),
+				'field_source'		   => 'customer',		
+				'field_value' 		   => 'telephone'
+			);
 
 		    $data['system_fields'] = array();
 		   	 //поля пользовтеля
@@ -558,32 +690,26 @@ class ControllerContestContest extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		
-
-		
 		foreach ($this->request->post['contest_description'] as $language_id => $value) {
-		
-			$not_empty = array('title', 'organizer', 'description');
-			
-			foreach($not_empty as $k => $field){
-				
-				if (empty($value[$field])){
-				
-					$this->error[$field][$language_id] = $this->language->get('error_empty');
-				}
+			if ((utf8_strlen($value['title']) < 3) || (utf8_strlen($value['title']) > 255)) {
+				$this->error['title'][$language_id] = $this->language->get('error_title');
 			}
+
+			if (utf8_strlen($value['description']) < 3) {
+				$this->error['description'][$language_id] = $this->language->get('error_description');
+			}
+
+			if ((utf8_strlen($value['meta_title']) < 3) || (utf8_strlen($value['meta_title']) > 255)) {
+				$this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
+			}
+
 		}
 		
 		if (empty($this->request->post['maxprice'])){
-			$this->error['maxprice'] = $this->language->get('error_empty');
+			//$this->error['maxprice'] = $this->language->get('error_empty');
 		}
 
-		if (isset($this->request->post['contest_experts'])) {
-			foreach ($this->request->post['contest_experts'] as $stats_id => $ce) {
-				if (!$ce['customer_id']) {  
-					$this->error['contest_experts'][$stats_id]= $this->language->get('error_expert_customer_id');
-				}
-			}	
-		}
+		
 
 		return !$this->error;
 	}

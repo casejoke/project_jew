@@ -20,16 +20,19 @@
           <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-information" >
             
             <ul class="tab-nav" role="tablist">
-                <li ><a href="#tab-general" aria-controls="tab-general" role="tab" data-toggle="tab"><?php echo $tab_general; ?></a></li>
+                <li><a href="#tab-general" aria-controls="tab-general" role="tab" data-toggle="tab"><?php echo $tab_general; ?></a></li>
+                <li><a href="#tab-timeline" aria-controls="tab-timeline" role="tab" data-toggle="tab"><?php echo $tab_timeline; ?></a></li>
 				<li><a href="#tab-expert" aria-controls="tab-expert" role="tab" data-toggle="tab"><?php echo $tab_expert; ?></a></li>
-				<li class="active"><a href="#tab-request" aria-controls="tab-request" role="tab" data-toggle="tab"><?php echo $tab_request; ?></a></li>
+				<li  class="active"><a href="#tab-criteria" aria-controls="tab-criteria" role="tab" data-toggle="tab"><?php echo $tab_criteria; ?></a></li>
+				<li ><a href="#tab-request" aria-controls="tab-request" role="tab" data-toggle="tab"><?php echo $tab_request; ?></a></li>
+
 				
                 <li><a href="#tab-direction" aria-controls="tab-direction" role="tab" data-toggle="tab"><?php echo $tab_direction; ?></a></li>
-                <li><a href="#tab-timeline" aria-controls="tab-timeline" role="tab" data-toggle="tab"><?php echo $tab_timeline; ?></a></li>
+                
                 <li><a href="#tab-files" aria-controls="tab-files" role="tab" data-toggle="tab"><?php echo $tab_files; ?></a></li>
                 
                 <li><a href="#tab-seo" aria-controls="tab-seo" role="tab" data-toggle="tab"><?php echo $tab_seo; ?></a></li>
-                <li><a href="#tab-criteria" aria-controls="tab-criteria" role="tab" data-toggle="tab"><?php echo $tab_criteria; ?></a></li>
+                
                 
             </ul>
           
@@ -52,41 +55,42 @@
                           <div class="card-body card-padding">
                           	
                           	<div class="row">
-	                          	 <div class="col-sm-6">	
-		                          	  <!-- название -->
-			                          <div class="form-group required <?php if (isset($error_title[$language['language_id']])) { ?> has-error <?php } ?>">
+								<div class="col-sm-12">	
+								  	<!-- название -->
+									<div class="form-group required <?php if (isset($error_title[$language['language_id']])) { ?> has-error <?php } ?>">
+									<div class="fg-line">
+									    <label class="control-label" for="input-title<?php echo $language['language_id']; ?>"><?php echo $entry_title; ?></label>
+									    <input type="text" name="contest_description[<?php echo $language['language_id']; ?>][title]" value="<?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['title'] : ''; ?>"  id="input-title<?php echo $language['language_id']; ?>" class="form-control" />
+									</div>
+									<?php if (isset($error_title[$language['language_id']])) { ?>
+									  <small class="help-block"><?php echo $error_title[$language['language_id']]; ?></small>
+									<?php } ?>
+									</div>
+								</div>
+
+								<div class="col-sm-12">
+									<!-- организатор -->
+									<div class="form-group required <?php if (isset($error_organizer[$language['language_id']])) { ?> has-error <?php } ?>">
+										<div class="fg-line">
+										    <label class="control-label" for="input-organizer<?php echo $language['language_id']; ?>"><?php echo $entry_organizer; ?></label>
+										     <textarea name="contest_description[<?php echo $language['language_id']; ?>][organizer]" id="input-organizer<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['organizer'] : ''; ?></textarea>
+										</div>
+										<?php if (isset($error_organizer[$language['language_id']])) { ?>
+										  <small class="help-block"><?php echo $error_organizer[$language['language_id']]; ?></small>
+										<?php } ?>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									 <!-- цель -->
+			                          <div class="form-group">
 			                            <div class="fg-line">
-			                                <label class="control-label" for="input-title<?php echo $language['language_id']; ?>"><?php echo $entry_title; ?></label>
-			                                <input type="text" name="contest_description[<?php echo $language['language_id']; ?>][title]" value="<?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['title'] : ''; ?>"  id="input-title<?php echo $language['language_id']; ?>" class="form-control" />
+			                                <label class="control-label m-b-10" for="input-propose<?php echo $language['language_id']; ?>"><?php echo $entry_propose; ?></label>
+			                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][propose]" id="input-propose<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['propose'] : ''; ?></textarea>
 			                            </div>
-			                            <?php if (isset($error_title[$language['language_id']])) { ?>
-			                              <small class="help-block"><?php echo $error_title[$language['language_id']]; ?></small>
-			                            <?php } ?>
 			                          </div>
-		                          </div>
-		                          
-		                          <div class="col-sm-6">
-			                          <!-- организатор -->
-			                          <div class="form-group required <?php if (isset($error_organizer[$language['language_id']])) { ?> has-error <?php } ?>">
-			                            <div class="fg-line">
-			                                <label class="control-label" for="input-organizer<?php echo $language['language_id']; ?>"><?php echo $entry_organizer; ?></label>
-			                                <input type="text" name="contest_description[<?php echo $language['language_id']; ?>][organizer]" value="<?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['organizer'] : ''; ?>"  id="input-organizer<?php echo $language['language_id']; ?>" class="form-control" />
-			                            </div>
-			                            <?php if (isset($error_organizer[$language['language_id']])) { ?>
-			                              <small class="help-block"><?php echo $error_organizer[$language['language_id']]; ?></small>
-			                            <?php } ?>
-			                          </div>
-		                          </div>
-	                          </div>
-	                          
-	                          <!-- цель -->
-	                          <div class="form-group">
-	                            <div class="fg-line">
-	                                <label class="control-label m-b-10" for="input-propose<?php echo $language['language_id']; ?>"><?php echo $entry_propose; ?></label>
-	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][propose]" id="input-propose<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['propose'] : ''; ?></textarea>
-	                            </div>
-	                          </div>
-	                          
+		                        </div>
+
+		                         <div class="col-sm-12">
 	                          <!-- география -->
 	                          <div class="form-group">
 	                            <div class="fg-line">
@@ -94,7 +98,8 @@
 	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][location]" id="input-location<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['location'] : ''; ?></textarea>
 	                            </div>
 	                          </div>
-	                          
+	                          </div>
+	                          <div class="col-sm-12">
 	                          <!-- участники -->
 	                          <div class="form-group">
 	                            <div class="fg-line">
@@ -102,7 +107,8 @@
 	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][members]" id="input-members<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['members'] : ''; ?></textarea>
 	                            </div>
 	                          </div>
-	                          
+	                          </div>
+	                          <div class="col-sm-12">
 	                          <!-- Описание проекта  -->
 		                      <div class="form-group required <?php if (isset($error_maxprice[$language['language_id']])) { ?> has-error <?php } ?>">
 	                            <div class="fg-line">
@@ -113,7 +119,8 @@
 	                              <small class="help-block"><?php echo $error_description[$language['language_id']]; ?></small>
 	                            <?php } ?>
 	                          </div>
-	                          
+	                          </div>
+	                          <div class="col-sm-12">
 	                          <!-- Контакты  -->
 		                      <div class="form-group">
 	                            <div class="fg-line">
@@ -121,85 +128,26 @@
 	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][contacts]" id="input-contacts<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['contacts'] : ''; ?></textarea>
 	                            </div>
 	                          </div>
-						
+								</div>
+	                          <div class="col-sm-12">
 							  <!-- Дополнительный текст о графике -->
 		                      <div class="form-group">
 		                        <div class="fg-line">
 		                            <label class="control-label m-b-10" for="input-timeline_text<?php echo $language['language_id']; ?>"><?php echo $entry_timeline_text; ?></label>
-		                            <textarea name="contest_description[<?php echo $language['language_id']; ?>][timeline_text]" class="form-control auto-size" rows="4" id="input-meta-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['timeline_text'] : ''; ?></textarea>
+		                            <textarea name="contest_description[<?php echo $language['language_id']; ?>][timeline_text]" class="form-control auto-size" rows="4" id="input-timeline_text<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['timeline_text'] : ''; ?></textarea>
 		                        </div>
 		                      </div>
-                          
+                          		</div>
+	                          </div>
+	                          
+	                          
+	                         
                           
 
                           </div><!--/.card-body -->
                         </div><!-- /tab-pane -->
                         <?php } ?>
-                        
-                        
-                        
-	                          
-	                          <div class="row">
-		                          <div class="col-sm-6">
-			                          <!-- тип -->
-			                          <div class="form-group">
-			                            <div class="fg-line">
-			                              <label class="control-label" for="input-type"><?php echo $entry_type; ?></label>
-			                              <div class="select">
-			                                <select name="type" id="input-type" class="form-control">
-			                                	<?php foreach($contest_types as $k => $one_type){ ?>
-			                                		<option <?php echo (isset($type) && $type == $k) ? "selected" : ""?> value="<? echo $k; ?>"><?php echo $one_type; ?></option>
-			                                	<?php } ?>	                                 
-			                                </select>
-			                              </div>
-			                            </div>
-			                          </div>
-		                          </div>
-		                          
-		                          <div class="col-sm-6">
-			                          <!-- статус -->
-			                          <div class="form-group">
-			                            <div class="fg-line">
-			                              <label class="control-label" for="input-status"><?php echo $entry_status; ?></label>
-			                              <div class="select">
-			                                <select name="status" id="input-status" class="form-control">
-			                                  <?php foreach($contest_statuses as $k => $one_status){ ?>
-			                                		<option <?php echo (isset($type) && $status == $k) ? "selected" : ""?> value="<? echo $k; ?>"><?php echo $one_status; ?></option>
-			                                	<?php } ?>
-			                                </select>
-			                              </div>
-			                            </div>
-			                          </div>
-		                          </div>
-		                      </div>
-	                          
-	                          <div class="row">
-		                          <!-- максимальная сумма гранта -->
-		                          <div class="col-sm-6 required <?php if (isset($error_maxprice[$language['language_id']])) { ?> has-error <?php } ?>">
-			                          <div class="form-group">
-			                            <div class="fg-line">
-			                                <label class="control-label" for="input-maxprice"><?php echo $entry_maxprice; ?></label>
-			                                <input type="text" name="maxprice" value="<?php echo (isset($maxprice)) ? $maxprice : ""; ?>"  id="input-maxprice" class="form-control" />
-			                            </div>
-			                            <?php if (isset($error_maxprice[$language['language_id']])) { ?>
-			                              <small class="help-block"><?php echo $error_maxprice[$language['language_id']]; ?></small>
-			                            <?php } ?>
-			                          </div><!--/.form-group-->
-			                      </div>
-			                      
-			                      <!-- Общий объем финансирования -->
-		                          <div class="col-sm-6">
-			                          <div class="form-group">
-			                            <div class="fg-line">
-			                                <label class="control-label" for="input-maxprice"><?php echo $entry_totalprice; ?></label>
-			                                <input type="text" name="totalprice" value="<?php echo (isset($totalprice)) ? $totalprice : ""; ?>"  id="input-totalprice" class="form-control" />
-			                            </div>
-			                          </div><!--/.form-group-->
-			                      </div>
-			                  </div>
-                        
-                        
-                    </div><!-- /.tab-content -->
+                      </div><!-- /.tab-content -->
                   </div><!-- /.tabpanel -->
                 </div><!-- /#tab-general -->
 				
@@ -261,11 +209,12 @@
 					</div>
                 </div><!-- /#tab-expert -->
 					
-				<div role="tabpanel" class="tab-pane active" id="tab-request">
+				<div role="tabpanel" class="tab-pane " id="tab-request">
 
 					<div class="panel-group" role="tablist" aria-multiselectable="true">
 						<?php $category_request_row = 0; ?>
 		                    <?php foreach ($category_requestes as $cr) { ?>
+								<?php if(!empty($contest_fields[$cr['category_request_id']])){ ?>
 		                    	<div class="panel panel-collapse">
 		                            <div class="panel-heading" role="tab" id="headingOne">
 		                                <h4 class="panel-title">
@@ -276,16 +225,222 @@
 		                            </div>
 		                            <div id="tab-category-request<?php echo $category_request_row; ?>" class="collapse <?php echo (!$category_request_row)?'in':'';?>" role="tabpanel" aria-labelledby="headingOne">
 		                                <div class="panel-body">
-		                                    <?php echo $cr['name']; ?>
-		                                    <?php echo $cr['category_request_id']; ?>
+			                                <table class="table table-striped">
+				                                <thead>
+				                                    <tr>
+				                                        <th>Название поля</th>
+				                                        <th>Порядок сортировки</th>
+				                                        <th>Статус</th>
+				                                    </tr>
+				                                </thead>
+				                                <tbody>
+				                                	<?php $custom_field_row = 0; ?>
+				                                	<?php foreach ($contest_fields[$cr['category_request_id']] as $cfvalue) { ?>
+				                                		<tr>
+					                                        <td>
+					                                        	<?php echo $cfvalue['field_title']; ?>
+																<input type="hidden" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][contest_field_id]" value="<?php echo $cfvalue['field_id']; ?>"/>
+
+					                                        </td>
+					                                          <td style="width:30%">
+					                                        	<div class="form-group">
+												                    <div class="fg-line">
+												                        <input type="text" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][sort_order]" value="<?php echo $cfvalue['sort_order']; ?>"  id="input-sort_order" class="form-control" />
+												                    </div>
+											                  	</div><!--/.form-group-->
+					                                        </td>
+					                                        <td style="width:30%">
+					                                        	<div class="form-group" >
+												                    <div class="fg-line">
+												                      <div class="select">
+												                        <select name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][status]" id="input-status" class="form-control">
+												                          <?php if ($cfvalue['status']) { ?>
+												                          <option value="0"><?php echo $text_disabled; ?></option>
+												                          <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+												                          <?php } else { ?>
+												                          <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+												                          <option value="1"><?php echo $text_enabled; ?></option>
+												                          <?php } ?>
+												                        </select>
+												                      </div>
+												                    </div>
+											                  	</div>
+					                                        </td>
+					                                    </tr>
+														<?php $custom_field_row++; ?>
+													<?php }	?>
+				                               	</tbody>
+				                            </table>
+												
+											
 		                                </div>
 		                            </div>
 		                        </div>
-		                    <?php $category_request_row++; ?>
+		                        <?php $category_request_row++; ?>
+								<?php }	?>
+							
 	                    <?php } ?>
                     </div>
                 </div><!-- /#tab-request -->
+				
+				<div role="tabpanel" class="tab-pane" id="tab-timeline">
+                    <div class="card-body card-padding">
+                    	  <div class="row">
+		                          <div class="col-sm-6">
+			                          <!-- тип -->
+			                          <div class="form-group">
+			                            <div class="fg-line">
+			                              <label class="control-label" for="input-type"><?php echo $entry_type; ?></label>
+			                              <div class="select">
+		                              		<select name="type" id="input-type" class="form-control">
+			                                  <?php if (!empty($contest_types)) { ?>
+			                                    <?php foreach ($contest_types as $ct) { ?>
+			                                    <?php if ($ct['contest_type_id'] == $type) { ?>
+			                                      <option value="<?php echo $ct['contest_type_id']; ?>" selected="selected"><?php echo $ct['contest_type_title']; ?></option>
+			                                    <?php } else { ?>
+			                                      <option value="<?php echo $ct['contest_type_id']; ?>"><?php echo $ct['contest_type_title']; ?></option>
+			                                    <?php } ?>
+			                                    <?php } ?>
+			                                  <?php } ?>
+			                                </select>
+			                              </div>
+			                            </div>
+			                          </div>
+		                          </div>
+		                          <div class="col-sm-6">
+			                          <!-- тип -->
+			                          <div class="form-group">
+			                            <div class="fg-line">
+			                              <label class="control-label" for="input-status"><?php echo $entry_status; ?></label>
+			                              <div class="select">
+		                              		<select name="status" id="input-status" class="form-control">
+			                                  <?php if (!empty($contest_statuses)) { ?>
+			                                    <?php foreach ($contest_statuses as $cs) { ?>
+			                                    <?php if ($cs['contest_status_id'] == $status) { ?>
+			                                      <option value="<?php echo $cs['contest_status_id']; ?>" selected="selected"><?php echo $cs['contest_status_title']; ?></option>
+			                                    <?php } else { ?>
+			                                      <option value="<?php echo $cs['contest_status_id']; ?>"><?php echo $cs['contest_status_title']; ?></option>
+			                                    <?php } ?>
+			                                    <?php } ?>
+			                                  <?php } ?>
+			                                </select>
+			                              </div>
+			                            </div>
+			                          </div>
+		                          </div>
+		                      </div>
+	                          
+	                          <div class="row">
+		                          <!-- максимальная сумма гранта -->
+		                          <div class="col-sm-6 required <?php if (isset($error_maxprice[$language['language_id']])) { ?> has-error <?php } ?>">
+			                          <div class="form-group">
+			                            <div class="fg-line">
+			                                <label class="control-label" for="input-maxprice"><?php echo $entry_maxprice; ?></label>
+			                                <input type="text" name="maxprice" value="<?php echo (isset($maxprice)) ? $maxprice : ""; ?>"  id="input-maxprice" class="form-control" />
+			                            </div>
+			                            <?php if (isset($error_maxprice[$language['language_id']])) { ?>
+			                              <small class="help-block"><?php echo $error_maxprice[$language['language_id']]; ?></small>
+			                            <?php } ?>
+			                          </div><!--/.form-group-->
+			                      </div>
+			                      
+			                      <!-- Общий объем финансирования -->
+		                          <div class="col-sm-6">
+			                          <div class="form-group">
+			                            <div class="fg-line">
+			                                <label class="control-label" for="input-maxprice"><?php echo $entry_totalprice; ?></label>
+			                                <input type="text" name="totalprice" value="<?php echo (isset($totalprice)) ? $totalprice : ""; ?>"  id="input-totalprice" class="form-control" />
+			                            </div>
+			                          </div><!--/.form-group-->
+			                      </div>
+			                  </div>
+                        <div class="row">
+	                        <div class="col-sm-4">
+	                        	<!-- Начало приема заявок  -->
+								<div class="form-group">
+									<div class="fg-line">
+									    <label class="control-label" for="date_start"><?php echo $entry_date_start; ?></label>
+									     <input type="text" class="form-control date-picker" id="date_start" name="date_start" value="<?php echo (isset($date_start)) ? $date_start : date('Y-m-d'); ?>">
+									</div>
+								</div>
+	                        </div>
+	                        <div class="col-sm-4">
+	                        	<!-- Завершение приема заявок   -->
+								<div class="form-group">
+									<div class="fg-line">
+									    <label class="control-label" for="datetime_end"><?php echo $entry_datetime_end; ?></label>
+									     <input type="text" class="form-control date-picker datetime-picker" id="datetime_end" name="datetime_end" value="<?php echo (isset($datetime_end)) ? $datetime_end : date('Y-m-d'); ?>">
+									</div>
+								</div>
+	                        </div>
+	                        <div class="col-sm-4">
+	                        	<!-- Завершение оценки заявок    -->
+								<div class="form-group">
+									<div class="fg-line">
+									    <label class="control-label" for="date_rate"><?php echo $entry_date_rate; ?></label>
+									     <input type="text" class="form-control date-picker" id="date_rate" name="date_rate" value="<?php echo (isset($date_rate)) ? $date_rate : date('Y-m-d'); ?>">
+									</div>
+								</div>
+	                        </div>
+	                        <div class="col-sm-4">
+	                        	<!-- Объявление результатов    -->
+								<div class="form-group">
+									<div class="fg-line">
+									    <label class="control-label" for="date_result"><?php echo $entry_date_result; ?></label>
+									     <input type="text" class="form-control date-picker" id="date_result" name="date_result" value="<?php echo (isset($date_result)) ? $date_result : date('Y-m-d'); ?>">
+									</div>
+								</div>
+	                        </div>
+	                        <div class="col-sm-4">
+	                        	<!-- Публикация списка финалистов     -->
+								<div class="form-group">
+									<div class="fg-line">
+									    <label class="control-label" for="date_finalist"><?php echo $entry_date_finalist; ?></label>
+									     <input type="text" class="form-control date-picker" id="date_finalist" name="date_finalist" value="<?php echo (isset($date_finalist)) ? $date_finalist : date('Y-m-d'); ?>">
+									</div>
+								</div>
+	                        </div>
+						</div>	
+                    </div>
+                </div><!-- /#tab-timeline -->
 
+				<div role="tabpanel" class="tab-pane active" id="tab-criteria">
+					<div class="card-body card-padding">
+						<div class="row">
+							<div class="col-sm-12">
+							<!-- список экспертов -->
+							<table id="criterias" class="table table-striped">
+								<tbody>                    			
+						    		<?php $criteria_row = 0; ?>
+						            <?php foreach ($contest_criterias as $contest_criteria) { ?>
+						                <tr id="criteria-row<?php echo $criteria_row; ?>">
+											<td>
+												
+											</td>
+											<td>
+											 	<button type="button" onclick="$('#criteria-row<?php echo $criteria_row; ?>, .tooltip').remove();" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger">
+						                          <i class="fa fa-minus-circle"></i>
+						                        </button>
+											</td>
+						                </tr>
+									<?php $criteria_row++; ?>
+									<?php } ?>
+						    	</tbody>
+							 	<tfoot>
+						            <tr>
+						              <td colspan="2" class="text-center">
+						              	<div class="col-sm-offset-4 col-sm-4">
+						              		<button type="button" onclick="addCriteria();" class="btn btn-primary btn-block"><i class="fa fa-plus-circle"> </i>  <?php echo $button_add; ?></button>
+										</div>
+						              	</td>
+						            </tr>
+						      	</tfoot>
+							</table>
+							</div>
+						</div>
+						</div>
+
+                </div><!-- /#tab-criteria -->
 
              	<div role="tabpanel" class="tab-pane" id="tab-direction">
                   <div class="card-body card-padding">
@@ -331,51 +486,7 @@
                   </div>
                 </div><!-- /#tab-direction -->
                 
-             	<div role="tabpanel" class="tab-pane" id="tab-timeline">
-                  <div class="card-body card-padding">
-                    	
-                    	<!-- Начало приема заявок  -->
-						<div class="form-group">
-							<div class="fg-line">
-							    <label class="control-label" for="date_start"><?php echo $entry_date_start; ?></label>
-							     <input type="text" class="form-control date-picker" id="date_start" name="date_start" value="<?php echo (isset($date_start)) ? $date_start : date('Y-m-d'); ?>">
-							</div>
-						</div>
-						
-						<!-- Завершение приема заявок   -->
-						<div class="form-group">
-							<div class="fg-line">
-							    <label class="control-label" for="datetime_end"><?php echo $entry_datetime_end; ?></label>
-							     <input type="text" class="form-control date-picker datetime-picker" id="datetime_end" name="datetime_end" value="<?php echo (isset($datetime_end)) ? $datetime_end : date('Y-m-d'); ?>">
-							</div>
-						</div>
-						
-						<!-- Завершение оценки заявок    -->
-						<div class="form-group">
-							<div class="fg-line">
-							    <label class="control-label" for="date_rate"><?php echo $entry_date_rate; ?></label>
-							     <input type="text" class="form-control date-picker" id="date_rate" name="date_rate" value="<?php echo (isset($date_rate)) ? $date_rate : date('Y-m-d'); ?>">
-							</div>
-						</div>
-						
-						<!-- Объявление результатов    -->
-						<div class="form-group">
-							<div class="fg-line">
-							    <label class="control-label" for="date_result"><?php echo $entry_date_result; ?></label>
-							     <input type="text" class="form-control date-picker" id="date_result" name="date_result" value="<?php echo (isset($date_result)) ? $date_result : date('Y-m-d'); ?>">
-							</div>
-						</div>
-						
-						<!-- Публикация списка финалистов     -->
-						<div class="form-group">
-							<div class="fg-line">
-							    <label class="control-label" for="date_finalist"><?php echo $entry_date_finalist; ?></label>
-							     <input type="text" class="form-control date-picker" id="date_finalist" name="date_finalist" value="<?php echo (isset($date_finalist)) ? $date_finalist : date('Y-m-d'); ?>">
-							</div>
-						</div>
-						
-                  </div>
-                </div><!-- /#tab-timeline -->
+             	
                 
                 <div role="tabpanel" class="tab-pane" id="tab-files">
                   <div class="card-body card-padding">
@@ -474,66 +585,7 @@
                     </div>
                 </div><!-- /#tab-seo -->
                 
-               	<div role="tabpanel" class="tab-pane" id="tab-criteria">
-                  <div class="card-body card-padding">
-                    	
-                    	<!-- список критериев -->
-                    	<table id="videos" class="table table-striped">
-                    		<thead>
-	                    		<th>Критерий</th>
-	                    		<th>Вес</th>
-	                    		<th></th>
-                    		</thead>
-                    		<tbody>     
-                    			<?php 
-                                	if (isset($contest_criteria)){
-                                		foreach($contest_criteria as $k => $criteria){
-                                		?> 
-                                			<tr class="criteria-row">
-	                                			<td>
-	                                				<?php	foreach($languages as $language){
-	                                					?>
-	                                					
-		                                					<?php echo $language['name']; ?> <input type="text" name="contest_criteria[<?php echo $language['language_id']; ?>][title][]" value="<?php echo isset($criteria[$language['language_id']]['title'])? $criteria[$language['language_id']]['title'] : ""; ?>"  id="input-criteria<?php echo $language['language_id']; ?>" class="form-control input-criteria" />			
-	                                					
-	                                				<?php } ?>
-	                                			</td>
-	                                			<td>
-	                                				<br/>
-	                                				<input type="text" name="contest_criteria[weight][]" value="<?php echo isset($criteria[$language['language_id']]['weight'])? $criteria[$language['language_id']]['weight'] : ""; ?>"  id="input-criteria<?php echo $language['language_id']; ?>" class="form-control input-criteria" />
-	                                			</td>
-	                                			<td>
-		                                			<button onclick="deleteRow(this, 'criteria');" type="button" data-toggle="tooltip" title="<?php echo $button_criteria_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
-	                                			</td>
-                                			</tr>
-                                		<?php
-                                		}
-                                	}
-                                ?>  
-                    			<tr class="criteria-row" style="display: none;">
-	                    			<td>
-	                    				<?php foreach($languages as $language){ ?>
-	                    					<?php echo $language['name']; ?><input type="text" name="contest_criteria[<?php echo $language['language_id']; ?>][title][]" value=""  id="input-criteria<?php echo $language['language_id']; ?>" class="form-control input-expert" />
-	                    				<?php } ?>
-	                    			</td>
-	                    			<td>
-	                    				<br/>
-	                    				<input type="text" name="contest_criteria[weight][]" value=""  id="input-criteria<?php echo $language['language_id']; ?>" class="form-control input-expert" />
-	                    			</td>
-	                    			<td class="text-right">
-		                    			<button onclick="deleteRow(this, 'criteria');" type="button" data-toggle="tooltip" title="<?php echo $button_criteria_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
-	                    			</td>
-                    			</tr>
-		                    	<tr>
-			                    	<td colspan="3" class="text-right">
-			                    		<button type="button" onclick="addRow('criteria');" data-toggle="tooltip" title="<?php echo $button_criteria_add; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>
-			                    	</td>
-		                    	</tr>
-                    		</tbody>
-                    	</table>
-                    	
-                  </div>
-                </div>
+               
 
             </div><!-- /.tab-content-->
           </form>
@@ -547,12 +599,29 @@
   $('#input-description<?php echo $language['language_id']; ?>').summernote({
     height: 300
   });
+  $('#input-organizer<?php echo $language['language_id']; ?>').summernote({
+    height: 300
+  });
+  $('#input-propose<?php echo $language['language_id']; ?>').summernote({
+    height: 300
+  });
+  $('#input-location<?php echo $language['language_id']; ?>').summernote({
+    height: 300
+  });
+  $('#input-members<?php echo $language['language_id']; ?>').summernote({
+    height: 300
+  });
+  $('#input-timeline_text<?php echo $language['language_id']; ?>').summernote({
+    height: 300
+  });
+
   <?php } ?>
   $('.language-tab').each(function(){
 	  
 	  $('a:first', $(this)).tab('show');
   }) 
 //--></script>
+
 <script type="text/javascript"><!--
 var expert_row = <?php echo $expert_row; ?>;
 
@@ -581,6 +650,26 @@ function addExpert() {
 }
 //--></script>
 
+<script type="text/javascript"><!--
+var criteria_row = <?php echo $criteria_row; ?>;
+
+function addCriteria() {
+  html  = '<tr id="criteria-row' + criteria_row + '">';
+  
+
+  html += '<td>';
+  
+  html += '</td>';
+
+ 
+  html += '<td class="text-left"><button type="button" onclick="$(\'#criteria-row' + criteria_row  + '\').remove();" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+  html += '</tr>';
+  
+  $('#criterias tbody').append(html);
+  
+  criteria_row++;
+}
+//--></script>
 
 <script type="text/javascript"><!--
 	/*

@@ -5,7 +5,7 @@ $_['form_header']     = 'Редактирование конкурса';
 
 // tab
 $_['tab_direction']                   = 'Направления';
-$_['tab_timeline']                   = 'График';
+$_['tab_timeline']                   = 'Бюджет и график';
 $_['tab_request']                   = 'Заявка';
 
 // button

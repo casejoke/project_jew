@@ -6,6 +6,7 @@ class ModelContestContest extends Model {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "contest SET 
 			type 			= '" . (int)$data['type'] . "',
 			status 			= '" . (int)$data['status'] . "',
+			contest_fields 	= '" . $this->db->escape(isset($data['custom_fields']) ? serialize($data['custom_fields']) : '') . "',
 			maxprice 		= '" . (int)$data['maxprice'] . "',
 			totalprice 		= '" . (int)$data['totalprice'] . "',
 			date_start 		= '" . $this->db->escape($data['date_start']) . "',
@@ -139,6 +140,7 @@ class ModelContestContest extends Model {
 			type 			= '" . (int)$data['type'] . "',
 			status 			= '" . (int)$data['status'] . "',
 			maxprice 		= '" . (int)$data['maxprice'] . "',
+			contest_fields = '" . $this->db->escape(isset($data['custom_fields']) ? serialize($data['custom_fields']) : '') . "',
 			totalprice 		= '" . (int)$data['totalprice'] . "',
 			date_start 		= '" . $this->db->escape($data['date_start']) . "',
 			datetime_end 	= '" . $this->db->escape($data['datetime_end']) . "',
@@ -289,18 +291,18 @@ class ModelContestContest extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_expert WHERE contest_id = '" . (int)$contest_id . "'");
 		$this->event->trigger('post.admin.contest.delete', $contest_id);
 	}
-	public function copyContest($id){
-		$this->event->trigger('pre.admin.contest.copy', $id);
-		$query = $this->db->query("SELECT DISTINCT  * FROM " . DB_PREFIX . "contest d LEFT JOIN " . DB_PREFIX . "contest_description dd ON (d.id = dd.id) WHERE d.id = '" . (int)$id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+	public function copyContest($contest_id){
+		$this->event->trigger('pre.admin.contest.copy', $contest_id);
+		$query = $this->db->query("SELECT DISTINCT  * FROM " . DB_PREFIX . "contest d LEFT JOIN " . DB_PREFIX . "contest_description dd ON (d.contest_id = dd.contest_id) WHERE d.contest_id = '" . (int)$contest_id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 		if ($query->num_rows) {
 			$data = $query->row;
-			$data['contest_description'] = $this->getContestDescriptions($id,true);
+			$data['contest_description'] = $this->getContestDescriptions($contest_id,true);
 			$this->addContest($data);
 		}
-		$this->event->trigger('post.admin.contest.copy', $id);
+		$this->event->trigger('post.admin.contest.copy', $contest_id);
 	}
-	public function getContest($id) {
-		$query = $this->db->query("SELECT DISTINCT  *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'id=" . (int)$id . "') AS keyword FROM " . DB_PREFIX . "contest d LEFT JOIN " . DB_PREFIX . "contest_description dd ON (d.id = dd.id) WHERE d.id = '" . (int)$id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+	public function getContest($contest_id) {
+		$query = $this->db->query("SELECT DISTINCT  *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'contest_id=" . (int)$contest_id . "') AS keyword FROM " . DB_PREFIX . "contest d LEFT JOIN " . DB_PREFIX . "contest_description dd ON (d.contest_id = dd.contest_id) WHERE d.contest_id = '" . (int)$contest_id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}
@@ -346,11 +348,16 @@ class ModelContestContest extends Model {
 		return $query->rows;
 	}
 
+	public function getTotalContests() {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "contest");
 
-	public function getContestDescriptions($id,$copy = false) {
+		return $query->row['total'];
+	}
+
+	public function getContestDescriptions($contest_id,$copy = false) {
 		$contest_description_data = array();
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_description WHERE id = '" . (int)$id . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_description WHERE contest_id = '" . (int)$contest_id . "'");
 		
 		foreach ($query->rows as $result) {
 			
@@ -372,7 +379,7 @@ class ModelContestContest extends Model {
 		
 		$contest_expert = array();
 		$contest_expert_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_expert WHERE contest_id = '" . (int)$contest_id . "'");
-		if (!empty($occasion_contest_expert_query->rows)) {
+		if (!empty($contest_expert_query->rows)) {
 			$sql = "SELECT * , CONCAT(lastname, ' ', firstname) AS name FROM " . DB_PREFIX . "customer";
 			$implode = array();
 			
@@ -384,13 +391,46 @@ class ModelContestContest extends Model {
 			$query = $this->db->query($sql);
 			$contest_expert = $query->rows;
 		}
-
 		
 		return $contest_expert;
 	}
 
+	// получение связанных с конкурсом критериев
+	public function getContestCriteria($contest_id) {
+		
 
+		$query = $this->db->query("SELECT * 
+								   FROM " . DB_PREFIX . "contest_criteria cc  LEFT JOIN  ". DB_PREFIX . "contest_criteria_description ccd ON (cc.contest_criteria_id = ccd.contest_criteria_id)
+								   WHERE cc.contest_id = '" . (int)$contest_id . "'");
+		return $query->rows;
+	}
 
+	public function getContestCriteria($contest_id) {
+		$contest_criteria_data = array();
+		
+		$contest_criteria_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_criteria WHERE occasion_id = '" . (int)$occasion_id . "' ORDER BY sort_order ASC");
+		
+		foreach ($contest_criteria_query->rows as $contest_criteria) {
+			$occasion_video_description_data = array();
+			 
+			$occasion_video_description_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "occasion_video_description WHERE occasion_video_id = '" . (int)$occasion_video['occasion_video_id'] . "' AND occasion_id = '" . (int)$occasion_id . "'");
+			
+			foreach ($occasion_video_description_query->rows as $occasion_video_description) {			
+				$occasion_video_description_data[$occasion_video_description['language_id']] = array(
+					'title' => $occasion_video_description['title']
+				);
+			}
+		
+			$contest_criteria_data[] = array(
+				'occasion_video_description'  	=> $occasion_video_description_data,
+				'link'                     	=> $occasion_video['link'],
+				'image'                    	=> $occasion_video['image'],
+				'sort_order'			    => $occasion_video['sort_order'],
+			);
+		}
+		
+		return $contest_criteria_data;
+	}
 
 
 	// получение связанных с конкурсом направлений
@@ -435,37 +475,41 @@ class ModelContestContest extends Model {
 	
 	
 	
-	// получение связанных с конкурсом критериев
-	public function getContestCriteria($id) {
-		
-		$criteria = array();
-
-		$query = $this->db->query("SELECT * 
-								   FROM " . DB_PREFIX . "contest_criteria cc,
-								   		" . DB_PREFIX . "contest_criteria_description ccd 
-								   WHERE cc.parent_id = '" . (int)$id . "' AND cc.id = ccd.id");
-		
-		foreach ($query->rows as $result) {
-		
-			$criteria[$result['id']][$result['language_id']] = $result;
-		}
-
-		return $criteria;
-	}
+	
 	
 	public function getContestTypes(){
-		
-		return array('Открытый', 'По приглашению');
+		$data_contest_types = array();
+		$data_contest_types[] = array(
+			'contest_type_id' => 1,
+			'contest_type_title' => 'Открытый'
+		);
+		$data_contest_types[] = array(
+			'contest_type_id' => 2,
+			'contest_type_title' => 'По приглашению'
+		);
+		$data_contest_types[] = array(
+			'contest_type_id' => 3,
+			'contest_type_title' => 'Best Practice'
+		);
+		return $data_contest_types;
 	}
 	
 	public function getContestStatuses(){
-		
-		return array('В работе', 'Активный', 'Закрыт', 'Завершен', 'Архив');
+		$data_contest_status = array();
+		$data_contest_status[] = array(
+			'contest_status_id' => 0,
+			'contest_status_title' => 'В работе'
+		);
+		$data_contest_status[] = array(
+			'contest_status_id' => 1,
+			'contest_status_title' => 'Активный'
+		);
+		$data_contest_status[] = array(
+			'contest_status_id' => 2,
+			'contest_status_title' => 'Архив'
+		);
+		return $data_contest_status;
 	}
 
-	public function getTotalContests() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "contest");
-
-		return $query->row['total'];
-	}
+	
 }

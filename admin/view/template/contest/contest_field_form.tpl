@@ -65,14 +65,14 @@
                       <label class="control-label" for="input-location"><?php echo $entry_field_system; ?></label>
                       <div class="select">
                       <select name="field_system" id="input-field_system" class="form-control">
-                          <option value="0"><?php echo $text_none; ?></option>
+                          <option value="custom" data-source="custom" ><?php echo $text_none; ?></option>
                           <optgroup label="<?php echo $text_customer; ?>">
                             <?php if (!empty($contest_field_system['customer'])) { ?>
                               <?php foreach ($contest_field_system['customer'] as $cfs) { ?>
                                 <?php if ($cfs['field_value'] == $field_system) { ?>
-                                  <option value="<?php echo $cfs['field_value']; ?>" selected="selected"><?php echo $cfs['field_title']; ?></option>
+                                  <option value="<?php echo $cfs['field_value']; ?>" data-source="<?php echo $cfs['field_source']; ?>" selected="selected"><?php echo $cfs['field_title']; ?></option>
                                 <?php } else { ?>
-                                  <option value="<?php echo $cfs['field_value']; ?>"><?php echo $cfs['field_title']; ?></option>
+                                  <option value="<?php echo $cfs['field_value']; ?>" data-source="<?php echo $cfs['field_source']; ?>"><?php echo $cfs['field_title']; ?></option>
                                 <?php } ?>
                               <?php } ?>
                             <?php } ?>
@@ -89,7 +89,7 @@
 
 
 
-              <div class="row">
+              <div class="row custom_fields">
                 <div class="col-sm-6">
                   <div class="form-group <?php if (!empty($error_location)) { ?> has-error <?php } ?>">
                     <div class="fg-line">
@@ -134,7 +134,7 @@
                 </div>
               </div><!--/.row -->
 
-              <div class="row">
+              <div class="row custom_fields">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <div class="fg-line">
@@ -286,7 +286,15 @@ $('.language-tab').each(function(){
     $('a:first', $(this)).tab('show');
   }) 
 
-
+$('select[name=\'field_system\']').on('change', function() {
+  if ( this.value == 'custom') {
+     $('.custom_fields').show();
+  }else{
+     $('.custom_fields').hide();
+  }
+  var option = $('option:selected', this).attr('data-source');
+  $('input[name=\'field_system_table\']').val(option);
+}); 
 $('select[name=\'type\']').on('change', function() {
 	if ( this.value == 'select' || this.value == 'radio' || this.value == 'checkbox') {
 		$('#custom-field-value').show();
@@ -328,6 +336,7 @@ $('select[name=\'type\']').on('change', function() {
 });
 
 $('select[name=\'type\']').trigger('change');
+$('select[name=\'field_system\']').trigger('change');
 
 var contest_field_value_row = <?php echo $contest_field_value_row; ?>;
 

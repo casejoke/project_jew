@@ -83,4 +83,7 @@ function rus_date() {
         }
         return $ending;
     }
+     function sortBySortOrder($a, $b) {
+        return $b['sort_order'] - $a['sort_order'];
+    }
 ?>
