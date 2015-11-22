@@ -12,7 +12,7 @@
                     <i class="md  md-note-add"></i>
                 </a>
             </li>
-            <li><button class="btn btn-info" onclick="$('#form-contest').attr('action', '<?php echo $copy; ?>').submit()"> <?php echo $button_copy; ?></button></li>
+            <li class="hidden"><button class="btn btn-info" onclick="$('#form-contest').attr('action', '<?php echo $copy; ?>').submit()"> <?php echo $button_copy; ?></button></li>
             <li><button class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-contest').submit() : false;"> <?php echo $button_delete; ?></button></li>
         </ul>
       </div>

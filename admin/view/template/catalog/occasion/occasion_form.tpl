@@ -591,7 +591,7 @@ var video_row = <?php echo $video_row; ?>;
 
 function addVideo() {
   html  = '<tr id="video-row' + video_row + '">';
-    html += '  <td>';
+    html += '  <td style="width: 30%;">';
   <?php foreach ($languages as $language) { ?>
   html += '    <div class="input-group">';
   html += '      <span class="input-group-addon"><?php echo $language['name']; ?></span><div class="fg-line"><input type="text" name="occasion_video[' + video_row + '][occasion_video_description][<?php echo $language['language_id']; ?>][title]" value="" placeholder="<?php echo $entry_image_title; ?>" class="form-control" /></div>';

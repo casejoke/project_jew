@@ -4,11 +4,12 @@ class ModelContestContest extends Model {
 		$this->event->trigger('pre.admin.contest.add', $data);
 
 		$this->db->query("INSERT INTO " . DB_PREFIX . "contest SET 
+			image = '" . $this->db->escape($data['image']) . "',
 			type 			= '" . (int)$data['type'] . "',
 			status 			= '" . (int)$data['status'] . "',
 			contest_fields 	= '" . $this->db->escape(isset($data['custom_fields']) ? serialize($data['custom_fields']) : '') . "',
-			maxprice 		= '" . (int)$data['maxprice'] . "',
-			totalprice 		= '" . (int)$data['totalprice'] . "',
+			maxprice 		= '" . $this->db->escape($data['maxprice']) . "',
+			totalprice 		= '" . $this->db->escape($data['totalprice']) . "',
 			date_start 		= '" . $this->db->escape($data['date_start']) . "',
 			datetime_end 	= '" . $this->db->escape($data['datetime_end']) . "',
 			date_rate 		= '" . $this->db->escape($data['date_rate']) . "',
@@ -43,39 +44,54 @@ class ModelContestContest extends Model {
 					
 				");
 			}
-		}/*
+		}
+		// связанные критерии
+		if (isset($data['contest_criteria'])) {
+			foreach ($data['contest_criteria'] as $contest_criteria) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria SET 
+					contest_id 	= '" . (int)$contest_id . "', 
+					weight 		= '" . (int)$contest_criteria['weight'] . "',
+					sort_order 	= '" . (int)$contest_criteria['sort_order'] . "'
+				");
 
+				$contest_criteria_id = $this->db->getLastId();
 
-		// связанные направления
-		
-		if (isset($data['contest_direction'])) {
-		
-			$lang_ids = array();
-		
-			foreach ($data['contest_direction'] as $language_id => $directions) {
-
-				foreach ($directions as $k => $one_direction) {
-				
-					if (!empty($one_direction)){
-				
-						if (!isset($lang_ids[$k])){
-							
-							$this->db->query("INSERT INTO " . DB_PREFIX . "contest_direction SET 
-								parent_id = '" . (int)$contest_id . "'
-							");
-			
-							$lang_ids[$k] = $this->db->getLastId();
-						}
-							
-						$this->db->query("INSERT INTO " . DB_PREFIX . "contest_direction_description SET 
-							id = '" . (int)$lang_ids[$k] . "', 
-							language_id = '" . (int)$language_id . "', 
-							title = '" .  $this->db->escape($one_direction) . "'
-						");
-					}					
+				foreach ($contest_criteria['contest_criteria_description'] as $language_id => $contest_criteria_description) {
+					$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria_description SET 
+						contest_criteria_id = '" . (int)$contest_criteria_id . "', 
+						contest_id  = '" . (int)$contest_id . "',
+						language_id = '" . (int)$language_id . "', 
+						title = '" .  $this->db->escape($contest_criteria_description['title']) . "'
+					");
 				}
 			}
 		}
+		// связанные направления
+	  	if (isset($data['contest_direction'])) {
+	      foreach ($data['contest_direction'] as $contest_direction) {
+	        $this->db->query("INSERT INTO " . DB_PREFIX . "contest_direction SET 
+	          contest_id  = '" . (int)$contest_id . "', 
+	          sort_order  = '" . (int)$contest_direction['sort_order'] . "'
+	        ");
+
+	        $contest_direction_id = $this->db->getLastId();
+
+	        foreach ($contest_direction['contest_direction_description'] as $language_id => $contest_direction_description) {
+	          $this->db->query("INSERT INTO " . DB_PREFIX . "contest_direction_description SET 
+	            contest_direction_id = '" . (int)$contest_direction_id . "', 
+	            contest_id  = '" . (int)$contest_id . "',
+	            language_id = '" . (int)$language_id . "', 
+	            title = '" .  $this->db->escape($contest_direction_description['title']) . "'
+	          ");
+	        }
+	      }
+	    }	  
+		/*
+
+
+	
+		
+		i
 		
 		// связанные файлы
 		if (isset($data['contest_file']) && count($data['contest_file'])) {
@@ -95,38 +111,8 @@ class ModelContestContest extends Model {
 		
 		
 		
-		// связанные критерии
-		if (isset($data['contest_criteria'])) {
 		
-			$lang_ids = array();
-			$weight = $data['contest_criteria']['weight'];
-			unset($data['contest_criteria']['weight']);
 		
-			foreach ($data['contest_criteria'] as $language_id => $criterias) {
-
-				foreach ($criterias['title'] as $k => $one_criteria) {
-				
-					if (!empty($one_criteria)){
-				
-						if (!isset($lang_ids[$k])){
-							
-							$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria SET 
-								parent_id = '" . (int)$id . "',
-								weight = '" . (int)$weight[$k] . "'
-							");
-			
-							$lang_ids[$k] = $this->db->getLastId();
-						}
-							
-						$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria_description SET 
-							id = '" . (int)$lang_ids[$k] . "', 
-							language_id = '" . (int)$language_id . "', 
-							title = '" .  $this->db->escape($one_criteria) . "'
-						");
-					}					
-				}
-			}
-		}
 		*/
 		$this->event->trigger('post.admin.contest.add', $id);
 
@@ -137,11 +123,12 @@ class ModelContestContest extends Model {
 		$this->event->trigger('pre.admin.contest.edit', $data);
 
 		$this->db->query("UPDATE " . DB_PREFIX . "contest SET 
+			image = '" . $this->db->escape($data['image']) . "',
 			type 			= '" . (int)$data['type'] . "',
 			status 			= '" . (int)$data['status'] . "',
-			maxprice 		= '" . (int)$data['maxprice'] . "',
+			maxprice 		= '" . $this->db->escape($data['maxprice']) . "',
+			totalprice 		= '" . $this->db->escape($data['totalprice']) . "',
 			contest_fields = '" . $this->db->escape(isset($data['custom_fields']) ? serialize($data['custom_fields']) : '') . "',
-			totalprice 		= '" . (int)$data['totalprice'] . "',
 			date_start 		= '" . $this->db->escape($data['date_start']) . "',
 			datetime_end 	= '" . $this->db->escape($data['datetime_end']) . "',
 			date_rate 		= '" . $this->db->escape($data['date_rate']) . "',
@@ -180,43 +167,54 @@ class ModelContestContest extends Model {
 			}
 		}
 
-		/*
-		// связанные направления
-		
-		$this->db->query("DELETE cd.*, cdd.* 
-						  FROM " . DB_PREFIX . "contest_direction cd
-						  LEFT JOIN " . DB_PREFIX . "contest_direction_description cdd
-						  ON cd.id = cdd.id
-						  WHERE parent_id = '" . (int)$contest_id . "'");
-		
-		if (isset($data['contest_direction'])) {
-		
-			$lang_ids = array();
-		
-			foreach ($data['contest_direction'] as $language_id => $directions) {
 
-				foreach ($directions as $k => $one_direction) {
-				
-					if (!empty($one_direction)){
-				
-						if (!isset($lang_ids[$k])){
-							
-							$this->db->query("INSERT INTO " . DB_PREFIX . "contest_direction SET 
-								parent_id = '" . (int)$contest_id . "'
-							");
-			
-							$lang_ids[$k] = $this->db->getLastId();
-						}
-							
-						$this->db->query("INSERT INTO " . DB_PREFIX . "contest_direction_description SET 
-							id = '" . (int)$lang_ids[$k] . "', 
-							language_id = '" . (int)$language_id . "', 
-							title = '" .  $this->db->escape($one_direction) . "'
-						");
-					}					
+		// связанные критерии
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_criteria WHERE contest_id = '" . (int)$contest_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_criteria_description WHERE contest_id = '" . (int)$contest_id . "'");
+		if (isset($data['contest_criteria'])) {
+			foreach ($data['contest_criteria'] as $contest_criteria) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria SET 
+					contest_id 	= '" . (int)$contest_id . "', 
+					weight 		= '" . (int)$contest_criteria['weight'] . "',
+					sort_order 	= '" . (int)$contest_criteria['sort_order'] . "'
+				");
+
+				$contest_criteria_id = $this->db->getLastId();
+
+				foreach ($contest_criteria['contest_criteria_description'] as $language_id => $contest_criteria_description) {
+					$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria_description SET 
+						contest_criteria_id = '" . (int)$contest_criteria_id . "', 
+						contest_id  = '" . (int)$contest_id . "',
+						language_id = '" . (int)$language_id . "', 
+						title = '" .  $this->db->escape($contest_criteria_description['title']) . "'
+					");
 				}
 			}
-		}
+		}	
+		// связанные направления	
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_direction WHERE contest_id = '" . (int)$contest_id . "'");
+	    $this->db->query("DELETE FROM " . DB_PREFIX . "contest_direction_description WHERE contest_id = '" . (int)$contest_id . "'");
+	    if (isset($data['contest_direction'])) {
+	      foreach ($data['contest_direction'] as $contest_direction) {
+	        $this->db->query("INSERT INTO " . DB_PREFIX . "contest_direction SET 
+	          contest_id  = '" . (int)$contest_id . "', 
+	          sort_order  = '" . (int)$contest_direction['sort_order'] . "'
+	        ");
+
+	        $contest_direction_id = $this->db->getLastId();
+
+	        foreach ($contest_direction['contest_direction_description'] as $language_id => $contest_direction_description) {
+	          $this->db->query("INSERT INTO " . DB_PREFIX . "contest_direction_description SET 
+	            contest_direction_id = '" . (int)$contest_direction_id . "', 
+	            contest_id  = '" . (int)$contest_id . "',
+	            language_id = '" . (int)$language_id . "', 
+	            title = '" .  $this->db->escape($contest_direction_description['title']) . "'
+	          ");
+	        }
+	      }
+	    }	  
+		/*
+		
 		
 		// связанные файлы
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_file
@@ -234,51 +232,7 @@ class ModelContestContest extends Model {
 				}					
 			}
 		}
-
-		
-
-
-		
-		// связанные критерии
-						  
-		$this->db->query("DELETE cc.*, ccd.* 
-						  FROM " . DB_PREFIX . "contest_criteria cc
-						  LEFT JOIN " . DB_PREFIX . "contest_criteria_description ccd
-						  ON cc.id = ccd.id
-						  WHERE parent_id = '" . (int)$contest_id . "'
-						  ORDER BY cc.id ASC");
-						  
-		if (isset($data['contest_criteria'])) {
-		
-			$lang_ids = array();
-			$weight = $data['contest_criteria']['weight'];
-			unset($data['contest_criteria']['weight']);
-		
-			foreach ($data['contest_criteria'] as $language_id => $criterias) {
-
-				foreach ($criterias['title'] as $k => $one_criteria) {
-				
-					if (!empty($one_criteria)){
-				
-						if (!isset($lang_ids[$k])){
-							
-							$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria SET 
-								parent_id = '" . (int)$contest_id . "',
-								weight = '" . (int)$weight[$k] . "'
-							");
-			
-							$lang_ids[$k] = $this->db->getLastId();
-						}
-							
-						$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria_description SET 
-							id = '" . (int)$lang_ids[$k] . "', 
-							language_id = '" . (int)$language_id . "', 
-							title = '" .  $this->db->escape($one_criteria) . "'
-						");
-					}					
-				}
-			}
-		}
+	
 */
 		$this->event->trigger('post.admin.contest.edit', $contest_id);
 	}
@@ -291,6 +245,7 @@ class ModelContestContest extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_expert WHERE contest_id = '" . (int)$contest_id . "'");
 		$this->event->trigger('post.admin.contest.delete', $contest_id);
 	}
+
 	public function copyContest($contest_id){
 		$this->event->trigger('pre.admin.contest.copy', $contest_id);
 		$query = $this->db->query("SELECT DISTINCT  * FROM " . DB_PREFIX . "contest d LEFT JOIN " . DB_PREFIX . "contest_description dd ON (d.contest_id = dd.contest_id) WHERE d.contest_id = '" . (int)$contest_id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
@@ -301,6 +256,7 @@ class ModelContestContest extends Model {
 		}
 		$this->event->trigger('post.admin.contest.copy', $contest_id);
 	}
+
 	public function getContest($contest_id) {
 		$query = $this->db->query("SELECT DISTINCT  *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'contest_id=" . (int)$contest_id . "') AS keyword FROM " . DB_PREFIX . "contest d LEFT JOIN " . DB_PREFIX . "contest_description dd ON (d.contest_id = dd.contest_id) WHERE d.contest_id = '" . (int)$contest_id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
@@ -397,60 +353,57 @@ class ModelContestContest extends Model {
 
 	// получение связанных с конкурсом критериев
 	public function getContestCriteria($contest_id) {
-		
-
-		$query = $this->db->query("SELECT * 
-								   FROM " . DB_PREFIX . "contest_criteria cc  LEFT JOIN  ". DB_PREFIX . "contest_criteria_description ccd ON (cc.contest_criteria_id = ccd.contest_criteria_id)
-								   WHERE cc.contest_id = '" . (int)$contest_id . "'");
-		return $query->rows;
-	}
-
-	public function getContestCriteria($contest_id) {
 		$contest_criteria_data = array();
 		
-		$contest_criteria_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_criteria WHERE occasion_id = '" . (int)$occasion_id . "' ORDER BY sort_order ASC");
+		$contest_criteria_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_criteria WHERE contest_id = '" . (int)$contest_id . "' ORDER BY sort_order ASC");
 		
 		foreach ($contest_criteria_query->rows as $contest_criteria) {
-			$occasion_video_description_data = array();
+			$contest_criteria_description_data = array();
 			 
-			$occasion_video_description_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "occasion_video_description WHERE occasion_video_id = '" . (int)$occasion_video['occasion_video_id'] . "' AND occasion_id = '" . (int)$occasion_id . "'");
+			$contest_criteria_description_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_criteria_description WHERE contest_criteria_id = '" . (int)$contest_criteria['contest_criteria_id'] . "' AND contest_id = '" . (int)$contest_id . "'");
 			
-			foreach ($occasion_video_description_query->rows as $occasion_video_description) {			
-				$occasion_video_description_data[$occasion_video_description['language_id']] = array(
-					'title' => $occasion_video_description['title']
+			foreach ($contest_criteria_description_query->rows as $contest_criteria_description) {			
+				$contest_criteria_description_data[$contest_criteria_description['language_id']] = array(
+					'title' => $contest_criteria_description['title']
 				);
 			}
 		
 			$contest_criteria_data[] = array(
-				'occasion_video_description'  	=> $occasion_video_description_data,
-				'link'                     	=> $occasion_video['link'],
-				'image'                    	=> $occasion_video['image'],
-				'sort_order'			    => $occasion_video['sort_order'],
+				'contest_criteria_description'  	=> $contest_criteria_description_data,
+				'weight'                     		=> $contest_criteria['weight'],
+				'sort_order'			    => $contest_criteria['sort_order']
 			);
 		}
 		
 		return $contest_criteria_data;
 	}
 
-
 	// получение связанных с конкурсом направлений
-	public function getContestdirections($id) {
-		
-		$directions = array();
+	public function getContestDirection($contest_id) {
+	    $contest_direction_data = array();
+	    
+	    $contest_direction_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_direction WHERE contest_id = '" . (int)$contest_id . "' ORDER BY sort_order ASC");
+	    
+	    foreach ($contest_direction_query->rows as $contest_direction) {
+	      $contest_direction_description_data = array();
+	       
+	      $contest_direction_description_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_direction_description WHERE contest_direction_id = '" . (int)$contest_direction['contest_direction_id'] . "' AND contest_id = '" . (int)$contest_id . "'");
+	      
+	      foreach ($contest_direction_description_query->rows as $contest_direction_description) {      
+	        $contest_direction_description_data[$contest_direction_description['language_id']] = array(
+	          'title' => $contest_direction_description['title']
+	        );
+	      }
+	    
+	      $contest_direction_data[] = array(
+	        'contest_direction_description'    => $contest_direction_description_data,
+	        'sort_order'          => $contest_direction['sort_order']
+	      );
+	    }
+	    
+	    return $contest_direction_data;
+	  }
 
-		$query = $this->db->query("SELECT * 
-								   FROM " . DB_PREFIX . "contest_direction cd,
-								   		" . DB_PREFIX . "contest_direction_description cdd 
-								   WHERE cd.parent_id = '" . (int)$id . "' AND cd.id = cdd.id
-								   ORDER BY cd.id");
-		
-		foreach ($query->rows as $k => $result) {
-		
-			$directions[$result['id']][$result['language_id']] = $result;
-		}
-
-		return $directions;
-	}
 	
 	// получение связанных с конкурсом файлов
 	public function getContestFile($id){
@@ -468,15 +421,6 @@ class ModelContestContest extends Model {
 		return $files;
 	}
 
-
-
-
-	
-	
-	
-	
-	
-	
 	public function getContestTypes(){
 		$data_contest_types = array();
 		$data_contest_types[] = array(
