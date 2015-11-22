@@ -58,19 +58,19 @@
                   </tr>
               </thead>
               <tbody>
-                 <?php if ($custom_fields) { ?>
-                <?php foreach ($custom_fields as $custom_field) { ?>
+                 <?php if ($contest_fields) { ?>
+                <?php foreach ($contest_fields as $contest_field) { ?>
                 <tr>
-                  <td class="text-center"><?php if (in_array($custom_field['custom_field_id'], $selected)) { ?>
-                    <input type="checkbox" name="selected[]" value="<?php echo $custom_field['custom_field_id']; ?>" checked="checked" />
+                  <td class="text-center"><?php if (in_array($contest_field['contest_field_id'], $selected)) { ?>
+                    <input type="checkbox" name="selected[]" value="<?php echo $contest_field['contest_field_id']; ?>" checked="checked" />
                     <?php } else { ?>
-                    <input type="checkbox" name="selected[]" value="<?php echo $custom_field['custom_field_id']; ?>" />
+                    <input type="checkbox" name="selected[]" value="<?php echo $contest_field['contest_field_id']; ?>" />
                     <?php } ?></td>
-                  <td class="text-left"><?php echo $custom_field['name']; ?></td>
-                  <td class="text-left"><?php echo $custom_field['location']; ?></td>
-                  <td class="text-left"><?php echo $custom_field['type']; ?></td>
-                  <td class="text-right"><?php echo $custom_field['sort_order']; ?></td>
-                  <td class="text-right"><a href="<?php echo $custom_field['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                  <td class="text-left"><?php echo $contest_field['name']; ?></td>
+                  <td class="text-left"><?php echo $contest_field['location']; ?></td>
+                  <td class="text-left"><?php echo $contest_field['type']; ?></td>
+                  <td class="text-right"><?php echo $contest_field['sort_order']; ?></td>
+                  <td class="text-right"><a href="<?php echo $contest_field['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php } ?>
                 <?php } else { ?>

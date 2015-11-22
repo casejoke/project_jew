@@ -135,6 +135,8 @@ class ControllerCommonMenu extends Controller {
 		$data['text_category_request']      = $this->language->get('text_category_request');
 		$data['category_request'] = $this->url->link('localisation/category_request', 'token=' . $this->session->data['token'], 'SSL');
 
+		$data['text_contest_field']      = $this->language->get('text_contest_field');
+		$data['contest_field'] = $this->url->link('contest/contest_field', 'token=' . $this->session->data['token'], 'SSL');
 
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
 		$data['affiliate'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'], 'SSL');

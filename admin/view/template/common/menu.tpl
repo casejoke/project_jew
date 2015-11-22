@@ -1,5 +1,6 @@
 <ul class="main-menu">
   <li class="hidden"><a href="<?php echo $home; ?>"><i class="md md-dashboard"></i> <?php echo $text_dashboard; ?></a></li>
+
   
   <li><a href="<?php echo $contest; ?>"><i class="md md-format-list-bulleted"></i> <?php echo $text_contest; ?> </a></li>
   <li  class="hidden"><a href="<?php echo $occasion_record; ?>"><i class="md md-receipt"></i> <?php echo $text_occasion_record; ?></a></li>
@@ -37,6 +38,7 @@
    <a href=""><i class="md md-language"></i> <?php echo $text_localisation; ?></a>
     <ul>
       <li><a href="<?php echo $category_request; ?>"><?php echo $text_category_request; ?></a></li> 
+      <li><a href="<?php echo $contest_field; ?>"><?php echo $text_contest_field; ?></a></li> 
       <li><a href="<?php echo $age_status; ?>"><?php echo $text_age_status; ?></a></li>
       <li><a href="<?php echo $sex_status; ?>"><?php echo $text_sex_status; ?></a></li>
       <li><a href="<?php echo $nationality_status; ?>"><?php echo $text_nationality_status; ?></a></li>

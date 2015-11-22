@@ -167,7 +167,7 @@
                     <select class="form-control" name="project_currency_id">
                       <?php if (!empty($currencies)) { ?>
                         <?php foreach ($currencies as $pc) { ?>
-                          <?php if ($ps['currency_id'] == $project_currency_id) { ?>
+                          <?php if ($pc['currency_id'] == $project_currency_id) { ?>
                             <option value="<?php echo $pc['currency_id']; ?>" selected="selected"><?php echo $pc['code']; ?></option>
                           <?php } else { ?>
                             <option value="<?php echo $pc['currency_id']; ?>"><?php echo $pc['code']; ?></option>

@@ -117,6 +117,9 @@ $_['text_nationality_status']          = 'Национальность';
 $_['text_professional_status']         = 'Проффесиональный статус';
 $_['text_demographic_status']          = 'Демографический статус';
 $_['text_project_status']          	   = 'Статус проектов';
+$_['text_contest_field']          	   = 'Поля для заявки';
+$_['text_category_request']            = 'Категории полей заявки';
+
 
 
 

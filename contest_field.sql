@@ -17,11 +17,11 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `oc_custom_field`
+-- Структура таблицы `oc_contest_field`
 --
 
-CREATE TABLE `oc_custom_field` (
-  `custom_field_id` int(11) NOT NULL,
+CREATE TABLE `oc_contest_field` (
+  `contest_field_id` int(11) NOT NULL,
   `type` varchar(32) NOT NULL,
   `value` text NOT NULL,
   `location` varchar(7) NOT NULL,
@@ -34,20 +34,20 @@ CREATE TABLE `oc_custom_field` (
 --
 
 --
--- Индексы таблицы `oc_custom_field`
+-- Индексы таблицы `oc_contest_field`
 --
-ALTER TABLE `oc_custom_field`
-  ADD PRIMARY KEY (`custom_field_id`);
+ALTER TABLE `oc_contest_field`
+  ADD PRIMARY KEY (`contest_field_id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT для таблицы `oc_custom_field`
+-- AUTO_INCREMENT для таблицы `oc_contest_field`
 --
-ALTER TABLE `oc_custom_field`
-  MODIFY `custom_field_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+ALTER TABLE `oc_contest_field`
+  MODIFY `contest_field_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 
 
 
@@ -71,11 +71,11 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `oc_custom_field_description`
+-- Структура таблицы `oc_contest_field_description`
 --
 
-CREATE TABLE `oc_custom_field_description` (
-  `custom_field_id` int(11) NOT NULL,
+CREATE TABLE `oc_contest_field_description` (
+  `contest_field_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -85,10 +85,10 @@ CREATE TABLE `oc_custom_field_description` (
 --
 
 --
--- Индексы таблицы `oc_custom_field_description`
+-- Индексы таблицы `oc_contest_field_description`
 --
-ALTER TABLE `oc_custom_field_description`
-  ADD PRIMARY KEY (`custom_field_id`,`language_id`);
+ALTER TABLE `oc_contest_field_description`
+  ADD PRIMARY KEY (`contest_field_id`,`language_id`);
 
 
 
@@ -111,12 +111,12 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `oc_custom_field_value`
+-- Структура таблицы `oc_contest_field_value`
 --
 
-CREATE TABLE `oc_custom_field_value` (
-  `custom_field_value_id` int(11) NOT NULL,
-  `custom_field_id` int(11) NOT NULL,
+CREATE TABLE `oc_contest_field_value` (
+  `contest_field_value_id` int(11) NOT NULL,
+  `contest_field_id` int(11) NOT NULL,
   `sort_order` int(3) NOT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -125,20 +125,20 @@ CREATE TABLE `oc_custom_field_value` (
 --
 
 --
--- Индексы таблицы `oc_custom_field_value`
+-- Индексы таблицы `oc_contest_field_value`
 --
-ALTER TABLE `oc_custom_field_value`
-  ADD PRIMARY KEY (`custom_field_value_id`);
+ALTER TABLE `oc_contest_field_value`
+  ADD PRIMARY KEY (`contest_field_value_id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT для таблицы `oc_custom_field_value`
+-- AUTO_INCREMENT для таблицы `oc_contest_field_value`
 --
-ALTER TABLE `oc_custom_field_value`
-  MODIFY `custom_field_value_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+ALTER TABLE `oc_contest_field_value`
+  MODIFY `contest_field_value_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 
 
 
@@ -161,13 +161,13 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `oc_custom_field_value_description`
+-- Структура таблицы `oc_contest_field_value_description`
 --
 
-CREATE TABLE `oc_custom_field_value_description` (
-  `custom_field_value_id` int(11) NOT NULL,
+CREATE TABLE `oc_contest_field_value_description` (
+  `contest_field_value_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `custom_field_id` int(11) NOT NULL,
+  `contest_field_id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -176,7 +176,7 @@ CREATE TABLE `oc_custom_field_value_description` (
 --
 
 --
--- Индексы таблицы `oc_custom_field_value_description`
+-- Индексы таблицы `oc_contest_field_value_description`
 --
-ALTER TABLE `oc_custom_field_value_description`
-  ADD PRIMARY KEY (`custom_field_value_id`,`language_id`);
+ALTER TABLE `oc_contest_field_value_description`
+  ADD PRIMARY KEY (`contest_field_value_id`,`language_id`);
