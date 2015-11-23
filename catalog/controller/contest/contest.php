@@ -1,6 +1,6 @@
 <?php
 /**
- * Инициативные группы
+ * Конкурсы
  */
 class ControllerContestContest extends Controller {
 	public function index(){
@@ -32,21 +32,19 @@ class ControllerContestContest extends Controller {
 		//подтянем все активные группы
 		$results_contests = $this->model_contest_contest->getContests();
 		$data['contests'] = array();
-		foreach ($results_contests as $result_p) {
-			if (!empty($result_p['image'])) {
-				$upload_info = $this->model_tool_upload->getUploadByCode($result_p['image']);
-				$filename = $upload_info['filename'];
-				$image = $this->model_tool_upload->resize($filename , 300, 300,'h');
-			} else {
-				$image = $this->model_tool_image->resize('no-image.png', 300, 300,'h');
+		foreach ($results_contests as $rc) {
+			if (!empty($rc['image'])) {
+				$image= $this->model_tool_image->resize($rc['image'], 300, 300,'h');
+			}else{
+				$image = $this->model_tool_image->resize('placeholder.png', 300, 300,'h');
 			}
 
 			$actions = array(
-				'view'		=> $this->url->link('contest/view', 'contest_id='.$result_p['contest_id'], 'SSL')
+				'view'		=> $this->url->link('contest/view', 'contest_id='.$rc['contest_id'], 'SSL')
 			);
 			$data['contests'][] = array(
-				'contest_id'			=> $result_p['contest_id'],
-				'contest_title'			=> (strlen(strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'))) > 50 ? mb_strcut(strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8')), 0, 55) . '...' : strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'))),
+				'contest_id'			=> $rc['contest_id'],
+				'contest_title'			=> (strlen(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))) > 50 ? mb_strcut(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8')), 0, 55) . '...' : strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))),
 				'contest_image'			=> $image,
 				'action'				=> $actions
 			);

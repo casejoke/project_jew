@@ -84,13 +84,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
-
-
-
-
-              <div class="row custom_fields">
-                <div class="col-sm-6">
+                 <div class="col-sm-6">
                   <div class="form-group <?php if (!empty($error_location)) { ?> has-error <?php } ?>">
                     <div class="fg-line">
                       <label class="control-label" for="input-location"><?php echo $entry_location; ?></label>
@@ -114,6 +108,13 @@
                     <?php } ?>
                   </div>
                 </div>
+              </div>
+
+
+
+
+              <div class="row custom_fields">
+               
                 <div class="col-sm-6">
                   <div class="form-group">
                     <div class="fg-line">

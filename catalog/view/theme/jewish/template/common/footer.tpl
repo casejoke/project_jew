@@ -130,7 +130,7 @@
 				<div class="row">
 	
 					<div class="col-sm-6">
-						<p class="copyright font-alt">© 2012 г. Хамама,  Все права защищены</p>
+						<p class="copyright font-alt">© 2012 г. Jewis-grassroots,  Все права защищены</p>
 					</div>
 	
 					<div class="col-sm-6">

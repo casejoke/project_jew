@@ -30,7 +30,7 @@ class ControllerProjectView extends Controller {
 		if (isset($this->request->get['project_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$project_info = $this->model_project_project->getProject($this->request->get['project_id']);
 		}
-		//проверим сушествоание группы 
+		//проверим сушествоание проекта 
 		if ( empty($project_info) ){
 			//редиректим на список 
 			$this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');

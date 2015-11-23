@@ -151,6 +151,8 @@ class ControllerAccountAccount extends Controller {
 				'group_id'	=> $result['init_group_id']
 			);
 		}
+
+		
 		//выведем приглашения в группы status = 2
 		$filter_data = array();
 		$filter_data = array(

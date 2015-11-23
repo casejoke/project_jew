@@ -402,7 +402,7 @@ class ModelContestContest extends Model {
 	    }
 	    
 	    return $contest_direction_data;
-	  }
+	}
 
 	
 	// получение связанных с конкурсом файлов

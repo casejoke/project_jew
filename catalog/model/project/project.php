@@ -16,7 +16,7 @@ class ModelProjectProject extends Model {
 			project_professional = '" . (isset($data['professional_status']) ? $this->db->escape(serialize($data['professional_status'])) : '') . "',
 			project_demographic = '" . (isset($data['demographic_status']) ? $this->db->escape(serialize($data['demographic_status'])) : '') . "',
 			project_budget = '" . (int)$data['project_budget']. "', 
-			project_currency_id = '" . (int)$data['project_currency_id']. "'
+			project_currency_id = '" . (int)$data['project_currency_id']. "',
 			date_added = NOW()"
 		);
 
