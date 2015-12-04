@@ -522,6 +522,7 @@ class ControllerContestContestField extends Controller {
 
 
 		//подтянем список системных (постоянно есть в системе)
+		//поля для пользователя
 		$data['text_customer'] = $this->language->get('text_customer');
 		$data['contest_field_system']['customer'] = array();
 
@@ -545,6 +546,106 @@ class ControllerContestContestField extends Controller {
 			'field_source'		   => 'customer',		
 			'field_value' 		   => 'telephone'
 		);
+		//поля для группы
+		$data['text_igroup'] = $this->language->get('text_igroup');
+		$data['contest_field_system']['init_group'] = array();
+		$data['contest_field_system']['init_group'][] = array(
+			'field_title'          => $this->language->get('text_igroup_title'),
+			'field_source'		   => 'init_group',		
+			'field_value' 		   => 'title'
+		);
+		$data['contest_field_system']['init_group'][] = array(
+			'field_title'          => $this->language->get('text_igroup_description'),
+			'field_source'		   => 'init_group',		
+			'field_value' 		   => 'description'
+		);
+
+		//поля для проекта
+		$data['text_project'] = $this->language->get('text_project');
+		$data['contest_field_system']['project'] = array();
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_title'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'title'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_description'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'description'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_target'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'target'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_product'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'product'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_result'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'result'
+		);
+
+		
+		
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_birthday'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'project_birthday'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_status_id'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'project_status_id'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_age'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'project_age'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_sex'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'project_sex'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_nationality'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'project_nationality'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_professional'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'project_professional'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_demographic'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'project_demographic'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_budget'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'project_budget'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_currency_id'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'project_currency_id'
+		);
+		$data['contest_field_system']['project'][] = array(
+			'field_title'          => $this->language->get('text_project_image'),
+			'field_source'		   => 'project',		
+			'field_value' 		   => 'project_image'
+		);
+		
+
+
+
+
 
 
 		if (isset($this->request->post['field_system'])) {

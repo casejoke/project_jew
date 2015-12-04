@@ -670,6 +670,7 @@ class ControllerContestContest extends Controller {
 			
 
 		    //подтянем список системных (постоянно есть в системе)
+			//поля пользователя
 			$data['text_customer'] = $this->language->get('text_customer');
 			$data['contest_field_system']['customer'] = array();
 
@@ -693,6 +694,16 @@ class ControllerContestContest extends Controller {
 				'field_source'		   => 'customer',		
 				'field_value' 		   => 'telephone'
 			);
+
+			//поля для группы
+			$data['contest_field_system']['igroup'] = array();
+
+			$data['contest_field_system']['customer'][] = array(
+				'field_title'          => $this->language->get('text_igroup_title'),
+				'field_source'		   => 'igroup',		
+				'field_value' 		   => 'telephone'
+			);
+
 
 		    $data['system_fields'] = array();
 		   	 //поля пользовтеля

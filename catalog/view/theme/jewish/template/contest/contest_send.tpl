@@ -28,6 +28,7 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
+                    
                       <input type="hidden" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][field_id]" value="<?php echo $cfvalue['contest_field_id']; ?>"  id="input-<?php echo 'field_id_'.$cfvalue['contest_field_id']; ?>" class="form-control" />
                       <label class="control-label" for="input-<?php echo 'value_'.$cfvalue['contest_field_id']; ?>"><?php echo $cfvalue['contest_field_title']; ?></label>
                       
@@ -55,6 +56,7 @@
                       <?php } ?>
                        <!-- /.select -->
 
+                       <!-- /checkbox -->
                       <?php if ($cfvalue['contest_field_type'] == 'checkbox') { ?>
                         <div>
                               <?php foreach ($cfvalue['contest_field_value'] as $custom_field_value) { ?>
@@ -75,7 +77,7 @@
                             <div class="text-danger"><?php echo $error_custom_field[$custom_field['contest_field_id']]; ?></div>
                             <?php } ?>
                         <?php } ?>
-
+                        <!-- /.checkbox -->
 
                       <!-- text -->
                       <?php if ($cfvalue['contest_field_type'] == 'text') { ?>
@@ -88,6 +90,7 @@
                       
                       <?php } ?>
                       <!-- /.text -->
+
                       <!-- /textarea -->
                       <?php if ($cfvalue['contest_field_type'] == 'textarea') { ?>
 

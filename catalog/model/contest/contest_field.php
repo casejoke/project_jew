@@ -84,7 +84,10 @@ class ModelContestContestField extends Model {
 	}
 
 	public function getContestFields($data = array()) {
-		$sql = "SELECT * FROM `" . DB_PREFIX . "contest_field` cf LEFT JOIN " . DB_PREFIX . "contest_field_description cfd ON (cf.contest_field_id = cfd.contest_field_id) WHERE cfd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT * FROM `" . DB_PREFIX . "contest_field` cf 
+		LEFT JOIN " . DB_PREFIX . "contest_field_description cfd 
+		ON (cf.contest_field_id = cfd.contest_field_id) 
+		WHERE cfd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND cfd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";

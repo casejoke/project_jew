@@ -77,6 +77,31 @@
                               <?php } ?>
                             <?php } ?>
                           </optgroup>
+
+                          <optgroup label="<?php echo $text_igroup; ?>">
+                            <?php if (!empty($contest_field_system['init_group'])) { ?>
+                              <?php foreach ($contest_field_system['init_group'] as $cig) { ?>
+                                <?php if ($cig['field_value'] == $field_system) { ?>
+                                  <option value="<?php echo $cig['field_value']; ?>" data-source="<?php echo $cig['field_source']; ?>" selected="selected"><?php echo $cig['field_title']; ?></option>
+                                <?php } else { ?>
+                                  <option value="<?php echo $cig['field_value']; ?>" data-source="<?php echo $cig['field_source']; ?>"><?php echo $cig['field_title']; ?></option>
+                                <?php } ?>
+                              <?php } ?>
+                            <?php } ?>
+                          </optgroup>
+
+                          <optgroup label="<?php echo $text_project; ?>">
+                          <?php if (!empty($contest_field_system['project'])) { ?>
+                          <?php foreach ($contest_field_system['project'] as $cp) { ?>
+                            <?php if ($cp['field_value'] == $field_system) { ?>
+                              <option value="<?php echo $cp['field_value']; ?>" data-source="<?php echo $cp['field_source']; ?>" selected="selected"><?php echo $cp['field_title']; ?></option>
+                            <?php } else { ?>
+                              <option value="<?php echo $cp['field_value']; ?>" data-source="<?php echo $cp['field_source']; ?>"><?php echo $cp['field_title']; ?></option>
+                            <?php } ?>
+                          <?php } ?>
+                          <?php } ?>
+                          </optgroup>   
+
                         </select>
                         <input type="hidden" name="field_system_table" value="<?php echo $field_system_table; ?>" />
                         

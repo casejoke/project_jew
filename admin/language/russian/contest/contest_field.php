@@ -21,11 +21,35 @@ $_['text_time']             = 'Time';
 $_['text_account']          = 'Account';
 $_['text_address']          = 'Address';
 
-$_['text_customer']     		 = 'Информация о пользователе';
+$_['text_customer']     		     = 'Информация о пользователе';
 $_['text_account_firstname']     = 'Имя';
 $_['text_account_lastname']      = 'Фамилия';
 $_['text_account_email']         = 'Email';
 $_['text_account_telephone']     = 'Телефон';
+
+$_['text_igroup']               = 'Информация о инициативной группе';
+$_['text_igroup_title']         = 'Название группы';
+$_['text_igroup_description']   = 'Описание группы';
+
+
+$_['text_project']              = 'Информация о  проекта';
+$_['text_project_title']        = 'Название проекта';
+$_['text_project_description']  = 'Описание проекта';
+$_['text_project_target']       = 'Цель проекта';
+$_['text_project_product']      = 'Продукт проекта';
+$_['text_project_result']       = 'Рекзльтат проекта';
+$_['text_project_birthday']     = 'Дата создания проекта';
+$_['text_project_status_id']    = 'Статус проекта';
+$_['text_project_age']          = 'Возрастная группа проекта';
+$_['text_project_sex']          = 'Половая структура проекта';
+$_['text_project_nationality']  = 'Национальность/религия проекта';
+$_['text_project_professional'] = 'Проффесиональный статус проекта';
+$_['text_project_demographic']  = 'Демографический статус проекта';
+$_['text_project_budget']       = 'Бюджет проекта';
+$_['text_project_currency_id']  = 'Валюта проекта';
+$_['text_project_image']        = 'Изображение для проекта';
+
+
 
 $_['text_project_description_title']     	= 'Название проекта';
 $_['text_project_description_target']       = 'Цель проекта';
