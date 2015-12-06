@@ -25,21 +25,7 @@ class ControllerContestSend extends Controller {
 
 		
 
-		if (isset($this->error['warning'])) {
-			$data['error_warning'] = $this->error['warning'];
-		} else {
-			$data['error_warning'] = '';
-		}
-
-		if (isset($this->error['custom_fields'])) {
-			$data['error_custom_field'] = $this->error['custom_fields'];
-		} else {
-			$data['error_custom_field'] = array();
-		}
 		
-		print_r('<pre>');
-		print_r($this->error);
-		print_r('</pre>');
 		//подгрузим модели
 		$this->load->model('account/customer');
 		$this->load->model('contest/contest');
@@ -63,6 +49,7 @@ class ControllerContestSend extends Controller {
 		$contest_info = array();
 		if (isset($this->request->get['contest_id'])) {
 			$contest_info = $this->model_contest_contest->getContest($this->request->get['contest_id']);
+			$contest_id = $this->request->get['contest_id'];
 		}
 		if ( empty($contest_info) ){
 			//редиректим на список конкурсов
@@ -95,8 +82,8 @@ class ControllerContestSend extends Controller {
 //*************************** проверки ********************************//		
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-			//$this->model_contest_contest->addRequest($this->request->post,$customer_id);
-			
+
+			$this->model_contest_contest->addRequestToContest($this->request->post,$customer_id,$contest_id);
 			$this->session->data['success'] = $this->language->get('text_contest_success');
 			// Add to activity log
 			$this->load->model('account/activity');
@@ -106,10 +93,22 @@ class ControllerContestSend extends Controller {
 				'name'        => $this->customer->getFirstName() . ' ' . $this->customer->getLastName()
 			);
 
-			$this->model_account_activity->addActivity('add project to contest', $activity_data);
+			$this->model_account_activity->addActivity('add request to contest', $activity_data);
+
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
 		}
+		if (isset($this->error['warning'])) {
+			$data['error_warning'] = $this->error['warning'];
+		} else {
+			$data['error_warning'] = '';
+		}
 
+		if (!empty($this->error['custom_fields'])) {
+			$data['error_custom_field'] = $this->error['custom_fields'];
+		} else {
+			$data['error_custom_field'] = array();
+		}
+		
 
 		$data['breadcrumbs'] = array();
 		$data['breadcrumbs'][] = array(
@@ -508,8 +507,8 @@ class ControllerContestSend extends Controller {
 						'contest_field_system'          => $cfr['field_system'],
 						'contest_field_system_table'    => $cfr['field_system_table'],
 
-						'contest_field_status'					=> $status,
-						'sort_order'										=> $sort_order,
+						'contest_field_status'			=> $status,
+						'sort_order'					=> $sort_order,
 					);
 
 
@@ -522,26 +521,20 @@ class ControllerContestSend extends Controller {
 				foreach ($value_cf as $v_cf) {
 					if( $v_cf['contest_field_status']!= 0 ){
 						$data['contest_fields'][$key_cf][] = array(
-							'contest_field_id'           		=> $v_cf['contest_field_id'],
+							'contest_field_id'           	=> $v_cf['contest_field_id'],
 							'contest_field_title'           => $v_cf['contest_field_title'],
 							'contest_field_value'           => $v_cf['contest_field_value'],
 							'contest_field_type'          	=> $v_cf['contest_field_type'],
 							'contest_field_system'          => $v_cf['contest_field_system'],
 							'contest_field_system_table'    => $v_cf['contest_field_system_table'],
-							'contest_field_status'					=> $v_cf['contest_field_status'],
-							'sort_order'										=> $v_cf['sort_order'],
+							'contest_field_status'			=> $v_cf['contest_field_status'],
+							'sort_order'					=> $v_cf['sort_order'],
 						);
 						usort($data['contest_fields'][$key_cf], 'sortBySortOrder');
 					}
 				}
 			}
 			
-
-			//пост который отсылаем
-
-			$data['register_custom_field'] = array();
-
-
 		$data['action'] = $this->url->link('contest/send', 'contest_id='.$contest_id.'&project_id='.$project_id, 'SSL');
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_send.tpl')) {
@@ -590,7 +583,7 @@ class ControllerContestSend extends Controller {
             [language_id] => 2
             [name] => Дополнителное образование
 
-      */
+      		*/
        
 
       //подтянем список каетгорий для заявки на  конкурса
@@ -601,20 +594,22 @@ class ControllerContestSend extends Controller {
 			foreach ($category_request_results as $crr) {
 				if(!empty($this->request->post['custom_fields'][$crr['category_request_id']])){
 					foreach ($this->request->post['custom_fields'][$crr['category_request_id']] as $category_key => $vcf) {
+						
 						//проверяем на обязательность заполнения
 						foreach ($contest_fields_results as $value_cfr) {
 							if ($value_cfr['contest_field_id'] == $vcf['field_id']) {
 								//
-								print_r('expression');
-								$this->error['custom_fields'][$vcf['field_id']] = $this->language->get('error_email');
+								
+								//$this->error['custom_fields'][$vcf['field_id']] = $this->language->get('error_email');
+
 							}
 						}
 					}
 				}
       	
-	    } 
+	    	} 
 
-		
+			
 
 
 		/*

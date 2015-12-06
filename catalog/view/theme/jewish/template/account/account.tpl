@@ -24,6 +24,15 @@
           </div>
         </div>
       <?php } ?>
+
+      <?php if ($warning) { ?>
+        <div class="col-xs-12 col-sm-12 m-b-30">
+          <div class="alert alert-danger"><i class="fa fa-check-circle"></i> <?php echo $warning; ?>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+          </div>
+        </div>
+      <?php } ?>
+
       
       <div class="col-xs-12 col-sm-12 m-b-30">
         <div role="tabpanel">
@@ -32,8 +41,10 @@
 
             <li  <?php if (empty($customer_invite_group)) { ?>class="active"<?php } ?>><a href="#contact_information" data-toggle="tab" aria-expanded="true">Мой профиль</a></li>
             <li><a href="#projects"       data-toggle="tab" aria-expanded="true">Мои проекты</a></li>
-            <li><a href="#customer_group" data-toggle="tab" aria-expanded="true">Мои инициативные группы</a></li> 
+            <li><a href="#customer_group" data-toggle="tab" aria-expanded="true">Мои инициативные группы</a></li>
+            <?php if (!empty($requests_for_customer)) { ?><li><a href="#request"  data-toggle="tab" aria-expanded="true" >Мои заявки</a></li> <?php } ?>
             <?php if (!empty($customer_invite_group)) { ?><li class="active"><a href="#invite_me"  data-toggle="tab" aria-expanded="true" >Приглашения</a></li> <?php } ?>
+            
             <li class="hidden"><a href="#blog"           data-toggle="tab" aria-expanded="true">Мой блог</a></li> 
             
              
@@ -173,6 +184,34 @@
                   </div>
                 <?php } ?>
               </div><!-- /.invite_me -->
+            <?php } ?>
+            
+            <?php if (!empty($requests_for_customer)) { ?>
+              <div class="tab-pane" id="request">
+                <div class="row multi-columns-row">
+
+                  <?php if(!empty($requests_for_customer)) { ?>
+                    <?php foreach ($requests_for_customer as $rfc) { ?>
+
+                      <div class="col-sm-6 col-md-3 col-lg-3">
+                        <div class="price-table font-alt">
+                           <img src="<?php echo  $rfc['contest_image']; ?>" alt="<?php echo $rfc['contest_title']; ?>">
+                          <div class="borderline"></div>
+                          <h4><?php echo $rfc['contest_title']; ?></h4>
+                          <ul class="price-details">
+                            <li>Статус: <?php echo $rfc['request_status_text']; ?></li>
+                          </ul>
+                          <?php if ($rfc['request_status'] == 0) { ?>
+                            <a href="<?php echo $rfc['action_not_accepted']; ?>" class="btn btn-success btn-round mt-20 ">Перезаявится</a>
+                          <?php } ?>
+                          
+                        </div>
+                      </div>
+
+                    <?php } ?>
+                  <?php } ?>
+                </div>
+              </div><!-- /.request -->
             <?php } ?>
 
             <div class="tab-pane"id="blog">

@@ -31,7 +31,7 @@ $_['entry_contest_budget']  		    = 'Бюджет конкурса';
 $_['entry_contest_maxprice']  		    = 'Максимальная сумма гранта';
 $_['entry_contest_totalprice']  		= 'Общий объем финансирования';
 
-
+$_['text_contest_error']  		    = 'Извините, но вы уже участвуете в конкурсе';
 
 
 $_['entry_email']        = 'E-Mail';

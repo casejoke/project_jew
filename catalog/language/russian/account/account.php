@@ -22,3 +22,8 @@ $_['text_transactions']  = 'Транзакции';
 $_['text_add_group']	 = 'Создать инициативную группу';
 $_['text_add_project']	 = 'Добавить проект';
 $_['text_logout']        = 'Выход';
+
+
+$_['text_status_not_accepted']      = 'Не одобрена';
+$_['text_status_accepted']        	= 'Одобрена';
+$_['text_status_processed']        	= 'В обработке';

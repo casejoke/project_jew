@@ -77,6 +77,7 @@ class ControllerContestDeal extends Controller {
 
 		
 
+
 		//подгрузим модели
 		$this->load->model('account/customer');
 		$this->load->model('contest/contest');
@@ -84,6 +85,9 @@ class ControllerContestDeal extends Controller {
 		$this->load->model('group/group');
 		$this->load->model('tool/upload');
 		$this->load->model('tool/image');
+
+
+
 		$contest_info = array();
 		if (isset($this->request->get['contest_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$contest_info = $this->model_contest_contest->getContest($this->request->get['contest_id']);
@@ -165,6 +169,26 @@ class ControllerContestDeal extends Controller {
 		}else{
 			$data['avatar'] = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
 		}
+
+		/**************** проверка ***************/
+		//проверка на участие
+		$filter_data = array();
+		$filter_data = array(
+			'filter_customer_id' 	=> 	$customer_id,
+			'filter_contest_id'		=>	$contest_id,
+			'filter_no_acepted'		=>  1
+		);
+		$result_customer_req_contest = $this->model_contest_contest->getRequestForCustomer($filter_data);
+
+
+		if(count($result_customer_req_contest) > 0){
+			$this->session->data['warning'] = $this->language->get('text_contest_error');
+			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
+		}
+
+
+
+
 		//подтянем все активные группы
 		//сделать рефактор заменить на IN () как getInfoCustomersForGroups
 		$results_groups = $this->model_group_group->getGroups();
@@ -245,7 +269,7 @@ class ControllerContestDeal extends Controller {
 
 		///нужна ли группа для участия в конкурсе?????
 
-	
+		
 
 
 

@@ -120,7 +120,7 @@ class ControllerContestView extends Controller {
 		if (!empty($contest_info['image'])) {
 			$data['image'] = $this->model_tool_image->resize($contest_info['image'], 800, 460,'w');
 		} else {
-			$data['image'] = $this->model_tool_image->resize('no-image.png', 800, 460,'w');
+			$data['image'] = '';
 		}
 		//ссылка на участие
 

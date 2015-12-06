@@ -17,9 +17,12 @@
           <div class="post-header font-alt">
             <h1 class="post-title"><?php echo $contest_title; ?></h1>
           </div>
-          <div class="post-thumbnail">
-            <img src="<?php echo $image; ?>" alt="<?php echo $contest_title; ?>">
-          </div>
+          <?php if($image){ ?>
+            <div class="post-thumbnail">
+              <img src="<?php echo $image; ?>" alt="<?php echo $contest_title; ?>">
+            </div>
+          <?php } ?>
+         
 
           <div class="post-entry ">
           <?php if(!empty($contest_propose)) { ?>

@@ -76,52 +76,63 @@ class ModelContestContest extends Model {
 		return $query->row['total'];
 	}
 
-	public function getInviteContests($data = array()) {
+	
+	//заявка на конкурс
+	public function addRequestToContest($data=array(),$customer_id,$contest_id){
+		$filter_data = array();
+		$filter_data = array(
+			'filter_customer_id' 	=> 	$customer_id,
+			'filter_contest_id'		=>	$contest_id
+		);
+		$is_isset_request = $this->getRequestForCustomer($filter_data);
+		if(!empty($is_isset_request)){
+			
+			$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET 
+				value  = '" . $this->db->escape(  serialize($data) ) . "', 
+				status = '2',
+				date_added = NOW()
+				WHERE contest_id = '" . (int)$contest_id . "' AND customer_id = '" . (int)$customer_id . "'
+			");
+			$customer_to_contest_id = $is_isset_request[0]['customer_to_contest_id'];
+		}else{
+			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_to_contest SET 
+				contest_id = '" . (int)$contest_id . "',
+				customer_id = '" . (int)$customer_id . "',
+				status = '2',
+				value  = '" . $this->db->escape(  serialize($data) ) . "', 
+				date_added = NOW()"
+			);
+			$customer_to_contest_id = $this->db->getLastId();
+		}
+		
 
-		$sql = "SELECT   * FROM " . DB_PREFIX . "customer_to_contest ";
-
-		$implode = array();
-
-		if (!empty($data['filter_status'])) {
-			$implode[] = "status = '" . (int)$data['filter_status'] . "'";
+		return $customer_to_contest_id;
+	}
+	//получение заявок 
+	public function getRequestForCustomer($data=array()){
+		if(empty($data)){
+			$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest";
+		}else{
+			$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE status >= '0' ";
+		}
+		
+		if (isset($data['filter_customer_id']) && !is_null($data['filter_customer_id'])) {
+			$sql .= " AND customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		}
+		if (isset($data['filter_contest_id']) && !is_null($data['filter_contest_id'])) {
+			$sql .= " AND contest_id = '" . (int)$data['filter_contest_id'] . "'";
+		}
+		if (isset($data['filter_no_acepted']) && !is_null($data['filter_no_acepted'])) {
+			$sql .= " AND status != '0'";
 		}
 
-		if (!empty($data['filter_customer_id'])) {
-			$implode[] = "customer_id = '" . (int)$data['filter_customer_id'] . "'";
-		}
-
-		if (!empty($data['filter_contest_id'])) {
-			$implode[] = "contest_id = '" . (int)$data['filter_contest_id'] . "'";
-		}
-
-		if ($implode) {
-			$sql .= " WHERE " . implode(" AND ", $implode);
-		}
+		
 		$query = $this->db->query($sql);
+
+
 		return $query->rows;
 	}
-
 	
-	public function inviteCustomer($data){
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_to_contest SET 
-			contest_id = '" . (int)$data['contest_id'] . "',
-			customer_id = '" . (int)$data['customer_id'] . "',
-			status = '" . (int)$data['status'] . "',
-			date_added = NOW()"
-		);
-	}
-
-	public function inviteAgree($data){
-		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET
-			status = '1'
-			WHERE contest_id = '" . (int)$data['contest_id'] . "' AND customer_id = '" . (int)$data['customer_id'] . "'"
-		);
-	}
-	public function uninviteCustomer($data){
-		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_to_contest WHERE 
-			contest_id = '" . (int)$data['contest_id'] . "' AND customer_id = '" . (int)$data['customer_id'] . "'"
-		);
-	}
 
 	// получение связанных с конкурсом экспертов
 	public function getContestExpert($contest_id) {

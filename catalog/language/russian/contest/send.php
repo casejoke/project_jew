@@ -7,7 +7,7 @@ $_['text_groups']   = 'Конкурсы';
 $_['text_create']   = 'Создан';
 $_['text_member']= 'Участника';
 $_['text_submit']  = 'Подать заявку';
-$_['text_contest_success']  = 'Завка успешно отправлена';
+$_['text_contest_success']  = 'Заявка на конкурс успешно отправлена.';
 
 // Entry
 $_['entry_title']    			= 'Название конкурса';

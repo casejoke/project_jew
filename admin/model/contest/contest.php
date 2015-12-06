@@ -257,6 +257,12 @@ class ModelContestContest extends Model {
 		$this->event->trigger('post.admin.contest.copy', $contest_id);
 	}
 
+	public function addRequest($data=array(),$customer_id){
+
+	}
+
+
+
 	public function getContest($contest_id) {
 		$query = $this->db->query("SELECT DISTINCT  *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'contest_id=" . (int)$contest_id . "') AS keyword FROM " . DB_PREFIX . "contest d LEFT JOIN " . DB_PREFIX . "contest_description dd ON (d.contest_id = dd.contest_id) WHERE d.contest_id = '" . (int)$contest_id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 

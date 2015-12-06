@@ -23,6 +23,13 @@ class ControllerAccountAccount extends Controller {
 		} else {
 			$data['success'] = '';
 		}
+
+		if (isset($this->session->data['warning'])) {
+			$data['warning'] = $this->session->data['warning'];
+			unset($this->session->data['warning']);
+		} else {
+			$data['warning'] = '';
+		}
  
 		$data['heading_title'] = $this->language->get('heading_title');
 		$data['text_address'] = $this->language->get('text_address');
@@ -64,6 +71,7 @@ class ControllerAccountAccount extends Controller {
 		$this->load->model('account/customer');
 		$this->load->model('group/group');
 		$this->load->model('project/project');
+		$this->load->model('contest/contest');
 		$this->load->model('tool/upload');
 		$this->load->model('tool/image');
 		//информация о пользователе
@@ -216,6 +224,78 @@ class ControllerAccountAccount extends Controller {
 
 		}
 		/******************* /.проекты *******************/
+
+		/******************* конкурсы *******************/
+		//информация о конкурсах еа которые подана заявка
+		//заявка на котрые отклонена 
+		//завка на котрые проиграна
+		//завка на которые выиграна
+		
+		//статусы заявки: 
+		// 0 - не принята (есть комментарий)
+		// 1 - принята  (видна экспертам и  ее можно оценивать)
+		// 2 - не обработана () 
+		//$_['text_status_not_accepted']      = 'Не одобрена';
+		//$_['text_status_accepted']        	= 'Одобрена';
+		//$_['text_status_processed']        	= 'В обработке';
+
+		//подтянем все конкурсы
+		$results_contests = $this->model_contest_contest->getContests();
+		$contests = array();
+		foreach ($results_contests as $rc) {
+			if (!empty($rc['image'])) {
+				$image= $this->model_tool_image->resize($rc['image'], 300, 300,'h');
+			}else{
+				$image = $this->model_tool_image->resize('placeholder.png', 300, 300,'h');
+			}
+			$contests[$rc['contest_id']] = array(
+				'contest_id'			=> $rc['contest_id'],
+				'contest_title'			=> (strlen(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))) > 50 ? mb_strcut(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8')), 0, 55) . '...' : strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))),
+				'contest_image'			=> $image
+			);
+		}
+		//подтянем сипсок зачвок для данного пользователя
+
+		$filter_data = array();
+		$filter_data = array(
+			'filter_customer_id' 	=> 	$customer_id
+		);
+		$results_customer_req_contest = $this->model_contest_contest->getRequestForCustomer($filter_data);
+		$data['requests_for_customer'] = array();
+		foreach ($results_customer_req_contest as $vcc) {
+			$status = '';
+			switch ($vcc['status']) {
+				case '0':
+					//заявка отклонена
+					$status = $this->language->get('text_status_not_accepted');
+					break;
+				case '1':
+					//заявка принята
+					$status = $this->language->get('text_status_accepted');
+					break;
+				case '2':
+					//заявка в обработке
+					$status = $this->language->get('text_status_processed');
+					break;
+				default:
+					$status = $this->language->get('text_status_processed');
+					break;
+			}
+			//добавить проверку на дату приема заявок с конкурса
+			
+			$data['requests_for_customer'][] = array(
+				'contest_id' 			=> $vcc['contest_id'],
+				'request_status'		=> $vcc['status'],
+				'request_status_text'	=> $status,
+				'request_comment'		=> html_entity_decode($vcc['comment'], ENT_QUOTES, 'UTF-8'),
+				'contest_title'			=> $contests[$vcc['contest_id']]['contest_title'],
+				'contest_image'			=> $contests[$vcc['contest_id']]['contest_image'],
+				'action_not_accepted'   => $this->url->link('contest/deal', 'contest_id='.$vcc['contest_id'], 'SSL')
+			);
+		}
+
+		
+
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/account.tpl')) {
 			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/account.js');
