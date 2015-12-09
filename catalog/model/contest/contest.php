@@ -29,6 +29,11 @@ class ModelContestContest extends Model {
 		return $query->rows;
 	}
 
+	public function getContestForExpertCustomer($customer_id){
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_expert WHERE customer_id = '" . (int)$customer_id . "'");
+		return $query->rows;
+	}
+
 	public function getContests($data = array()) {
 		$sql = "SELECT * FROM " . DB_PREFIX . "contest d LEFT JOIN " . DB_PREFIX . "contest_description dd ON (d.contest_id = dd.contest_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
@@ -126,6 +131,7 @@ class ModelContestContest extends Model {
 			$sql .= " AND status != '0'";
 		}
 
+		
 		
 		$query = $this->db->query($sql);
 

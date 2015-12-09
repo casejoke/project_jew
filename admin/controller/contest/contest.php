@@ -530,7 +530,9 @@ class ControllerContestContest extends Controller {
 		$this->load->model('sale/customer');
 		$data['customers'] = array();
 
-		$filter_data = array();
+		$filter_data = array(
+			'filter_customer_expert' => 1
+		);
 		$results_customers = $this->model_sale_customer->getCustomers($filter_data);
 
 		foreach ($results_customers as $rc) {

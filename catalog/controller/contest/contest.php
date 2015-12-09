@@ -29,7 +29,7 @@ class ControllerContestContest extends Controller {
 		$this->load->model('contest/contest');
 		$this->load->model('tool/upload');
 		$this->load->model('tool/image');
-		//подтянем все активные группы
+		//подтянем все активные конкурсы
 		$results_contests = $this->model_contest_contest->getContests();
 		$data['contests'] = array();
 		foreach ($results_contests as $rc) {

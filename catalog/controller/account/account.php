@@ -293,6 +293,54 @@ class ControllerAccountAccount extends Controller {
 				'action_not_accepted'   => $this->url->link('contest/deal', 'contest_id='.$vcc['contest_id'], 'SSL')
 			);
 		}
+/**************** про экспертов ***********************/
+//если пользователь эксперта
+	$data['customer_expert_to_contests'] = array();
+	//проверка на то что пользователь является ли вообще экспертом
+	if ($customer_info['customer_expert']) {
+		//подтянем список активных конкурсов
+		//подтянем все активные конкурсы
+		$results_contests = $this->model_contest_contest->getContests();
+		$contests = array();
+		foreach ($results_contests as $rc) {
+			if (!empty($rc['image'])) {
+				$image= $this->model_tool_image->resize($rc['image'], 300, 300,'h');
+			}else{
+				$image = $this->model_tool_image->resize('placeholder.png', 300, 300,'h');
+			}
+
+			$actions = array(
+				'view'		=> $this->url->link('contest/view', 'contest_id='.$rc['contest_id'], 'SSL')
+			);
+			$contests[$rc['contest_id']] = array(
+				'contest_id'			=> $rc['contest_id'],
+				'contest_title'			=> html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'),
+				'contest_image'			=> $image,
+				'action'				=> $actions
+			);
+		}
+
+		//подтяем список конкурсов в котрых пользователь экспертом
+		$results_customer_expert_to_contests = array();
+		$results_customer_expert_to_contests = $this->model_contest_contest->getContestForExpertCustomer($customer_id);
+		$implode = array();
+		foreach ($results_customer_expert_to_contests as $vcetc) {
+			if (!empty($contests[$vcetc['contest_id']])) {
+				$data['customer_expert_to_contests'][] = array(
+					'contest_id'		=> $vcetc['contest_id'],
+					'contest_title'	=> $contests[$vcetc['contest_id']]['contest_title'],
+					'contest_image'	=> $contests[$vcetc['contest_id']]['contest_image']
+				);
+				//собираем массив конкурсов по котрым делаем запрос
+				$implode[] = (int)$vcetc['contest_id'];
+			}
+			
+		}
+		//подтянем список заявок для каждого конкурса и текущего конкурса
+		//$implode списокконкурсов для запроса где пользователь эксперто
+		//подтянем из табли customer_to_contest заявки со  статусом = 1 и где конкурс IN ($implode)
+		
+	}
 
 		
 

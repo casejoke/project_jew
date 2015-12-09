@@ -44,7 +44,7 @@
             <li><a href="#customer_group" data-toggle="tab" aria-expanded="true">Мои инициативные группы</a></li>
             <?php if (!empty($requests_for_customer)) { ?><li><a href="#request"  data-toggle="tab" aria-expanded="true" >Мои заявки</a></li> <?php } ?>
             <?php if (!empty($customer_invite_group)) { ?><li class="active"><a href="#invite_me"  data-toggle="tab" aria-expanded="true" >Приглашения</a></li> <?php } ?>
-            
+            <li><a href="#customer_expert" data-toggle="tab" aria-expanded="true">Заявки для оценки</a></li>
             <li class="hidden"><a href="#blog"           data-toggle="tab" aria-expanded="true">Мой блог</a></li> 
             
              
@@ -91,6 +91,7 @@
                 </div>
               </div>
             </div><!-- /.contact_information -->
+        
             <div class="tab-pane " id="projects">
               <div class="row multi-columns-row">
                 <div class="col-sm-6 col-md-3 col-lg-3">
@@ -170,6 +171,7 @@
 
               </div>
             </div><!-- /.customer_group -->
+         
             <?php if (!empty($customer_invite_group)) { ?>
               <div class="tab-pane active" id="invite_me">
                 <h3 class="font-alt text-center">Вас пригласили</h3>
@@ -213,6 +215,30 @@
                 </div>
               </div><!-- /.request -->
             <?php } ?>
+
+            <div class="tab-pane" id="customer_expert">
+              <div class="row multi-columns-row">
+                <div class="col-sm-12">
+                  <table class="table table-striped table-border ">
+                    <thead>
+                      <th>Конкурс</th>
+                      <th>Проект</th>
+                      <th>Участник</th>
+                      <th>Действия</th>
+                    </thead>
+                    <tbody>
+                      <td>Конкурс новых проектов</td>
+                      <td>Проект название котрого засекречено</td>
+                      <td>Василий пупкин</td>
+                      <td>
+                        <a href="#" class="btn btn-info btn-round">Оценить</a>
+                      </td>
+                    </tbody>
+                  </table>  
+                </div>
+              </div>
+            </div>
+
 
             <div class="tab-pane"id="blog">
               Мой блог
