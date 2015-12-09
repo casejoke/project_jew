@@ -308,14 +308,13 @@ class ControllerContestSend extends Controller {
 
 
 
-
 		$data['contest_field_system']['init_group'] = array();
 		//поля для группы
 		$data['contest_field_system']['init_group']['title'] = array(
 			'field_value'         => $init_group_information['group_title'],
 			'field_type'		    	=> 'text'
 		);
-		$data['contest_field_system']['init_group']['description'] = array(
+		$data['contest_field_system']['init_group']['group_description'] = array(
 			'field_value'         => $init_group_information['group_description'],
 			'field_type'		    	=> 'textarea'
 		);
@@ -331,33 +330,35 @@ class ControllerContestSend extends Controller {
 			'field_value'         => $project_info['project_budget'],
 			'field_type'		    	=> 'text'
 		);
+		$data['contest_field_system']['project']['description'] = array(
+			'field_value'         => $project_info['description'],
+			'field_type'		    	=> 'textarea'
+		);
+		$data['contest_field_system']['project']['target'] = array(
+			'field_value'         => $project_info['target'],
+			'field_type'		   => 'target'
+		);
+		$data['contest_field_system']['project']['product'] = array(
+			'field_value'         => $project_info['product'],
+			'field_type'		   => 'textarea'
+		);
+		$data['contest_field_system']['project']['result'] = array(
+			'field_value'         => $project_info['result'],
+			'field_type'		   => 'textarea'
+		);
+		$data['contest_field_system']['project']['project_birthday'] = array(
+			'field_value'         => $project_info['project_birthday'],
+			'field_type'		   => 'textarea'
+		);
+		$data['contest_field_system']['project']['project_age'] = array(
+			'field_value'         => $project_info['project_age'],
+			'field_type'		   => 'textarea'
+		);
 
 
 /*
 		//поля для проекта
-		$data['text_project'] = $this->language->get('text_project');
-		$data['contest_field_system']['project'] = array();
-		
-		$data['contest_field_system']['project'][] = array(
-			'field_title'          => $this->language->get('text_project_description'),
-			'field_source'		   => 'project',		
-			'field_value' 		   => 'description'
-		);
-		$data['contest_field_system']['project'][] = array(
-			'field_title'          => $this->language->get('text_project_target'),
-			'field_source'		   => 'project',		
-			'field_value' 		   => 'target'
-		);
-		$data['contest_field_system']['project'][] = array(
-			'field_title'          => $this->language->get('text_project_product'),
-			'field_source'		   => 'project',		
-			'field_value' 		   => 'product'
-		);
-		$data['contest_field_system']['project'][] = array(
-			'field_title'          => $this->language->get('text_project_result'),
-			'field_source'		   => 'project',		
-			'field_value' 		   => 'result'
-		);
+	
 
 		
 		
