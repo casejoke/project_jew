@@ -216,28 +216,31 @@
               </div><!-- /.request -->
             <?php } ?>
 
-            <div class="tab-pane" id="customer_expert">
-              <div class="row multi-columns-row">
-                <div class="col-sm-12">
-                  <table class="table table-striped table-border ">
-                    <thead>
-                      <th>Конкурс</th>
-                      <th>Проект</th>
-                      <th>Участник</th>
-                      <th>Действия</th>
-                    </thead>
-                    <tbody>
-                      <td>Конкурс новых проектов</td>
-                      <td>Проект название котрого засекречено</td>
-                      <td>Василий пупкин</td>
-                      <td>
-                        <a href="#" class="btn btn-info btn-round">Оценить</a>
-                      </td>
-                    </tbody>
-                  </table>  
+            <?php if(!empty($request_for_expert)){ ?>
+              <div class="tab-pane" id="customer_expert">
+                <div class="row multi-columns-row">
+                  <div class="col-sm-12">
+                    <table class="table table-striped table-border ">
+                      <thead>
+                        <th>Конкурс</th>
+                        <th>Участник</th>
+                        <th>Действия</th>
+                      </thead>
+                      <tbody>
+                        <?php foreach ($request_for_expert as $rfe) { ?>
+                          <tr>
+                            <td><?php echo $rfe['contest_title']; ?></td>
+                            <td><?php echo $rfe['customer_name']; ?></td>
+                            <td><a href="<?php echo $rfe['expert_evaluate']; ?>" class="btn btn-info btn-round">Оценить</a></td>
+                          </tr>
+                        <?php } ?>
+                      </tbody>
+                    </table>  
+                  </div>
                 </div>
               </div>
-            </div>
+            <?php } ?>
+            
 
 
             <div class="tab-pane"id="blog">

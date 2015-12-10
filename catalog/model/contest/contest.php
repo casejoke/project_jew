@@ -118,27 +118,46 @@ class ModelContestContest extends Model {
 		if(empty($data)){
 			$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest";
 		}else{
-			$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE status >= '0' ";
-		}
-		
-		if (isset($data['filter_customer_id']) && !is_null($data['filter_customer_id'])) {
-			$sql .= " AND customer_id = '" . (int)$data['filter_customer_id'] . "'";
-		}
-		if (isset($data['filter_contest_id']) && !is_null($data['filter_contest_id'])) {
-			$sql .= " AND contest_id = '" . (int)$data['filter_contest_id'] . "'";
-		}
-		if (isset($data['filter_no_acepted']) && !is_null($data['filter_no_acepted'])) {
-			$sql .= " AND status != '0'";
+			$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE";
 		}
 
+		$_str =array();
+
 		
+		if (isset($data['filter_customer_id']) && !is_null($data['filter_customer_id'])) {
+			$_str[] =	" customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		}
+		if (isset($data['filter_contest_id']) && !is_null($data['filter_contest_id'])) {
+			$_str[] .= " contest_id IN (" . implode(',', $data['filter_contest_id']) . ")";
+		}
+		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
+			$_str[] = " status = '" . (int)$data['filter_status'] . "'";
+		}
+		if (isset($data['filter_no_acepted']) && !is_null($data['filter_no_acepted'])) {
+			$_str[] = " status != '0'";
+		}
 		
-		$query = $this->db->query($sql);
+		$_sql = '' ;
+		$i = 0;
+		foreach ($_str as $vstr) {
+			if($i > 0){
+				$_sql .= ' AND'.$vstr;
+			}else{
+				$_sql .= $vstr;
+			}
+			$i++;
+		}
+		$query = $this->db->query($sql.$_sql);
 
 
 		return $query->rows;
 	}
-	
+	//получить информацию  о заявке
+	public function getInformationAboutRequest($request_id){
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE customer_to_contest_id = '".(int)$request_id."'");
+
+		return $query->row;
+	}
 
 	// получение связанных с конкурсом экспертов
 	public function getContestExpert($contest_id) {
