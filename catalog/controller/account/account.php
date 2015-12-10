@@ -340,7 +340,7 @@ class ControllerAccountAccount extends Controller {
 		//$implode списокконкурсов для запроса где пользователь эксперто
 		//подтянем из табли customer_to_contest заявки со  статусом = 1 и где конкурс IN ($implode)
 		
-	}
+	}//проверка на эксперта
 
 		
 
