@@ -347,6 +347,7 @@ $data['request_for_expert'] = array();
 		//подтяем список конкурсов в котрых пользователь экспертом
 		$results_customer_expert_to_contests = array();
 		$results_customer_expert_to_contests = $this->model_contest_contest->getContestForExpertCustomer($customer_id);
+		
 		$implode = array();
 		$data['customer_expert_to_contests'] = array();
 		foreach ($results_customer_expert_to_contests as $vcetc) {
@@ -361,6 +362,7 @@ $data['request_for_expert'] = array();
 			}
 			
 		}
+		
 		//подтянем список заявок для каждого конкурса и текущего пользователя
 		//$implode списокконкурсов для запроса где пользователь эксперто
 		//подтянем из табли customer_to_contest заявки со  статусом = 1 (прошла модерацию)и где конкурс IN ($implode)
@@ -370,6 +372,7 @@ $data['request_for_expert'] = array();
 			'filter_contest_id' => $implode,
 			'filter_status'			=> 1
 		);
+
 		$results_request_for_expert = $this->model_contest_contest->getRequestForCustomer($filter_data);
 		
 		$data['request_for_expert'] = array();

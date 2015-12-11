@@ -124,16 +124,17 @@ class ModelContestContest extends Model {
 		$_str =array();
 
 		
-		if (isset($data['filter_customer_id']) && !is_null($data['filter_customer_id'])) {
+		if (!empty($data['filter_customer_id'])) {
 			$_str[] =	" customer_id = '" . (int)$data['filter_customer_id'] . "'";
 		}
-		if (isset($data['filter_contest_id']) && !is_null($data['filter_contest_id'])) {
+		
+		if (!empty($data['filter_contest_id'])) {
 			$_str[] .= " contest_id IN (" . implode(',', $data['filter_contest_id']) . ")";
 		}
-		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
+		if (!empty($data['filter_status'])) {
 			$_str[] = " status = '" . (int)$data['filter_status'] . "'";
 		}
-		if (isset($data['filter_no_acepted']) && !is_null($data['filter_no_acepted'])) {
+		if (!empty($data['filter_no_acepted'])) {
 			$_str[] = " status != '0'";
 		}
 		
@@ -147,6 +148,7 @@ class ModelContestContest extends Model {
 			}
 			$i++;
 		}
+
 		$query = $this->db->query($sql.$_sql);
 
 
