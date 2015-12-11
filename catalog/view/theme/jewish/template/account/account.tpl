@@ -44,7 +44,7 @@
             <li><a href="#customer_group" data-toggle="tab" aria-expanded="true">Мои инициативные группы</a></li>
             <?php if (!empty($requests_for_customer)) { ?><li><a href="#request"  data-toggle="tab" aria-expanded="true" >Мои заявки</a></li> <?php } ?>
             <?php if (!empty($customer_invite_group)) { ?><li class="active"><a href="#invite_me"  data-toggle="tab" aria-expanded="true" >Приглашения</a></li> <?php } ?>
-            <li><a href="#customer_expert" data-toggle="tab" aria-expanded="true">Заявки для оценки</a></li>
+            <?php if(!empty($request_for_expert)){ ?><li><a href="#customer_expert" data-toggle="tab" aria-expanded="true">Заявки для оценки</a></li><?php } ?>
             <li class="hidden"><a href="#blog"           data-toggle="tab" aria-expanded="true">Мой блог</a></li> 
             
              
