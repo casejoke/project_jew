@@ -85,35 +85,18 @@ class ModelContestContest extends Model {
 	          ");
 	        }
 	      }
-	    }	  
-		/*
+	    }	 
 
-
-	
-		
-		i
-		
-		// связанные файлы
-		if (isset($data['contest_file']) && count($data['contest_file'])) {
-		
-			$data['contest_file'] = array_unique($data['contest_file']);
-			
-			foreach ($data['contest_file'] as $download_id) {
-				
-				if ($download_id > 0){
-					
-					$this->db->query("INSERT INTO " . DB_PREFIX . "contest_file SET 
-						file_id = '" . (int)$download_id . "', 
-						parent_id = '" . (int)$id . "'");
-				}	
+	    // связанные файлы
+		if (!empty($data['contest_downloads'])) {
+			foreach ($data['contest_downloads'] as $contest_download) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "contest_download SET 
+					download_id = '" . (int)$contest_download['download_id'] . "',
+					contest_id  = '" . (int)$contest_id . "'
+				");
 			}
-		}
-		
-		
-		
-		
-		
-		*/
+		} 
+
 		$this->event->trigger('post.admin.contest.add', $id);
 
 		return $contest_id;
@@ -213,27 +196,17 @@ class ModelContestContest extends Model {
 	        }
 	      }
 	    }	  
-		/*
 		
-		
-		// связанные файлы
-		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_file
-						  WHERE parent_id = '" . (int)$contest_id . "'");
-						  
-		if (isset($data['contest_file']) && count($data['contest_file'])) {
-			
-			foreach ($data['contest_file'] as $download_id) {
-				
-				if ($download_id > 0){
-					
-					$this->db->query("INSERT INTO " . DB_PREFIX . "contest_file SET 
-						file_id = '" . (int)$download_id . "', 
-						parent_id = '" . (int)$contest_id . "'");
-				}					
-			}
-		}
-	
-*/
+		  // связанные файлы
+		  $this->db->query("DELETE FROM " . DB_PREFIX . "contest_download WHERE contest_id = '" . (int)$contest_id . "'");
+			if (!empty($data['contest_downloads'])) {
+				foreach ($data['contest_downloads'] as $contest_download) {
+					$this->db->query("INSERT INTO " . DB_PREFIX . "contest_download SET 
+						download_id = '" . (int)$contest_download['download_id'] . "',
+						contest_id  = '" . (int)$contest_id . "'
+					");
+				}
+			} 
 		$this->event->trigger('post.admin.contest.edit', $contest_id);
 	}
 
@@ -243,6 +216,7 @@ class ModelContestContest extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest WHERE contest_id = '" . (int)$contest_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_description WHERE contest_id = '" . (int)$contest_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_expert WHERE contest_id = '" . (int)$contest_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_download WHERE contest_id = '" . (int)$contest_id . "'");
 		$this->event->trigger('post.admin.contest.delete', $contest_id);
 	}
 
@@ -356,7 +330,27 @@ class ModelContestContest extends Model {
 		
 		return $contest_expert;
 	}
+	//получение связанных файлов
+	public function getContestDownload($contest_id) {
+		
+		$contest_download = array();
+		$contest_expert_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_download WHERE contest_id = '" . (int)$contest_id . "'");
+		if (!empty($contest_download_query->rows)) {
+			$sql = "SELECT DISTINCT * FROM " . DB_PREFIX . "download d LEFT JOIN " . DB_PREFIX . "download_description dd ON (d.download_id = dd.download_id) WHERE d.download_id = '" . (int)$download_id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+			$implode = array();
+			
+			foreach ($contest_download_query->rows as $download_id) {
+				$implode[] = (int)$download_id['download_id'];
+			}
 
+			$sql .= " AND d.download_id IN (" . implode(',', $implode) . ")";
+			$query = $this->db->query($sql);
+			$contest_download = $query->rows;
+		}
+		
+		return $contest_download;
+	}
+	
 	// получение связанных с конкурсом критериев
 	public function getContestCriteria($contest_id) {
 		$contest_criteria_data = array();

@@ -603,6 +603,7 @@ class ControllerContestContest extends Controller {
 		
 		$data['no_image'] = $this->model_tool_image->resize('no_image.png', 100, 100,'h');
 		//********** Поля для заявки ************//
+		//подтягиваем статусы полей для конкретного конкурса
 		if (isset($this->request->post['custom_fields'])) {
 			$data['custom_fields'] = $this->request->post['custom_fields'];
 		} elseif (!empty($contest_info)) {
@@ -669,111 +670,16 @@ class ControllerContestContest extends Controller {
 
 
 
-			
-
-		    //подтянем список системных (постоянно есть в системе)
-			//поля пользователя
-			$data['text_customer'] = $this->language->get('text_customer');
-			$data['contest_field_system']['customer'] = array();
-
-			$data['contest_field_system']['customer'][] = array(
-				'field_title'          => $this->language->get('text_account_firstname'),
-				'field_source'		   => 'customer',		
-				'field_value' 		   => 'firstname'
-			);
-			$data['contest_field_system']['customer'][] = array(
-				'field_title'          => $this->language->get('text_account_lastname'),
-				'field_source'		   => 'customer',		
-				'field_value' 		   => 'lastname'
-			);
-			$data['contest_field_system']['customer'][] = array(
-				'field_title'          => $this->language->get('text_account_email'),
-				'field_source'		   => 'customer',		
-				'field_value' 		   => 'email'
-			);
-			$data['contest_field_system']['customer'][] = array(
-				'field_title'          => $this->language->get('text_account_telephone'),
-				'field_source'		   => 'customer',		
-				'field_value' 		   => 'telephone'
-			);
-
-			//поля для группы
-			$data['contest_field_system']['igroup'] = array();
-
-			$data['contest_field_system']['customer'][] = array(
-				'field_title'          => $this->language->get('text_igroup_title'),
-				'field_source'		   => 'igroup',		
-				'field_value' 		   => 'telephone'
-			);
-
-
-		    $data['system_fields'] = array();
-		   	 //поля пользовтеля
-		   /* $data['fields']['system'][] = array(
-		    	'fields_name' 		=> 'firstname',
-		    	'fields_title'		=> $this->language->get('firstname'),
-		    	'fields_type' 		=> 'input',
-		    	'fields_system' 	=> 1,
-		    	'fields_required' 	=> 1
-		    	
-
-
-		    	'custom_field_id' => $result['custom_field_id'],
-				'name'            => $result['name'],
-				'location'        => $this->language->get('text_' . $result['location']),
-				'type'            => $type,
-				'status'          => $result['status'],
-				'sort_order'      => $result['sort_order'],
-		    );
-		    $data['fields']['custom'] = array();*/
-		    /*
-		    $customer_fields = $this->model_sale_customer->getColumnNameCustomers();
-		    print_r('<pre>');
-		    print_r($customer_fields );
-		    print_r('</pre>');
-		    die();
-		    switch ($result['type']) {
-				case 'select':
-					$type = $this->language->get('text_select');
-					break;
-				case 'radio':
-					$type = $this->language->get('text_radio');
-					break;
-				case 'checkbox':
-					$type = $this->language->get('text_checkbox');
-					break;
-				case 'input':
-					$type = $this->language->get('text_input');
-					break;
-				case 'text':
-					$type = $this->language->get('text_text');
-					break;
-				case 'textarea':
-					$type = $this->language->get('text_textarea');
-					break;
-				case 'file':
-					$type = $this->language->get('text_file');
-					break;
-				case 'date':
-					$type = $this->language->get('text_date');
-					break;
-				case 'datetime':
-					$type = $this->language->get('text_datetime');
-					break;
-				case 'time':
-					$type = $this->language->get('text_time');
-					break;
-			}
-			*/
-
 
 		// получение списка файлов
-		$data['contest_file'] =array();
-		$this->load->model('catalog/download');
-		$data['files'] = $this->model_catalog_download->getDownloads();
 		
-
-
+		if (isset($this->request->post['contest_downloads'])) {
+			$data['contest_downloads'] = $this->request->post['contest_downloads'];
+		} elseif (isset($this->request->get['contest_id'])) {
+			$data['contest_downloads']  = $this->model_contest_contest->getContestDownload($this->request->get['contest_id']);
+		} else {
+			$data['contest_downloads']  = array();
+		}
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');

@@ -15,15 +15,8 @@
 
 # Image File
 !/image/no_image.jpg
-<<<<<<< Updated upstream
 
-=======
-<<<<<<< Updated upstream
-/image/flags/
-=======
 /image/flags
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 # Image Cache Files
 /image/cache/*
 !/image/cache/index.html
