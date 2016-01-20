@@ -176,7 +176,7 @@ class ModelContestContest extends Model {
 		}	
 		// связанные направления	
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_direction WHERE contest_id = '" . (int)$contest_id . "'");
-	    $this->db->query("DELETE FROM " . DB_PREFIX . "contest_direction_description WHERE contest_id = '" . (int)$contest_id . "'");
+    $this->db->query("DELETE FROM " . DB_PREFIX . "contest_direction_description WHERE contest_id = '" . (int)$contest_id . "'");
 	    if (isset($data['contest_direction'])) {
 	      foreach ($data['contest_direction'] as $contest_direction) {
 	        $this->db->query("INSERT INTO " . DB_PREFIX . "contest_direction SET 
@@ -217,6 +217,10 @@ class ModelContestContest extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_description WHERE contest_id = '" . (int)$contest_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_expert WHERE contest_id = '" . (int)$contest_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_download WHERE contest_id = '" . (int)$contest_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_criteria WHERE contest_id = '" . (int)$contest_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_criteria_description WHERE contest_id = '" . (int)$contest_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_direction WHERE contest_id = '" . (int)$contest_id . "'");
+    $this->db->query("DELETE FROM " . DB_PREFIX . "contest_direction_description WHERE contest_id = '" . (int)$contest_id . "'");
 		$this->event->trigger('post.admin.contest.delete', $contest_id);
 	}
 

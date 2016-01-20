@@ -19,13 +19,13 @@
           <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-information" >
             
             <ul class="tab-nav" role="tablist">
-                <li><a href="#tab-general" aria-controls="tab-general" role="tab" data-toggle="tab"><?php echo $tab_general; ?></a></li>
+                <li class="active"><a href="#tab-general" aria-controls="tab-general" role="tab" data-toggle="tab"><?php echo $tab_general; ?></a></li>
                 <li><a href="#tab-timeline" aria-controls="tab-timeline" role="tab" data-toggle="tab"><?php echo $tab_timeline; ?></a></li>
         				<li><a href="#tab-expert" aria-controls="tab-expert" role="tab" data-toggle="tab"><?php echo $tab_expert; ?></a></li>
         				<li><a href="#tab-criteria" aria-controls="tab-criteria" role="tab" data-toggle="tab"><?php echo $tab_criteria; ?></a></li>
         				<li><a href="#tab-direction" aria-controls="tab-direction" role="tab" data-toggle="tab"><?php echo $tab_direction; ?></a></li>
         				<li><a href="#tab-request" aria-controls="tab-request" role="tab" data-toggle="tab"><?php echo $tab_request; ?></a></li>
-        				<li class="active"><a href="#tab-files" aria-controls="tab-files" role="tab" data-toggle="tab"><?php echo $tab_files; ?></a></li>
+        				<li><a href="#tab-files" aria-controls="tab-files" role="tab" data-toggle="tab"><?php echo $tab_files; ?></a></li>
                 <li><a href="#tab-seo" aria-controls="tab-seo" role="tab-seo" data-toggle="tab"><?php echo $tab_seo; ?></a></li>
                 
                 
@@ -33,7 +33,7 @@
           
             <div class="tab-content">
 
-                <div role="tabpanel" class="tab-pane " id="tab-general">
+                <div role="tabpanel" class="tab-pane active" id="tab-general">
                   <div role="tabpanel"> 
                   	<ul class="tab-nav language-tab" role="tablist" id="language" data-tab-color="amber">
                         <?php foreach ($languages as $language) { ?>
@@ -520,7 +520,7 @@
       		          </div>
     		        </div><!-- /#tab-direction -->
              	
-                <div role="tabpanel" class="tab-pane active" id="tab-files">
+                <div role="tabpanel" class="tab-pane " id="tab-files">
                   <div class="card-body card-padding">
                     <div class="row">
                       <div class="col-sm-12">
@@ -651,11 +651,9 @@
   $('#input-timeline_text<?php echo $language['language_id']; ?>').summernote({
     height: 300
   });
-
   <?php } ?>
   $('.language-tab').each(function(){
-	  
-	  $('a:first', $(this)).tab('show');
+	 $('a:first', $(this)).tab('show');
   }) 
 //--></script>
 <script type="text/javascript"><!--
