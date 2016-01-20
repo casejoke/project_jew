@@ -262,6 +262,9 @@ class ControllerCatalogDownload extends Controller {
 	protected function getForm() {
 		$data['heading_title'] = $this->language->get('heading_title');
 
+		$data['tab_general'] = $this->language->get('tab_general');
+		$data['tab_data'] = $this->language->get('tab_data');
+
 		$data['text_form'] = !isset($this->request->get['download_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 		$data['text_loading'] = $this->language->get('text_loading');
 
@@ -387,7 +390,7 @@ class ControllerCatalogDownload extends Controller {
 		}
 
 		foreach ($this->request->post['download_description'] as $language_id => $value) {
-			if ((utf8_strlen($value['name']) < 3) || (utf8_strlen($value['name']) > 64)) {
+			if ((utf8_strlen($value['name']) < 3) || (utf8_strlen($value['name']) > 255)) {
 				$this->error['name'][$language_id] = $this->language->get('error_name');
 			}
 		}
@@ -411,7 +414,7 @@ class ControllerCatalogDownload extends Controller {
 		if (!$this->user->hasPermission('modify', 'catalog/download')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
-
+/*
 		$this->load->model('catalog/product');
 
 		foreach ($this->request->post['selected'] as $download_id) {
@@ -421,7 +424,7 @@ class ControllerCatalogDownload extends Controller {
 				$this->error['warning'] = sprintf($this->language->get('error_product'), $product_total);
 			}
 		}
-
+*/
 		return !$this->error;
 	}
 

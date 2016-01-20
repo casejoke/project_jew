@@ -1,37 +1,35 @@
-<?php echo $header; ?><?php echo $column_left; ?>
-<div id="content">
-  <div class="page-header">
-    <div class="container-fluid">
-      <div class="pull-right"><a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-primary"><i class="fa fa-plus"></i></a>
-        <button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-download').submit() : false;"><i class="fa fa-trash-o"></i></button>
+<?php echo $header; ?>
+<?php echo $column_left; ?>
+<section id="content">
+  <div class="container">
+    
+    <div class="card">
+      <div class="card-header">
+        <h2><?php echo $heading_title; ?><small></small></h2>
+        <ul class="actions">
+            <li>
+                <a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>">
+                    <i class="md  md-note-add"></i>
+                </a>
+            </li>
+            <li><button class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-download').submit() : false;"> <?php echo $button_delete; ?></button></li>
+        </ul>
       </div>
-      <h1><?php echo $heading_title; ?></h1>
-      <ul class="breadcrumb">
-        <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-        <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+      <div class="card-body card-padding table-responsive">
+        <?php if ($error_warning) { ?>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?php echo $error_warning; ?>
+        </div>
         <?php } ?>
-      </ul>
-    </div>
-  </div>
-  <div class="container-fluid">
-    <?php if ($error_warning) { ?>
-    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-    </div>
-    <?php } ?>
-    <?php if ($success) { ?>
-    <div class="alert alert-success"><i class="fa fa-check-circle"></i> <?php echo $success; ?>
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-    </div>
-    <?php } ?>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-list"></i> <?php echo $text_list; ?></h3>
-      </div>
-      <div class="panel-body">
+        <?php if ($success) { ?>
+          <div class="alert alert-success alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <?php echo $success; ?>
+          </div>
+        <?php } ?>
         <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-download">
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover">
+          <table class="table">
               <thead>
                 <tr>
                   <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
@@ -69,14 +67,11 @@
                 <?php } ?>
               </tbody>
             </table>
-          </div>
         </form>
-        <div class="row">
-          <div class="col-sm-6 text-left"><?php echo $pagination; ?></div>
-          <div class="col-sm-6 text-right"><?php echo $results; ?></div>
+          <div class="hidden"><?php echo $results; ?></div>
+          <?php echo $pagination; ?>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+    </div> 
+</section>
 <?php echo $footer; ?>

@@ -20,20 +20,20 @@
           <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-information" >
             
             <ul class="tab-nav" role="tablist">
-                <li class="active"><a href="#tab-general" aria-controls="tab-general" role="tab" data-toggle="tab"><?php echo $tab_general; ?></a></li>
+                <li><a href="#tab-general" aria-controls="tab-general" role="tab" data-toggle="tab"><?php echo $tab_general; ?></a></li>
                 <li><a href="#tab-timeline" aria-controls="tab-timeline" role="tab" data-toggle="tab"><?php echo $tab_timeline; ?></a></li>
-				<li><a href="#tab-expert" aria-controls="tab-expert" role="tab" data-toggle="tab"><?php echo $tab_expert; ?></a></li>
-				<li><a href="#tab-criteria" aria-controls="tab-criteria" role="tab" data-toggle="tab"><?php echo $tab_criteria; ?></a></li>
-				<li><a href="#tab-direction" aria-controls="tab-direction" role="tab" data-toggle="tab"><?php echo $tab_direction; ?></a></li>
-				<li ><a href="#tab-request" aria-controls="tab-request" role="tab" data-toggle="tab"><?php echo $tab_request; ?></a></li>
-				<li class="hidden"><a href="#tab-files" aria-controls="tab-files" role="tab" data-toggle="tab"><?php echo $tab_files; ?></a></li>
-                <li><a href="#tab-seo" aria-controls="tab-seo" role="tab" data-toggle="tab"><?php echo $tab_seo; ?></a></li>
+        				<li><a href="#tab-expert" aria-controls="tab-expert" role="tab" data-toggle="tab"><?php echo $tab_expert; ?></a></li>
+        				<li><a href="#tab-criteria" aria-controls="tab-criteria" role="tab" data-toggle="tab"><?php echo $tab_criteria; ?></a></li>
+        				<li><a href="#tab-direction" aria-controls="tab-direction" role="tab" data-toggle="tab"><?php echo $tab_direction; ?></a></li>
+        				<li><a href="#tab-request" aria-controls="tab-request" role="tab" data-toggle="tab"><?php echo $tab_request; ?></a></li>
+        				<li class="active"><a href="#tab-files" aria-controls="tab-files" role="tab" data-toggle="tab"><?php echo $tab_files; ?></a></li>
+                <li><a href="#tab-seo" aria-controls="tab-seo" role="tab-seo" data-toggle="tab"><?php echo $tab_seo; ?></a></li>
                 
                 
             </ul>
           
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="tab-general">
+                <div role="tabpanel" class="tab-pane " id="tab-general">
                   <div role="tabpanel"> 
                   	<ul class="tab-nav language-tab" role="tablist" id="language" data-tab-color="amber">
                         <?php foreach ($languages as $language) { ?>
@@ -47,103 +47,100 @@
                     <div class="tab-content">
                       <?php foreach ($languages as $language) { ?>
                         <div class="tab-pane" id="general-language<?php echo $language['language_id']; ?>">
-
                           <div class="card-body card-padding">
-                          	
                           	<div class="row">
-								<div class="col-sm-12">	
-								  	<!-- название -->
-									<div class="form-group required <?php if (isset($error_title[$language['language_id']])) { ?> has-error <?php } ?>">
-									<div class="fg-line">
-									    <label class="control-label" for="input-title<?php echo $language['language_id']; ?>"><?php echo $entry_title; ?></label>
-									    <input type="text" name="contest_description[<?php echo $language['language_id']; ?>][title]" value="<?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['title'] : ''; ?>"  id="input-title<?php echo $language['language_id']; ?>" class="form-control" />
-									</div>
-									<?php if (isset($error_title[$language['language_id']])) { ?>
-									  <small class="help-block"><?php echo $error_title[$language['language_id']]; ?></small>
-									<?php } ?>
-									</div>
-								</div>
+              								<div class="col-sm-12">	
+              								  	<!-- название -->
+              									<div class="form-group required <?php if (isset($error_title[$language['language_id']])) { ?> has-error <?php } ?>">
+              									<div class="fg-line">
+              									    <label class="control-label" for="input-title<?php echo $language['language_id']; ?>"><?php echo $entry_title; ?></label>
+              									    <input type="text" name="contest_description[<?php echo $language['language_id']; ?>][title]" value="<?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['title'] : ''; ?>"  id="input-title<?php echo $language['language_id']; ?>" class="form-control" />
+              									</div>
+              									<?php if (isset($error_title[$language['language_id']])) { ?>
+              									  <small class="help-block"><?php echo $error_title[$language['language_id']]; ?></small>
+              									<?php } ?>
+              									</div>
+              								</div>
 
-								<div class="col-sm-12">
-									<!-- организатор -->
-									<div class="form-group required <?php if (isset($error_organizer[$language['language_id']])) { ?> has-error <?php } ?>">
-										<div class="fg-line">
-										    <label class="control-label" for="input-organizer<?php echo $language['language_id']; ?>"><?php echo $entry_organizer; ?></label>
-										     <textarea name="contest_description[<?php echo $language['language_id']; ?>][organizer]" id="input-organizer<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['organizer'] : ''; ?></textarea>
-										</div>
-										<?php if (isset($error_organizer[$language['language_id']])) { ?>
-										  <small class="help-block"><?php echo $error_organizer[$language['language_id']]; ?></small>
-										<?php } ?>
-									</div>
-								</div>
-								<div class="col-sm-12">
-									 <!-- цель -->
+              								<div class="col-sm-12">
+              									<!-- организатор -->
+              									<div class="form-group required <?php if (isset($error_organizer[$language['language_id']])) { ?> has-error <?php } ?>">
+              										<div class="fg-line">
+              										    <label class="control-label" for="input-organizer<?php echo $language['language_id']; ?>"><?php echo $entry_organizer; ?></label>
+              										     <textarea name="contest_description[<?php echo $language['language_id']; ?>][organizer]" id="input-organizer<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['organizer'] : ''; ?></textarea>
+              										</div>
+              										<?php if (isset($error_organizer[$language['language_id']])) { ?>
+              										  <small class="help-block"><?php echo $error_organizer[$language['language_id']]; ?></small>
+              										<?php } ?>
+              									</div>
+              								</div>
+              								<div class="col-sm-12">
+            									  <!-- цель -->
 			                          <div class="form-group">
 			                            <div class="fg-line">
 			                                <label class="control-label m-b-10" for="input-propose<?php echo $language['language_id']; ?>"><?php echo $entry_propose; ?></label>
 			                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][propose]" id="input-propose<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['propose'] : ''; ?></textarea>
 			                            </div>
 			                          </div>
-		                        </div>
+		                          </div>
 
-		                         <div class="col-sm-12">
-	                          <!-- география -->
-	                          <div class="form-group">
-	                            <div class="fg-line">
-	                                <label class="control-label m-b-10" for="input-location<?php echo $language['language_id']; ?>"><?php echo $entry_location; ?></label>
-	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][location]" id="input-location<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['location'] : ''; ?></textarea>
-	                            </div>
-	                          </div>
-	                          </div>
-	                          <div class="col-sm-12">
-	                          <!-- участники -->
-	                          <div class="form-group">
-	                            <div class="fg-line">
-	                                <label class="control-label m-b-10" for="input-members<?php echo $language['language_id']; ?>"><?php echo $entry_members; ?></label>
-	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][members]" id="input-members<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['members'] : ''; ?></textarea>
-	                            </div>
-	                          </div>
-	                          </div>
-	                          <div class="col-sm-12">
-	                          <!-- Описание проекта  -->
-		                      <div class="form-group required <?php if (isset($error_maxprice[$language['language_id']])) { ?> has-error <?php } ?>">
-	                            <div class="fg-line">
-	                                <label class="control-label m-b-10" for="input-description<?php echo $language['language_id']; ?>"><?php echo $entry_description; ?></label>
-	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][description]" id="input-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['description'] : ''; ?></textarea>
-	                            </div>	                            
-	                            <?php if (isset($error_description[$language['language_id']])) { ?>
-	                              <small class="help-block"><?php echo $error_description[$language['language_id']]; ?></small>
-	                            <?php } ?>
-	                          </div>
-	                          </div>
-	                          <div class="col-sm-12">
-	                          <!-- Контакты  -->
-		                      <div class="form-group">
-	                            <div class="fg-line">
-	                                <label class="control-label m-b-10" for="input-contacts<?php echo $language['language_id']; ?>"><?php echo $entry_contacts; ?></label>
-	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][contacts]" id="input-contacts<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['contacts'] : ''; ?></textarea>
-	                            </div>
-	                          </div>
-								</div>
-	                          <div class="col-sm-12">
-							  <!-- Дополнительный текст о графике -->
-		                      <div class="form-group">
-		                        <div class="fg-line">
-		                            <label class="control-label m-b-10" for="input-timeline_text<?php echo $language['language_id']; ?>"><?php echo $entry_timeline_text; ?></label>
-		                            <textarea name="contest_description[<?php echo $language['language_id']; ?>][timeline_text]" class="form-control auto-size" rows="4" id="input-timeline_text<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['timeline_text'] : ''; ?></textarea>
-		                        </div>
-		                      </div>
+		                          <div class="col-sm-12">
+    	                          <!-- география -->
+    	                          <div class="form-group">
+    	                            <div class="fg-line">
+    	                                <label class="control-label m-b-10" for="input-location<?php echo $language['language_id']; ?>"><?php echo $entry_location; ?></label>
+    	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][location]" id="input-location<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['location'] : ''; ?></textarea>
+    	                            </div>
+    	                          </div>
+                              </div>
+
+  	                          <div class="col-sm-12">
+    	                          <!-- участники -->
+    	                          <div class="form-group">
+    	                            <div class="fg-line">
+    	                                <label class="control-label m-b-10" for="input-members<?php echo $language['language_id']; ?>"><?php echo $entry_members; ?></label>
+    	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][members]" id="input-members<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['members'] : ''; ?></textarea>
+    	                            </div>
+    	                          </div>
+  	                          </div>
+
+  	                          <div class="col-sm-12">
+    	                          <!-- Описание проекта  -->
+    		                        <div class="form-group required <?php if (isset($error_maxprice[$language['language_id']])) { ?> has-error <?php } ?>">
+    	                            <div class="fg-line">
+    	                                <label class="control-label m-b-10" for="input-description<?php echo $language['language_id']; ?>"><?php echo $entry_description; ?></label>
+    	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][description]" id="input-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['description'] : ''; ?></textarea>
+    	                            </div>	                            
+    	                            <?php if (isset($error_description[$language['language_id']])) { ?>
+    	                              <small class="help-block"><?php echo $error_description[$language['language_id']]; ?></small>
+    	                            <?php } ?>
+    	                          </div>
+  	                          </div>
+	                             
+                              <div class="col-sm-12">
+                                <!-- Контакты  -->
+    		                        <div class="form-group">
+    	                            <div class="fg-line">
+    	                                <label class="control-label m-b-10" for="input-contacts<?php echo $language['language_id']; ?>"><?php echo $entry_contacts; ?></label>
+    	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][contacts]" id="input-contacts<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['contacts'] : ''; ?></textarea>
+    	                            </div>
+    	                          </div>
+							                </div>
+
+  	                          <div class="col-sm-12">
+    							              <!-- Дополнительный текст о графике -->
+      		                      <div class="form-group">
+      		                        <div class="fg-line">
+      		                            <label class="control-label m-b-10" for="input-timeline_text<?php echo $language['language_id']; ?>"><?php echo $entry_timeline_text; ?></label>
+      		                            <textarea name="contest_description[<?php echo $language['language_id']; ?>][timeline_text]" class="form-control auto-size" rows="4" id="input-timeline_text<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['timeline_text'] : ''; ?></textarea>
+      		                        </div>
+      		                      </div>
                           		</div>
 	                          </div>
-	                          
-	                          
-	                         
-                          
-
-                          </div><!--/.card-body -->
+	                        </div><!--/.card-body -->
                         </div><!-- /tab-pane -->
-                        <?php } ?>
-                      </div><!-- /.tab-content -->
+                      <?php } ?>
+                    </div><!-- /.tab-content -->
                   </div><!-- /.tabpanel -->
                 </div><!-- /#tab-general -->
 
