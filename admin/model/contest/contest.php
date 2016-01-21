@@ -338,9 +338,11 @@ class ModelContestContest extends Model {
 	public function getContestDownload($contest_id) {
 		
 		$contest_download = array();
-		$contest_expert_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_download WHERE contest_id = '" . (int)$contest_id . "'");
+		$contest_download_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_download WHERE contest_id = '" . (int)$contest_id . "'");
+
+
 		if (!empty($contest_download_query->rows)) {
-			$sql = "SELECT DISTINCT * FROM " . DB_PREFIX . "download d LEFT JOIN " . DB_PREFIX . "download_description dd ON (d.download_id = dd.download_id) WHERE d.download_id = '" . (int)$download_id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+			$sql = "SELECT DISTINCT * FROM " . DB_PREFIX . "download d LEFT JOIN " . DB_PREFIX . "download_description dd ON (d.download_id = dd.download_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 			$implode = array();
 			
 			foreach ($contest_download_query->rows as $download_id) {
@@ -349,6 +351,7 @@ class ModelContestContest extends Model {
 
 			$sql .= " AND d.download_id IN (" . implode(',', $implode) . ")";
 			$query = $this->db->query($sql);
+
 			$contest_download = $query->rows;
 		}
 		

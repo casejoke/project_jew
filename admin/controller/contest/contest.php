@@ -556,6 +556,7 @@ class ControllerContestContest extends Controller {
 				'customer_id'    => $contest_expert['customer_id']
 			);
 		}
+		
 
 
 		//********** критерии ************//
@@ -680,6 +681,7 @@ class ControllerContestContest extends Controller {
 		} else {
 			$data['contest_downloads']  = array();
 		}
+		
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');

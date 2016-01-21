@@ -24,7 +24,7 @@ $_['entry_contest_members']    			= 'Участникам конкурса';
 $_['entry_contest_contacts']    		= 'Контакты организаторов';
 $_['entry_contest_timeline_text']  		= 'Дополнительная информация о графике конкурса';
 $_['entry_contest_budget']  		    = 'Бюджет конкурса';
-
+$_['entry_contest_downloads']       = 'Документы для конкурса';
 $_['entry_contest_maxprice']  		    = 'Максимальная сумма гранта';
 $_['entry_contest_totalprice']  		= 'Общий объем финансирования';
 

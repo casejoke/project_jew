@@ -94,7 +94,7 @@ class ControllerContestView extends Controller {
 		$data['entry_contest_budget']		= $this->language->get('entry_contest_budget'); 
 		$data['entry_contest_maxprice']		= $this->language->get('entry_contest_maxprice'); 
 		$data['entry_contest_totalprice']	= $this->language->get('entry_contest_totalprice'); 
-		
+		$data['entry_contest_downloads']	= $this->language->get('entry_contest_downloads'); 
 
 		$data['text_create'] 				= $this->language->get('text_create');
 		$data['text_member'] 				= $this->language->get('text_member');
@@ -127,6 +127,61 @@ class ControllerContestView extends Controller {
 		$data['text_im_deal'] 				= $this->language->get('text_im_deal');
 		$data['im_deal']  = $this->url->link('contest/deal', 'contest_id=' . $data['contest_id'], 'SSL');	
 
+		
+		
+		//прикрепленные файлы
+			//!!!!!!!!!!!  переписать
+			$download_info = $this->model_contest_contest->getContestDownloads($contest_id);
+
+			$data['contest_downloads'] = array();
+			foreach ($download_info as $di) {
+				//
+				$download_file = $this->model_contest_contest->getDownload($di['download_id']);
+				if (file_exists(DIR_DOWNLOAD . $download_file['filename'])) {
+					$size = filesize(DIR_DOWNLOAD . $download_file['filename']);
+
+					$i = 0;
+
+					$suffix = array(
+						'B',
+						'KB',
+						'MB',
+						'GB',
+						'TB',
+						'PB',
+						'EB',
+						'ZB',
+						'YB'
+					);
+
+					while (($size / 1024) > 1) {
+						$size = $size / 1024;
+						$i++;
+					}
+
+					$data['contest_downloads'][] = array(
+						'date_added' => date($this->language->get('date_format_short'), strtotime($download_file['date_added'])),
+						'name'       => $download_file['name'],
+						'size'       => round(substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
+						'href'       => $this->url->link('contest/view/download', 'download_id=' . $download_file['download_id'], 'SSL')
+					);
+				}
+				
+			}
+
+			//проверка на эксперта для данного конкурса
+			//подтяем список конкурсов в котрых пользователь экспертом
+			$customer_id = $this->customer->getId();
+			$results_customer_expert_to_contests = array();
+			$results_customer_expert_to_contests = $this->model_contest_contest->getContestForExpertCustomer($customer_id);
+			$data['is_expert'] = false;
+			foreach ($results_customer_expert_to_contests as $vcetc) {
+				if($vcetc['contest_id'] == $contest_id){
+					$data['is_expert'] = true;
+					break;
+				}
+			}
+
 		//добавм проверку на логин пользователя
 		if (!$this->customer->isLogged()) {
 			
@@ -155,5 +210,63 @@ class ControllerContestView extends Controller {
 
 	}
 	
+	public function download() {
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/download', '', 'SSL');
+
+			$this->response->redirect($this->url->link('account/login', '', 'SSL'));
+		}
+
+		$this->load->model('contest/contest');
+
+		if (isset($this->request->get['download_id'])) {
+			$download_id = $this->request->get['download_id'];
+		} else {
+			$download_id = 0;
+		}
+
+		$download_info = $this->model_contest_contest->getDownload($download_id);
+
+		if ($download_info) {
+			$file = DIR_DOWNLOAD . $download_info['filename'];
+			$mask = basename($download_info['mask']);
+
+			if (!headers_sent()) {
+				if (file_exists($file)) {
+
+					
+					header('Content-Type: application/octet-stream');
+					header('Content-Disposition: attachment; filename="' . ($mask ? $mask : basename($file)) . '"');
+					header('Expires: 0');
+					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+					header('Pragma: public');
+					header('Content-Length: ' . filesize($file));
+					/*
+					header('Content-Type: application/pdf');
+					header('Content-Disposition: inline; filename="' . ($mask ? $mask : basename($file)) . '"');
+					header('Expires: 0');
+					header('Content-Transfer-Encoding: binary');
+					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+					header('Pragma: public');
+					header('Content-Length: ' . filesize($file));
+					header('Accept-Ranges: bytes');
+					*/
+					if (ob_get_level()) {
+						ob_end_clean();
+					}
+
+					readfile($file, 'rb');
+
+					exit();
+				} else {
+					exit('Error: Could not find file ' . $file . '!');
+				}
+			} else {
+				exit('Error: Headers already sent out!');
+			}
+		} else {
+			$this->response->redirect($this->url->link('account/download', '', 'SSL'));
+		}
+	}
 
 }

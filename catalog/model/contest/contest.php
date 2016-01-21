@@ -113,8 +113,13 @@ class ModelContestContest extends Model {
 
 		return $customer_to_contest_id;
 	}
+
+
+
+
 	//получение заявок 
 	public function getRequestForCustomer($data=array()){
+
 		if(empty($data)){
 			$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest";
 		}else{
@@ -130,6 +135,8 @@ class ModelContestContest extends Model {
 		
 		if (!empty($data['filter_contest_id'])) {
 			$_str[] .= " contest_id IN (" . implode(',', $data['filter_contest_id']) . ")";
+		} else{
+			$_str[] .= " contest_id = '0'";
 		}
 		if (!empty($data['filter_status'])) {
 			$_str[] = " status = '" . (int)$data['filter_status'] . "'";
@@ -148,12 +155,18 @@ class ModelContestContest extends Model {
 			}
 			$i++;
 		}
-
+		
 		$query = $this->db->query($sql.$_sql);
 
+		
 
 		return $query->rows;
 	}
+
+
+
+
+
 	//получить информацию  о заявке
 	public function getInformationAboutRequest($request_id){
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE customer_to_contest_id = '".(int)$request_id."'");
@@ -237,19 +250,9 @@ class ModelContestContest extends Model {
 
 	
 	// получение связанных с конкурсом файлов
-	public function getContestFile($id){
-		
-		$files = array();
-		
-		$query = $this->db->query("SELECT * 
-								   FROM " . DB_PREFIX . "contest_file");
-		
-		foreach ($query->rows as $result) {
-		
-			$files[] = $result['file_id'];
-		}
-
-		return $files;
+	public function getContestDownloads($contest_id){
+	 	$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_download WHERE contest_id = '". (int)$contest_id ."'");
+		return $query->rows;
 	}
 
 	public function getContestTypes(){
@@ -286,6 +289,11 @@ class ModelContestContest extends Model {
 		return $data_contest_status;
 	}
 
+	public function getDownload($download_id) {
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "download d LEFT JOIN " . DB_PREFIX . "download_description dd ON (d.download_id = dd.download_id) WHERE d.download_id = '" . (int)$download_id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+		return $query->row;
+	}
 
 
 }

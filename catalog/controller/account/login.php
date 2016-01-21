@@ -48,14 +48,8 @@ class ControllerAccountLogin extends Controller {
 		if ($this->customer->isLogged()) {
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
 		}
-		$this->load->model('tool/image');
-		$main_image_path = 'catalog/default/login.jpg';
-		if (is_file(DIR_IMAGE . $main_image_path)) {
-			$data['main_image']= $this->model_tool_image->resize($main_image_path, 1920,1280,'h');
-		}else {
-			$data['main_image'] = $this->model_tool_image->resize('placeholder.png', 1920,1280,'h');
-		}
 
+		
 		$this->load->language('account/login');
 
 		$this->document->setTitle($this->language->get('heading_title'));

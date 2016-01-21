@@ -254,7 +254,7 @@ class ControllerAccountAccount extends Controller {
 				'contest_image'			=> $image
 			);
 		}
-		//подтянем сипсок зачвок для данного пользователя
+		//подтянем сипсок заявок для данного пользователя!!!!!
 
 		$filter_data = array();
 		$filter_data = array(
@@ -294,11 +294,12 @@ class ControllerAccountAccount extends Controller {
 				'action_not_accepted'   => $this->url->link('contest/deal', 'contest_id='.$vcc['contest_id'], 'SSL')
 			);
 		}
-/**************** про экспертов ***********************/
-//если пользователь эксперта
-$data['request_for_expert'] = array();
-	//проверка на то что пользователь является ли вообще экспертом
-	if ($customer_info['customer_expert']) {
+		/**************** про экспертов ***********************/
+		//если пользователь эксперта
+
+	$data['request_for_expert'] = array();
+//проверка на то что пользователь является ли вообще экспертом
+if ($customer_info['customer_expert']) {
 		$customers = array();
 		$results = $this->model_account_customer->getCustomers();
 		foreach ($results as $result) {
@@ -347,10 +348,14 @@ $data['request_for_expert'] = array();
 		//подтяем список конкурсов в котрых пользователь экспертом
 		$results_customer_expert_to_contests = array();
 		$results_customer_expert_to_contests = $this->model_contest_contest->getContestForExpertCustomer($customer_id);
+
+
 		
+
 		$implode = array();
 		$data['customer_expert_to_contests'] = array();
 		foreach ($results_customer_expert_to_contests as $vcetc) {
+
 			if (!empty($contests[$vcetc['contest_id']])) {
 				$data['customer_expert_to_contests'][] = array(
 					'contest_id'		=> $vcetc['contest_id'],
@@ -362,9 +367,12 @@ $data['request_for_expert'] = array();
 			}
 			
 		}
+
+		
+		
 		
 		//подтянем список заявок для каждого конкурса и текущего пользователя
-		//$implode списокконкурсов для запроса где пользователь эксперто
+		//$implode список конкурсов для запроса где пользователь эксперто
 		//подтянем из табли customer_to_contest заявки со  статусом = 1 (прошла модерацию)и где конкурс IN ($implode)
 		//сформирем финальный список для эксперта
 		$filter_data = array();
@@ -372,8 +380,12 @@ $data['request_for_expert'] = array();
 			'filter_contest_id' => $implode,
 			'filter_status'			=> 1
 		);
+		
 
 		$results_request_for_expert = $this->model_contest_contest->getRequestForCustomer($filter_data);
+		
+
+
 		
 		$data['request_for_expert'] = array();
 		foreach ($results_request_for_expert as $vrfe) {
@@ -383,7 +395,7 @@ $data['request_for_expert'] = array();
 				'expert_evaluate'				=> 	$this->url->link('contest/estimate', 'request_id='.$vrfe['customer_to_contest_id'], 'SSL') 
 			);
 		}
-	}//проверка на эксперта
+}//проверка на эксперта
 
 		
 

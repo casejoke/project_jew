@@ -29,17 +29,18 @@
             <h4 class="font-alt mb-0"><?php echo $entry_contest_propose; ?></h4>
             <?php echo $contest_propose; ?>
           <?php } ?>
-            
-          <div class="row">
-            <div class="form-group">
-              <div class="col-sm-6 col-sm-offset-3">
-                <a href="<?php echo $im_deal; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20"><?php echo $text_im_deal; ?></a>
-              </div>
-            </div>  
-          </div>
+          
+          <?php if (!$is_expert) { ?>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-3">
+                  <a href="<?php echo $im_deal; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20"><?php echo $text_im_deal; ?></a>
+                </div>
+              </div>  
+            </div>
+          <?php } ?>
 
-
-
+          
           <?php if(!empty($contest_description)) { ?>
             <h4 class="font-alt mb-0"><?php echo $entry_description; ?></h4>
             <?php echo $contest_description; ?>
@@ -99,13 +100,31 @@
             <?php echo $contest_timeline_text; ?>
           <?php } ?>
 
-             <div class="row">
-            <div class="form-group">
-              <div class="col-sm-6 col-sm-offset-3">
-                <a href="<?php echo $im_deal; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20"><?php echo $text_im_deal; ?></a>
-              </div>
-            </div>  
-          </div>
+          <?php if(!empty($contest_downloads)) { ?>
+            <h4 class="font-alt mb-10"><?php echo $entry_contest_downloads; ?></h4>
+            <table class="table table-striped table-border checkout-table">
+              <tbody>
+                <?php foreach ($contest_downloads as $vcd) { ?>
+                  <tr>
+                    <th class="hidden"></th>
+                    <th><h5 class="product-title font-alt"><?php echo $vcd['name']; ?></h5></th>
+                    <td><a class="btn btn-round btn-g pull-right" target="_blank" title="" href="<?php echo $vcd['href']; ?>">Скачать <?php echo $vcd['size']; ?></a></td>
+                  </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          <?php } ?>
+          
+          <?php if (!$is_expert) { ?>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-3">
+                  <a href="<?php echo $im_deal; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20"><?php echo $text_im_deal; ?></a>
+                </div>
+              </div>  
+            </div>
+          <?php } ?>
+          
           
           </div>
           
