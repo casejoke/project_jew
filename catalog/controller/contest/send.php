@@ -277,7 +277,7 @@ class ControllerContestSend extends Controller {
 		
 	*/
 //************************* инфо огруппе *************************//	
-		//подтянем администратора группы
+		//подтянем администратора группы если есть группа и в данном конкурсе нужна группа
 		$admin_id = $project_info['customer_id'];
 
 		$init_group_information = $data['init_groups'][$project_info['project_init_group_id']] ;

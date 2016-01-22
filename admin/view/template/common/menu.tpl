@@ -3,6 +3,7 @@
 
   
   <li><a href="<?php echo $contest; ?>"><i class="md md-format-list-bulleted"></i> <?php echo $text_contest; ?> </a></li>
+  <li><a href="<?php echo $customer_requests; ?>"><i class="md md-format-list-bulleted"></i> <?php echo $text_customer_requests; ?> </a></li>
   <li  class="hidden"><a href="<?php echo $occasion_record; ?>"><i class="md md-receipt"></i> <?php echo $text_occasion_record; ?></a></li>
   <li class="hidden"><a href="<?php echo $occasion; ?>"><i class="md md-format-list-bulleted"></i> <?php echo $text_occasion; ?> </a></li>
   <li class="sub-menu">

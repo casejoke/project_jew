@@ -134,7 +134,12 @@ class ModelContestContest extends Model {
 		}
 		
 		if (!empty($data['filter_contest_id'])) {
-			$_str[] .= " contest_id IN (" . implode(',', $data['filter_contest_id']) . ")";
+			
+			if(count($data['filter_contest_id']) > 1){
+				$_str[] .= " contest_id IN (" . implode(',', $data['filter_contest_id']) . ")";
+			}else{
+				$_str[] .= " contest_id = '" . $data['filter_contest_id']. "'";
+			}
 		} else{
 			$_str[] .= " contest_id = '0'";
 		}

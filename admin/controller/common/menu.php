@@ -240,6 +240,9 @@ class ControllerCommonMenu extends Controller {
 		$data['occasion_record'] = $this->url->link('catalog/occasion_record', 'token=' . $this->session->data['token'], 'SSL');
 		$data['place'] = $this->url->link('catalog/place', 'token=' . $this->session->data['token'], 'SSL');
 		$data['customer_stats'] = $this->url->link('catalog/stats', 'token=' . $this->session->data['token'], 'SSL');
+		
+		$data['text_customer_requests'] 			= $this->language->get('text_customer_requests');
+		$data['customer_requests'] = $this->url->link('contest/contest_request', 'token=' . $this->session->data['token'], 'SSL');
 
 
 
