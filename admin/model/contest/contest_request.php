@@ -26,18 +26,19 @@ class ModelContestContestRequest extends Model {
 
 
 	public function getRequests($data = array()) {
-		$sql = "SELECT *, z.name, c.name AS country FROM " . DB_PREFIX . "customer_to_contest z LEFT JOIN " . DB_PREFIX . "country c ON (z.country_id = c.country_id)";
+
+		$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest";
 
 		$sort_data = array(
-			'c.name',
-			'z.name',
-			'z.code'
+			'customer_id',
+			'contest_id',
+			'date_added'
 		);
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];
 		} else {
-			$sql .= " ORDER BY c.name";
+			$sql .= " ORDER BY date_added";
 		}
 
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {

@@ -34,43 +34,28 @@
               <thead>
                   <tr>
                    <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
-                  <td class="text-left"><?php if ($sort == 'cfd.name') { ?>
-                    <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_name; ?></a>
-                    <?php } else { ?>
-                    <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
-                    <?php } ?></td>
-                  <td class="text-left"><?php if ($sort == 'cf.location') { ?>
-                    <a href="<?php echo $sort_location; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_location; ?></a>
-                    <?php } else { ?>
-                    <a href="<?php echo $sort_location; ?>"><?php echo $column_location; ?></a>
-                    <?php } ?></td>
-                  <td class="text-left"><?php if ($sort == 'cf.type') { ?>
-                    <a href="<?php echo $sort_type; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_type; ?></a>
-                    <?php } else { ?>
-                    <a href="<?php echo $sort_type; ?>"><?php echo $column_type; ?></a>
-                    <?php } ?></td>
-                  <td class="text-right"><?php if ($sort == 'cf.sort_order') { ?>
-                    <a href="<?php echo $sort_sort_order; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_sort_order; ?></a>
-                    <?php } else { ?>
-                    <a href="<?php echo $sort_sort_order; ?>"><?php echo $column_sort_order; ?></a>
-                    <?php } ?></td>
+                  <td class="text-left">Конкурс</td>
+                  <td class="text-left">Участник</td>
+                  <td class="text-center">Статус</td>
+                  <td class="text-right">Дата подачи заявки</td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                   </tr>
               </thead>
               <tbody>
-                 <?php if ($contest_fields) { ?>
-                <?php foreach ($contest_fields as $contest_field) { ?>
+                 <?php if ($contest_requests) { ?>
+                <?php foreach ($contest_requests as $cr) { ?>
                 <tr>
-                  <td class="text-center"><?php if (in_array($contest_field['contest_field_id'], $selected)) { ?>
-                    <input type="checkbox" name="selected[]" value="<?php echo $contest_field['contest_field_id']; ?>" checked="checked" />
+                  <td class="text-center"><?php if (in_array($cr['customer_to_contest_id'], $selected)) { ?>
+                    <input type="checkbox" name="selected[]" value="<?php echo $cr['customer_to_contest_id']; ?>" checked="checked" />
                     <?php } else { ?>
-                    <input type="checkbox" name="selected[]" value="<?php echo $contest_field['contest_field_id']; ?>" />
+                    <input type="checkbox" name="selected[]" value="<?php echo $cr['customer_to_contest_id']; ?>" />
                     <?php } ?></td>
-                  <td class="text-left"><?php echo $contest_field['name']; ?></td>
-                  <td class="text-left"><?php echo $contest_field['location']; ?></td>
-                  <td class="text-left"><?php echo $contest_field['type']; ?></td>
-                  <td class="text-right"><?php echo $contest_field['sort_order']; ?></td>
-                  <td class="text-right"><a href="<?php echo $contest_field['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                  <td class="text-left"><?php echo $cr['contest_id']; ?></td>
+                  <td class="text-left"><?php echo $cr['customer_id']; ?></td>
+                  <td class="text-center"><?php echo $cr['status']; ?></td>
+                  <td class="text-right"><?php echo $cr['date_added']; ?></td>
+                  
+                  <td class="text-right"><a href="<?php echo $cr['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php } ?>
                 <?php } else { ?>

@@ -111,16 +111,29 @@ class ControllerContestContestRequest extends Controller {
 	}
 
 	protected function getList() {
+
+
+		//статусы заявки: 
+		// 0 - не принята (есть комментарий)
+		// 1 - принята  (видна экспертам и  ее можно оценивать)
+		// 2 - не обработана () 
+		//$_['text_status_not_accepted']      = 'Не одобрена';
+		//$_['text_status_accepted']        	= 'Одобрена';
+		//$_['text_status_processed']        	= 'В обработке';
+
+
+		
+
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
-			$sort = 'c.name';
+			$sort = 'date_added';
 		}
 
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
 		} else {
-			$order = 'ASC';
+			$order = 'DESC';
 		}
 
 		if (isset($this->request->get['page'])) {
@@ -158,7 +171,21 @@ class ControllerContestContestRequest extends Controller {
 		$data['add'] = $this->url->link('contest/contest_request/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$data['delete'] = $this->url->link('contest/contest_request/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
-		$data['requests'] = array();
+	//	$contests_results = $this->model_contest_contest->getContests($filter_data);
+		//подтянем полный список конкурсов
+		/*if (!empty($contests_results)){
+			
+			foreach ($contests_results as $result) {
+				$data['contests'][] = array(
+					'contest_id' 	=> $result['contest_id'],
+					'title'       	=> $result['title'],
+					'contest_date'	=> rus_date($this->language->get('default_date_format'), strtotime($result['date_start'])),
+					'edit'        	=> $this->url->link('contest/contest/edit', 'token=' . $this->session->data['token'] . '&contest_id=' . $result['contest_id'] . $url, 'SSL')
+				);
+			}
+		}*/
+
+		$data['contest_requests'] = array();
 
 		$filter_data = array(
 			'sort'  => $sort,
@@ -167,17 +194,45 @@ class ControllerContestContestRequest extends Controller {
 			'limit' => $this->config->get('config_limit_admin')
 		);
 
-		$zone_total = $this->model_contest_contest_request->getTotalRequests();
+		$contest_request_total = $this->model_contest_contest_request->getTotalRequests();
 
 		$results = $this->model_contest_contest_request->getRequests($filter_data);
-
+			// 0 - не принята (есть комментарий)
+		// 1 - принята  (видна экспертам и  ее можно оценивать)
+		// 2 - не обработана () 
+		//$_['text_status_not_accepted']      = 'Не одобрена';
+		//$_['text_status_accepted']        	= 'Одобрена';
+		//$_['text_status_processed']        	= 'В обработк
+		$data['text_status_not_accepted'] 	= $this->language->get('text_status_not_accepted');
+		$data['text_status_accepted'] 			= $this->language->get('text_status_accepted');
+		$data['text_status_processed'] 			= $this->language->get('text_status_processed');
 		foreach ($results as $result) {
-			$data['requests'][] = array(
+
+			$status_text = '';
+
+			switch ((int)$result['status']) {
+				case '0':
+					$status_text = $this->language->get('text_status_not_accepted');
+					break;
+				case '1':
+					$status_text = $this->language->get('text_status_accepted');
+					break;
+				case '2':
+					$status_text = $this->language->get('text_status_processed');
+					break;	
+				default:
+					$status_text = $this->language->get('text_status_processed');
+					break;
+			}
+
+
+			$data['contest_requests'][] = array(
 				'customer_to_contest_id' 	=> $result['customer_to_contest_id'],
-				'customer_id' 				=> $result['customer_id'],
-				'contest_id'    			=> $result['contest_id'],
-				'status'    				=> $result['status'],
-				'edit'    					=> $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&customer_to_contest_id=' . $result['customer_to_contest_id'] . $url, 'SSL')
+				'customer_id' 						=> $result['customer_id'],
+				'contest_id'    					=> $result['contest_id'],
+				'status'    							=> $status_text,
+				'date_added'    					=> rus_date($this->language->get('datetime_format'), strtotime($result['date_added'])),
+				'edit'    								=> $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&customer_to_contest_id=' . $result['customer_to_contest_id'] . $url, 'SSL')
 			);
 		}
 
@@ -228,9 +283,8 @@ class ControllerContestContestRequest extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-		$data['sort_country'] = $this->url->link('contest/contest_request', 'token=' . $this->session->data['token'] . '&sort=c.name' . $url, 'SSL');
-		$data['sort_name'] = $this->url->link('contest/contest_request', 'token=' . $this->session->data['token'] . '&sort=z.name' . $url, 'SSL');
-		$data['sort_code'] = $this->url->link('contest/contest_request', 'token=' . $this->session->data['token'] . '&sort=z.code' . $url, 'SSL');
+	
+		$data['sort_contest_id'] = $this->url->link('contest/contest_request', 'token=' . $this->session->data['token'] . '&sort=contest_id' . $url, 'SSL');
 
 		$url = '';
 
@@ -243,14 +297,14 @@ class ControllerContestContestRequest extends Controller {
 		}
 
 		$pagination = new Pagination();
-		$pagination->total = $zone_total;
+		$pagination->total = $contest_request_total;
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_limit_admin');
 		$pagination->url = $this->url->link('contest/contest_request', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 
 		$data['pagination'] = $pagination->render();
 
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($zone_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($zone_total - $this->config->get('config_limit_admin'))) ? $zone_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $zone_total, ceil($zone_total / $this->config->get('config_limit_admin')));
+		$data['results'] = sprintf($this->language->get('text_pagination'), ($contest_request_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($contest_request_total - $this->config->get('config_limit_admin'))) ? $contest_request_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $contest_request_total, ceil($contest_request_total / $this->config->get('config_limit_admin')));
 
 		$data['sort'] = $sort;
 		$data['order'] = $order;
@@ -416,10 +470,10 @@ class ControllerContestContestRequest extends Controller {
 				$this->error['warning'] = sprintf($this->language->get('error_affiliate'), $affiliate_total);
 			}
 
-			$zone_to_geo_zone_total = $this->model_localisation_geo_zone->getTotalRequestToGeoRequestByRequestId($zone_id);
+			$zone_to_geo_contest_request_total = $this->model_localisation_geo_zone->getTotalRequestToGeoRequestByRequestId($zone_id);
 
-			if ($zone_to_geo_zone_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_zone_to_geo_zone'), $zone_to_geo_zone_total);
+			if ($zone_to_geo_contest_request_total) {
+				$this->error['warning'] = sprintf($this->language->get('error_zone_to_geo_zone'), $zone_to_geo_contest_request_total);
 			}
 		}
 

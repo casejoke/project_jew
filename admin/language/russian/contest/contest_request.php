@@ -7,7 +7,9 @@ $_['text_success']           = 'Настройки успешно изменен
 $_['text_list']              = 'Регионы';
 $_['text_add']          = 'Добавить';
 $_['text_edit']         = 'Редактирование';
-
+$_['text_status_not_accepted']      = 'Не одобрена';
+$_['text_status_accepted']          = 'Одобрена';
+$_['text_status_processed']         = 'В обработке';
 // Column
 $_['column_name']            = 'Название региона';
 $_['column_code']            = 'Код региона';
