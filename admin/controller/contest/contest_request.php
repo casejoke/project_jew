@@ -52,7 +52,7 @@ class ControllerContestContestRequest extends Controller {
 		$this->load->model('contest/contest_request');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_contest_contest_request->editRequest($this->request->get['zone_id'], $this->request->post);
+			$this->model_contest_contest_request->editRequest($this->request->get['customer_to_contest_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -171,19 +171,21 @@ class ControllerContestContestRequest extends Controller {
 		$data['add'] = $this->url->link('contest/contest_request/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$data['delete'] = $this->url->link('contest/contest_request/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
-	//	$contests_results = $this->model_contest_contest->getContests($filter_data);
 		//подтянем полный список конкурсов
-		/*if (!empty($contests_results)){
-			
+		$this->load->model('contest/contest');
+		$contests_results = $this->model_contest_contest->getContests();
+		
+		if (!empty($contests_results)){
+			$contests = array();
 			foreach ($contests_results as $result) {
-				$data['contests'][] = array(
+				$contests[$result['contest_id']] = array(
 					'contest_id' 	=> $result['contest_id'],
 					'title'       	=> $result['title'],
 					'contest_date'	=> rus_date($this->language->get('default_date_format'), strtotime($result['date_start'])),
 					'edit'        	=> $this->url->link('contest/contest/edit', 'token=' . $this->session->data['token'] . '&contest_id=' . $result['contest_id'] . $url, 'SSL')
 				);
 			}
-		}*/
+		}
 
 		$data['contest_requests'] = array();
 
@@ -228,11 +230,11 @@ class ControllerContestContestRequest extends Controller {
 
 			$data['contest_requests'][] = array(
 				'customer_to_contest_id' 	=> $result['customer_to_contest_id'],
-				'customer_id' 						=> $result['customer_id'],
-				'contest_id'    					=> $result['contest_id'],
-				'status'    							=> $status_text,
-				'date_added'    					=> rus_date($this->language->get('datetime_format'), strtotime($result['date_added'])),
-				'edit'    								=> $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&customer_to_contest_id=' . $result['customer_to_contest_id'] . $url, 'SSL')
+				'customer_id' 			 	=> $result['customer_id'],
+				'contest_id'    			=> (!empty($contests[$result['contest_id']]))?$contests[$result['contest_id']]['title']:'',
+				'status'   					=> $status_text,
+				'date_added'    			=> rus_date($this->language->get('datetime_format'), strtotime($result['date_added'])),
+				'edit'    					=> $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&customer_to_contest_id=' . $result['customer_to_contest_id'] . $url, 'SSL')
 			);
 		}
 
@@ -317,17 +319,24 @@ class ControllerContestContestRequest extends Controller {
 	}
 
 	protected function getForm() {
+		// инициализация подписей к полям
 		$data['heading_title'] = $this->language->get('heading_title');
+		$data['form_header'] = $this->language->get('form_header');
 
-		$data['text_form'] = !isset($this->request->get['zone_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+		$data['text_form'] = !isset($this->request->get['customer_to_contest_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+		$data['text_none'] = $this->language->get('text_none');
+		$data['text_enabled'] = $this->language->get('text_enabled');
+		$data['text_disabled'] = $this->language->get('text_disabled');
+
 
 		$data['entry_status'] = $this->language->get('entry_status');
 		$data['entry_name'] = $this->language->get('entry_name');
 		$data['entry_code'] = $this->language->get('entry_code');
 		$data['entry_country'] = $this->language->get('entry_country');
 
-		$data['text_enabled'] = $this->language->get('text_enabled');
-		$data['text_disabled'] = $this->language->get('text_disabled');
+		$data['tab_request'] 	= $this->language->get('tab_request');
+		$data['tab_status'] 	= $this->language->get('tab_status');
+		$data['tab_customer'] 	= $this->language->get('tab_customer');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -370,53 +379,69 @@ class ControllerContestContestRequest extends Controller {
 			'href' => $this->url->link('contest/contest_request', 'token=' . $this->session->data['token'] . $url, 'SSL')
 		);
 
-		if (!isset($this->request->get['zone_id'])) {
+		if (!isset($this->request->get['customer_to_contest_id'])) {
 			$data['action'] = $this->url->link('contest/contest_request/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		} else {
-			$data['action'] = $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&zone_id=' . $this->request->get['zone_id'] . $url, 'SSL');
+			$data['action'] = $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&customer_to_contest_id=' . $this->request->get['customer_to_contest_id'] . $url, 'SSL');
 		}
 
 		$data['cancel'] = $this->url->link('contest/contest_request', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
-		if (isset($this->request->get['zone_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$zone_info = $this->model_contest_contest_request->getRequest($this->request->get['zone_id']);
+		if (isset($this->request->get['customer_to_contest_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$customer_to_contest_info = $this->model_contest_contest_request->getRequest($this->request->get['customer_to_contest_id']);
 		}
+
+		
+		//статусы заявки: 
+		// 0 - не принята (есть комментарий)
+		// 1 - принята  (видна экспертам и  ее можно оценивать)
+		// 2 - не обработана () 
+		//$_['text_status_not_accepted']      = 'Не одобрена';
+		//$_['text_status_accepted']        	= 'Одобрена';
+		//$_['text_status_processed']        	= 'В обработке';
+
+		$data['request_status'] = $this->model_contest_contest_request->getRequestStatusTypes();
 
 		if (isset($this->request->post['status'])) {
 			$data['status'] = $this->request->post['status'];
-		} elseif (!empty($zone_info)) {
-			$data['status'] = $zone_info['status'];
+		} elseif (!empty($customer_to_contest_info)) {
+			$data['status'] = $customer_to_contest_info['status'];
 		} else {
-			$data['status'] = '1';
+			$data['status'] = 2;
 		}
 
-		if (isset($this->request->post['name'])) {
-			$data['name'] = $this->request->post['name'];
-		} elseif (!empty($zone_info)) {
-			$data['name'] = $zone_info['name'];
+		$data['text_status_not_accepted'] 	= $this->language->get('text_status_not_accepted');
+		$data['text_status_accepted'] 		= $this->language->get('text_status_accepted');
+		$data['text_status_processed'] 		= $this->language->get('text_status_processed');
+
+
+
+		//комментарий к заявки
+		if (isset($this->request->post['comment'])) {
+			$data['comment'] = $this->request->post['comment'];
+		} elseif (!empty($customer_to_contest_info)) {
+			$data['comment'] = $customer_to_contest_info['comment'];
 		} else {
-			$data['name'] = '';
+			$data['comment'] = '';
 		}
 
-		if (isset($this->request->post['code'])) {
-			$data['code'] = $this->request->post['code'];
-		} elseif (!empty($zone_info)) {
-			$data['code'] = $zone_info['code'];
-		} else {
-			$data['code'] = '';
-		}
+		//информация о пользователе
+		$customer_id = $customer_to_contest_info['customer_id'];
+		$this->load->model('sale/customer');
+		$customer_info = $this->model_sale_customer->getCustomer($customer_id);
 
-		if (isset($this->request->post['country_id'])) {
-			$data['country_id'] = $this->request->post['country_id'];
-		} elseif (!empty($zone_info)) {
-			$data['country_id'] = $zone_info['country_id'];
-		} else {
-			$data['country_id'] = '';
-		}
 
-		$this->load->model('localisation/country');
+		$data['lastname'] 	= $customer_info['lastname'];//фамилия
+		$data['firstname'] 	= $customer_info['firstname'];//имя
+		$data['email'] 		= $customer_info['email'];//мыло
+		$data['telephone'] 		= $customer_info['telephone'];//мыло
+/*
+		print_r('<pre>');
+		print_r($customer_info);
+		print_r('</pre>');
+		die();
+	*/
 
-		$data['countries'] = $this->model_localisation_country->getCountries();
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -430,9 +455,9 @@ class ControllerContestContestRequest extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if ((utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 64)) {
+		/*if ((utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 64)) {
 			$this->error['name'] = $this->language->get('error_name');
-		}
+		}*/
 
 		return !$this->error;
 	}

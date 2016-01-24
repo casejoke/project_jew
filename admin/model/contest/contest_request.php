@@ -1,13 +1,13 @@
 <?php
 class ModelContestContestRequest extends Model {
 	public function addRequest($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_to_contest SET status = '" . (int)$data['status'] . "', name = '" . $this->db->escape($data['name']) . "', code = '" . $this->db->escape($data['code']) . "', country_id = '" . (int)$data['country_id'] . "'");
-
 		$this->cache->delete('customer_to_contest');
 	}
 
 	public function editRequest($customer_to_contest_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET status = '" . (int)$data['status'] . "', name = '" . $this->db->escape($data['name']) . "', code = '" . $this->db->escape($data['code']) . "', country_id = '" . (int)$data['country_id'] . "' WHERE customer_to_contest_id = '" . (int)$customer_to_contest_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET 
+			status = '" . (int)$data['status'] . "'
+		WHERE customer_to_contest_id = '" . (int)$customer_to_contest_id . "'");
 
 		$this->cache->delete('customer_to_contest');
 	}
@@ -88,5 +88,28 @@ class ModelContestContestRequest extends Model {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_to_contest WHERE country_id = '" . (int)$country_id . "'");
 
 		return $query->row['total'];
+	}
+	public function getRequestStatusTypes(){
+		//статусы заявки: 
+		// 0 - не принята (есть комментарий)
+		// 1 - принята  (видна экспертам и  ее можно оценивать)
+		// 2 - не обработана () 
+		//$_['text_status_not_accepted']      = 'Не одобрена';
+		//$_['text_status_accepted']        	= 'Одобрена';
+		//$_['text_status_processed']        	= 'В обработке';
+		$data_request_status_types = array();
+		$data_request_status_types[] = array(
+			'request_status_type_id' => 0,
+			'request_status_type_title' => 'Не одобрена'
+		);
+		$data_request_status_types[] = array(
+			'request_status_type_id' => 1,
+			'request_status_type_title' => 'Одобрена'
+		);
+		$data_request_status_types[] = array(
+			'request_status_type_id' => 2,
+			'request_status_type_title' => 'В обработке'
+		);
+		return $data_request_status_types;
 	}
 }

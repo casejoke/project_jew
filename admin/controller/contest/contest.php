@@ -295,7 +295,7 @@ class ControllerContestContest extends Controller {
 		$data['heading_title'] = $this->language->get('heading_title');
 		$data['form_header'] = $this->language->get('form_header');
 
-		$data['text_form'] = !isset($this->request->get['id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+		$data['text_form'] = !isset($this->request->get['contest_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 		$data['text_none'] = $this->language->get('text_none');
 		$data['text_enabled'] = $this->language->get('text_enabled');
 		$data['text_disabled'] = $this->language->get('text_disabled');
