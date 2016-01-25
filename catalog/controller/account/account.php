@@ -262,6 +262,7 @@ class ControllerAccountAccount extends Controller {
 		);
 		$results_customer_req_contest = $this->model_contest_contest->getRequestForCustomer($filter_data);
 
+
 		$data['requests_for_customer'] = array();
 		foreach ($results_customer_req_contest as $vcc) {
 			$status = '';
@@ -319,10 +320,8 @@ if ($customer_info['customer_expert']) {
 				'customer_name'     		=> $result['name'],
 				'customer_image'				=> $image
 			);
-			   	
-			
-			
 		}
+		
 		//подтянем список активных конкурсов
 		//подтянем все активные конкурсы
 		$results_contests = $this->model_contest_contest->getContests();
@@ -346,12 +345,7 @@ if ($customer_info['customer_expert']) {
 		}
 
 		//подтяем список конкурсов в котрых пользователь экспертом
-		$results_customer_expert_to_contests = array();
 		$results_customer_expert_to_contests = $this->model_contest_contest->getContestForExpertCustomer($customer_id);
-
-
-		
-
 		$implode = array();
 		$data['customer_expert_to_contests'] = array();
 		foreach ($results_customer_expert_to_contests as $vcetc) {
@@ -368,7 +362,6 @@ if ($customer_info['customer_expert']) {
 			
 		}
 
-		
 		
 		
 		//подтянем список заявок для каждого конкурса и текущего пользователя

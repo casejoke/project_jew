@@ -47,6 +47,7 @@
                 <div role="tabpanel" class="tab-pane" id="tab-status">
                   <div class="card-body card-padding">
                 	 <div class="row">
+
                     <div class="col-sm-6">
                         <!-- тип -->
                         <div class="form-group">
@@ -68,6 +69,22 @@
                           </div>
                         </div>
                       </div> 
+
+                      <div class="col-sm-6">
+                          <!-- организатор -->
+                          <div class="form-group required <?php if (isset($error_organizer[$language['language_id']])) { ?> has-error <?php } ?>">
+                            <div class="fg-line">
+                                <label class="control-label" for="input-organizer<?php echo $language['language_id']; ?>"><?php echo $entry_organizer; ?></label>
+                                 <textarea name="contest_description[<?php echo $language['language_id']; ?>][organizer]" id="input-organizer<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['organizer'] : ''; ?></textarea>
+                            </div>
+                            <?php if (isset($error_organizer[$language['language_id']])) { ?>
+                              <small class="help-block"><?php echo $error_organizer[$language['language_id']]; ?></small>
+                            <?php } ?>
+                          </div>
+                        </div>
+
+
+
                    </div>
                   </div>
                 </div><!-- /#tab-timeline -->

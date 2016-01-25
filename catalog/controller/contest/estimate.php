@@ -183,7 +183,7 @@ class ControllerContestEstimate extends Controller {
         'contest_field_system_table'  => $vccf['field_system_table'],
       );
     }
-    //ракрутим заявку
+    //раcкрутим заявку
     $data['customer_field'] = array();
     foreach ($category_request_results as $crr) {
         $data_for_category = array();
@@ -206,6 +206,10 @@ class ControllerContestEstimate extends Controller {
         );
     }
     
+
+
+
+
     print_r('<pre>');
     print_r($data['category_requestes']);
     print_r('</pre>');

@@ -6,8 +6,8 @@
     <div class="card">
       <div class="card-header">
         <h2><?php echo $heading_title; ?><small></small></h2>
-        <ul class="actions">
-            <li >
+        <ul class="actions hidden">
+            <li class="hidden">
                 <a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>">
                     <i class="md  md-note-add"></i>
                 </a>

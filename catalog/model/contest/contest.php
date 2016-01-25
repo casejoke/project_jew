@@ -138,10 +138,12 @@ class ModelContestContest extends Model {
 			if(count($data['filter_contest_id']) > 1){
 				$_str[] .= " contest_id IN (" . implode(',', $data['filter_contest_id']) . ")";
 			}else{
-				$_str[] .= " contest_id = '" . $data['filter_contest_id']. "'";
+				//если один конкурс
+				$contest_id = $data['filter_contest_id'][0];
+				$_str[] .= " contest_id = '" . (int)$contest_id . "'";
 			}
 		} else{
-			$_str[] .= " contest_id = '0'";
+		//	$_str[] .= " contest_id = '0'";
 		}
 		if (!empty($data['filter_status'])) {
 			$_str[] = " status = '" . (int)$data['filter_status'] . "'";
@@ -163,7 +165,7 @@ class ModelContestContest extends Model {
 		
 		$query = $this->db->query($sql.$_sql);
 
-		
+
 
 		return $query->rows;
 	}
