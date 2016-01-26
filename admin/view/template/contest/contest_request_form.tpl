@@ -72,14 +72,12 @@
 
                       <div class="col-sm-6">
                           <!-- организатор -->
-                          <div class="form-group required <?php if (isset($error_organizer[$language['language_id']])) { ?> has-error <?php } ?>">
+                          <div class="form-group required">
                             <div class="fg-line">
-                                <label class="control-label" for="input-organizer<?php echo $language['language_id']; ?>"><?php echo $entry_organizer; ?></label>
-                                 <textarea name="contest_description[<?php echo $language['language_id']; ?>][organizer]" id="input-organizer<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['organizer'] : ''; ?></textarea>
+                                <label class="control-label" for="input-organizer">Комментарий</label>
+                                 <textarea name="contest_comment" row='10' id="input-comment" class="form-control"><?php echo isset($comment) ? $comment : ''; ?></textarea>
                             </div>
-                            <?php if (isset($error_organizer[$language['language_id']])) { ?>
-                              <small class="help-block"><?php echo $error_organizer[$language['language_id']]; ?></small>
-                            <?php } ?>
+                           
                           </div>
                         </div>
 
