@@ -17,7 +17,7 @@ class ControllerContestEstimate extends Controller {
   
   private function getView(){
     //подгрузим язык
-    $this->load->language('contest/send');
+    $this->load->language('contest/estimate');
     //SEO
     $this->document->setTitle($this->language->get('entry_title'));
     //$this->document->setDescription(substr(strip_tags(html_entity_decode($contest_info['meta_description'], ENT_QUOTES)), 0, 150) . '...');
@@ -65,17 +65,17 @@ class ControllerContestEstimate extends Controller {
       $this->response->redirect($this->url->link('contest/contest', '', 'SSL'));
     }
     //если конкурс в статусе работа - редирект
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-    //проверяем стату конкурса и даты 
+    //проверяем статус конкурса и даты 
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //*************************** проверки ********************************//   
 
     if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 
       $this->model_contest_contest->addRequestToContest($this->request->post,$customer_id,$contest_id);
-      $this->session->data['success'] = $this->language->get('text_contest_success');
+      $this->session->data['success'] = $this->language->get('text_expert_request_contest_success');
       // Add to activity log
       $this->load->model('account/activity');
 
@@ -84,7 +84,7 @@ class ControllerContestEstimate extends Controller {
         'name'        => $this->customer->getFirstName() . ' ' . $this->customer->getLastName()
       );
 
-      $this->model_account_activity->addActivity('add request to contest', $activity_data);
+      $this->model_account_activity->addActivity('estimate request to contest', $activity_data);
 
       $this->response->redirect($this->url->link('account/account', '', 'SSL'));
     }
@@ -207,8 +207,108 @@ class ControllerContestEstimate extends Controller {
     }
     
 
+    //информация о пользователе подавщти заявку
 
 
+
+    //информация о конкурсе для эксперта
+
+
+    
+    //информация о критерияя оценки
+    $request_contest_id = $result_request_information['contest_id'];
+    $contest_criteria = $this->model_contest_contest->getContestCriteria($contest_id);
+
+    $data['contest_criteria'] = array();
+    foreach ($contest_criteria as $vcc) {
+      $data['contest_criteria'][] = array(
+        'contest_criteria_id' => $vcc['contest_criteria_id'],
+        'criteria_title'      => $vcc['title']
+      );
+    }
+
+
+
+
+/*
+
+      //подтянем поля для заполнения
+      //СИСТЕМНЫЕ ПОЛЯ
+      $data['contest_field_system']['customer'] = array();
+      //поля пользователя
+      $data['contest_field_system']['customer']['firstname'] = array(
+        'field_value'         => $customer_info['firstname'],
+        'field_type'          => 'text'
+      );
+      $data['contest_field_system']['customer']['lastname'] = array(
+        'field_value'         => $customer_info['lastname'],
+        'field_type'          => 'text'
+      );
+      $data['contest_field_system']['customer']['email'] = array(
+        'field_value'         => $customer_info['email'],
+        'field_type'          => 'text'
+      );
+      $data['contest_field_system']['customer']['telephone'] = array(
+        'field_value'         => $customer_info['telephone'],
+        'field_type'          => 'text'
+      );
+
+
+
+    $data['contest_field_system']['init_group'] = array();
+    //поля для группы
+    $data['contest_field_system']['init_group']['title'] = array(
+      'field_value'         => $init_group_information['group_title'],
+      'field_type'          => 'text'
+    );
+    $data['contest_field_system']['init_group']['group_description'] = array(
+      'field_value'         => $init_group_information['group_description'],
+      'field_type'          => 'textarea'
+    );
+    
+    //поля для проекта
+    $data['contest_field_system']['project'] = array();
+    $data['contest_field_system']['project']['title'] = array(
+      'field_value'         => html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8'),
+      'field_type'          => 'text'
+    );
+
+    $data['contest_field_system']['project']['project_budget'] = array(
+      'field_value'         => $project_info['project_budget'],
+      'field_type'          => 'text'
+    );
+    $data['contest_field_system']['project']['description'] = array(
+      'field_value'         => $project_info['description'],
+      'field_type'          => 'textarea'
+    );
+    $data['contest_field_system']['project']['target'] = array(
+      'field_value'         => $project_info['target'],
+      'field_type'       => 'target'
+    );
+    $data['contest_field_system']['project']['product'] = array(
+      'field_value'         => $project_info['product'],
+      'field_type'       => 'textarea'
+    );
+    $data['contest_field_system']['project']['result'] = array(
+      'field_value'         => $project_info['result'],
+      'field_type'       => 'textarea'
+    );
+    $data['contest_field_system']['project']['project_birthday'] = array(
+      'field_value'         => $project_info['project_birthday'],
+      'field_type'       => 'textarea'
+    );
+    $data['contest_field_system']['project']['project_age'] = array(
+      'field_value'         => $project_info['project_age'],
+      'field_type'       => 'textarea'
+    );
+*/
+
+
+
+
+
+
+/*
 
     print_r('<pre>');
     print_r($data['category_requestes']);
@@ -216,12 +316,12 @@ class ControllerContestEstimate extends Controller {
     die();
     
 
-   
+   */
   
 
 
 
-
+    $data['action'] = $this->url->link('contest/estimate', 'request_id='.$request_id, 'SSL');
 
     if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_estimate.tpl')) {
       $this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest.js');
@@ -249,94 +349,7 @@ class ControllerContestEstimate extends Controller {
 
   }
   protected function validate() {
-    //подтянем все сушествующие поля и правила для них
-    //подтянуть список всех полей заявки для каждой категории
-      $this->load->model('contest/contest_field');
-      $filter_data = array(
-        'order' => 'ASC'
-      );
-      $contest_fields_results = $this->model_contest_contest_field->getContestFields($filter_data); 
-      /*
-            [contest_field_id] => 6
-            [type] => textarea
-            [field_system] => custom
-            [field_system_table] => custom
-            [value] => 
-            [location] => 14 // id группы в заявке
-            [required] => 0
-            [status] => 1
-            [sort_order] => 0
-            [language_id] => 2
-            [name] => Дополнителное образование
-
-          */
-       
-
-      //подтянем список каетгорий для заявки на  конкурса
-      $filter_data = array(
-        'order' => 'ASC'
-      );
-      $category_request_results = $this->model_localisation_category_request->getCategoryRequestes($filter_data);
-      foreach ($category_request_results as $crr) {
-        if(!empty($this->request->post['custom_fields'][$crr['category_request_id']])){
-          foreach ($this->request->post['custom_fields'][$crr['category_request_id']] as $category_key => $vcf) {
-            
-            //проверяем на обязательность заполнения
-            foreach ($contest_fields_results as $value_cfr) {
-              if ($value_cfr['contest_field_id'] == $vcf['field_id']) {
-                //
-                
-                //$this->error['custom_fields'][$vcf['field_id']] = $this->language->get('error_email');
-
-              }
-            }
-          }
-        }
-        
-        } 
-
-      
-
-
-    /*
-
-
-
-
-
-
-    foreach ($this->request->post['project_description'] as $language_id => $value) {
-      if ((utf8_strlen($value['title']) < 3) || (utf8_strlen($value['title']) > 255)) {
-    //    $this->error['title'][$language_id] = $this->language->get('error_title');
-      }
-
-      if (utf8_strlen($value['description']) < 3) {
-    //    $this->error['description'][$language_id] = $this->language->get('error_description');
-      }
-
-      if ((utf8_strlen($value['meta_title']) < 3) || (utf8_strlen($value['meta_title']) > 255)) {
-        $this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
-      }
-
-    }
-
-    if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
-      $this->error['lastname'] = $this->language->get('error_lastname');
-    }
-
-    if ((utf8_strlen($this->request->post['email']) > 96) || !preg_match('/^[^\@]+@.*.[a-z]{2,15}$/i', $this->request->post['email'])) {
-      $this->error['email'] = $this->language->get('error_email');
-    }
-
-    if (($this->customer->getEmail() != $this->request->post['email']) && $this->model_account_customer->getTotalCustomersByEmail($this->request->post['email'])) {
-      $this->error['warning'] = $this->language->get('error_exists');
-    }
-
-    if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
-      $this->error['telephone'] = $this->language->get('error_telephone');
-    }
-    */
-
+    //$this->error['fake'] = 1;
     return !$this->error;
   }
 

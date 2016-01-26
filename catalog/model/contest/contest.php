@@ -202,31 +202,15 @@ class ModelContestContest extends Model {
 		return $contest_expert;
 	}
 
-	// получение связанных с конкурсом критериев
+		// получение связанных с конкурсом критериев
+
 	public function getContestCriteria($contest_id) {
-		$contest_criteria_data = array();
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_criteria c LEFT JOIN " . DB_PREFIX . "contest_criteria_description cd 
+				ON (c.contest_criteria_id = cd.contest_criteria_id) 
+				WHERE c.contest_id = '" . (int)$contest_id . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'
+				ORDER BY c.sort_order ASC");
 		
-		$contest_criteria_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_criteria WHERE contest_id = '" . (int)$contest_id . "' ORDER BY sort_order ASC");
-		
-		foreach ($contest_criteria_query->rows as $contest_criteria) {
-			$contest_criteria_description_data = array();
-			 
-			$contest_criteria_description_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_criteria_description WHERE contest_criteria_id = '" . (int)$contest_criteria['contest_criteria_id'] . "' AND contest_id = '" . (int)$contest_id . "'");
-			
-			foreach ($contest_criteria_description_query->rows as $contest_criteria_description) {			
-				$contest_criteria_description_data[$contest_criteria_description['language_id']] = array(
-					'title' => $contest_criteria_description['title']
-				);
-			}
-		
-			$contest_criteria_data[] = array(
-				'contest_criteria_description'  	=> $contest_criteria_description_data,
-				'weight'                     		=> $contest_criteria['weight'],
-				'sort_order'			    => $contest_criteria['sort_order']
-			);
-		}
-		
-		return $contest_criteria_data;
+		return $query->rows;
 	}
 
 	// получение связанных с конкурсом направлений
