@@ -439,11 +439,7 @@ class ControllerContestContest extends Controller {
 			$contest_info = $this->model_contest_contest->getContest($this->request->get['contest_id']);
 		}
 
-		if (isset($this->request->get['occasion_id'])) {
-			$data['contest_id'] = $this->request->get['contest_id'];
-		} else {
-			$data['contest_id'] = 0;
-		}
+		
 		//********** описание конкурса ************//
 		//поля из описания пконкурса
 		if (isset($this->request->post['contest_description'])) {
@@ -524,6 +520,16 @@ class ControllerContestContest extends Controller {
 		} else {
 			$data['status'] = 1;
 		}
+
+		// получение колисва победителей
+		if (isset($this->request->post['count_winner'])) {
+			$data['count_winner'] = $this->request->post['count_winner'];
+		} elseif (!empty($contest_info)) {
+			$data['count_winner'] = $contest_info['count_winner'];
+		} else {
+			$data['count_winner'] = 1;
+		}
+		
 
 		//********** эксперты ************//
 		//получим пользователей экспертов

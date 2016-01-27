@@ -7,6 +7,7 @@ class ModelContestContest extends Model {
 			image = '" . $this->db->escape($data['image']) . "',
 			type 			= '" . (int)$data['type'] . "',
 			status 			= '" . (int)$data['status'] . "',
+			count_winner 			= '" . (int)$data['count_winner'] . "',
 			contest_fields 	= '" . $this->db->escape(isset($data['custom_fields']) ? serialize($data['custom_fields']) : '') . "',
 			maxprice 		= '" . $this->db->escape($data['maxprice']) . "',
 			totalprice 		= '" . $this->db->escape($data['totalprice']) . "',
@@ -111,6 +112,7 @@ class ModelContestContest extends Model {
 			status 			= '" . (int)$data['status'] . "',
 			maxprice 		= '" . $this->db->escape($data['maxprice']) . "',
 			totalprice 		= '" . $this->db->escape($data['totalprice']) . "',
+			count_winner 			= '" . (int)$data['count_winner'] . "',
 			contest_fields = '" . $this->db->escape(isset($data['custom_fields']) ? serialize($data['custom_fields']) : '') . "',
 			date_start 		= '" . $this->db->escape($data['date_start']) . "',
 			datetime_end 	= '" . $this->db->escape($data['datetime_end']) . "',
@@ -376,6 +378,7 @@ class ModelContestContest extends Model {
 			}
 		
 			$contest_criteria_data[] = array(
+				'contest_criteria_id'			    => $contest_criteria['contest_criteria_id'],
 				'contest_criteria_description'  	=> $contest_criteria_description_data,
 				'weight'                     		=> $contest_criteria['weight'],
 				'sort_order'			    => $contest_criteria['sort_order']
@@ -461,6 +464,82 @@ class ModelContestContest extends Model {
 		);
 		return $data_contest_status;
 	}
+
+	public function getRequestsForWinnerList($data = array()) {
+
+		if(empty($data)){
+			$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest";
+		}else{
+			$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE";
+		}
+
+		$_str =array();
+
+		if (!empty($data['filter_contest_id'])) {
+			$_str[] =	" contest_id = '" . (int)$data['filter_contest_id'] . "'";
+		}
+		
+		if (!empty($data['filter_status_id'])) {
+			$_str[] = " status = '" . (int)$data['filter_status_id'] . "'";
+		}
+		
+		
+		$_sql = '' ;
+		$i = 0;
+		foreach ($_str as $vstr) {
+			if($i > 0){
+				$_sql .= ' AND'.$vstr;
+			}else{
+				$_sql .= $vstr;
+			}
+			$i++;
+		}
+		
+		$query = $this->db->query($sql.$_sql);
+
+		return $query->rows;
+	}
+
+	public function getEstimateForWinnerList($data = array()){
+			if(empty($data)){
+			$sql = "SELECT * FROM " . DB_PREFIX . "customer_estimate";
+		}else{
+			$sql = "SELECT * FROM " . DB_PREFIX . "customer_estimate WHERE";
+		}
+
+		$_str =array();
+
+		if (!empty($data['filter_contest_id'])) {
+			$_str[] =	" contest_id = '" . (int)$data['filter_contest_id'] . "'";
+		}
+		
+		if (!empty($data['filter_status_id'])) {
+			$_str[] = " status = '" . (int)$data['filter_status_id'] . "'";
+		}
+		
+		
+		$_sql = '' ;
+		$i = 0;
+		foreach ($_str as $vstr) {
+			if($i > 0){
+				$_sql .= ' AND'.$vstr;
+			}else{
+				$_sql .= $vstr;
+			}
+			$i++;
+		}
+		
+		$query = $this->db->query($sql.$_sql);
+
+		return $query->rows;
+	}
+
+
+
+
+
+
+
 
 	
 }

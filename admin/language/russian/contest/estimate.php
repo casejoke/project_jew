@@ -1,7 +1,7 @@
 <?php
 // Heading
-$_['heading_title']     = 'Конкурсы';
-$_['form_header']     = 'Редактирование конкурса';
+$_['heading_title']     = 'Победители';
+$_['form_header']     = 'Определение победителей';
 
 // tab
 $_['tab_direction']                   = 'Направления';

@@ -195,7 +195,7 @@
 	                  
                     <div class="row">
                       <!-- максимальная сумма гранта -->
-                      <div class="col-sm-6 required <?php if (isset($error_maxprice[$language['language_id']])) { ?> has-error <?php } ?>">
+                      <div class="col-sm-4 required <?php if (isset($error_maxprice[$language['language_id']])) { ?> has-error <?php } ?>">
                         <div class="form-group">
                           <div class="fg-line">
                               <label class="control-label" for="input-maxprice"><?php echo $entry_maxprice; ?></label>
@@ -208,7 +208,7 @@
                       </div>
                     
                       <!-- Общий объем финансирования -->
-                      <div class="col-sm-6">
+                      <div class="col-sm-4">
                         <div class="form-group">
                           <div class="fg-line">
                               <label class="control-label" for="input-maxprice"><?php echo $entry_totalprice; ?></label>
@@ -216,6 +216,17 @@
                           </div>
                         </div><!--/.form-group-->
                       </div>
+
+                      <!-- Количество победителей -->
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <div class="fg-line">
+                              <label class="control-label" for="input-count_winner">Количество победителей</label>
+                              <input type="text" name="count_winner" value="<?php echo (isset($count_winner)) ? $count_winner : ""; ?>"  id="input-count_winner" class="form-control" />
+                          </div>
+                        </div><!--/.form-group-->
+                      </div>
+
                     </div>
 
                     <div class="row">
