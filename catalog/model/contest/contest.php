@@ -91,7 +91,7 @@ class ModelContestContest extends Model {
 		);
 		$is_isset_request = $this->getRequestForCustomer($filter_data);
 		if(!empty($is_isset_request)){
-			
+			//статус = 2 значит отправляем на модерацию
 			$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET 
 				value  = '" . $this->db->escape(  serialize($data) ) . "', 
 				status = '2',
@@ -132,6 +132,8 @@ class ModelContestContest extends Model {
 		if (!empty($data['filter_customer_id'])) {
 			$_str[] =	" customer_id = '" . (int)$data['filter_customer_id'] . "'";
 		}
+
+
 		
 		if (!empty($data['filter_contest_id'])) {
 			
@@ -145,9 +147,12 @@ class ModelContestContest extends Model {
 		} else{
 		//	$_str[] .= " contest_id = '0'";
 		}
+		
+		//statss = 1 значит модератор разрешил оценивать
 		if (!empty($data['filter_status'])) {
 			$_str[] = " status = '" . (int)$data['filter_status'] . "'";
 		}
+
 		if (!empty($data['filter_no_acepted'])) {
 			$_str[] = " status != '0'";
 		}
@@ -170,7 +175,11 @@ class ModelContestContest extends Model {
 		return $query->rows;
 	}
 
-
+	public function getEstimateForCustomer($customer_id){
+		$sql = "SELECT * FROM " . DB_PREFIX . "customer_estimate WHERE customer_id = '".(int)$customer_id."'";
+		$query = $this->db->query($sql);
+		return $query->rows;
+	}
 
 
 
@@ -178,8 +187,28 @@ class ModelContestContest extends Model {
 	public function getInformationAboutRequest($request_id){
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE customer_to_contest_id = '".(int)$request_id."'");
 
+
 		return $query->row;
 	}
+
+	//оценка заявки на конкурс
+	public function addEstimateToContest($data=array(),$customer_id,$contest_id,$request_id){
+		//записываем оценку эксперта
+		//customer_id - id экперта
+		//value - оценка
+		//customer_to_contest_id - id заявки
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_estimate SET 
+				contest_id = '" . (int)$contest_id . "',
+				customer_id = '" . (int)$customer_id . "',
+				customer_to_contest_id = '".(int)$request_id."',
+				value  = '" . $this->db->escape(  serialize($data) ) . "', 
+				date_added = NOW()"
+			);
+
+	}
+
+
+
 
 	// получение связанных с конкурсом экспертов
 	public function getContestExpert($contest_id) {

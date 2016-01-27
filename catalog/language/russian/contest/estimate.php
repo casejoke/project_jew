@@ -6,7 +6,7 @@ $_['heading_title']   = 'Оформление заявки на конкурс';
 $_['text_groups']   = 'Конкурсы';
 $_['text_create']   = 'Создан';
 $_['text_member']= 'Участника';
-$_['text_submit']  = 'Подать заявку';
+$_['text_submit']  = 'Отправить';
 $_['text_expert_request_contest_success']  = 'Ваша оценка успешно отправлена.';
 
 // Entry

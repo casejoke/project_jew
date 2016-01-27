@@ -74,7 +74,7 @@ class ControllerContestEstimate extends Controller {
 
     if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 
-      $this->model_contest_contest->addRequestToContest($this->request->post,$customer_id,$contest_id);
+      $this->model_contest_contest->addEstimateToContest($this->request->post,$customer_id,$contest_id,$request_id);
       $this->session->data['success'] = $this->language->get('text_expert_request_contest_success');
       // Add to activity log
       $this->load->model('account/activity');
@@ -324,9 +324,9 @@ class ControllerContestEstimate extends Controller {
     $data['action'] = $this->url->link('contest/estimate', 'request_id='.$request_id, 'SSL');
 
     if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_estimate.tpl')) {
-      $this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest.js');
+      $this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/estimate.js');
     } else {
-      $this->document->addScript('catalog/view/theme/default/assets/js/contest.js');
+      $this->document->addScript('catalog/view/theme/default/assets/js/estimate.js');
     }
 
     $data['column_left'] = $this->load->controller('common/column_left');

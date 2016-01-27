@@ -295,6 +295,8 @@ class ControllerAccountAccount extends Controller {
 				'action_not_accepted'   => $this->url->link('contest/deal', 'contest_id='.$vcc['contest_id'], 'SSL')
 			);
 		}
+	
+
 		/**************** про экспертов ***********************/
 		//если пользователь эксперта
 
@@ -371,23 +373,34 @@ if ($customer_info['customer_expert']) {
 		$filter_data = array();
 		$filter_data = array(
 			'filter_contest_id' => $implode,
-			'filter_status'			=> 1
+			'filter_status'			=> 1,
+
 		);
-		
-
-		$results_request_for_expert = $this->model_contest_contest->getRequestForCustomer($filter_data);
-		
-
-
-		
-		$data['request_for_expert'] = array();
-		foreach ($results_request_for_expert as $vrfe) {
-			$data['request_for_expert'][] = array(
-				'contest_title' 	=>	$contests[$vrfe['contest_id']]['contest_title'],
-				'customer_name' 				=> 	$customers[$vrfe['customer_id']]['customer_name'],
-				'expert_evaluate'				=> 	$this->url->link('contest/estimate', 'request_id='.$vrfe['customer_to_contest_id'], 'SSL') 
+		//узнаем что уже оценивали
+		$results_estimate_for_expert = $this->model_contest_contest->getEstimateForCustomer($customer_id);
+		foreach ($results_estimate_for_expert as $vrefe) {
+			$estimate[$vrefe['customer_to_contest_id']] = array(
+				'customer_id' => $vrefe['customer_id']
 			);
 		}
+
+		$results_request_for_expert = $this->model_contest_contest->getRequestForCustomer($filter_data);
+		$data['request_for_expert'] = array();
+		foreach ($results_request_for_expert as $vrfe) {
+			if(empty($estimate[$vrfe['customer_to_contest_id']])){
+				$data['request_for_expert'][] = array(
+					'customer_to_contest_id'	=>  $vrfe['customer_to_contest_id'],
+					'contest_title' 			=>	$contests[$vrfe['contest_id']]['contest_title'],
+					'customer_name' 			=> 	$customers[$vrfe['customer_id']]['customer_name'],
+					'expert_evaluate'			=> 	$this->url->link('contest/estimate', 'request_id='.$vrfe['customer_to_contest_id'], 'SSL') 
+				);
+			}
+			
+		}
+
+		
+		
+		
 }//проверка на эксперта
 
 		

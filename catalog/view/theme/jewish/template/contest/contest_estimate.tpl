@@ -23,9 +23,9 @@
               <!-- Nav tabs start-->
               <ul class="nav nav-tabs font-alt" role="tablist">
                 <li><a href="#contest" data-toggle="tab">О конкурсе</a></li>
-                <li class="active"><a href="#request" data-toggle="tab">Заявка</a></li>
+                <li ><a href="#request" data-toggle="tab">Заявка</a></li>
 
-                <li><a href="#estimate" data-toggle="tab">Оценить</a></li>
+                <li class="active"><a href="#estimate" data-toggle="tab">Оценить</a></li>
               </ul>
               <!-- Nav tabs end -->
 
@@ -33,7 +33,7 @@
               <div class="tab-content">
 
                 <!-- Tab start -->
-                <div class="tab-pane active" id="request">
+                <div class="tab-pane " id="request">
                   
                 </div>
                 <!-- Tab end -->
@@ -45,41 +45,30 @@
                 <!-- Tab end -->
 
                 <!-- Tab start -->
-                <div class="tab-pane" id="estimate">
-
+                <div class="tab-pane active" id="estimate">
+                  
                   <?php if(!empty($contest_criteria)){ ?>
                     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" >
                     <?php foreach ($contest_criteria as $vcc) { ?>
                         <div class="row">
                          <div class="col-sm-5 col-md-3">
                             <p class="btn-list">
-                              <button type="button" class="btn btn-default btn-round">1</button>
-                              <button type="button" class="btn btn-default btn-round">2</button>
-                              <button type="button" class="btn btn-default btn-round">3</button>
+                              <button type="button" class="btn btn-default btn-round btn-estimate disabled" data-mark="1">1</button>
+                              <button type="button" class="btn btn-default btn-round btn-estimate disabled" data-mark="2">2</button>
+                              <button type="button" class="btn btn-default btn-round btn-estimate disabled" data-mark="3">3</button>
                             </p>
-                             <input type="hidden" name="custom_fields[<?php echo $vcc['criteria_title']; ?>]" value=""  id="input-<?php echo $vcc['criteria_title']; ?>" class="form-control" />
+                             <input type="hidden" name="estimate_request[<?php echo $vcc['contest_criteria_id']; ?>]" value=""  id="input-<?php echo $vcc['contest_criteria_id']; ?>" class="form-control" />
                           </div>
                           <div class="col-sm-7 col-md-9">
                             <h5 class="font-alt mb-0 "><?php echo $vcc['criteria_title']; ?></h5>
                           </div>
                         </div>
-                        
-                        <div class="row hidden">
-                          <label class="radio-inline">
-                              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
-                            </label>
-                            <label class="radio-inline">
-                              <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2
-                            </label>
-                            <label class="radio-inline">
-                              <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3
-                            </label>
-                        </div>
+
                     <?php } ?>
                     <div class="row">
                       <div class="form-group">
                         <div class="col-sm-6 col-sm-offset-3">
-                          <input type="submit" value="<?php echo $text_submit;?>" class="btn btn-round btn-block btn-success" />
+                          <input type="submit" value="<?php echo $text_submit;?>" class="btn btn-round btn-block btn-success btn-send-estimate" disabled/>
                         </div>
                       </div>  
                     </div> 

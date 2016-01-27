@@ -120,6 +120,7 @@ $_['text_project_status']          	   = 'Статус проектов';
 $_['text_contest_field']          	   = 'Поля для заявки';
 $_['text_category_request']            = 'Категории полей заявки';
 $_['text_customer_requests']           = 'Заявки на конкурс';
+$_['text_customer_estimate']           = 'Определение победителя';
 
 
 
