@@ -35,6 +35,8 @@
                             <th>Пользователь</th>
                             <th>Заявка</th>
                             <th>Полученные очки от экпертов</th>
+                            <th>Место</th>
+                            <th>Действия</th>
                             <th>Действия</th>
                           </tr>
                       </thead>
@@ -44,8 +46,18 @@
                             <tr>
                               <td><?php echo $vlr['customer_id']; ?></td>
                               <td><a href="<?php echo $vlr['action']['view_request']; ?>">Подробно</a></td>
-                              <td><?php echo $vlr['request_score']; ?></td>
-                              <td></td>
+                              <td><?php echo $vlr['score']; ?></td>
+                              <td><?php echo $count_winner_place;?></td>
+                              <td>
+                               
+                              </td>
+                              <td>
+                                <select class="place_winner">
+                                  <option value="0">Укажите место</option>
+                                  <option value="1">Укажите место</option>
+                                </select>
+                                <a href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" class="btn btn-primary disabled"><i class="fa fa-check "></i></a> 
+                              </td>
                             </tr>  
                           <?php } ?>
                         <?php } ?>
@@ -68,5 +80,11 @@
       </div><!--/.card -->
     </div> <!--/.container -->
 </section>
+<script type="text/javascript">
+  $('.place_winner').on('change', function() {
+    console.log( this.value ); // or $(this).val()
+
+  });
+</script>
 
 <?php echo $footer; ?>

@@ -53,8 +53,10 @@ class ControllerContestContest extends Controller {
 		$this->load->model('contest/contest');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+			
+			
 			$this->model_contest_contest->editContest($this->request->get['contest_id'], $this->request->post);
-
+			
 			$this->session->data['success'] = $this->language->get('text_success');
 
 			$url = '';
@@ -144,6 +146,7 @@ class ControllerContestContest extends Controller {
 
 		$this->getList();
 	}
+
 	protected function getList() {
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -287,7 +290,6 @@ class ControllerContestContest extends Controller {
 
 		$this->response->setOutput($this->load->view('contest/contest_list.tpl', $data));
 	}
-
 
 	protected function getForm() {
 	
@@ -749,6 +751,7 @@ class ControllerContestContest extends Controller {
 
 		return !$this->error;
 	}
+
 	protected function validateCopy(){
 		if (!$this->user->hasPermission('modify', 'contest/contest')) {
 			$this->error['warning'] = $this->language->get('error_permission');
@@ -758,6 +761,7 @@ class ControllerContestContest extends Controller {
 
 		return !$this->error;
 	}
+
 	protected function validateDelete() {
 		if (!$this->user->hasPermission('modify', 'contest/contest')) {
 			$this->error['warning'] = $this->language->get('error_permission');

@@ -445,6 +445,7 @@
                                 <?php } ?>
                               </td>
                               <td class="text-left" style="width: 30%;">
+                                 <input type="hidden" name="contest_criteria[<?php echo $criteria_row; ?>][contest_criteria_id]" value="<?php echo $contest_criteria['contest_criteria_id']; ?>"  class="form-control" />
                                 <input type="text" name="contest_criteria[<?php echo $criteria_row; ?>][weight]" value="<?php echo $contest_criteria['weight']; ?>"  class="form-control" />
                               </td>
                               <td class="text-right">

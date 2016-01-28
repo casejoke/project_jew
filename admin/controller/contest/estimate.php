@@ -375,10 +375,17 @@ class ControllerContestEstimate extends Controller {
 			$data['list_request'][] = array(
 				'customer_to_contest_id'	=>	$vrtc['customer_to_contest_id'],
 				'customer_id'							=> 	$vrtc['customer_id'],
-				'request_score' 					=> 	$request_score,
+				'score' 					=> 	$request_score,
 				'action'									=>  $action
 			);
 		}
+		//
+		usort($data['list_request'], 'sortByScore');
+
+
+		//подтянем количесвто мест
+		$data['count_winner_place'] =  $contest_info['count_winner'];
+
 
 
 
@@ -388,6 +395,16 @@ class ControllerContestEstimate extends Controller {
 
 		$this->response->setOutput($this->load->view('contest/contest_estimate_form.tpl', $data));
 	}
+
+	//add wiiner
+	public function addWinner(){
+
+	}
+
+	public function getCountPlaceForContest(){
+		
+	}
+
 
 	protected function validateForm() {
 

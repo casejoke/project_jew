@@ -154,29 +154,68 @@ class ModelContestContest extends Model {
 
 
 		// связанные критерии
-		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_criteria WHERE contest_id = '" . (int)$contest_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_criteria_description WHERE contest_id = '" . (int)$contest_id . "'");
 		if (isset($data['contest_criteria'])) {
+			//подтянем старые значения критерия
+			$old_criteria_results = $this->getContestCriteria($contest_id); 
+
+			
+			$new_creiteria = array();
+
 			foreach ($data['contest_criteria'] as $contest_criteria) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria SET 
-					contest_id 	= '" . (int)$contest_id . "', 
-					weight 		= '" . (int)$contest_criteria['weight'] . "',
-					sort_order 	= '" . (int)$contest_criteria['sort_order'] . "'
-				");
 
-				$contest_criteria_id = $this->db->getLastId();
+				if(!empty($contest_criteria['contest_criteria_id'])){
 
-				foreach ($contest_criteria['contest_criteria_description'] as $language_id => $contest_criteria_description) {
-					$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria_description SET 
-						contest_criteria_id = '" . (int)$contest_criteria_id . "', 
-						contest_id  = '" . (int)$contest_id . "',
-						language_id = '" . (int)$language_id . "', 
-						title = '" .  $this->db->escape($contest_criteria_description['title']) . "'
+					$contest_criteria_id = $contest_criteria['contest_criteria_id'];
+					$new_creiteria[$contest_criteria_id] = $contest_criteria_id ;
+					
+					$this->db->query("UPDATE " . DB_PREFIX . "contest_criteria SET 
+						contest_id 	= '" . (int)$contest_id . "', 
+						weight 		= '" . (int)$contest_criteria['weight'] . "',
+						sort_order 	= '" . (int)$contest_criteria['sort_order'] . "'
+						WHERE contest_criteria_id = '" . (int)$contest_criteria_id . "'
 					");
+						foreach ($contest_criteria['contest_criteria_description'] as $language_id => $contest_criteria_description) {
+							$this->db->query("UPDATE " . DB_PREFIX . "contest_criteria_description SET 
+								contest_criteria_id = '" . (int)$contest_criteria_id . "', 
+								contest_id  = '" . (int)$contest_id . "',
+								language_id = '" . (int)$language_id . "', 
+								title = '" .  $this->db->escape($contest_criteria_description['title']) . "'
+							WHERE contest_criteria_id = '" . (int)$contest_criteria_id . "'");
+						}
+					
+				}else{
+
+					$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria SET 
+						contest_id 	= '" . (int)$contest_id . "', 
+						weight 		= '" . (int)$contest_criteria['weight'] . "',
+						sort_order 	= '" . (int)$contest_criteria['sort_order'] . "'
+					");
+					$contest_criteria_id = $this->db->getLastId();
+
+					foreach ($contest_criteria['contest_criteria_description'] as $language_id => $contest_criteria_description) {
+						$this->db->query("INSERT INTO " . DB_PREFIX . "contest_criteria_description SET 
+							contest_criteria_id = '" . (int)$contest_criteria_id . "', 
+							contest_id  = '" . (int)$contest_id . "',
+							language_id = '" . (int)$language_id . "', 
+							title = '" .  $this->db->escape($contest_criteria_description['title']) . "'
+						");
+					}
+					
+				}
+
+
+			}
+			
+			$diff_critteria_old_new = array_diff_key($old_criteria_results, $new_creiteria);
+			if(!empty($diff_critteria_old_new)){
+				foreach ($diff_critteria_old_new as $vadk) {
+					$this->db->query("DELETE FROM " . DB_PREFIX . "contest_criteria WHERE contest_criteria_id = '" . (int)$vadk['contest_criteria_id'] . "'");
+					$this->db->query("DELETE FROM " . DB_PREFIX . "contest_criteria_description WHERE contest_criteria_id = '" . (int)$vadk['contest_criteria_id'] . "'");
 				}
 			}
 		}	
-		// связанные направления	
+
+	// связанные направления	
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_direction WHERE contest_id = '" . (int)$contest_id . "'");
     $this->db->query("DELETE FROM " . DB_PREFIX . "contest_direction_description WHERE contest_id = '" . (int)$contest_id . "'");
 	    if (isset($data['contest_direction'])) {
@@ -377,11 +416,11 @@ class ModelContestContest extends Model {
 				);
 			}
 		
-			$contest_criteria_data[] = array(
+			$contest_criteria_data[$contest_criteria['contest_criteria_id']] = array(
 				'contest_criteria_id'			    => $contest_criteria['contest_criteria_id'],
 				'contest_criteria_description'  	=> $contest_criteria_description_data,
 				'weight'                     		=> $contest_criteria['weight'],
-				'sort_order'			    => $contest_criteria['sort_order']
+				'sort_order'			    		=> $contest_criteria['sort_order']
 			);
 		}
 		
