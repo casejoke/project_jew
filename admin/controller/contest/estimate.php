@@ -402,7 +402,21 @@ class ControllerContestEstimate extends Controller {
 	}
 
 	public function getCountPlaceForContest(){
-		
+		$json =	array();
+		$json[] = array(
+			'place_id' 		=> 10,
+			'place_title' => 'qweqwe'	
+		);
+		$json[] = array(
+			'place_id' 		=> 20,
+			'place_title' => 'zczcx'	
+		);
+		$json[] = array(
+			'place_id' 		=> 30,
+			'place_title' => '1231'	
+		);
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
 	}
 
 

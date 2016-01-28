@@ -37,7 +37,6 @@
                             <th>Полученные очки от экпертов</th>
                             <th>Место</th>
                             <th>Действия</th>
-                            <th>Действия</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -49,14 +48,16 @@
                               <td><?php echo $vlr['score']; ?></td>
                               <td><?php echo $count_winner_place;?></td>
                               <td>
-                               
-                              </td>
-                              <td>
-                                <select class="place_winner">
+                                
+                                <a href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" class="btn btn-primary choose-winner">Выбрать</a>
+                                <select class="place_winner hidden" >
                                   <option value="0">Укажите место</option>
-                                  <option value="1">Укажите место</option>
                                 </select>
-                                <a href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" class="btn btn-primary disabled"><i class="fa fa-check "></i></a> 
+
+                                <a class="btn btn-success accept-winner hidden" href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-check"></i></a>
+
+                                <a class="btn btn-danger delete-winner hidden" href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-times"></i></a>
+
                               </td>
                             </tr>  
                           <?php } ?>
@@ -81,10 +82,38 @@
     </div> <!--/.container -->
 </section>
 <script type="text/javascript">
-  $('.place_winner').on('change', function() {
-    console.log( this.value ); // or $(this).val()
+//accept-winner - подтверждение победителя
+//choose-winner - выбрать победителя
+//place_winner - 
+//delete-winner - 
+  $('.choose-winner').on('click', function(e) {
+    e.preventDefault();
+    var _this = $(this);
 
+      $.ajax({
+        url: 'index.php?route=contest/estimate/getCountPlaceForContest&token=<?php echo $token; ?>',
+        dataType: 'json',
+        success: function(json) {
+          if(json.length){
+            console.log(json.length);
+            var options = '';
+            options += '<option value="0">-- Укажите место -- </option>';
+            $.each(json, function(key, value) {
+              options += '<option value="' + value.place_id + '">' + value.place_title + '</option>';
+            });
+            _this.addClass('hidden');
+            _this.next().removeClass('hidden').html(options);
+          }
+          
+            
+        }
+      });
   });
+
+    $('.place_winner').on('change', function(e) {
+      e.preventDefault();
+      $(this).next().removeClass('hidden');
+    });
 </script>
 
 <?php echo $footer; ?>
