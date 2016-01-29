@@ -54,7 +54,7 @@
                                   <option value="0">Укажите место</option>
                                 </select>
 
-                                <a class="btn btn-success accept-winner hidden" href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-check"></i></a>
+                                <a class="btn btn-success accept-winner hidden" data-customer_id="<?php echo $vlr['customer_id']; ?>" data-contest_id="" href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-check"></i></a>
 
                                 <a class="btn btn-danger delete-winner hidden" href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-times"></i></a>
 
@@ -86,34 +86,82 @@
 //choose-winner - выбрать победителя
 //place_winner - 
 //delete-winner - 
+
   $('.choose-winner').on('click', function(e) {
     e.preventDefault();
     var _this = $(this);
-
-      $.ajax({
-        url: 'index.php?route=contest/estimate/getCountPlaceForContest&token=<?php echo $token; ?>',
-        dataType: 'json',
-        success: function(json) {
-          if(json.length){
-            console.log(json.length);
-            var options = '';
-            options += '<option value="0">-- Укажите место -- </option>';
-            $.each(json, function(key, value) {
-              options += '<option value="' + value.place_id + '">' + value.place_title + '</option>';
-            });
-            _this.addClass('hidden');
-            _this.next().removeClass('hidden').html(options);
-          }
-          
-            
+    $.ajax({
+      url: 'index.php?route=contest/estimate/getCountPlaceForContest&token=<?php echo $token; ?>',
+      dataType: 'json',
+      success: function(json) {
+        if(json.length){
+          console.log(json.length);
+          var options = '';
+          options += '<option value="0">-- Укажите место -- </option>';
+          $.each(json, function(key, value) {
+            options += '<option value="' + value.place_id + '">' + value.place_title + '</option>';
+          });
+          _this.addClass('hidden');
+          _this.next().removeClass('hidden').html(options);
         }
-      });
+        
+          
+      }
+    });
   });
 
-    $('.place_winner').on('change', function(e) {
-      e.preventDefault();
-      $(this).next().removeClass('hidden');
+  $('.place_winner').on('change', function(e) {
+    e.preventDefault();
+    $(this).next().removeClass('hidden');
+  });
+
+  $('.accept-winner').on('click', function(e){
+    e.preventDefault();
+    var _this = $(this);
+    var place_winner  = _this.prev().val();
+    var data = {
+      'customer_id' : '5',
+      'place_id'    : place_winner,
+      'contest_id'  : '2'
+    };
+    console.log(place_winner);
+    //отправляем запрос на установку победителя
+    $.ajax({
+      url: 'index.php?route=contest/estimate/addWinner&token=<?php echo $token; ?>',
+      data : data,
+      dataType: 'json',
+      success: function(json) {
+
+        if(json.success){
+          console.log(json);
+          _this.addClass('hidden').next().removeClass('hidden');
+          _this.prev().addClass('hidden');
+        }
+      }
     });
+
+  });
+
+  $('.delete-winner').on('click',function(e){
+    e.preventDefault();
+    var _this = $(this);
+    var data = {
+      'customer_id' : '5',
+      'contest_id'  : '2'
+    };
+    $.ajax({
+      url: 'index.php?route=contest/estimate/removeWinner&token=<?php echo $token; ?>',
+      data : data,
+      dataType: 'json',
+      success: function(json) {
+
+        if(json.success){
+          console.log(json);
+          _this.addClass('hidden').prev().addClass('hidden').prev().addClass('hidden').prev().removeClass('hidden');
+        }
+      }
+    });
+  });
 </script>
 
 <?php echo $footer; ?>

@@ -573,7 +573,13 @@ class ModelContestContest extends Model {
 		return $query->rows;
 	}
 
-
+	public function addWinner($data = array()){
+		$this->db->query("INSERT INTO " . DB_PREFIX . "contest_winner SET 
+			contest_id 		= '" . $this->db->escape($data['image']) . "',
+			customer_id 	= '" . (int)$data['type'] . "',
+			date_added 		= NOW()
+		");
+	}
 
 
 

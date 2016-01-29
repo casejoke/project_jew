@@ -375,7 +375,8 @@ class ControllerContestEstimate extends Controller {
 			$data['list_request'][] = array(
 				'customer_to_contest_id'	=>	$vrtc['customer_to_contest_id'],
 				'customer_id'							=> 	$vrtc['customer_id'],
-				'score' 					=> 	$request_score,
+				'contest_id'							=>  $vrtc['contest_id'],
+				'score' 									=> 	$request_score,
 				'action'									=>  $action
 			);
 		}
@@ -396,24 +397,50 @@ class ControllerContestEstimate extends Controller {
 		$this->response->setOutput($this->load->view('contest/contest_estimate_form.tpl', $data));
 	}
 
-	//add wiiner
+	//add winner
 	public function addWinner(){
+		$json =	array();
+			if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateWinner()) {
+				$this->load->model('contest/contest');
+				$this->model_contest_contest->addWinner($this->request->post);
+				//добавить проверочик
+					
+			}
+			if($this->error){
+				$json['error'] = $this->error;
+			}else{
+				$json['success'] = true;
+			}
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+	private function validateWinner(){
+		//проверка на побкедителя
+		return !$this->error;
+	}
+	//remove winner
+	public function removeWinner(){
 
+		$json =	array();
+		$json['success'] =	1;
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
 	}
 
 	public function getCountPlaceForContest(){
 		$json =	array();
 		$json[] = array(
-			'place_id' 		=> 10,
-			'place_title' => 'qweqwe'	
+			'place_id' 		=> 1,
+			'place_title' => '1 место'	
 		);
 		$json[] = array(
-			'place_id' 		=> 20,
-			'place_title' => 'zczcx'	
+			'place_id' 		=> 3,
+			'place_title' => '3 место'	
 		);
 		$json[] = array(
-			'place_id' 		=> 30,
-			'place_title' => '1231'	
+			'place_id' 		=> 5,
+			'place_title' => '5 место'	
 		);
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
