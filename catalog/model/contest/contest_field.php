@@ -167,7 +167,21 @@ class ModelContestContestField extends Model {
 		return $contest_field_value_data;
 	}
 	
-	
+	public function getProjectAges(){
+			$contest_field_value_data = array();
+
+			$contest_field_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "age_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+			foreach ($contest_field_value_query->rows as $contest_field_value) {
+				$contest_field_value_data[$contest_field_value['age_status_id']] = array(
+					'contest_field_value_id' => $contest_field_value['age_status_id'],
+					'name'                  => $contest_field_value['name']
+				);
+			}
+
+			return $contest_field_value_data;
+		}
+	}
 
 	public function getContestFieldValueDescriptions($contest_field_id) {
 		$contest_field_value_data = array();

@@ -350,9 +350,13 @@ class ControllerContestSend extends Controller {
 			'field_value'         => $project_info['project_birthday'],
 			'field_type'		   => 'textarea'
 		);
+
+	//
+
 		$data['contest_field_system']['project']['project_age'] = array(
-			'field_value'         => $project_info['project_age'],
-			'field_type'		   => 'textarea'
+			'field_value'         => $this->model_contest_contest_field-getProjectAges(),
+			'field_value_project' => unserialize($project_info['project_age']),
+			'field_type'		   		=> 'checkbox'
 		);
 
 
@@ -492,6 +496,7 @@ class ControllerContestSend extends Controller {
 					$contest_fields_value = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value'];
 					$type = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_type'];
 
+					print_r($contest_fields_value);
 
 				}else{
 					//если не системны и не перечитсялемый
@@ -502,6 +507,7 @@ class ControllerContestSend extends Controller {
 					$contest_fields[$cfr['location']][] = array(
 						'contest_field_id'           		=> $cfr['contest_field_id'],
 						'contest_field_title'           => $cfr['name'],
+						'contest_field_description'           => $cfr['description'],
 						'contest_field_value'           => $contest_fields_value,
 						'contest_field_type'          	=> $type,
 
@@ -515,6 +521,8 @@ class ControllerContestSend extends Controller {
 
 
 			}
+
+
 			
 			//фнализированный массив с подстановкой
 			$data['contest_fields'] = array();
@@ -524,6 +532,7 @@ class ControllerContestSend extends Controller {
 						$data['contest_fields'][$key_cf][] = array(
 							'contest_field_id'           	=> $v_cf['contest_field_id'],
 							'contest_field_title'           => $v_cf['contest_field_title'],
+							'contest_field_description'     => $v_cf['contest_field_description'],
 							'contest_field_value'           => $v_cf['contest_field_value'],
 							'contest_field_type'          	=> $v_cf['contest_field_type'],
 							'contest_field_system'          => $v_cf['contest_field_system'],
@@ -536,6 +545,13 @@ class ControllerContestSend extends Controller {
 				}
 			}
 			
+
+		print_r('<pre>');
+		print_r($data['contest_fields']);
+		print_r('</pre>');
+		die();
+
+
 		$data['action'] = $this->url->link('contest/send', 'contest_id='.$contest_id.'&project_id='.$project_id, 'SSL');
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_send.tpl')) {

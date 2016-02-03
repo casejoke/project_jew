@@ -341,6 +341,7 @@ class ControllerContestContestField extends Controller {
 		$data['text_disabled'] = $this->language->get('text_disabled');
 
 		$data['entry_name'] = $this->language->get('entry_name');
+		$data['entry_description'] = $this->language->get('entry_description');
 		$data['entry_location'] = $this->language->get('entry_location');
 		$data['entry_type'] = $this->language->get('entry_type');
 		$data['entry_value'] = $this->language->get('entry_value');

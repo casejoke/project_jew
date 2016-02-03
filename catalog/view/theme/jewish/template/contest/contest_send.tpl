@@ -21,7 +21,7 @@
             <?php foreach ($category_requestes as $cr) { ?>
               <?php if(!empty($contest_fields[$cr['category_request_id']])){ ?>
 
-                <h4 class="font-alt mb-0"><?php echo $cr['name']; ?></h4>
+                <h4 class="font-alt mb-20"><?php echo $cr['name']; ?></h4>
 
                 <?php $custom_field_row = 0; ?>
                 <?php foreach ($contest_fields[$cr['category_request_id']] as $cfvalue) { ?>
@@ -30,8 +30,8 @@
                     <div class="form-group">
                     
                       <input type="hidden" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][field_id]" value="<?php echo $cfvalue['contest_field_id']; ?>"  id="input-<?php echo 'field_id_'.$cfvalue['contest_field_id']; ?>" class="form-control" />
-                      <label class="control-label" for="input-<?php echo 'value_'.$cfvalue['contest_field_id']; ?>"><?php echo $cfvalue['contest_field_title']; ?></label>
-                      
+                      <label class="control-label font-alt" for="input-<?php echo 'value_'.$cfvalue['contest_field_id']; ?>"><?php echo $cfvalue['contest_field_title']; ?></label>
+                      <?php if(!empty($cfvalue['contest_field_description'])) {?> <p class="small"><?php echo $cfvalue['contest_field_description']; ?></p> <?php } ?>
                       <!-- select -->
                       <?php if ($cfvalue['contest_field_type'] == 'select') { ?>
             
@@ -60,6 +60,7 @@
                       <?php if ($cfvalue['contest_field_type'] == 'checkbox') { ?>
                         <div>
                               <?php foreach ($cfvalue['contest_field_value'] as $custom_field_value) { ?>
+                              
                               <div class="checkbox">
                                 <?php if (isset($register_custom_field[$cfvalue['contest_field_id']]) && in_array($custom_field_value['contest_field_value_id'], $register_custom_field[$cfvalue['contest_field_id']])) { ?>
                                 <label>
@@ -123,15 +124,15 @@
                 
               <?php } ?>
             <?php } ?>
-            <hr class="divider-w mt-10 mb-20">
-             <div class="row">
+
+              <hr class="divider-w mt-10 mb-20">
+             <div class="row hidden">
               <div class="col-sm-12">
                 <h5 class="text-center">Подав данную заявку, я подтверждаю, что:</h5>
-                <p>1. ознакомлен(а) с Положением об открытом конкурсе индивидуальных проектовв рамках благотворительной программы «Еврейские сообщества» (далее - Конкурс)  и согласен(на) со всеми условиями Конкурса, а также то, что все предоставленные мной сведения являются достоверными.</p>
-                <p>2. предоставляю свое согласие на обработку Филиалом Благотворительного фонда «ЧаритизЭйдФаундейшн», находящимся по адресу: г. Москва,  ул. Мясницкая 24/7 стр. 1, моих персональных данных, а именно - фамилии, имени, отчества, года, месяца, даты и места рождения,  адреса, телефонов, паспортных данных.Обработка персональных данных  производится с целью предоставления благотворительной помощи, для информирования общественности (третьих лиц, в том числе донора) о результатах Конкурса, а так же последующего  предоставления отчетности уполномоченным органам и донорам благотворительной программы «Еврейские сообщества» и может производиться в форме сбора, систематизации, накопления, хранения, уточнения (обновления, изменения), распространения, использования указанных персональных данных в течение 5 (пяти) лет с даты окончания благотворительной программы «Еврейские сообщества», после чего Заявитель имеет право отозвать свое согласие на обработку персональных данных. Настоящее заявление подтверждает согласие Заявителя на обработку в форме уничтожения указанных персональных данных Филиалом  Благотворительного фонда «ЧаритизЭйдФаундейшн» если по истечении названного срока, отзыва  от Заявителя не последует.</p>  
-
+               
               </div>
             </div>
+
             <div class="row">
               <div class="form-group">
                 <div class="col-sm-6 col-sm-offset-3">

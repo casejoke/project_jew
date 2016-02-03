@@ -83,6 +83,7 @@ $_['column_action']         = 'Действия';
 
 // Entry
 $_['entry_name']            = 'Название поля';
+$_['entry_description']     = 'Описание поля (пояснение к полю)';
 $_['entry_location']        = 'Категория';
 $_['entry_type']            = 'Тип поля';
 $_['entry_value']           = 'Значение';

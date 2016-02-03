@@ -51,6 +51,21 @@
                             <small class="help-block"><?php echo $error_name[$language['language_id']]; ?></small>
                           <?php } ?>
                         </div>
+                        
+                        <!-- описание -->
+                        <div class="form-group required <?php if (isset($error_description[$language['language_id']])) { ?> has-error <?php } ?>">
+                          <div class="fg-line">
+                              <label class="control-label" for="input-description<?php echo $language['language_id']; ?>"><?php echo $entry_description; ?></label>
+                              <input type="text" name="contest_field_description[<?php echo $language['language_id']; ?>][description]" value="<?php echo isset($contest_field_description[$language['language_id']]) ? $contest_field_description[$language['language_id']]['description'] : ''; ?>" placeholder="" class="form-control" />
+                          </div>
+                          <?php if (isset($error_description[$language['language_id']])) { ?>
+                            <small class="help-block"><?php echo $error_description[$language['language_id']]; ?></small>
+                          <?php } ?>
+                        </div>
+
+
+
+
                     </div><!--/.card-body -->
                   </div><!-- /tab-pane -->
                 <?php } ?>

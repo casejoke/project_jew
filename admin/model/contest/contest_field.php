@@ -14,7 +14,12 @@ class ModelContestContestField extends Model {
 		$contest_field_id = $this->db->getLastId();
 
 		foreach ($data['contest_field_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "contest_field_description SET contest_field_id = '" . (int)$contest_field_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "contest_field_description SET 
+				contest_field_id = '" . (int)$contest_field_id . "', 
+				language_id = '" . (int)$language_id . "', 
+				name = '" . $this->db->escape($value['name']) . "',
+				description = '" . $this->db->escape($value['description']) . "'
+			");
 		}
 
 		
@@ -45,7 +50,12 @@ class ModelContestContestField extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_field_description WHERE contest_field_id = '" . (int)$contest_field_id . "'");
 
 		foreach ($data['contest_field_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "contest_field_description SET contest_field_id = '" . (int)$contest_field_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "contest_field_description SET 
+				contest_field_id = '" . (int)$contest_field_id . "', 
+				language_id = '" . (int)$language_id . "', 
+				name = '" . $this->db->escape($value['name']) . "',
+				description = '" . $this->db->escape($value['description']) . "'
+			");
 		}
 
 		
@@ -137,7 +147,9 @@ class ModelContestContestField extends Model {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_field_description WHERE contest_field_id = '" . (int)$contest_field_id . "'");
 
 		foreach ($query->rows as $result) {
-			$contest_field_data[$result['language_id']] = array('name' => $result['name']);
+			$contest_field_data[$result['language_id']] = array(
+				'name' => $result['name'],
+				'description'     => $result['description']);
 		}
 
 		return $contest_field_data;

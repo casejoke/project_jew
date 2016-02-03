@@ -29,6 +29,6 @@ INSERT INTO `oc_url_alias` (`url_alias_id`, `query`, `keyword`) VALUES (NULL, 'c
 ALTER TABLE `oc_customer` ADD `customer_expert` TINYINT NOT NULL AFTER `customer_group_id`;
 
 
-contest/send
+///********************///
 
-contest/deal
+ALTER TABLE `oc_contest_field_description` ADD `description` TEXT NOT NULL AFTER `name`;
