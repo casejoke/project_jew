@@ -180,7 +180,6 @@ class ModelContestContestField extends Model {
 			}
 
 			return $contest_field_value_data;
-		}
 	}
 
 	public function getContestFieldValueDescriptions($contest_field_id) {

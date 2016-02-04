@@ -145,7 +145,7 @@ class ModelContestContest extends Model {
 				$_str[] .= " contest_id = '" . (int)$contest_id . "'";
 			}
 		} else{
-			$_str[] .= " contest_id = '0'";
+			//$_str[] .= " contest_id = '0'";
 		}
 		
 		//statss = 1 значит модератор разрешил оценивать
@@ -167,7 +167,7 @@ class ModelContestContest extends Model {
 			}
 			$i++;
 		}
-		
+	//	print_r($sql.$_sql);
 		$query = $this->db->query($sql.$_sql);
 
 

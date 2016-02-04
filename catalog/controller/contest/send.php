@@ -29,6 +29,7 @@ class ControllerContestSend extends Controller {
 		//подгрузим модели
 		$this->load->model('account/customer');
 		$this->load->model('contest/contest');
+		$this->load->model('contest/contest_field');
 		$this->load->model('project/project');
 		$this->load->model('group/group');
 		$this->load->model('tool/upload');
@@ -354,7 +355,7 @@ class ControllerContestSend extends Controller {
 	//
 
 		$data['contest_field_system']['project']['project_age'] = array(
-			'field_value'         => $this->model_contest_contest_field-getProjectAges(),
+			'field_value'         => $this->model_contest_contest_field->getProjectAges(),
 			'field_value_project' => unserialize($project_info['project_age']),
 			'field_type'		   		=> 'checkbox'
 		);
@@ -496,7 +497,8 @@ class ControllerContestSend extends Controller {
 					$contest_fields_value = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value'];
 					$type = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_type'];
 
-					print_r($contest_fields_value);
+
+					///print_r($contest_fields_value);
 
 				}else{
 					//если не системны и не перечитсялемый
@@ -506,14 +508,16 @@ class ControllerContestSend extends Controller {
 
 					$contest_fields[$cfr['location']][] = array(
 						'contest_field_id'           		=> $cfr['contest_field_id'],
+						
 						'contest_field_title'           => $cfr['name'],
-						'contest_field_description'           => $cfr['description'],
+						'contest_field_description'     => $cfr['description'],
+
 						'contest_field_value'           => $contest_fields_value,
 						'contest_field_type'          	=> $type,
 
 						'contest_field_system'          => $cfr['field_system'],
 						'contest_field_system_table'    => $cfr['field_system_table'],
-
+						
 						'contest_field_status'			=> $status,
 						'sort_order'					=> $sort_order,
 					);
@@ -545,12 +549,12 @@ class ControllerContestSend extends Controller {
 				}
 			}
 			
-
+/*
 		print_r('<pre>');
 		print_r($data['contest_fields']);
 		print_r('</pre>');
 		die();
-
+*/
 
 		$data['action'] = $this->url->link('contest/send', 'contest_id='.$contest_id.'&project_id='.$project_id, 'SSL');
 

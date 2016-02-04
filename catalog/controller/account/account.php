@@ -371,11 +371,11 @@ if ($customer_info['customer_expert']) {
 		//$implode список конкурсов для запроса где пользователь эксперто
 		//подтянем из табли customer_to_contest заявки со  статусом = 1 (прошла модерацию)и где конкурс IN ($implode)
 		//сформирем финальный список для эксперта
+
 		$filter_data = array();
 		$filter_data = array(
 			'filter_contest_id' => $implode,
-			'filter_status'			=> 1,
-
+			'filter_status'			=> 1
 		);
 		//узнаем что уже оценивали
 		$results_estimate_for_expert = $this->model_contest_contest->getEstimateForCustomer($customer_id);
@@ -384,20 +384,24 @@ if ($customer_info['customer_expert']) {
 				'customer_id' => $vrefe['customer_id']
 			);
 		}
-
-		$results_request_for_expert = $this->model_contest_contest->getRequestForCustomer($filter_data);
+		
 		$data['request_for_expert'] = array();
-		foreach ($results_request_for_expert as $vrfe) {
-			if(empty($estimate[$vrfe['customer_to_contest_id']])){
-				$data['request_for_expert'][] = array(
-					'customer_to_contest_id'	=>  $vrfe['customer_to_contest_id'],
-					'contest_title' 			=>	$contests[$vrfe['contest_id']]['contest_title'],
-					'customer_name' 			=> 	$customers[$vrfe['customer_id']]['customer_name'],
-					'expert_evaluate'			=> 	$this->url->link('contest/estimate', 'request_id='.$vrfe['customer_to_contest_id'], 'SSL') 
-				);
-			}
+		if(!empty($implode)){
+			$results_request_for_expert = $this->model_contest_contest->getRequestForCustomer($filter_data);
 			
+			foreach ($results_request_for_expert as $vrfe) {
+				if(empty($estimate[$vrfe['customer_to_contest_id']])){
+					$data['request_for_expert'][] = array(
+						'customer_to_contest_id'	=>  $vrfe['customer_to_contest_id'],
+						'contest_title' 			=>	$contests[$vrfe['contest_id']]['contest_title'],
+						'customer_name' 			=> 	$customers[$vrfe['customer_id']]['customer_name'],
+						'expert_evaluate'			=> 	$this->url->link('contest/estimate', 'request_id='.$vrfe['customer_to_contest_id'], 'SSL') 
+					);
+				}
+				
+			}
 		}
+		
 
 		
 		
