@@ -1,0 +1,97 @@
+получение всех пользователей и их атрибутов 
+
+SELECT * 
+FROM  `modx_users` ,  `modx_user_attributes` 
+WHERE  `modx_user_attributes`.id =  `modx_users`.id
+
+
+люди в группах и их роли 
+
+SELECT * 
+FROM  `modx_member_groups` ,  `modx_user_group_roles` 
+WHERE  `modx_user_group_roles`.id =  `modx_member_groups`.role
+
+или 
+
+SELECT * 
+FROM  `modx_member_groups` ,  `modx_user_group_roles` ,  `modx_users` 
+WHERE  `modx_user_group_roles`.id =  `modx_member_groups`.role
+AND  `modx_users`.id =  `modx_member_groups`.member
+
+название группы и входяших в нее 
+
+SELECT * 
+FROM  `modx_membergroup_names` ,  `modx_member_groups` 
+WHERE  `modx_member_groups`.`user_group` =  `modx_membergroup_names`.id
+
+Инициативные группы
+SELECT * 
+FROM  `modx_site_content` 
+WHERE parent = 5
+
+например групп амута 
+SELECT * 
+FROM  `modx_site_content` 
+WHERE parent =612
+
+для нее получаем новости и проекты 
+
+проекты 
+кем были созданы само описание проекта и тп подобное 
+SELECT * 
+FROM  `modx_site_content` 
+WHERE parent =613
+
+для каждого проекта получаем дополнительные данные котороые выводяться на странице данные в том числе и картинка 
+
+SELECT * 
+FROM  `modx_site_tmplvar_contentvalues` 
+WHERE contentid =1830
+
+связка 
+
+SELECT * 
+FROM  `modx_site_content` , `modx_site_tmplvar_contentvalues` 
+WHERE  `modx_site_content`.id = `modx_site_tmplvar_contentvalues`.contentid 
+
+`modx_site_tmplvar_contentvalues`  тоже  говорит о том что есть в группе тоесть прокты и новости `tmplvarid` 5 и 8 дают id 
+SELECT * 
+FROM  `modx_site_tmplvar_contentvalues` 
+WHERE  `contentid` =612
+
+
+информация подробнее или что не понятное 
+
+SELECT * 
+FROM  `modx_site_content` , `modx_mse_modresindex` 
+WHERE parent = rid
+
+
+
+!!! пользователи группы описание группы 
+SELECT * 
+FROM  `modx_membergroup_names` , `modx_site_content` 
+where `modx_membergroup_names`.`name` =   `modx_site_content`.`pagetitle`  
+
+получаем `modx_membergroup_names`.id  ==>  что  
+SELECT * 
+FROM  `modx_member_groups` , `modx_membergroup_names`, 
+WHERE user_group  =  `modx_membergroup_names`.id 
+
+
+получаем id пользователей и их ранг 
+
+тоесть 
+
+SELECT * 
+FROM  `modx_membergroup_names` , `modx_site_content` , `modx_member_groups` 
+where `modx_membergroup_names`.`name` =   `modx_site_content`.`pagetitle`  and `modx_member_groups`.user_group  =  `modx_membergroup_names`.id 
+надо ограничить наверно 
+
+
+пример для группы 72 совподает АМУТА выведет всех участников на сайте тоже самое 
+SELECT  `modx_member_groups` . * 
+FROM  `modx_membergroup_names` ,  `modx_site_content` ,  `modx_member_groups` 
+WHERE  `modx_membergroup_names`.`name` =  `modx_site_content`.`pagetitle` 
+AND  `modx_member_groups`.user_group =  `modx_membergroup_names`.id
+AND user_group =72

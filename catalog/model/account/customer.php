@@ -131,6 +131,51 @@ class ModelAccountCustomer extends Model {
 		return $customer_id;
 	}
 
+	public function addC(){
+		$this->event->trigger('pre.customer.add', $data);
+
+		if (isset($data['customer_group_id']) && is_array($this->config->get('config_customer_group_display')) && in_array($data['customer_group_id'], $this->config->get('config_customer_group_display'))) {
+			$customer_group_id = $data['customer_group_id'];
+		} else {
+			$customer_group_id = $this->config->get('config_customer_group_id');
+		}
+
+		$this->load->model('account/customer_group');
+
+		$customer_group_info = $this->model_account_customer_group->getCustomerGroup($customer_group_id);
+		$generate_pass = false;
+		if(!isset($data['password'])){
+			$generate_pass = true;
+			$data['password'] = substr(md5(uniqid(rand(), true)), 0, 5);
+		}
+		if(!isset($data['image'])){
+			$data['image'] = '';
+		}
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET 
+			customer_group_id = '" . (int)$customer_group_id . "', 
+			store_id = '" . (int)$this->config->get('config_store_id') . "', 
+			firstname = '" . $this->db->escape($data['firstname']) . "', 
+			lastname = '" . $this->db->escape($data['lastname']) . "', 
+			email = '" . $this->db->escape($data['email']) . "', 
+			image = '" . $this->db->escape($data['image']) . "', 
+			telephone = '" . $this->db->escape($data['telephone']) . "',
+			custom_field = '" . $this->db->escape(isset($data['custom_field']['account']) ? serialize($data['custom_field']['account']) : '') . "', 
+			salt = '" . $this->db->escape($data['salt']) . "', 
+			password = '" . $this->db->escape($data['password']) . "', 
+			newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', 
+			ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', 
+			status = '1', 
+			approved = '" . (int)!$customer_group_info['approval'] . "', date_added = NOW()");
+	
+		$customer_id = $this->db->getLastId();
+
+		
+
+		$this->event->trigger('post.customer.add', $customer_id);
+
+		return $customer_id;
+	}
+
 	public function editCustomer($data) {
 		$this->event->trigger('pre.customer.edit', $data);
 
