@@ -131,7 +131,7 @@ class ModelAccountCustomer extends Model {
 		return $customer_id;
 	}
 
-	public function addC(){
+	public function addC($data) {
 		$this->event->trigger('pre.customer.add', $data);
 
 		if (isset($data['customer_group_id']) && is_array($this->config->get('config_customer_group_display')) && in_array($data['customer_group_id'], $this->config->get('config_customer_group_display'))) {
@@ -165,7 +165,8 @@ class ModelAccountCustomer extends Model {
 			newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', 
 			ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', 
 			status = '1', 
-			approved = '" . (int)!$customer_group_info['approval'] . "', date_added = NOW()");
+			approved = '" . (int)!$customer_group_info['approval'] . "', 
+			date_added = NOW()");
 	
 		$customer_id = $this->db->getLastId();
 

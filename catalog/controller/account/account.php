@@ -384,7 +384,7 @@ if ($customer_info['customer_expert']) {
 				'customer_id' => $vrefe['customer_id']
 			);
 		}
-		
+
 		$data['request_for_expert'] = array();
 		if(!empty($implode)){
 			$results_request_for_expert = $this->model_contest_contest->getRequestForCustomer($filter_data);
@@ -398,7 +398,6 @@ if ($customer_info['customer_expert']) {
 						'expert_evaluate'			=> 	$this->url->link('contest/estimate', 'request_id='.$vrfe['customer_to_contest_id'], 'SSL') 
 					);
 				}
-				
 			}
 		}
 		
