@@ -58,7 +58,7 @@
                   <div class="team-item">
                     <div class="team-image">
                       <img src="<?php echo $avatar; ?>" alt="" id="i-account_image">
-                       <input type="hidden" name="image" value="<?php echo $image; ?>" />
+                       <input type="hidden" name="image" value="<?php //echo $image; ?>" />
                     </div>
                     <div class="team-descr font-alt">
                       <div class="team-name"><a href="#" class="btn btn-g btn-round " data-toggle="image" id="account_image">Сменить аватар</a></div>

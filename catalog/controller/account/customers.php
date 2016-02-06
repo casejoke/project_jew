@@ -20,7 +20,7 @@ class ControllerAccountCustomers extends Controller {
 
 		$this->load->model('account/customer');
 		$this->load->model('tool/image');
-
+		$this->load->model('tool/upload');
 		//подгрузим список пользователей (не экпертов и  исключая текущего пользователя)
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
@@ -101,15 +101,22 @@ class ControllerAccountCustomers extends Controller {
 
 			//добавить неболшое шифрование!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		foreach ($results as $result) {
-			if(preg_match('/http/', $result['image'])){
-				$image = $result['image'];
-			}else{
-				if (is_file(DIR_IMAGE . $result['image'])) {
-					$image = $this->model_tool_image->resize($result['image'], 400, 400, 'h');
+			if (!empty($result['image'])){
+				if(preg_match('/http/', $result['image'])){
+					$image = $result['image'];
 				}else{
-					$image = $this->model_tool_image->resize('no-image.png', 400, 400, 'h');
+					$upload_info = $this->model_tool_upload->getUploadByCode($result['image']);
+					$filename = $upload_info['filename'];
+					if (is_file(DIR_UPLOAD . $filename)) {
+						$image = $this->model_tool_upload->resize($filename , 360, 490, 'h');
+					}else{
+						$image = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
+					}
 				}
+			}else{
+				$image = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
 			}
+
 			$customer_id_hash = $result['customer_id'];
 			$actions = array();
 			$actions = array(

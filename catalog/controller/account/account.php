@@ -96,7 +96,11 @@ class ControllerAccountAccount extends Controller {
 			}else{
 				$upload_info = $this->model_tool_upload->getUploadByCode($customer_info['image']);
 				$filename = $upload_info['filename'];
-				$data['avatar'] = $this->model_tool_upload->resize($filename , 360, 490, 'h');
+				if (is_file(DIR_UPLOAD . $filename)) {
+					$data['avatar'] = $this->model_tool_upload->resize($filename , 360, 490, 'h');
+				}else{
+					$data['avatar'] = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
+				}
 			}
 		}else{
 			$data['avatar'] = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');

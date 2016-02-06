@@ -153,6 +153,7 @@ class ModelAccountCustomer extends Model {
 		}
 		$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET 
 			customer_group_id = '" . (int)$customer_group_id . "', 
+			customer_modx_id = '" . (int)$data['customer_modx_id'] . "', 
 			store_id = '" . (int)$this->config->get('config_store_id') . "', 
 			firstname = '" . $this->db->escape($data['firstname']) . "', 
 			lastname = '" . $this->db->escape($data['lastname']) . "', 
