@@ -6,6 +6,7 @@ class ControllerAccountInfo extends Controller {
 			$this->session->data['redirect'] = $this->url->link('account/account', '', 'SSL');
 			$this->response->redirect($this->url->link('account/login', '', 'SSL'));
 		}
+		$this->response->redirect($this->url->link('common/home', '', 'SSL'));
 		$this->load->language('account/info');
 		$this->document->setTitle($this->language->get('heading_title'));
 		$data['breadcrumbs'] = array();

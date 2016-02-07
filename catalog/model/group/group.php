@@ -32,12 +32,54 @@ class ModelGroupGroup extends Model {
 
 		if (!empty($data['keyword'])) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET 
-				query = 'group_id=" . (int)$occasion_id . "', 
+				query = 'group_id=" . (int)$init_group_id . "', 
 				keyword = '" . $this->db->escape($data['keyword']) . "'
 			");
 		}
+		return $init_group_id;
 
 	}
+	public function addGroupM($data,$customer_id) {
+		$this->event->trigger('pre.customer.init_group.add', $data);
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "init_group SET 
+			mod_group_id = '" . (int)$data['mod_group_id'] . "', 
+			customer_id = '" . (int)$customer_id . "',
+			image = '" . $this->db->escape($data['image']) . "',
+			group_birthday = '" . $this->db->escape($data['group_birthday']) . "',
+			date_added = NOW()"
+		);
+
+		$init_group_id = $this->db->getLastId();
+
+		foreach ($data['init_group_description'] as $language_id => $value) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "init_group_description SET 
+				init_group_id = '" . (int)$init_group_id . "', 
+				language_id = '" . (int)$language_id . "', 
+				title = '" . $this->db->escape($value['title']) . "',
+				description = '" . $this->db->escape($value['description']) . "'"
+			);
+			/*
+				visibility = '" . (int)$data['visibility'] . "',
+			status = '" . (int)$data['status'] . "',
+	
+			
+				meta_title = '" . $this->db->escape($value['meta_title']) . "', 
+				meta_description = '" . $this->db->escape($value['meta_description']) . "', 
+				meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'*/
+		}
+
+		if (!empty($data['keyword'])) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET 
+				query = 'group_id=" . (int)$init_group_id . "', 
+				keyword = '" . $this->db->escape($data['keyword']) . "'
+			");
+		}
+		return $init_group_id;
+
+	}
+
+	
 	public function editGroup($group_id, $data,$customer_id) {
 		$this->event->trigger('pre.customer.init_group.edit', $data);
 
