@@ -457,7 +457,6 @@ class ControllerContestSend extends Controller {
 /**********/
 			//получим список все полей
 			$contest_fields = array();
-			
 
 			foreach ($contest_fields_results as  $cfr) {
 				//проверка если вдруг добавили новое поле а вконкурсе его нет

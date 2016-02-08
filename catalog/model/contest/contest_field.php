@@ -140,7 +140,10 @@ class ModelContestContestField extends Model {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_field_description WHERE contest_field_id = '" . (int)$contest_field_id . "'");
 
 		foreach ($query->rows as $result) {
-			$contest_field_data[$result['language_id']] = array('name' => $result['name']);
+			$contest_field_data[$result['language_id']] = array(
+				'name' => $result['name'],
+				'description' => $result['description']
+			);
 		}
 
 		return $contest_field_data;

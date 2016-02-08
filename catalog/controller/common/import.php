@@ -60,6 +60,7 @@ class ControllerCommonImport extends Controller {
 
 	}
 	public function project(){
+		/*
 		print_r('импорт проектов');
 		$i=1;
 		$this->load->model('tool/upload');
@@ -243,7 +244,7 @@ class ControllerCommonImport extends Controller {
 
 		//$query = $this->db->query("SELECT id,pagetitle FROM  `modx_site_content` WHERE parent = 613");
 
-	
+	*/
 	}
 	public function group(){
 		/*
