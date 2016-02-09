@@ -336,12 +336,15 @@ class ControllerContestDeal extends Controller {
 	  //получим список конкурсов где пользователь был победителем,
 	  //если у пользователя есть проект победитель в каком то конкурсе 
 	 	$results_customer_winner = $this->model_contest_contest->getWinnerContest($customer_id);
-
-	 	print_r($results_customer_winner);
 	 	
+	 	foreach ($results_customer_winner as $key => $value) {
+	 		# code...
+	 	}
+	 	print_r($results_customer_winner);
+
 	 	die();
 
-	 	
+
 
 
 

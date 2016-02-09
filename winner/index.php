@@ -5,18 +5,20 @@ use \PHPExcelReader\SpreadsheetReader as Reader;
 
 $data = new Reader(__DIR__ . "/list.xls");
 $rows = $data->rowcount();
- print_r('expression');
 // loop through all rows
 for ($i=1; $i <= $rows; $i++) {
+  if($data->val($i, 1) == 1){
+     print_r('<pre>');
+     print_r("INSERT INTO `oc_contest_winner`(`request_id`, `project_id`, `contest_id`, `contest_type_id`, `customer_id`, `place_id`) VALUES ('0','".$data->val($i, 4)."', '4','3', '".$data->val($i, 8)."',' 1') ; ");
   
-  print_r('<pre>');
-  //print_r("INSERT INTO `Data` (`id`, `parent`, `type`, `value`, `target`) VALUES ('".$data->val($i, 1)."', '".$data->val($i, 2)."', '".$data->val($i, 3)."', '".$data->val($i, 4)."', '".$data->val($i, 5)."');");
-  print_r($data->val($i, 1).' || ');
+  /*print_r($data->val($i, 1).' || ');
   print_r($data->val($i, 2).' || ');
   print_r($data->val($i, 3).' || ');
   print_r($data->val($i, 4).' || ');
   print_r($data->val($i, 5).' || ');
-  print_r($data->val($i, 6).' || ');
+  print_r($data->val($i, 6).' || ');*/
   print_r('</pre>');
+  }
+ 
 }
 ?>

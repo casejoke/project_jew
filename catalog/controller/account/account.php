@@ -203,6 +203,18 @@ class ControllerAccountAccount extends Controller {
 		$data['text_add_project'] = $this->language->get('text_add_project');
 		$data['add_project'] = $this->url->link('project/edit', '', 'SSL'); 
 
+		//подтяем проекты победители где пользователь я вяляется админом
+		$filter_data = array();
+		$filter_data = array(
+			'filter_customer_id'	=>	$customer_id
+		);
+		$results_projects_winners = $this->model_project_project->getProjectsWinner($filter_data);
+		$projects_winner = array();
+		foreach ($results_projects_winners as $rpw) {
+			$projects_winner[$rpw['project_id']] = array(
+				'project_id' => $rpw['project_id']
+			);
+		}
 		//информация о проектах где пользователь я вляется admin
 		$results_projects_for_customer = $this->model_project_project->getProjectsForAdmin($customer_id);
 		$data['projects_for_customer'] = array();
@@ -219,10 +231,15 @@ class ControllerAccountAccount extends Controller {
 			$actions = array(
 				'edit'	=>	$this->url->link('project/edit', 'project_id='.$result_pfc['project_id'], 'SSL') 
 			);
+			$win = 0;
+			if(!empty($projects_winner[$result_pfc['project_id']])){
+				$win = 1;
+			}
 			$data['projects_for_customer'][] = array(
-				'project_id'		=> $result_pfc['project_id'],
+				'project_id'			=> $result_pfc['project_id'],
 				'project_title'		=> $result_pfc['title'],
 				'project_image'		=> $image,
+				'project_winner'  => $win,
 				'prject_action'		=> $actions
 			);
 

@@ -184,7 +184,7 @@ class ModelProjectProject extends Model {
 		return $query->rows;
 	}
 
-	
+		
 
 	public function getInviteProjects($data = array()) {
 
@@ -233,6 +233,41 @@ class ModelProjectProject extends Model {
 		);
 	}
 
+
+	public function getProjectsWinner($data = array()){
+		if(empty($data)){
+			$sql = "SELECT * FROM " . DB_PREFIX . "contest_winner";
+		}else{
+			$sql = "SELECT * FROM " . DB_PREFIX . "contest_winner WHERE";
+		}
+
+		$_str =array();
+
+		
+		if (!empty($data['filter_customer_id'])) {
+			$_str[] =	" customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		}
+
+		//statss = 1 значит модератор разрешил оценивать
+		if (!empty($data['filter_contest_type_id'])) {
+			$_str[] = " contest_type_id = '" . (int)$data['filter_contest_type_id'] . "'";
+		}
+
+		$_sql = '' ;
+		$i = 0;
+		foreach ($_str as $vstr) {
+			if($i > 0){
+				$_sql .= ' AND'.$vstr;
+			}else{
+				$_sql .= $vstr;
+			}
+			$i++;
+		}
+
+
+		$query = $this->db->query($sql.$_sql);
+		return $query->rows;
+	}
 
 	///список статусов для проекта
 

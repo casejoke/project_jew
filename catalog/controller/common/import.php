@@ -5,7 +5,7 @@ class ControllerCommonImport extends Controller {
 		
 		
 		
-/*
+
 			$query = $this->db->query("SELECT id,pagetitle,description,content FROM  `modx_site_content` WHERE parent = 5 AND id = 612");
 		
 			
@@ -53,7 +53,7 @@ class ControllerCommonImport extends Controller {
 			//получение администратора и других пользователее этой группы
 
 
-*/
+
 
 
 

@@ -3,25 +3,25 @@ class ControllerAccountPromocode extends Controller {
 	const CODE_LENGTH = 8;
 	public function index(){
 		$this->load->model('account/promocode');
-	//	for ($i=0; $i < 5000; $i++) { 
+		/*for ($i=0; $i < 10; $i++) { 
 			
-			//$promocode = $this->_createCode();
-		//	print_r('<pre>');
-		//	print_r($promocode);
-		//	print_r('</pre>');
-			//$promocode_info = $this->model_account_promocode->getPromocodeDescription($promocode);
-			//if (empty($promocode_info)) {
-			//	$this->model_account_promocode->addPromocode($promocode);
-			//}
+			$promocode = $this->_createCode();
+			print_r('<pre>');
+			print_r($promocode);
+			print_r('</pre>');
+			$promocode_info = $this->model_account_promocode->getPromocodeDescription($promocode);
+			if (empty($promocode_info)) {
+				$this->model_account_promocode->addPromocode($promocode);
+			}
 			
-	//	}
-
-		$promocode_results = $this->model_account_promocode->getPromocodes();
+		}
+    */
+    $promocode_results = $this->model_account_promocode->getPromocodes();
     print_r('expression');
 		foreach ($promocode_results as $value) {
-		//	print_r('<pre>');
+			print_r('<pre>');
 			print_r($value['promocode_id'].'<br>');
-		//	print_r('</pre>');
+			print_r('</pre>');
 		}
 	}
 
