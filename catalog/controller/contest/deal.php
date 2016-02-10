@@ -335,21 +335,112 @@ class ControllerContestDeal extends Controller {
 
 	  //получим список конкурсов где пользователь был победителем,
 	  //если у пользователя есть проект победитель в каком то конкурсе 
-	 	$results_customer_winner = $this->model_contest_contest->getWinnerContest($customer_id);
-	 	
-	 	foreach ($results_customer_winner as $key => $value) {
-	 		# code...
+
+	  //выведем список проектов для адаптации
+	  //1 пользователь указывает проект для участия в  текущем конкурсе (при этом проект должен быть помечен как победитель)
+	  //2 пользоватеь выбирает проект для адаптации
+	  //3 заполняет заявку - на основе полей указанных   
+	  //подгрузим модели
+		$this->load->model('account/customer');
+		$this->load->model('group/group');
+		$this->load->model('project/project');
+		$this->load->model('contest/contest');
+		$this->load->model('tool/upload');
+		$this->load->model('tool/image');
+
+
+	  //1 при помощи промокода мы метим проект как победитель (тоесть засовываем его в таблицу победителей contest_winner, в поле конкурс == 0, ), //чуть позже
+	  //2 при заходе на конкурс видит свои проект победители (исключая + те котрые он выбрал зарание) и кладу его в таблицу oc_contest_adaptor 
+	  //3 те проекты котрые сейчас в oc_contest_adaptor (тоесть их можно адаптировать) проект на выбор для адаптации 
+	  //4 введем в таблицу победителей поле adapter_id (id проекта  котрый пользовател выбрал и победил)
+	  //5 заявка наполнятеся на отснове данных  о выбранно проетке и пользователе
+	  //6 по заявку надо внести поле adapter_id - для отсечения
+
+	  	//информация о проектах где пользователь я вляется admin
+	  //1
+	  $results_projects_for_customer = $this->model_project_project->getProjectsForAdmin($customer_id);
+		$projects_for_customer = array();
+		foreach ($results_projects_for_customer  as $result_pfc) {
+
+			if (!empty($result_pfc['image'])) {
+				$upload_info = $this->model_tool_upload->getUploadByCode($result_pfc['image']);
+				$filename = $upload_info['filename'];
+				$image = $this->model_tool_upload->resize($filename , 300, 300,'h');
+			} else {
+				$image = $this->model_tool_image->resize('no-image.png', 300, 300,'h');
+			}
+			$actions = array();
+			$actions = array(
+				'edit'	=>	$this->url->link('project/edit', 'project_id='.$result_pfc['project_id'], 'SSL') 
+			);
+			$win = 0;
+			if(!empty($projects_winner[$result_pfc['project_id']])){
+				$win = 1;
+			}
+			$projects_for_customer[$result_pfc['project_id']] = array(
+				'project_id'			=> $result_pfc['project_id'],
+				'project_title'		=> $result_pfc['title'],
+				'project_image'		=> $image,
+				'project_winner'  => $win,
+				'prject_action'		=> $actions
+			);
+		}
+
+	  //получаем список свои проектов победителей и выбираю один из них для на конкурс
+	  $results_customer_winner = $this->model_contest_contest->getWinnerContest($customer_id);
+	 	$data['my_project'] = array();
+	 	foreach ($results_customer_winner as $vcw) {
+	 			$data['my_project'][] = array(
+	 				'project_id'			=> $vcw['project_id'],
+					'project_title'		=> $projects_for_customer[$vcw['project_id']]['project_title'],
+					'project_image'		=> $projects_for_customer[$vcw['project_id']]['project_image']
+	 			);
 	 	}
-	 	print_r($results_customer_winner);
+	 	
+	 	//подтягиваем проекты котрые предназначены для адаптации
+	 	//подтянули все проекты
+	 	$results_projects = $this->model_project_project->getProjects();
+		$projects = array();
+		foreach ($results_projects as $result_p) {
+			if (!empty($result_p['image'])) {
+				$upload_info = $this->model_tool_upload->getUploadByCode($result_p['image']);
+				$filename = $upload_info['filename'];
+				$image = $this->model_tool_upload->resize($filename , 300, 300,'h');
+			} else {
+				$image = $this->model_tool_image->resize('no-image.png', 300, 300,'h');
+			}
 
-	 	die();
+			$actions = array(
+				'view'		=> $this->url->link('project/view', 'project_id='.$result_p['project_id'], 'SSL')
+			);
+			$projects[$result_p['project_id']] = array(
+				'project_id'			=> $result_p['project_id'],
+				'project_title'			=> (strlen(strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'))) > 40 ? mb_strcut(strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8')), 0, 40) . '...' : strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'))),
+				'project_image'			=> $image,
+				'action'				=> $actions
+			);
+		}
+
+		//подтянем список project_id котрые есть в таблице oc_contest_adaptor исключая те что уже есть в заявке для данно пользователя и ткущего конкурса
+
+		$results_adaptive_projects = $this->model_project_project->getProjectsForAdaptive($customer_id);
+
+	
+		//получим список проектов для адптации  из заявок для данного конкурса (те проекты котрые исключаем из  списка adaptive_id)
+		$results_request_projects_for_adaptive = $this->model_project_project->getProjectsFromRequestForContest($customer_id,$contest_id);
 
 
+		$data['adaptive_projects'] = array();
+		foreach ($results_adaptive_projects as $vrap) {
+			$data['adaptive_projects'][] = array(
+	 				'project_id'			=> $vrap['project_id'],
+					'project_title'		=> $projects[$vrap['project_id']]['project_title'],
+					'project_image'		=> $projects[$vrap['project_id']]['project_image'],
+					'project_action'		=> $projects[$vrap['project_id']]['action'],
+	 			);
+		}
 
-
-
-
-
+		
 
 
 
@@ -358,7 +449,7 @@ class ControllerContestDeal extends Controller {
 		//подгрузим язык
 		$this->load->language('contest/deal');
 		//SEO
-		$this->document->setTitle($this->language->get('entry_title'));
+		$this->document->setTitle('Заявка');
 		//$this->document->setDescription(substr(strip_tags(html_entity_decode($contest_info['meta_description'], ENT_QUOTES)), 0, 150) . '...');
 		//$this->document->setKeywords($contest_info['meta_keyword']);
 
@@ -496,82 +587,9 @@ class ControllerContestDeal extends Controller {
 
 
 
-		//подтянем все активные группы
-		//сделать рефактор заменить на IN () как getInfoCustomersForGroups
-		$results_groups = $this->model_group_group->getGroups();
-		$data['init_groups'] = array();
-		foreach ($results_groups as $result_g) {
-			if (!empty($result_g['image'])) {
-				$upload_info = $this->model_tool_upload->getUploadByCode($result_g['image']);
-				$filename = $upload_info['filename'];
-				$image = $this->model_tool_upload->resize($filename , 300, 300,'h');
-			} else {
-				$image = $this->model_tool_image->resize('no-image.png', 300, 300,'h');
-			}
+			
 
-			$filter_data = array();
-			$filter_data = array(
-				'filter_status' 		=> 	1,
-				'filter_init_group_id'	=>	$result_g['init_group_id']
-			);
-			$results_count_customer_in_group = array();
-			$results_count_customer_in_group = $this->model_group_group->getInviteGroups($filter_data);
-
-			$count = count($results_count_customer_in_group)+1;
-
-			$actions = array(
-				'view'		=> $this->url->link('group/view', 'group_id='.$result_g['init_group_id'], 'SSL'),
-				'edit'		=> $this->url->link('group/edit', 'group_id='.$result_g['init_group_id'], 'SSL'),
-				'invite'	=> $this->url->link('group/invite', 'group_id='.$result_g['init_group_id'], 'SSL'),
-				'agree'		=> $this->url->link('group/invite/agree', 'group_id='.$result_g['init_group_id'], 'SSL')
-			);
-			$data['init_groups'][$result_g['init_group_id']] = array(
-				'group_id'				=> $result_g['init_group_id'],
-				'group_title'			=> $result_g['title'],
-				'group_image'			=> $image,
-				'group_customer_count' 	=> $count,
-				'action'				=> $actions
-			);
-		}
-
-		//группы где пользователь администратор
-		$results_admin_groups = $this->model_group_group->getGroupsForAdmin($customer_id);
-
-		$data['admin_init_groups'] = array();
-		foreach ($results_admin_groups as $result) {
-			$data['admin_init_groups'][] = array(
-				'group_id'	=> $result['init_group_id']
-			);
-		}
-
-		//подтянем информацию ос ушествующих у пользователя проетках
-		//информация о проектах где пользователь я вляется admin
-		$results_projects_for_customer = $this->model_project_project->getProjectsForAdmin($customer_id);
-		$data['projects_for_customer'] = array();
-		foreach ($results_projects_for_customer  as $result_pfc) {
-
-			if (!empty($result_pfc['image'])) {
-				$upload_info = $this->model_tool_upload->getUploadByCode($result_pfc['image']);
-				$filename = $upload_info['filename'];
-				$image = $this->model_tool_upload->resize($filename , 300, 300,'h');
-			} else {
-				$image = $this->model_tool_image->resize('no-image.png', 300, 300,'h');
-			}
-			$actions = array();
-			$actions = array(
-				'edit'	=>	$this->url->link('project/edit', 'project_id='.$result_pfc['project_id'], 'SSL') 
-			);
-			$data['projects_for_customer'][] = array(
-				'project_id'		=> $result_pfc['project_id'],
-				'project_title'		=> $result_pfc['title'],
-				'project_image'		=> $image,
-				'prject_action'		=> $actions
-			);
-
-		}
-		/******************* /.проекты *******************/
-
-		$data['action'] = $this->url->link('contest/send', 'contest_id='.$contest_id, 'SSL');
+		$data['action'] = $this->url->link('contest/sendbest', 'contest_id='.$contest_id, 'SSL');
 
 
 		///нужна ли группа для участия в конкурсе?????
@@ -581,9 +599,9 @@ class ControllerContestDeal extends Controller {
 
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_deal.tpl')) {
-			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest.js');
+			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest_best.js');
 		} else {
-			$this->document->addScript('catalog/view/theme/default/assets/js/contest.js');
+			$this->document->addScript('catalog/view/theme/default/assets/js/contest_best.js');
 		}
 
 		$data['column_left'] = $this->load->controller('common/column_left');

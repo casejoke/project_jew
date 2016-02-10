@@ -25,7 +25,7 @@ class ControllerCommonListwin extends Controller {
             print_r('</td>');
             print_r('<td>');
             print_r($result_g['title']);
-            print_r('</td>');
+            print_r('</td>');*/
             print_r('<td>');
             print_r($result_p['project_id']);
             print_r('</td>');
@@ -36,7 +36,7 @@ class ControllerCommonListwin extends Controller {
             print_r($result_p['title']);
             print_r('</td>');
             print_r('<td>');
-            */$customer = $this->model_account_customer->getCustomer($result_p['customer_id']);
+            $customer = $this->model_account_customer->getCustomer($result_p['customer_id']);
             //print_r($customer['firstname'].' '.$customer['lastname']);
             //print_r('</td>');*/
             print_r('<td>');
@@ -49,5 +49,13 @@ class ControllerCommonListwin extends Controller {
     }
 
     print_r('</table>');
+  }
+  public function insertWiinerToAdaptor(){
+
+    $sql = "SELECT * FROM " . DB_PREFIX . "contest_winner";
+    $query = $this->db->query($sql);
+    print_r('<pre>');
+    print_r($query->rows);
+    print_r('</pre>');   
   }
 }

@@ -317,7 +317,7 @@ class ModelContestContest extends Model {
 	
 	public function getWinnerContest($customer_id){
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_winner WHERE customer_id = '".(int)$customer_id."'");
-
+		
 		return $query->rows;
 	}
 

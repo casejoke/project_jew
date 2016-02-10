@@ -232,6 +232,23 @@ class ModelProjectProject extends Model {
 			project_id = '" . (int)$data['project_id'] . "' AND customer_id = '" . (int)$data['customer_id'] . "'"
 		);
 	}
+	public function getProjectsForAdaptive($customer_id){
+
+		$sql = "SELECT * FROM " . DB_PREFIX . "contest_adaptor WHERE customer_id != '".(int)$customer_id."' ";
+		//получаю проекты для адаптации исключая свои
+		$query = $this->db->query($sql);
+		
+		return $query->rows;
+		
+	}
+
+	public function getProjectsFromRequestForContest($customer_id,$contest_id){
+		//получим список проектов для адптации  из заявок для данного конкурса
+		$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE customer_id = '".(int)$customer_id."' AND contest_id = '".(int)$contest_id."'";
+		$query = $this->db->query($sql);
+		
+		return $query->rows;
+	}
 
 
 	public function getProjectsWinner($data = array()){
@@ -263,9 +280,8 @@ class ModelProjectProject extends Model {
 			}
 			$i++;
 		}
-
-
 		$query = $this->db->query($sql.$_sql);
+		
 		return $query->rows;
 	}
 

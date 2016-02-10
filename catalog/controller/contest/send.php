@@ -261,6 +261,7 @@ class ControllerContestSend extends Controller {
 
 
 //************************* информация о проекте *************************//	
+		
 		$project_id = $this->request->get['project_id'];
 	/*	$data['project_title'] 			=	html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8');
 		$data['project_description'] 	=	html_entity_decode($project_info['description'], ENT_QUOTES, 'UTF-8');

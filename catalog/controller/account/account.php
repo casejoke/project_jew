@@ -208,6 +208,7 @@ class ControllerAccountAccount extends Controller {
 		$filter_data = array(
 			'filter_customer_id'	=>	$customer_id
 		);
+
 		$results_projects_winners = $this->model_project_project->getProjectsWinner($filter_data);
 		$projects_winner = array();
 		foreach ($results_projects_winners as $rpw) {
@@ -215,6 +216,10 @@ class ControllerAccountAccount extends Controller {
 				'project_id' => $rpw['project_id']
 			);
 		}
+
+		
+
+
 		//информация о проектах где пользователь я вляется admin
 		$results_projects_for_customer = $this->model_project_project->getProjectsForAdmin($customer_id);
 		$data['projects_for_customer'] = array();
@@ -242,6 +247,8 @@ class ControllerAccountAccount extends Controller {
 				'project_winner'  => $win,
 				'prject_action'		=> $actions
 			);
+
+			
 
 		}
 		/******************* /.проекты *******************/

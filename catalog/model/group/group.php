@@ -146,7 +146,7 @@ class ModelGroupGroup extends Model {
 	}
 
 	public function getGroups() {
-		$query = $this->db->query("SELECT   * FROM " . DB_PREFIX . "init_group d LEFT JOIN " . DB_PREFIX . "init_group_description dd ON (d.init_group_id = dd.init_group_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT   * FROM " . DB_PREFIX . "init_group d LEFT JOIN " . DB_PREFIX . "init_group_description dd ON (d.init_group_id = dd.init_group_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY d.init_group_id DESC");
 		return $query->rows;
 	}
 
