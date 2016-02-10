@@ -350,6 +350,8 @@ class ControllerContestDeal extends Controller {
 
 
 	  //1 при помощи промокода мы метим проект как победитель (тоесть засовываем его в таблицу победителей contest_winner, в поле конкурс == 0, ), //чуть позже
+
+
 	  //2 при заходе на конкурс видит свои проект победители (исключая + те котрые он выбрал зарание) и кладу его в таблицу oc_contest_adaptor 
 	  //3 те проекты котрые сейчас в oc_contest_adaptor (тоесть их можно адаптировать) проект на выбор для адаптации 
 	  //4 введем в таблицу победителей поле adapter_id (id проекта  котрый пользовател выбрал и победил)
@@ -385,8 +387,12 @@ class ControllerContestDeal extends Controller {
 				'prject_action'		=> $actions
 			);
 		}
-
+/*************/
 	  //получаем список свои проектов победителей и выбираю один из них для на конкурс
+	  //добавить фильтр проектов из таблицы adaptive где customer_id=customer_id AND contest_id=contest_id
+	  //и если пользователь уже положил проект в adaptive d js присваиваем project_id - этому проекту
+	  //и заменяем вывод списка просто одно картой с проектом и надписью Вы уже выбрали проект для конкурса, укажите проект для адаптации
+
 	  $results_customer_winner = $this->model_contest_contest->getWinnerContest($customer_id);
 	 	$data['my_project'] = array();
 	 	foreach ($results_customer_winner as $vcw) {
@@ -398,6 +404,7 @@ class ControllerContestDeal extends Controller {
 	 	}
 	 	
 	 	//подтягиваем проекты котрые предназначены для адаптации
+/***************   и филтр 2 подтягиваем проект из request и убираем из выдачи adaptive_id  */
 	 	//подтянули все проекты
 	 	$results_projects = $this->model_project_project->getProjects();
 		$projects = array();

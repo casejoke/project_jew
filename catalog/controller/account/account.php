@@ -248,7 +248,7 @@ class ControllerAccountAccount extends Controller {
 				'prject_action'		=> $actions
 			);
 
-			
+
 
 		}
 		/******************* /.проекты *******************/
@@ -435,7 +435,8 @@ if ($customer_info['customer_expert']) {
 		
 }//проверка на эксперта
 
-		
+		//применить промокод к проекту
+ /// добавляет в таблицу winner проект с пометкой промокод в колонку promocode_id с contest_id = 0
 
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/account.tpl')) {
