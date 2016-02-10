@@ -81,6 +81,38 @@ class ModelContestContest extends Model {
 		return $query->row['total'];
 	}
 
+	//для bestpractice
+	public function addRequest($data=array(),$customer_id,$contest_id,$adaptive_id){
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_to_contest SET 
+				contest_id = '" . (int)$contest_id . "',
+				customer_id = '" . (int)$customer_id . "',
+				adaptive_id = '" . (int)$adaptive_id . "',
+				status = '2',
+				value  = '" . $this->db->escape(  serialize($data) ) . "', 
+				date_added = NOW()"
+			);
+			$customer_to_contest_id = $this->db->getLastId();
+
+		return $customer_to_contest_id;
+	}
+
+	public function addAdaptive($customer_id,$contest_id,$project_id){
+		
+			$this->db->query("INSERT INTO " . DB_PREFIX . "contest_adaptor SET 
+				contest_id = '" . (int)$contest_id . "',
+				customer_id = '" . (int)$customer_id . "',
+				project_id = '" . (int)$project_id . "',
+				date_added = NOW()"
+			);
+			$contest_adaptor_id = $this->db->getLastId();
+
+		return $contest_adaptor_id;
+	}
+
+
+
+
 	
 	//заявка на конкурс
 	public function addRequestToContest($data=array(),$customer_id,$contest_id){
@@ -90,6 +122,7 @@ class ModelContestContest extends Model {
 			'filter_contest_id'		=>	$contest_id
 		);
 		$is_isset_request = $this->getRequestForCustomer($filter_data);
+
 		if(!empty($is_isset_request)){
 			//статус = 2 значит отправляем на модерацию
 			$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET 
@@ -317,7 +350,7 @@ class ModelContestContest extends Model {
 	
 	public function getWinnerContest($customer_id){
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_winner WHERE customer_id = '".(int)$customer_id."'");
-		
+
 		return $query->rows;
 	}
 

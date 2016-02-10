@@ -106,8 +106,10 @@ class ControllerContestSendbest extends Controller {
 //*************************** проверки ********************************//   
 
     if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-
-      $this->model_contest_contest->addRequestToContest($this->request->post,$customer_id,$contest_id);
+      
+      $this->model_contest_contest->addRequest($data=array(),$customer_id,$contest_id,$adaptive_id);
+      //отправляю проектв $project_id  в копилку проектов
+      $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
       $this->session->data['success'] = $this->language->get('text_contest_success');
       // Add to activity log
       $this->load->model('account/activity');
@@ -310,7 +312,7 @@ class ControllerContestSendbest extends Controller {
     //подменяем инфу о проекте
     $project_info = array();
     $project_info = $adaptive_info;
-    
+
 //************************* информация о конкурсе *************************// 
     $contest_id = $this->request->get['contest_id'];
 
@@ -585,7 +587,7 @@ class ControllerContestSendbest extends Controller {
     
 
 
-    $data['action'] = $this->url->link('contest/send', 'contest_id='.$contest_id.'&project_id='.$project_id.'&adaptive_id='.$adaptive_id, 'SSL');
+    $data['action'] = $this->url->link('contest/sendbest', 'contest_id='.$contest_id.'&project_id='.$project_id.'&adaptive_id='.$adaptive_id, 'SSL');
 
     if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_send.tpl')) {
       $this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest.js');

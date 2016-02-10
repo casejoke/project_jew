@@ -207,7 +207,7 @@ class ControllerContestDeal extends Controller {
 		);
 		$result_customer_req_contest = $this->model_contest_contest->getRequestForCustomer($filter_data);
 
-
+		//проверка на количесто заявок от данного пользователя
 		if(count($result_customer_req_contest) > 0){
 			$this->session->data['warning'] = $this->language->get('text_contest_error');
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
@@ -578,9 +578,9 @@ class ControllerContestDeal extends Controller {
 		);
 		$result_customer_req_contest = $this->model_contest_contest->getRequestForCustomer($filter_data);
 
-
-		if(count($result_customer_req_contest) > 0){
-			$this->session->data['warning'] = $this->language->get('text_contest_error');
+		
+	  if(count($result_customer_req_contest) > 2){
+			$this->session->data['warning'] = 'Количество заявок на конкурс ограничено';
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
 		}
 
