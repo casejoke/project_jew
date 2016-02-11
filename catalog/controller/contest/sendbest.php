@@ -590,7 +590,7 @@ class ControllerContestSendbest extends Controller {
 
     $data['action'] = $this->url->link('contest/sendbest', 'contest_id='.$contest_id.'&project_id='.$project_id.'&adaptive_id='.$adaptive_id, 'SSL');
 
-    if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_send.tpl')) {
+    if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_best_send.tpl')) {
       $this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest.js');
     } else {
       $this->document->addScript('catalog/view/theme/default/assets/js/contest.js');
@@ -606,11 +606,11 @@ class ControllerContestSendbest extends Controller {
 
     
 
-    if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_send.tpl')) {
+    if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_best_send.tpl')) {
       
-      $this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/contest/contest_send.tpl', $data));
+      $this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/contest/contest_best_send.tpl', $data));
     } else {
-      $this->response->setOutput($this->load->view('default/template/contest/contest_send.tpl', $data));
+      $this->response->setOutput($this->load->view('default/template/contest/contest_best_send.tpl', $data));
     }
 
 

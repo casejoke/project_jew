@@ -54,7 +54,7 @@
                                   <option value="0">Укажите место</option>
                                 </select>
 
-                                <a class="btn btn-success accept-winner hidden" data-customer_id="<?php echo $vlr['customer_id']; ?>" data-contest_id="" href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-check"></i></a>
+                                <a class="btn btn-success accept-winner hidden" data-customer_id="<?php echo $vlr['customer_id']; ?>" data-contest_id="<?php echo $vlr['contest_id']; ?>" data-adaptive_id="<?php echo $vlr['adaptive_id']; ?>" href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-check"></i></a>
 
                                 <a class="btn btn-danger delete-winner hidden" href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-times"></i></a>
 
@@ -119,10 +119,17 @@
     e.preventDefault();
     var _this = $(this);
     var place_winner  = _this.prev().val();
+    var customer_id = _this.attr('data-customer_id');
+    var request_id = _this.attr('data-request_id');
+    var contest_id = _this.attr('data-contest_id');
+    var adaptive_id = _this.attr('data-adaptive_id');
+
     var data = {
-      'customer_id' : '5',
+      'customer_id' : customer_id,
       'place_id'    : place_winner,
-      'contest_id'  : '2'
+      'request_id'  : request_id,
+      'contest_id'  : contest_id,
+      'adaptive_id' : adaptive_id
     };
     console.log(place_winner);
     //отправляем запрос на установку победителя

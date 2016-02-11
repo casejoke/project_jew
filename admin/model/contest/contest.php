@@ -577,6 +577,7 @@ class ModelContestContest extends Model {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "contest_winner SET 
 			contest_id 		= '" . $this->db->escape($data['image']) . "',
 			customer_id 	= '" . (int)$data['type'] . "',
+			place_id 			= '" . (int)$data['place_id'] . "',
 			date_added 		= NOW()
 		");
 	}

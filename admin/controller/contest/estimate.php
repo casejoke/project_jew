@@ -376,6 +376,7 @@ class ControllerContestEstimate extends Controller {
 				'customer_to_contest_id'	=>	$vrtc['customer_to_contest_id'],
 				'customer_id'							=> 	$vrtc['customer_id'],
 				'contest_id'							=>  $vrtc['contest_id'],
+				'adaptive_id'							=>  $vrtc['adaptive_id'],
 				'score' 									=> 	$request_score,
 				'action'									=>  $action
 			);

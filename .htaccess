@@ -36,9 +36,9 @@ RewriteRule ^([^?]*) index.php?_route_=$1 [L,QSA]
 # php_flag register_globals off
 
 # 2. If your cart has magic quotes enabled, This may work to disable it:
- php_flag magic_quotes_gpc Off
 # php_flag magic_quotes_gpc Off
- php_value magic_quotes_gpc Off
+# php_flag magic_quotes_gpc Off
+# php_value magic_quotes_gpc Off
 
 # 3. Set max upload file size. Most hosts will limit this and not allow it to be overridden but you can try
 # php_value upload_max_filesize 999M
