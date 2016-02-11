@@ -190,11 +190,15 @@ class ControllerContestEstimate extends Controller {
         foreach ($request_value['custom_fields'] as $kr => $vr) {
           if($crr['category_request_id'] == $kr){
             foreach ($vr as $vvr) {
-
+            
               $type = $contest_fields[$vvr['field_id']]['contest_field_type'];
-              $value_field = $vvr['value'];
+              $value_field = '';
+              if(!empty($vvr['value'])){
+                 $value_field = $vvr['value'];
+              }
+             
 
-              if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_age' ){
+              if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_age' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
                 $val_project_age = array();
                 $result_project_age = $this->model_contest_contest_field->getProjectAges();
                 foreach ($result_project_age  as $vpa) {
@@ -232,11 +236,11 @@ class ControllerContestEstimate extends Controller {
           'category_fields'     =>$data_for_category
         );
     }
-
-    /* print_r('<pre>');
-    print_r($result_project_age );
+/*
+    print_r('<pre>');
+    print_r($data['category_requestes'] );
     print_r('</pre>');
-    die(); */
+    die();*/
 //целевая группа
    
 
