@@ -201,7 +201,7 @@ class ControllerContestEstimate extends Controller {
                   foreach ($vvr['value'] as $vvvr) {
                     if($vpa['contest_field_value_id'] == $vvvr){
                       $val_project_age = array(
-                        'title' =>  $vvvr['name']
+                        'title' =>  $vpa['name']
                       );
                     }
                   }

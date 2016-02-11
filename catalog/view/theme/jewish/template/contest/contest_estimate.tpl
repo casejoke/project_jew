@@ -40,8 +40,8 @@
                     <h4 class="font-alt mb-20"><?php echo $cr['name']; ?></h4>
 
                       <?php foreach ($cr['category_fields'] as $vcri) { ?>
-
-                      <?php if($vcri['field_type'] == 'list'){ ?>
+                  
+                      <?php /*if($vcri['field_type'] == 'list'){ ?>
                         <div class="col-sm-12">  
                           <ul> 
                             <?php foreach ($vcri['field_value'] as $vfv) { ?>
@@ -49,7 +49,7 @@
                             <?php } ?>
                           </ul>
                         </div>
-                      <?php }?>
+                      <?php } */?>
 
                       <?php if($vcri['field_type'] == 'text'){ ?>
                         <div class="col-sm-12">   

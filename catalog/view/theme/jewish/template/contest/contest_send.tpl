@@ -33,6 +33,8 @@
                       <label class="control-label font-alt" for="input-<?php echo 'value_'.$cfvalue['contest_field_id']; ?>"><?php echo $cfvalue['contest_field_title']; ?></label>
                       <?php if(!empty($cfvalue['contest_field_description'])) {?> <p class="small"><?php echo $cfvalue['contest_field_description']; ?></p> <?php } ?>
                       <!-- select -->
+
+                      
                       <?php if ($cfvalue['contest_field_type'] == 'select') { ?>
             
                           <select name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][value]" id="input-<?php echo 'value_'.$cfvalue['contest_field_id']; ?>" class="form-control">
