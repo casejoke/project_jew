@@ -75,6 +75,10 @@ class ControllerProjectView extends Controller {
 
 		$data['project_title'] 		=	html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8');
 		$data['project_description'] 	=	html_entity_decode($project_info['description'], ENT_QUOTES, 'UTF-8');
+		$data['project_target'] 	=	html_entity_decode($project_info['target'], ENT_QUOTES, 'UTF-8');
+		$data['project_product'] 	=	html_entity_decode($project_info['product'], ENT_QUOTES, 'UTF-8');
+		$data['project_result'] 	=	html_entity_decode($project_info['result'], ENT_QUOTES, 'UTF-8');
+
 
 		$data['image'] = '';
 		if (!empty($project_info['image'])) {

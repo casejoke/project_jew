@@ -9,7 +9,9 @@ var contest = {
   init:function() {
     _href_temp = $('#send_request_to_contest').attr('href');
 
-
+    if(selectProject != 0){
+      project_id = selectProject;
+    }
 
     $(document).on(mouse_down,'.select-project',function(e){
       e.preventDefault();

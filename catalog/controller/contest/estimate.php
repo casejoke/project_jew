@@ -190,11 +190,38 @@ class ControllerContestEstimate extends Controller {
         foreach ($request_value['custom_fields'] as $kr => $vr) {
           if($crr['category_request_id'] == $kr){
             foreach ($vr as $vvr) {
+
+              $type = $contest_fields[$vvr['field_id']]['contest_field_type'];
+              $value_field = $vvr['value'];
+
+              if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_age' ){
+                $val_project_age = array();
+                $result_project_age = $this->model_contest_contest_field->getProjectAges();
+                foreach ($result_project_age  as $vpa) {
+                  foreach ($vvr['value'] as $vvvr) {
+                    if($vpa['contest_field_value_id'] == $vvvr){
+                      $val_project_age = array(
+                        'title' =>  $vvvr['name']
+                      );
+                    }
+                  }
+                }
+                $value_field = $val_project_age;
+                $type = 'list';
+
+              }
               $data_for_category[] = array(
                 'field_id'    => $vvr['field_id'],
-                'field_value' => $vvr['value'],
-                'field_title' => $contest_fields[$vvr['field_id']]['contest_field_title']
+                'field_value' => $value_field,
+                'field_title' => $contest_fields[$vvr['field_id']]['contest_field_title'],
+                'field_type' => $type,
+                'field_contest_system_table' => $contest_fields[$vvr['field_id']]['contest_field_system_table']
               );
+
+
+
+
+
             }
           }
         }
@@ -205,7 +232,19 @@ class ControllerContestEstimate extends Controller {
           'category_fields'     =>$data_for_category
         );
     }
+
+    /* print_r('<pre>');
+    print_r($result_project_age );
+    print_r('</pre>');
+    die(); */
+//целевая группа
+   
+
     
+
+
+
+
 
     //информация о пользователе подавщти заявку
 

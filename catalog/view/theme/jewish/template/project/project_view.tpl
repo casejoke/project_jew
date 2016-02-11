@@ -27,6 +27,28 @@
            <?php echo $project_description; ?>
           </div>
           
+          <?php if(!empty($project_target)){ ?>
+            <div class="post-entry">
+            <h4 class="font-alt mb-20">Цель проекта</h4>
+             <?php echo $project_target; ?>
+            </div>
+          <?php } ?>
+          <?php if(!empty($project_product)){ ?>
+
+            <div class="post-entry">
+              <h4 class="font-alt mb-20">Продукт проекта</h4>
+             <?php echo $project_product; ?>
+            </div>
+          <?php } ?>
+          <?php if(!empty($project_result)){ ?>
+            
+            <div class="post-entry">
+            <h4 class="font-alt mb-20">Результат проекта</h4>
+             <?php echo $project_result; ?>
+            </div>
+          <?php } ?>
+
+          
 
         </div>
         <!-- Post end -->
@@ -39,7 +61,7 @@
           <h5 class="widget-title font-alt">Новости проекта</h5>
           <ul class="widget-posts">
       
-            <li class="clearfix">
+            <li class="clearfix hidden">
               <div class="widget-posts-image">
                 <a href="#"><img src="image/noimage.png" alt=""></a>
               </div>
@@ -53,25 +75,13 @@
               </div>
             </li>
       
-            <li class="clearfix">
-              <div class="widget-posts-image">
-                <a href="#"><img src="image/noimage.png" alt=""></a>
-              </div>
-              <div class="widget-posts-body">
-                <div class="widget-posts-title">
-                  <a href="#">Realistic Business Card Mockup</a>
-                </div>
-                <div class="widget-posts-meta">
-                  15 November
-                </div>
-              </div>
-            </li>
+          
           </ul>
         </div>
         <!-- Widget end -->
 
         <!-- Widget start -->
-        <div class="widget ">
+        <div class="widget hidden">
           <h5 class="widget-title font-alt">Блог проекта</h5>
           <ul class="widget-posts">
       

@@ -442,6 +442,25 @@ class ControllerContestContestRequest extends Controller {
 		die();
 	*/
 
+		$data['token'] = $this->session->data['token'];
+
+		if (isset($this->request->get['customer_to_contest_id'])) {
+			$data['customer_to_contest_id'] = $this->request->get['customer_to_contest_id'];
+		} else {
+			$data['customer_to_contest_id'] = 0;
+		}
+		
+		
+		if (isset($this->request->get['customer_to_contest_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$request_info = $this->model_contest_contest_request->getRequest($this->request->get['customer_to_contest_id']);
+		}
+
+
+		//print_r('<pre>');
+		//print_r(unserialize($request_info['value']));
+		//print_r('</pre>');
+		
+		
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');

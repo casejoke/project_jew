@@ -28,18 +28,50 @@
 
                 <div role="tabpanel" class="tab-pane active" id="tab-request">
                   <div class="card-body card-padding">
-                    1
+                    <div class="pmb-block">
+                                
+                      <div class="pmbb-body p-l-30">
+                        <div class="pmbb-view">
+
+
+                            <dl class="dl-horizontal hidden">
+                                <dt>Фамилия Имя</dt>
+                                <dd><?php echo $lastname; ?> <?php echo $firstname; ?></dd>
+                            </dl>
+                            
+                        </div>
+                      </div>
+                  </div>
                   </div>
                 </div><!-- /#tab-general -->
                 <div role="tabpanel" class="tab-pane " id="tab-customer">
                   <div class="card-body card-padding">
-                    customer
 
-                    <?php echo $lastname; ?><br>
+                      <div class="pmb-block">
+                                
+                                <div class="pmbb-body p-l-30">
+                                    <div class="pmbb-view">
+                                        <dl class="dl-horizontal">
+                                            <dt>Фамилия Имя</dt>
+                                            <dd><?php echo $lastname; ?> <?php echo $firstname; ?></dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>E-mail</dt>
+                                            <dd><?php echo $email; ?></dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>Телефон</dt>
+                                            <dd><?php echo $telephone; ?></dd>
+                                        </dl>
+                                    </div>
+                                    
+                                   
 
-                    <?php echo $firstname; ?><br>
-                    <?php echo $email; ?><br>
-                    <?php echo $telephone; ?><br>
+
+                                </div>
+                            </div>
+
+
 
                     
                   </div>

@@ -22,7 +22,7 @@
 
               <!-- Nav tabs start-->
               <ul class="nav nav-tabs font-alt" role="tablist">
-                <li><a href="#contest" data-toggle="tab">О конкурсе</a></li>
+                <li class="hidden"><a href="#contest" data-toggle="tab">О конкурсе</a></li>
                 <li ><a href="#request" data-toggle="tab">Заявка</a></li>
 
                 <li class="active"><a href="#estimate" data-toggle="tab">Оценить</a></li>
@@ -34,7 +34,53 @@
 
                 <!-- Tab start -->
                 <div class="tab-pane " id="request">
-                  
+                  <?php foreach ($category_requestes as $cr) { ?>
+                    <?php if ( !empty( $cr['category_request_id'] ) ) { ?>
+
+                    <h4 class="font-alt mb-20"><?php echo $cr['name']; ?></h4>
+
+                      <?php foreach ($cr['category_fields'] as $vcri) { ?>
+
+                      <?php if($vcri['field_type'] == 'list'){ ?>
+                        <div class="col-sm-12">  
+                          <ul> 
+                            <?php foreach ($vcri['field_value'] as $vfv) { ?>
+                              <li><?php echo $vfv['title']; ?></li>
+                            <?php } ?>
+                          </ul>
+                        </div>
+                      <?php }?>
+
+                      <?php if($vcri['field_type'] == 'text'){ ?>
+                        <div class="col-sm-12">   
+                          <div class="form-group">
+                            <label class="control-label font-alt" ><?php echo $vcri['field_title']; ?> </label>
+                            <?php echo html_entity_decode($vcri['field_value']); ?> 
+                          </div>
+                        </div>
+                      <?php }?>
+
+
+                      <?php if($vcri['field_type'] == 'textarea'){ ?>
+                        <div class="col-sm-12">   
+                          <div class="form-group">
+                            <label class="control-label font-alt" ><?php echo $vcri['field_title']; ?> </label>
+                            
+                          </div>
+                          <div class="form-group">
+                            <?php echo html_entity_decode($vcri['field_value']); ?> 
+                          </div>
+                        </div>
+                      <?php }?>
+
+                       
+                        
+                        
+                      <?php } ?>
+
+
+                    <?php } ?>
+                  <?php } ?>
                 </div>
                 <!-- Tab end -->
 

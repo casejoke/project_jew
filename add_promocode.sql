@@ -31,3 +31,6 @@ CREATE TABLE `oc_customer_to_promocode` (
   UNIQUE KEY `customer_stat_id` (`customer_promocode_id`),
   KEY `customer_id` (`customer_id`,`promocode_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+INSERT INTO `casejoke_jewish`.`oc_url_alias` (`url_alias_id`, `query`, `keyword`) VALUES (NULL, 'account/account', 'activatepromocode');

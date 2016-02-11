@@ -107,9 +107,10 @@ class ControllerContestSendbest extends Controller {
 
     if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
       
-      $this->model_contest_contest->addRequest($data=array(),$customer_id,$contest_id,$adaptive_id);
+      $this->model_contest_contest->addRequest($this->request->post,$customer_id,$contest_id,$adaptive_id);
       //отправляю проектв $project_id  в копилку проектов
       $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
+
       $this->session->data['success'] = $this->language->get('text_contest_success');
       // Add to activity log
       $this->load->model('account/activity');
@@ -119,7 +120,7 @@ class ControllerContestSendbest extends Controller {
         'name'        => $this->customer->getFirstName() . ' ' . $this->customer->getLastName()
       );
 
-      $this->model_account_activity->addActivity('add request to contest', $activity_data);
+      $this->model_account_activity->addActivity('add request to best contest', $activity_data);
 
       $this->response->redirect($this->url->link('account/account', '', 'SSL'));
     }

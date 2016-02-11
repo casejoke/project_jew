@@ -74,6 +74,7 @@ class ControllerAccountAccount extends Controller {
 		$this->load->model('contest/contest');
 		$this->load->model('tool/upload');
 		$this->load->model('tool/image');
+		$this->load->model('account/promocode');
 		//информация о пользователе
 		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
 			$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
@@ -154,6 +155,7 @@ class ControllerAccountAccount extends Controller {
 			);
 		}
 
+		$data['customer_id'] = $customer_id;
 		//группы где пользователь администратор
 		$results_admin_groups = $this->model_group_group->getGroupsForAdmin($customer_id);
 
@@ -217,7 +219,7 @@ class ControllerAccountAccount extends Controller {
 			);
 		}
 
-		
+
 
 
 		//информация о проектах где пользователь я вляется admin
@@ -237,15 +239,18 @@ class ControllerAccountAccount extends Controller {
 				'edit'	=>	$this->url->link('project/edit', 'project_id='.$result_pfc['project_id'], 'SSL') 
 			);
 			$win = 0;
+			$promocode_action = $this->url->link('account/promocode/activate', 'project_id='.$result_pfc['project_id'], 'SSL');
 			if(!empty($projects_winner[$result_pfc['project_id']])){
 				$win = 1;
+				
 			}
-			$data['projects_for_customer'][] = array(
+			$data['projects_for_customer'][$result_pfc['project_id']] = array(
 				'project_id'			=> $result_pfc['project_id'],
 				'project_title'		=> $result_pfc['title'],
 				'project_image'		=> $image,
-				'project_winner'  => $win,
-				'prject_action'		=> $actions
+				'project_winner'  	=> $win,
+				'project_action'	=> $actions,
+				'promocode_action'	=> $promocode_action
 			);
 
 
@@ -434,10 +439,54 @@ if ($customer_info['customer_expert']) {
 		
 		
 }//проверка на эксперта
+		//получим список проектов из таблицы победителей для данного пользователя 
 
-		//применить промокод к проекту
- /// добавляет в таблицу winner проект с пометкой промокод в колонку promocode_id с contest_id = 0
+		$result_project_winner = $this->model_contest_contest->getWinnerContest($customer_id);
+		$project_activate_promocode = array();
 
+		
+		foreach ($result_project_winner as $vpap) {
+			if (!empty ($vpap['promocode_id']) ){
+				$project_activate_promocode[$vpap['promocode_id']] = array(
+					'project_id'	=> $vpap['project_id'],
+				);
+			}
+			
+		}
+
+		//промокоды
+		$data['activate_promocode'] = $this->url->link('account/promocode', '', 'SSL'); 
+
+		//получим список активированных промокодв из табличи промокоды
+		//cстатусы промокодов 
+		//0 исользованный - потрачен на активацию конкурса
+		//1 активный  - можно отдавать кому угодно
+		//2 активи
+		$results_list_promocode = $this->model_account_promocode->getListPromocodeForCustomer($customer_id);
+		$data['list_promocode'] = array();
+		$data['isset_promocode'] = 0;
+
+		foreach ($results_list_promocode as $vlp) {
+		
+			if($vlp['status'] == 0 ){
+
+				$project_id		= $project_activate_promocode[$vlp['promocode_id']]['project_id'];
+
+				$project_title  = $data['projects_for_customer'][$project_id]['project_title'];
+
+				$data['list_promocode'][] = array(
+					'promocode_id' 	=> $vlp['promocode_id'],
+					'project_id'	=> $project_id,
+					'project_title'	=> $project_title
+				);
+			}
+			if($vlp['status'] == 2){
+				$data['isset_promocode'] = 1;
+			}
+			
+		}
+
+			
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/account.tpl')) {
 			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/account.js');

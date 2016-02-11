@@ -18,9 +18,13 @@
             <h1 class="post-title">Оформление заявки на конкурс: <?php echo $contest_title; ?> </h1>
           </div>
           <div class="post-entry ">
-            <h4 class="font-alt mb-0">1.Укажите свой проект для участия в конкурсе</h4>
+            <?php if ($my_adaptive_projects_for_contest == 0) { ?>
+              <h4 class="font-alt mb-0">1.Укажите свой проект для участия в конкурсе</h4>
+            
+            
+            
              <div class="row">
-            <?php if(!empty($my_project)) { ?>
+            <?php if(!empty($my_project) && $my_adaptive_projects_for_contest == 0) { ?>
                   <?php foreach ($my_project as $pfc) { ?>
 
                     <div class="col-sm-6 col-md-4 col-lg-4">
@@ -35,10 +39,17 @@
                   <?php } ?>
                 <?php } ?>
             </div>
+            <script type="text/javascript">
+              var selectProject = 0;
+              </script>
+            <?php } else{ ?>
+              <script type="text/javascript">
+              var selectProject = <?php echo $my_adaptive_projects_for_contest; ?>
+              </script>
+            <?php } ?>
 
 
-
-            <h4 class="font-alt mb-0">2.Укажите проект для адаптации </h4>
+            <h4 class="font-alt mb-0"><?php echo ($my_adaptive_projects_for_contest == 0)?'2. ':'';?>Укажите проект для адаптации </h4>
              <div class="row">
             <?php if(!empty($adaptive_projects)) { ?>
                   <?php foreach ($adaptive_projects as $apc) { ?>

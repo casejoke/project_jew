@@ -24,6 +24,7 @@ class ModelContestContestRequest extends Model {
 		return $query->row;
 	}
 
+	
 
 	public function getRequests($data = array()) {
 

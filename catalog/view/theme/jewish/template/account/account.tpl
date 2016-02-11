@@ -40,13 +40,14 @@
           <ul class="nav nav-tabs font-alt" role="tablist">
 
             <li  <?php if (empty($customer_invite_group)) { ?>class="active"<?php } ?>><a href="#contact_information" data-toggle="tab" aria-expanded="true">Мой профиль</a></li>
-            <li><a href="#projects"       data-toggle="tab" aria-expanded="true">Мои проекты</a></li>
+            <li><a href="#projects"       data-toggle="tab" aria-expanded="true"><?php echo ($isset_promocode)?'<span class="fa fa-qrcode"></span>':'';?> Мои проекты </a></li>
             <li><a href="#customer_group" data-toggle="tab" aria-expanded="true">Мои инициативные группы</a></li>
             <?php if (!empty($requests_for_customer)) { ?><li><a href="#request"  data-toggle="tab" aria-expanded="true" >Мои заявки</a></li> <?php } ?>
             <?php if (!empty($customer_invite_group)) { ?><li class="active"><a href="#invite_me"  data-toggle="tab" aria-expanded="true" >Приглашения</a></li> <?php } ?>
             <?php if(!empty($request_for_expert)){ ?><li><a href="#customer_expert" data-toggle="tab" aria-expanded="true">Заявки для оценки</a></li><?php } ?>
+
             <li class="hidden"><a href="#blog"           data-toggle="tab" aria-expanded="true">Мой блог</a></li> 
-            
+            <li><a href="#promocode" data-toggle="tab" aria-expanded="true">Промокод</a></li> 
              
             
           </ul>
@@ -109,8 +110,11 @@
                          <img src="<?php echo  $pfc['project_image']; ?>" alt="<?php echo $pfc['project_title']; ?>">
                         <div class="borderline"></div>
                         <h4><?php echo $pfc['project_title']; ?></h4>
-                       
-                        <a href="<?php echo $pfc['prject_action']['edit']; ?>" class="btn btn-success btn-round mt-20 ">Редактировать</a>
+                        <a href="<?php echo $pfc['project_action']['edit']; ?>" class="btn btn-success btn-round mt-20 ">Редактировать</a>
+                        <?php if(!$pfc['project_winner'] && $isset_promocode){?>
+                            <a href="<?php echo $pfc['promocode_action']; ?>" class="btn btn-warning btn-round mt-20 ">Активировать промокод</a>
+                        <?php }?>
+                        
                       </div>
                     </div>
 
@@ -243,13 +247,53 @@
               </div>
             <?php } ?>
             
-
-
-            <div class="tab-pane"id="blog">
+            <div class="tab-pane" id="blog">
               Мой блог
             </div><!-- /.blog -->
 
-            
+            <div class="tab-pane" id="promocode">
+                <div class="row">
+                  
+                  <div class="col-sm-6 ">
+                    <h4 class="font-alt mb-0">Укажите полученный промокод</h4>
+                    <hr class="divider-w mt-10 mb-20">
+
+                    <div class="col-sm-12 ">
+                      <div class="form-group">
+                        <input class="form-control" type="text" placeholder="" id="in-promocode">
+                      </div>
+                    </div>
+                    <div class="col-sm-12 ">
+                      <a href="#addpromocode" class="btn btn-success btn-round btn-block" id="addpromocode" data-a="<?php echo $customer_id;?>">Активировать</a>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 ">
+                    <h4 class="font-alt mb-0">Активированные промокоды</h4>
+                    <hr class="divider-w mt-10 mb-20">
+                    <div class="col-sm-12 ">
+                      <table class="table table-striped ds-table">
+                        <tbody>
+                    <tr>
+                      <th>Промокод</th>
+                      <th>Проект</th>
+                    </tr>
+                    <?php if(!empty($list_promocode)){ ?>
+                      <?php foreach ($list_promocode as $vlp) { ?>
+                          <tr>
+                            <td class="font-alt"><?php echo $vlp['promocode_id'];?></td>
+                            <td><?php echo $vlp['project_title'];?></td>
+                          </tr>
+                      <?php } ?>
+                    <?php } ?>
+                    
+                    
+                  </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+                </div>
+            </div><!-- /.promocode -->
             
 
             </div>

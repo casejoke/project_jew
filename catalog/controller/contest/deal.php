@@ -387,13 +387,22 @@ class ControllerContestDeal extends Controller {
 				'prject_action'		=> $actions
 			);
 		}
-/*************/
-	  //получаем список свои проектов победителей и выбираю один из них для на конкурс
-	  //добавить фильтр проектов из таблицы adaptive где customer_id=customer_id AND contest_id=contest_id
-	  //и если пользователь уже положил проект в adaptive d js присваиваем project_id - этому проекту
-	  //и заменяем вывод списка просто одно картой с проектом и надписью Вы уже выбрали проект для конкурса, укажите проект для адаптации
 
-	  $results_customer_winner = $this->model_contest_contest->getWinnerContest($customer_id);
+		
+		
+
+
+		//получим список проектов из таблицы contest_adaptor где customer_id=customer_id AND contest_id=contest_id
+		//узнаем подавал ли пользователь на адаптацию свой проект 
+	  	$results_personal_adaptive_projects = $this->model_contest_contest->getPersonalAdaptive($customer_id,$contest_id);
+	  	$data['my_adaptive_projects_for_contest'] = 0;
+	  	$data['my_adaptive_projects_for_contest'] = $results_personal_adaptive_projects['project_id'];
+	  	
+
+
+
+	
+	  	$results_customer_winner = $this->model_contest_contest->getWinnerContest($customer_id);
 	 	$data['my_project'] = array();
 	 	foreach ($results_customer_winner as $vcw) {
 	 			$data['my_project'][] = array(
@@ -402,10 +411,11 @@ class ControllerContestDeal extends Controller {
 					'project_image'		=> $projects_for_customer[$vcw['project_id']]['project_image']
 	 			);
 	 	}
+
+
 	 	
 	 	//подтягиваем проекты котрые предназначены для адаптации
-/***************   и филтр 2 подтягиваем проект из request и убираем из выдачи adaptive_id  */
-	 	//подтянули все проекты
+	 	//список всех проекты
 	 	$results_projects = $this->model_project_project->getProjects();
 		$projects = array();
 		foreach ($results_projects as $result_p) {
@@ -428,23 +438,32 @@ class ControllerContestDeal extends Controller {
 			);
 		}
 
-		//подтянем список project_id котрые есть в таблице oc_contest_adaptor исключая те что уже есть в заявке для данно пользователя и ткущего конкурса
-
-		$results_adaptive_projects = $this->model_project_project->getProjectsForAdaptive($customer_id);
-
+		
+		
 	
-		//получим список проектов для адптации  из заявок для данного конкурса (те проекты котрые исключаем из  списка adaptive_id)
+		//получим список проектов  из заявок для данного конкурса (те проекты котрые исключаем из  списка adaptive_id)
 		$results_request_projects_for_adaptive = $this->model_project_project->getProjectsFromRequestForContest($customer_id,$contest_id);
-
-
+		$project_request_adaptive = array();
+		//список проектов которые уже поданы в заявку данным пользователем 
+		foreach ($results_request_projects_for_adaptive as $vpra) {
+			$project_request_adaptive[$vpra['adaptive_id']] = array(
+				'adaptive_id' => $vpra['adaptive_id']
+			);
+		}
+		
+		//получим список проектов для адаптации из  таблицы contest_adaptor
+		$results_adaptive_projects = $this->model_project_project->getProjectsForAdaptive($customer_id);
 		$data['adaptive_projects'] = array();
 		foreach ($results_adaptive_projects as $vrap) {
-			$data['adaptive_projects'][] = array(
+			if(empty($project_request_adaptive[$vrap['project_id']])){
+				$data['adaptive_projects'][] = array(
 	 				'project_id'			=> $vrap['project_id'],
 					'project_title'		=> $projects[$vrap['project_id']]['project_title'],
 					'project_image'		=> $projects[$vrap['project_id']]['project_image'],
 					'project_action'		=> $projects[$vrap['project_id']]['action'],
 	 			);
+			}
+			
 		}
 
 		

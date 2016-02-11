@@ -127,7 +127,7 @@ class ControllerContestView extends Controller {
 		$data['text_im_deal'] 				= $this->language->get('text_im_deal');
 		$data['im_deal']  = $this->url->link('contest/deal', 'contest_id=' . $data['contest_id'], 'SSL');	
 
-		
+		$data['add_project'] = $this->url->link('project/edit', '', 'SSL'); 
 		
 		//прикрепленные файлы
 			//!!!!!!!!!!!  переписать

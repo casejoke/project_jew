@@ -46,8 +46,55 @@ var upload =  {
 	  	}, 500);
 	}
 };
+var promocode = {
+	init:function(){
+		$(document).on(mouse_down,'#addpromocode',function(e){
+			e.preventDefault();
+			var _a = $(this).attr('data-a');
+			var _b = $('#in-promocode').val();
+			promocode.addpromocode(_a,_b);
+		});
+		
+	},
+	addpromocode:function(_a,_b){
+		var data = {};
+		data  = {
+			'a':_a,
+			'b':_b
+		};
+		$.ajax({
+	        url: 'activatepromocode',
+	        type: 'post',
+	        dataType: 'json',
+	        data: data,
+	        cache: false,
+	   		beforeSend: function() {
+	          
+	        },
+	        complete: function() {
+	           
+	        },
+	        success: function(json) {
+
+				if (json['error']) {
+					console.log(json['error']);
+					alert(json['error']['promocode']);
+				}
+
+				if (json['success']) {
+					console.log(json);
+					window.location.href = json['redirect'];
+				}
+			},
+	        error: function(xhr, ajaxOptions, thrownError) {
+	          console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+	        }
+	      });
+	},
+};
 
 $(document).ready(function() {
+	promocode.init();
 	$(document).delegate('a[data-toggle=\'image\']', mouse_down, function(e) {
 		e.preventDefault();
 		 $('#form-upload').remove();
