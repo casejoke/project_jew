@@ -148,10 +148,75 @@
         <!-- Post end -->
       </div>
       <!-- Content column end -->
-       <!-- Sidebar column start -->
-        <div class="hidden-xs hidden-sm col-md-6 sidebar">
-        
+      <!-- Sidebar column start -->
+      <div class="hidden-xs hidden-sm col-md-6 sidebar">
+        <!-- Post start -->
+        <div class="post">
+          <div class="post-header font-alt">
+            <h2 class="post-title">Описание проекта который выбрали для адаптации</h2>
+          </div>
+          <div class="post-entry ">
+                <h4 class="font-alt mb-20">Контакная информация</h4>  
+                  <h5 class="font-alt mb-20"><a href="mailto:<?php echo $admin_info['email']; ?>"><?php echo $admin_info['email']; ?></a></h5>
+                  <h5 class="font-alt mb-20"><a href="<?php echo $link_admin; ?>"><?php echo $admin_info['lastname'].' '.$admin_info['firstname']?></a></h5>
+                   
+                <h4 class="font-alt mb-20">Описание проекта: <?php echo $project_title; ?></h4> 
+                 
+                  <div class="post-thumbnail">
+                    <img src="<?php echo $image; ?>" alt="<?php echo $project_title; ?>">
+                  </div>
+                  <div class="post-entry">
+                   <?php echo $project_description; ?>
+                  </div>
+                  
+                  <?php if(!empty($project_target)){ ?>
+                    <div class="post-entry">
+                    <h4 class="font-alt mb-20">Цель проекта</h4>
+                     <?php echo $project_target; ?>
+                    </div>
+                  <?php } ?>
+                  <?php if(!empty($project_product)){ ?>
+
+                    <div class="post-entry">
+                      <h4 class="font-alt mb-20">Продукт проекта</h4>
+                     <?php echo $project_product; ?>
+                    </div>
+                  <?php } ?>
+                  <?php if(!empty($project_result)){ ?>
+                    
+                    <div class="post-entry">
+                    <h4 class="font-alt mb-20">Результат проекта</h4>
+                     <?php echo $project_result; ?>
+                    </div>
+                  <?php } ?>
+                  <?php if(!empty($sex_statuses)){ ?>
+                    <div class="post-entry">
+                    <h4 class="font-alt mb-20">Пол</h4>
+                    <ul>
+                      <?php foreach ($sex_statuses as  $vss) { ?>
+                        <li><?php echo $vss['title']; ?></li>
+                      <?php } ?>
+                    </ul>
+                    </div>
+                  <?php } ?>
+                  
+                  <?php if(!empty($age_statuses)){ ?>
+                    <div class="post-entry">
+                    <h4 class="font-alt mb-20">Возрастные группы</h4>
+                    <ul>
+                      <?php foreach ($age_statuses as  $vas) { ?>
+                        <li><?php echo $vas['title']; ?></li>
+                      <?php } ?>
+                    </ul>
+                    </div>
+                  <?php } ?>
+                  
+                  
+  
+
+          </div>
         </div>
+      </div>
         <?php echo $column_left; ?>
       <!-- Sidebar column end -->
       <?php echo $content_bottom; ?>

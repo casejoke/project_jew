@@ -19,7 +19,7 @@ class ControllerContestSendbest extends Controller {
     //подгрузим язык
     $this->load->language('contest/send');
     //SEO
-    $this->document->setTitle($this->language->get('entry_title'));
+    $this->document->setTitle($this->language->get('heading_title'));
     //$this->document->setDescription(substr(strip_tags(html_entity_decode($contest_info['meta_description'], ENT_QUOTES)), 0, 150) . '...');
     //$this->document->setKeywords($contest_info['meta_keyword']);
 
@@ -79,16 +79,6 @@ class ControllerContestSendbest extends Controller {
     //проект для адаптации
     $adaptive_id = $this->request->get['adaptive_id'];
 
-    //проверка на сушествование проекта
-    $adaptive_info = array();
-    if (isset($adaptive_id)) {
-      $adaptive_info = $this->model_project_project->getProject($adaptive_id);
-    }
-    if ( empty($adaptive_info) ){
-      //редиректим на список проектов
-      $this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
-      $this->response->redirect($this->url->link('project/project', '', 'SSL'));
-    }
    
    
 
@@ -312,7 +302,6 @@ class ControllerContestSendbest extends Controller {
     
     //подменяем инфу о проекте
     $project_info = array();
-    $project_info = $adaptive_info;
 
 //************************* информация о конкурсе *************************// 
     $contest_id = $this->request->get['contest_id'];
@@ -354,32 +343,32 @@ class ControllerContestSendbest extends Controller {
     //поля для проекта
     $data['contest_field_system']['project'] = array();
     $data['contest_field_system']['project']['title'] = array(
-      'field_value'         => html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8'),
+      'field_value'         => '',
       'field_type'          => 'text'
     );
 
     $data['contest_field_system']['project']['project_budget'] = array(
-      'field_value'         => $project_info['project_budget'],
+      'field_value'         => '',
       'field_type'          => 'text'
     );
     $data['contest_field_system']['project']['description'] = array(
-      'field_value'         => $project_info['description'],
+      'field_value'         =>'',
       'field_type'          => 'textarea'
     );
     $data['contest_field_system']['project']['target'] = array(
-      'field_value'         => $project_info['target'],
+      'field_value'         => '',
       'field_type'       => 'target'
     );
     $data['contest_field_system']['project']['product'] = array(
-      'field_value'         => $project_info['product'],
+      'field_value'         => '',
       'field_type'       => 'textarea'
     );
     $data['contest_field_system']['project']['result'] = array(
-      'field_value'         => $project_info['result'],
+      'field_value'         => '',
       'field_type'       => 'textarea'
     );
     $data['contest_field_system']['project']['project_birthday'] = array(
-      'field_value'         => $project_info['project_birthday'],
+      'field_value'         => '',
       'field_type'       => 'textarea'
     );
 
@@ -387,63 +376,11 @@ class ControllerContestSendbest extends Controller {
 
     $data['contest_field_system']['project']['project_age'] = array(
       'field_value'         => $this->model_contest_contest_field->getProjectAges(),
-      'field_value_project' => unserialize($project_info['project_age']),
+      'field_value_project' => '',
       'field_type'          => 'checkbox'
     );
 
-/*
-    //поля для проекта
-  
 
-    
-    
-    $data['contest_field_system']['project'][] = array(
-      'field_title'          => $this->language->get('text_project_birthday'),
-      'field_source'       => 'project',    
-      'field_value'        => 'project_birthday'
-    );
-    $data['contest_field_system']['project'][] = array(
-      'field_title'          => $this->language->get('text_project_status_id'),
-      'field_source'       => 'project',    
-      'field_value'        => 'project_status_id'
-    );
-    $data['contest_field_system']['project'][] = array(
-      'field_title'          => $this->language->get('text_project_age'),
-      'field_source'       => 'project',    
-      'field_value'        => 'project_age'
-    );
-    $data['contest_field_system']['project'][] = array(
-      'field_title'          => $this->language->get('text_project_sex'),
-      'field_source'       => 'project',    
-      'field_value'        => 'project_sex'
-    );
-    $data['contest_field_system']['project'][] = array(
-      'field_title'          => $this->language->get('text_project_nationality'),
-      'field_source'       => 'project',    
-      'field_value'        => 'project_nationality'
-    );
-    $data['contest_field_system']['project'][] = array(
-      'field_title'          => $this->language->get('text_project_professional'),
-      'field_source'       => 'project',    
-      'field_value'        => 'project_professional'
-    );
-    $data['contest_field_system']['project'][] = array(
-      'field_title'          => $this->language->get('text_project_demographic'),
-      'field_source'       => 'project',    
-      'field_value'        => 'project_demographic'
-    );
-    
-    $data['contest_field_system']['project'][] = array(
-      'field_title'          => $this->language->get('text_project_currency_id'),
-      'field_source'       => 'project',    
-      'field_value'        => 'project_currency_id'
-    );
-    $data['contest_field_system']['project'][] = array(
-      'field_title'          => $this->language->get('text_project_image'),
-      'field_source'       => 'project',    
-      'field_value'        => 'project_image'
-    );
-    */
 
 
       //подтянем список каетгорий для заявки на  конкурса
@@ -585,7 +522,105 @@ class ControllerContestSendbest extends Controller {
     die();
 */
 
+
+      ///подтянем поля о проекте адапторе - проект котрый пользователь хочет адаптировать
+
+      //проверка что этот проект можно адптировать
+      //проверка на сушествование проекта
+        $adaptive_info = array();
+        if (isset($adaptive_id)) {
+          $adaptive_info = $this->model_project_project->getProject($adaptive_id);
+        }
+
+        if ( empty($adaptive_info) ){
+          //редиректим на список проектов
+          $this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
+          $this->response->redirect($this->url->link('project/project', '', 'SSL'));
+        }
+       
+
+        $data['entry_title']        = $this->language->get('entry_title');
+        $data['entry_description']      = $this->language->get('entry_description');
+        $data['entry_image']        = $this->language->get('entry_image');
+        $data['entry_project_birthday']     = $this->language->get('entry_project_birthday');
+        $data['entry_project_email']      = $this->language->get('entry_project_email'); 
+
+        $data['text_create']        = $this->language->get('text_create');
+        $data['text_member']        = $this->language->get('text_member');
+        
+
+
+        $data['project_title']    = html_entity_decode($adaptive_info['title'], ENT_QUOTES, 'UTF-8');
+        $data['project_description']  = html_entity_decode($adaptive_info['description'], ENT_QUOTES, 'UTF-8');
+        $data['project_target']   = html_entity_decode($adaptive_info['target'], ENT_QUOTES, 'UTF-8');
+        $data['project_product']  = html_entity_decode($adaptive_info['product'], ENT_QUOTES, 'UTF-8');
+        $data['project_result']   = html_entity_decode($adaptive_info['result'], ENT_QUOTES, 'UTF-8');
+
+
+        $data['image'] = '';
+        if (!empty($adaptive_info['image'])) {
+          $upload_info = $this->model_tool_upload->getUploadByCode($adaptive_info['image']);
+          $filename = $upload_info['filename'];
+          $data['image'] = $this->model_tool_upload->resize($filename , 800, 460,'w');
+        } else {
+          $data['image'] = $this->model_tool_image->resize('no-image.png', 800, 460,'w');
+        }
+        
+        $data['project_birthday']     = rus_date($this->language->get('date_day_date_format'), strtotime($adaptive_info['project_birthday']));
+
+        //подтянем администратора группы
+        $admin_id = $adaptive_info['customer_id'];
+        $admin_id_hash = $admin_id;
+        $data['admin_info'] = $this->model_account_customer->getCustomer($admin_id);
+        $data['link_admin'] = $this->url->link('account/info', 'ch=' . $admin_id_hash, 'SSL');
+
+        
+        //пол
+        
+      
+        /*
+        [project_age] => 
+    [project_sex] => 
+    [project_nationality] => 
+    [project_professional] => 
+    [project_demographic] => 
+      */
+
+        $filter_data = array();
+        $sex_statuses_results = $this->model_project_project->getSexStatuses($filter_data);
+        $data['sex_statuses']  = array();
+        $project_sex = unserialize($adaptive_info['project_sex']);
+        foreach ($sex_statuses_results as $ssr) {
+          foreach ($project_sex as $vsex) {
+            if ($ssr['sex_status_id'] == $vsex) {
+               $data['sex_statuses'][] = array(
+                  'title'  => $ssr['name']
+                );
+            }
+          }
+         
+        }
+
     
+
+        //возраст
+        $filter_data = array();
+        $age_statuses_results = $this->model_project_project->getAgeStatuses($filter_data);
+        $data['age_statuses']  = array();
+        $age_statuses = unserialize($adaptive_info['project_age']);
+        foreach ($age_statuses_results as $ssr) {
+          foreach ($age_statuses as $vas) {
+             if ($ssr['age_status_id'] == $vas) {
+                $data['age_statuses'][] = array(
+                  'title'  => $ssr['name']
+                );
+              }
+          }
+        }
+
+        
+
+
 
 
     $data['action'] = $this->url->link('contest/sendbest', 'contest_id='.$contest_id.'&project_id='.$project_id.'&adaptive_id='.$adaptive_id, 'SSL');

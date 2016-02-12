@@ -62,6 +62,19 @@
               									</div>
               								</div>
 
+                              <div class="col-sm-12">
+                                <!-- Описание конкурса  -->
+                                <div class="form-group required <?php if (isset($error_description[$language['language_id']])) { ?> has-error <?php } ?>">
+                                  <div class="fg-line">
+                                      <label class="control-label m-b-10" for="input-description<?php echo $language['language_id']; ?>"><?php echo $entry_description; ?></label>
+                                      <textarea name="contest_description[<?php echo $language['language_id']; ?>][description]" id="input-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['description'] : ''; ?></textarea>
+                                  </div>                              
+                                  <?php if (isset($error_description[$language['language_id']])) { ?>
+                                    <small class="help-block"><?php echo $error_description[$language['language_id']]; ?></small>
+                                  <?php } ?>
+                                </div>
+                              </div>
+
               								<div class="col-sm-12">
               									<!-- организатор -->
               									<div class="form-group required <?php if (isset($error_organizer[$language['language_id']])) { ?> has-error <?php } ?>">
@@ -104,18 +117,7 @@
     	                          </div>
   	                          </div>
 
-  	                          <div class="col-sm-12">
-    	                          <!-- Описание проекта  -->
-    		                        <div class="form-group required <?php if (isset($error_maxprice[$language['language_id']])) { ?> has-error <?php } ?>">
-    	                            <div class="fg-line">
-    	                                <label class="control-label m-b-10" for="input-description<?php echo $language['language_id']; ?>"><?php echo $entry_description; ?></label>
-    	                                <textarea name="contest_description[<?php echo $language['language_id']; ?>][description]" id="input-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($contest_description[$language['language_id']]) ? $contest_description[$language['language_id']]['description'] : ''; ?></textarea>
-    	                            </div>	                            
-    	                            <?php if (isset($error_description[$language['language_id']])) { ?>
-    	                              <small class="help-block"><?php echo $error_description[$language['language_id']]; ?></small>
-    	                            <?php } ?>
-    	                          </div>
-  	                          </div>
+  	                          
 	                             
                               <div class="col-sm-12">
                                 <!-- Контакты  -->

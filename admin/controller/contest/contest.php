@@ -714,7 +714,7 @@ class ControllerContestContest extends Controller {
 			}
 
 			if ((utf8_strlen($value['meta_title']) < 3) || (utf8_strlen($value['meta_title']) > 255)) {
-				$this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
+			//	$this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
 			}
 
 		}
