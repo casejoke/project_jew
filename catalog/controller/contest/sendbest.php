@@ -380,8 +380,31 @@ class ControllerContestSendbest extends Controller {
       'field_type'          => 'checkbox'
     );
 
+    $data['contest_field_system']['project']['project_sex'] = array(
+      'field_value'         => $this->model_contest_contest_field->getProjectSexs(),
+      'field_value_project' => '',
+      'field_type'          => 'checkbox'
+    );
 
+    $data['contest_field_system']['project']['project_nationality'] = array(
+      'field_value'         => $this->model_contest_contest_field->getProjectNationalitys(),
+      'field_value_project' => '',
+      'field_type'          => 'checkbox'
+    );
 
+    $data['contest_field_system']['project']['project_professional'] = array(
+      'field_value'         => $this->model_contest_contest_field->getProjectProfessionals(),
+      'field_value_project' => '',
+      'field_type'          => 'checkbox'
+    );
+
+    $data['contest_field_system']['project']['project_demographic'] = array(
+      'field_value'         => $this->model_contest_contest_field->getProjectDemographics(),
+      'field_value_project' => '',
+      'field_type'          => 'checkbox'
+    );
+
+    
 
       //подтянем список каетгорий для заявки на  конкурса
       $data['category_requestes'] = array();
@@ -580,26 +603,29 @@ class ControllerContestSendbest extends Controller {
       
         /*
         [project_age] => 
-    [project_sex] => 
-    [project_nationality] => 
-    [project_professional] => 
-    [project_demographic] => 
+        [project_sex] => 
+        [project_nationality] => 
+        [project_professional] => 
+        [project_demographic] => 
       */
 
         $filter_data = array();
         $sex_statuses_results = $this->model_project_project->getSexStatuses($filter_data);
         $data['sex_statuses']  = array();
         $project_sex = unserialize($adaptive_info['project_sex']);
-        foreach ($sex_statuses_results as $ssr) {
-          foreach ($project_sex as $vsex) {
-            if ($ssr['sex_status_id'] == $vsex) {
-               $data['sex_statuses'][] = array(
+        
+        if(is_array($project_sex)){
+          foreach ($sex_statuses_results as $ssr) {
+            foreach ($project_sex as $vsex) {
+              if ($ssr['sex_status_id'] == $vsex) {
+                $data['sex_statuses'][] = array(
                   'title'  => $ssr['name']
                 );
+              }
             }
           }
-         
         }
+        
 
     
 
@@ -608,6 +634,7 @@ class ControllerContestSendbest extends Controller {
         $age_statuses_results = $this->model_project_project->getAgeStatuses($filter_data);
         $data['age_statuses']  = array();
         $age_statuses = unserialize($adaptive_info['project_age']);
+        if(is_array($age_statuses)){
         foreach ($age_statuses_results as $ssr) {
           foreach ($age_statuses as $vas) {
              if ($ssr['age_status_id'] == $vas) {
@@ -615,11 +642,62 @@ class ControllerContestSendbest extends Controller {
                   'title'  => $ssr['name']
                 );
               }
+            }
           }
         }
 
-        
+        //национальность
+        $filter_data = array();
+        $nationality_statuses_results = $this->model_project_project->getNationalityStatuses($filter_data);
+        $data['project_nationality']  = array();
+        $nationality_status = unserialize($adaptive_info['project_nationality']);
+        if(is_array($nationality_status)){
+        foreach ($nationality_statuses_results as $ssr) {
+          foreach ($nationality_status as $vns) {
+             if ($ssr['nationality_status_id'] == $vns) {
+                $data['project_nationality'][] = array(
+                  'title'  => $ssr['name']
+                );
+              }
+            }
+          }
+        }
 
+        //Профессии
+        $filter_data = array();
+        $professional_statuses_results = $this->model_project_project->getProfessionalStatuses($filter_data);
+        $data['project_professional']  = array();
+        $professional_statuses = unserialize($adaptive_info['project_professional']);
+        if(is_array($professional_statuses)){
+        foreach ($professional_statuses_results as $ssr) {
+          foreach ($professional_statuses as $vps) {
+             if ($ssr['professional_status_id'] == $vps) {
+                $data['project_professional'][] = array(
+                  'title'  => $ssr['name']
+                );
+              }
+            }
+          }
+        }
+
+
+        //Демография
+        $filter_data = array();
+        $demographic_statuses_results = $this->model_project_project->getDemographicStatuses($filter_data);
+        $data['project_demographic']  = array();
+        $demographic_statuses = unserialize($adaptive_info['project_demographic']);
+        if(is_array($demographic_statuses)){
+        foreach ($demographic_statuses_results as $ssr) {
+          foreach ($demographic_statuses as $vps) {
+             if ($ssr['demographic_status_id'] == $vps) {
+                $data['project_demographic'][] = array(
+                  'title'  => $ssr['name']
+                );
+              }
+            }
+          }
+        }
+        
 
 
 

@@ -362,6 +362,31 @@ class ControllerContestSend extends Controller {
 		);
 
 
+    $data['contest_field_system']['project']['project_sex'] = array(
+      'field_value'         => $this->model_contest_contest_field->getProjectSexs(),
+      'field_value_project' => unserialize($project_info['project_sex']),
+      'field_type'          => 'checkbox'
+    );
+
+    $data['contest_field_system']['project']['project_nationality'] = array(
+      'field_value'         => $this->model_contest_contest_field->getProjectNationalitys(),
+      'field_value_project' => unserialize($project_info['project_nationality']),
+      'field_type'          => 'checkbox'
+    );
+
+    $data['contest_field_system']['project']['project_professional'] = array(
+      'field_value'         => $this->model_contest_contest_field->getProjectProfessionals(),
+      'field_value_project' => unserialize($project_info['project_professional']),
+      'field_type'          => 'checkbox'
+    );
+
+    $data['contest_field_system']['project']['project_demographic'] = array(
+      'field_value'         => $this->model_contest_contest_field->getProjectDemographics(),
+      'field_value_project' => unserialize($project_info['project_demographic']),
+      'field_type'          => 'checkbox'
+    );
+
+
 /*
 		//поля для проекта
 	

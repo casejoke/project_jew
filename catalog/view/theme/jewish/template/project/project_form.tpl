@@ -201,6 +201,27 @@
                 </div>
                 </div>
               </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="control-label" for="input-relation">Вид сотрудничества <a href="/relation_project_status" target="_blank"><i class="fa fa-info-circle"></i></a></label>
+                  <select class="form-control" name="project_relation_id">
+                    <option value="0"><?php echo $text_none; ?></option>
+                    <?php if (!empty($relation_statuses)) { ?>
+                      <?php foreach ($relation_statuses as $vrs) { ?>
+                        <?php if ($vrs['relation_status_id'] == $project_relation_id) { ?>
+                          <option value="<?php echo $vrs['relation_status_id']; ?>" selected="selected"><?php echo $vrs['relation_status_title']; ?></option>
+                        <?php } else { ?>
+                          <option value="<?php echo $vrs['relation_status_id']; ?>"><?php echo $vrs['relation_status_title']; ?></option>
+                        <?php } ?>
+                        
+                      <?php } ?>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
+
+
              </div><!-- /.row -->
               <div class="row">
                 <div class="col-sm-6">

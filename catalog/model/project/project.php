@@ -10,6 +10,7 @@ class ModelProjectProject extends Model {
 			project_birthday = '" . $this->db->escape($data['project_birthday']) . "',
 			project_init_group_id = '" . (int)$data['project_init_group_id']. "', 
 			project_status_id = '" . (int)$data['project_status_id']. "', 
+			project_relation_id = '" . (int)$data['project_relation_id']. "', 
 			project_age = '" . (isset($data['age_status']) ? $this->db->escape(serialize($data['age_status'])) : '') . "',
 			project_sex = '" . (isset($data['sex_status']) ? $this->db->escape(serialize($data['sex_status'])) : '') . "',
 			project_nationality = '" . (isset($data['nationality_status']) ? $this->db->escape(serialize($data['nationality_status'])) : '') . "',
@@ -59,6 +60,7 @@ class ModelProjectProject extends Model {
 			project_birthday = '" . $this->db->escape($data['project_birthday']) . "',
 			project_init_group_id = '" . (int)$data['project_init_group_id']. "', 
 			project_status_id = '" . (int)$data['project_status_id']. "', 
+			project_relation_id = '" . (int)$data['project_relation_id']. "', 
 			project_age = '" . (isset($data['age_status']) ? $this->db->escape(serialize($data['age_status'])) : '') . "',
 			project_sex = '" . (isset($data['sex_status']) ? $this->db->escape(serialize($data['sex_status'])) : '') . "',
 			project_nationality = '" . (isset($data['nationality_status']) ? $this->db->escape(serialize($data['nationality_status'])) : '') . "',
@@ -108,6 +110,7 @@ class ModelProjectProject extends Model {
 			project_birthday = '" . $this->db->escape($data['project_birthday']) . "',
 			project_init_group_id = '" . (int)$data['project_init_group_id']. "', 
 			project_status_id = '" . (int)$data['project_status_id']. "', 
+			project_relation_id = '" . (int)$data['project_relation_id']. "', 
 			project_age = '" . (isset($data['age_status']) ? $this->db->escape(serialize($data['age_status'])) : '') . "',
 			project_sex = '" . (isset($data['sex_status']) ? $this->db->escape(serialize($data['sex_status'])) : '') . "',
 			project_nationality = '" . (isset($data['nationality_status']) ? $this->db->escape(serialize($data['nationality_status'])) : '') . "',
@@ -538,6 +541,28 @@ class ModelProjectProject extends Model {
 
 	      return $demographic_status_data;
 	    }
+	  }
+
+	  public function getListRelationshipAdaptor(){
+	  	$data_relation_status = array();
+			$data_relation_status[] = array(
+				'relation_status_id' 		=> 1,
+				'relation_status_title' => 'Партнерство',
+				'relation_status_href'	=> $this->url->link('account/account', '', 'SSL')
+			);
+			$data_relation_status[] = array(
+				'relation_status_id' 		=> 2,
+				'relation_status_title' => 'Консультации',
+				'relation_status_href'	=> $this->url->link('account/account', '', 'SSL')
+			);
+			$data_relation_status[] = array(
+				'relation_status_id' 		=> 3,
+				'relation_status_title' => 'Франчайзинг',
+				'relation_status_href'	=> $this->url->link('account/account', '', 'SSL')
+			);
+
+			return $data_relation_status;
+
 	  }
 
 }

@@ -357,6 +357,9 @@ class ControllerProjectEdit extends Controller {
 			$data['professional_status'] = array();
 		}
 
+
+
+
 		//демографический статус
 		$filter_data = array();
 		$demographic_statuses_results = $this->model_project_project->getDemographicStatuses($filter_data);
@@ -381,6 +384,22 @@ class ControllerProjectEdit extends Controller {
 		} else {
 			$data['demographic_status'] = array();
 		}
+
+
+
+		$data['relation_statuses'] = $this->model_project_project->getListRelationshipAdaptor();
+		
+
+		if (isset($this->request->post['project_relation_id'])) {
+			$data['project_relation_id'] = $this->request->post['project_relation_id'];
+		} elseif (!empty($project_info)) {
+			$data['project_relation_id'] = $project_info['project_relation_id'];
+		} else {
+			$data['project_relation_id'] = 0;
+		}
+
+
+
 /*
 				'sex_title' 		=> $ssr['name']
 

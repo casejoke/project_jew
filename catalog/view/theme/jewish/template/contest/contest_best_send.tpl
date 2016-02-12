@@ -189,6 +189,14 @@
                      <?php echo $project_result; ?>
                     </div>
                   <?php } ?>
+
+                  <div class="post-entry">
+                  <h4 class="font-alt mb-20">Вид сотрудничества</h4>
+                  <ul>
+                      <li>Партнерство</li>
+                  </ul>
+                  </div>
+
                   <?php if(!empty($sex_statuses)){ ?>
                     <div class="post-entry">
                     <h4 class="font-alt mb-20">Пол</h4>
@@ -202,12 +210,45 @@
                   
                   <?php if(!empty($age_statuses)){ ?>
                     <div class="post-entry">
-                    <h4 class="font-alt mb-20">Возрастные группы</h4>
+                    <h4 class="font-alt mb-20">Возраст группы проекта</h4>
                     <ul>
                       <?php foreach ($age_statuses as  $vas) { ?>
                         <li><?php echo $vas['title']; ?></li>
                       <?php } ?>
                     </ul>
+                    </div>
+                  <?php } ?>
+
+                  <?php if(!empty($project_nationality)){ ?>
+                    <div class="post-entry">
+                      <h4 class="font-alt mb-20">Религия / национальность</h4>
+                      <ul>
+                        <?php foreach ($project_nationality as  $vpn) { ?>
+                          <li><?php echo $vpn['title']; ?></li>
+                        <?php } ?>
+                      </ul>
+                    </div>
+                  <?php } ?>
+
+                  <?php if(!empty($project_professional)){ ?>
+                    <div class="post-entry">
+                      <h4 class="font-alt mb-20">Профессии</h4>
+                      <ul>
+                        <?php foreach ($project_professional as  $vpp) { ?>
+                          <li><?php echo $vpp['title']; ?></li>
+                        <?php } ?>
+                      </ul>
+                    </div>
+                  <?php } ?>
+
+                  <?php if(!empty($project_demographic)){ ?>
+                    <div class="post-entry">
+                      <h4 class="font-alt mb-20">Демография проекта</h4>
+                      <ul>
+                        <?php foreach ($project_demographic as  $vpp) { ?>
+                          <li><?php echo $vpp['title']; ?></li>
+                        <?php } ?>
+                      </ul>
                     </div>
                   <?php } ?>
                   
