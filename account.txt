@@ -13,7 +13,7 @@ mail6@mail.ru 123123 - участник
 - в адптациюю или настроку проекта добавить "Партнерство, Консультации, Франчайзинг"
 
 
-
+!!!!! добавить проверку бест практикс если есть проекты
 
 3 уведомитть  адаптора о том что пользователь хочет взять его проект, в лк добавить вкладку "уведомления"
 4 добавить стаус заявки (в работе)
@@ -31,3 +31,6 @@ ALEXEYLIDOVSKY@GMAIL.COM
 
 
 ALTER TABLE `oc_project` ADD `project_relation_id` INT(11) NOT NULL AFTER `project_status_id`;
+
+
+http://ebookfriendly.com/free-public-domain-books-sources/

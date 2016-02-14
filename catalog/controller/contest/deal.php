@@ -395,7 +395,7 @@ class ControllerContestDeal extends Controller {
 		//получим список проектов из таблицы contest_adaptor где customer_id=customer_id AND contest_id=contest_id
 		//узнаем подавал ли пользователь на адаптацию свой проект 
 	  	$results_personal_adaptive_projects = $this->model_contest_contest->getPersonalAdaptive($customer_id,$contest_id);
-	  	$data['my_adaptive_projects_for_contest'] = 0;
+	  	$data['my_adaptive_projects_for_contest'] = array();
 	  	$data['my_adaptive_projects_for_contest'] = $results_personal_adaptive_projects['project_id'];
 	  	
 

@@ -56,6 +56,7 @@ class ModelProjectProject extends Model {
 
 		$this->db->query("INSERT INTO " . DB_PREFIX . "project SET 
 			customer_id = '" . (int)$customer_id . "',
+			project_mod_id = '" . (int)$data['project_mod_id']. "',
 			image = '" . $this->db->escape($data['image']) . "',
 			project_birthday = '" . $this->db->escape($data['project_birthday']) . "',
 			project_init_group_id = '" . (int)$data['project_init_group_id']. "', 

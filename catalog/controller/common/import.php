@@ -51,16 +51,240 @@ class ControllerCommonImport extends Controller {
 			//
 
 			//получение администратора и других пользователее этой группы
+	}
+	public function addevents(){
+		print_r('импорт событий');
+		$i=1;
+		$this->load->model('tool/upload');
+		$this->load->model('account/customer');
+		$this->load->model('group/group');
+		$this->load->model('project/project');
+		$this->load->model('catalog/news');
+
+		$query_projects = $this->db->query("SELECT * FROM  `modx_site_content` WHERE parent = '4'");
+
+		foreach ($query_projects->rows as $key => $vqp) {
 
 
+			$query_news_info 		= $this->db->query("SELECT tmplvarid,value FROM  `modx_site_content` , `modx_site_tmplvar_contentvalues` WHERE  `modx_site_content`.id = `modx_site_tmplvar_contentvalues`.contentid AND `modx_site_content`.id = '".(int)$vqp['id']."'");
+				
 
 
+			//print_r('---------------');
+			//print_r('<pre>');
+			//print_r($query_news_info->rows);
+			//print_r('</pre>');
 
+			$image = '';
+			$group_name = '';
+			$city = '';
+			$country = '';
+			foreach ($query_news_info->rows as $vni) {
 
+				if($vni['tmplvarid'] == 1){
+					$image = $vni['value'];
+				}
+
+				if($vni['tmplvarid'] == 4){
+					$group_name = $vni['value'];
+				}
+
+				if($vni['tmplvarid'] == 3){
+					$city = $vni['value'];
+				}	
+
+				if($vni['tmplvarid'] == 13){
+					$country = $vni['value'];
+				}				
+				
+
+			}
+
+			//print_r($group_name);
+			$group_info 		= $this->db->query("SELECT * FROM `oc_init_group_description` WHERE `title` LIKE '".$group_name."' ");
+			$group = array();
+			$group = $group_info->row;
+
+			if(!empty($group)){
+				$init_group_id = $group['init_group_id'];
+			}
+			$data_desc = array();
+			$data_desc[2]['title'] 			=  $vqp['pagetitle'];
+            $data_desc[2]['description'] 	=  $vqp['content'];
+            $data_desc[2]['short_description'] 	=  strip_tags($vqp['content']);
+			
+			$init_group_info 		= $this->db->query("SELECT * FROM `oc_init_group` WHERE `init_group_id` = '".$init_group_id."' ");
+			$init_group = array();
+			$init_group = $init_group_info->row;
+			$customer_id = $init_group['customer_id'];
+			$news[] = array(
+				'customer_id' 			=> $customer_id,
+				'init_group_id' 		=> $init_group_id,
+				'image'					=> '',
+				'image1'					=> $image,
+				'country'				=> $country,
+				'city'					=> $city,	
+				'date_added'			=> date("Y-m-d H:i:s", $vqp['createdon']),
+				'keyword'				=> '',
+				'news_description'   	=> $data_desc,
+				'status'				=> '1'
+				
+			);
+		}
+		//print_r('<pre>');
+		//print_r($news);
+		//print_r('</pre>');
+		$i=0;
+
+		foreach ($news as $vn) {
+
+			$news_id = $this->model_catalog_news->addNews($vn);
+			
+			if(is_file(DIR_OLD_IMAGE.$vn['image1'])){
+				$customer_id = $vn['customer_id'];
+				print_r(DIR_OLD_IMAGE.$vn['image1']);
+				$old_im = explode('/', $vn['image1']);
+			
+				$file_name = $old_im[count($old_im)-1];
+				// Sanitize the filename
+				$filename = basename(preg_replace('/[^a-zA-Z0-9\.\-\s+]/', '', html_entity_decode($file_name, ENT_QUOTES, 'UTF-8')));
+				
+
+				$folder_name = md5($customer_id).'/';
+				$code = md5(mt_rand());
+				//создаем папку с назанием 
+				if (!is_dir(DIR_UPLOAD . $folder_name)) {
+					mkdir(DIR_UPLOAD . $folder_name, 0777);
+				}
+				$file = $folder_name . $filename. '.' . $code ;
+				copy(DIR_OLD_IMAGE.$vn['image1'], DIR_UPLOAD . $file);
+				$code_= $this->model_tool_upload->addUpload($file_name, $file);
+				print_r($code_);
+				//добавим изображение в аватар
+				$this->db->query("UPDATE " . DB_PREFIX . "news SET image = '" . $code_ . "' WHERE news_id = '" . (int)$news_id . "'");
+				print_r('<pre>');
+				print_r('добавили изображение в для новости пользователя с ID = '.$customer_id) ;
+				print_r('</pre>');
+			}
+			$i++;
+		}
+	
 
 	}
+
+	public function anons(){
+/*
+		print_r('импорт проектов');
+		$i=1;
+		$this->load->model('tool/upload');
+		$this->load->model('account/customer');
+		$this->load->model('group/group');
+		$this->load->model('project/project');
+		$this->load->model('catalog/news');
+
+		$results_groups = $this->model_group_group->getGroups();
+		foreach ($results_groups as $vgg) {
+			//print_r('<pre>');
+			//print_r('Номер группы в ос '.$vgg['mod_group_id']);
+			//print_r('</pre>');
+			
+			//id владельца проекта
+			$customer_id = $vgg['customer_id'];
+			$init_group_id = $vgg['init_group_id'];
+			if($vgg['mod_group_id']!=0){
+				//получим доп инфу о группе
+				$query_group_info 		= $this->db->query("SELECT tmplvarid,value FROM  `modx_site_content` , `modx_site_tmplvar_contentvalues` WHERE  `modx_site_content`.id = `modx_site_tmplvar_contentvalues`.contentid AND `modx_site_content`.id = '".(int)$vgg['mod_group_id']."'");
+				$group_parent_id = 0;
+				$group_parent_news_id = 0;
+				print_r('<pre>');
+				print_r($query_group_info->rows);
+				print_r('</pre>');
+				foreach ($query_group_info->rows  as  $vqqi) {
+					//получаем parent для проектов
+					if($vqqi['tmplvarid'] == 5){
+						//print_r('<pre>');
+						//print_r('из доп инфы, parent для проектов '.$vqqi['value']);
+						//print_r('</pre>');
+						$group_parent_id = $vqqi['value'];
+					}
+					if($vqqi['tmplvarid'] == 8){
+						//print_r('<pre>');
+						//print_r('из доп инфы, parent для новостей '.$vqqi['value']);
+						//print_r('</pre>');
+						$group_parent_news_id = $vqqi['value'];
+
+					}
+				}
+
+
+				$news_for_group = array();
+
+				if($group_parent_news_id > 0){
+
+					$query_projects = $this->db->query("SELECT * FROM  `modx_site_content` WHERE parent = '".(int)$group_parent_news_id."'");
+					//получили что для группы есть такие то проекты
+					if(!empty($query_projects->rows)){
+						///Значит есть проекты
+						foreach ($query_projects->rows as $vqp) {
+							//print_r($vqp);
+							//получим доп инфу о проекте
+							print_r('ID проекта d mod '.$vqp['id']);
+							
+							
+							
+							$data_desc = array();
+							$data_desc[2]['title'] 			=  $vqp['pagetitle'];
+				            $data_desc[2]['description'] 	=  $vqp['content'];
+				            $data_desc[2]['short_description'] 	=  strip_tags($vqp['content']);
+							
+							$news_for_group[] = array(
+								'customer_id' 			=> $customer_id,
+								'init_group_id' 		=> $init_group_id,
+								'image'					=> '',
+								'date_added'			=> date("Y-m-d H:i:s", $vqp['createdon']),
+								'keyword'				=> '',
+								'news_description'   	=> $data_desc,
+								'status'				=> '1'
+								
+							);
+
+							//break;
+
+						}
+
+						print_r('<pre>');
+						print_r($news_for_group);
+						print_r('</pre>');
+						
+						foreach ($news_for_group as $vpg) {
+							//break;
+							//добавляем проект
+							$customer_id =  $vpg['customer_id'];
+							//$news_id = $this->model_catalog_news->addNews($vpg);
+							print_r('добавили нвоость ,'.$news_id);
+						
+							//die();
+							
+						}
+
+
+						$i++;
+					}
+					
+				}
+				
+			}
+
+			print_r('<pre>');
+			print_r('----------------------------');
+			print_r('</pre>');
+		}
+		*/
+		
+	}
+
 	public function project(){
-		/*
+	/*	
 		print_r('импорт проектов');
 		$i=1;
 		$this->load->model('tool/upload');
@@ -71,37 +295,49 @@ class ControllerCommonImport extends Controller {
 		$results_groups = $this->model_group_group->getGroups();
 		foreach ($results_groups as $vgg) {
 			print_r('<pre>');
-			print_r($vgg['mod_group_id']);
+			print_r('Номер группы в ос '.$vgg['mod_group_id']);
 			print_r('</pre>');
 			
 			//id владельца проекта
 			$customer_id = $vgg['customer_id'];
 			$init_group_id = $vgg['init_group_id'];
 			if($vgg['mod_group_id']!=0){
-				
+				//получим доп инфу о группе
 				$query_group_info 		= $this->db->query("SELECT tmplvarid,value FROM  `modx_site_content` , `modx_site_tmplvar_contentvalues` WHERE  `modx_site_content`.id = `modx_site_tmplvar_contentvalues`.contentid AND `modx_site_content`.id = '".(int)$vgg['mod_group_id']."'");
 				$group_parent_id = 0;
+				$group_parent_news_id = 0;
+			//	print_r('<pre>');
+			//	print_r($query_group_info->rows);
+			//	print_r('</pre>');
 				foreach ($query_group_info->rows  as  $vqqi) {
 					//получаем parent для проектов
 					if($vqqi['tmplvarid'] == 5){
 						print_r('<pre>');
-						print_r('parent для проектов'.$vqqi['value']);
+						print_r('из доп инфы, parent для проектов '.$vqqi['value']);
 						print_r('</pre>');
 						$group_parent_id = $vqqi['value'];
 					}
+					if($vqqi['tmplvarid'] == 8){
+						//print_r('<pre>');
+						//print_r('из доп инфы, parent для новостей '.$vqqi['value']);
+						//print_r('</pre>');
+						$group_parent_news_id = $vqqi['value'];
+					}
 				}
+
 
 				$project_for_group = array();
 
 				if($group_parent_id > 0){
 
 					$query_projects = $this->db->query("SELECT * FROM  `modx_site_content` WHERE parent = '".(int)$group_parent_id."'");
-
+					//получили что для группы есть такие то проекты
 					if(!empty($query_projects->rows)){
 						///Значит есть проекты
 						foreach ($query_projects->rows as $vqp) {
 							//print_r($vqp);
 							//получим доп инфу о проекте
+							print_r('ID проекта d mod '.$vqp['id']);
 							$query_project_info = $this->db->query("SELECT tmplvarid,value FROM  `modx_site_content` , `modx_site_tmplvar_contentvalues` WHERE  `modx_site_content`.id = `modx_site_tmplvar_contentvalues`.contentid AND `modx_site_content`.id = '".(int)$vqp['id']."'");
 							$description_project = $vqp['content'];
 							$product_project = '';
@@ -173,6 +409,8 @@ class ControllerCommonImport extends Controller {
 
 							$project_for_group[] = array(
 								'customer_id' 			=> $customer_id,
+								'project_mod_id'		=> $vqp['id'],
+								'project_relation_id'   => 0,
 								'init_group_id' 		=> $init_group_id,
 								'project_birthday'		=> date("Y-m-d H:i:s", $vqp['createdon']),
 								'project_status_id'		=> 3,
@@ -243,8 +481,8 @@ class ControllerCommonImport extends Controller {
 		}
 
 		//$query = $this->db->query("SELECT id,pagetitle FROM  `modx_site_content` WHERE parent = 613");
-
-	*/
+*/
+	
 	}
 	public function group(){
 		/*
@@ -494,7 +732,7 @@ class ControllerCommonImport extends Controller {
 			
 
 		}
-		*/
 		
+		*/
 	}
 }

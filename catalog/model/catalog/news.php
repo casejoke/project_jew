@@ -31,4 +31,35 @@ class ModelCatalogNews extends Model {
 	
 		return $query->row['total'];
 	}
+
+	public function addNews($data) {
+
+
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "news SET 
+			customer_id  = '" .(int)$data['customer_id'] . "',
+			country  = '" .$this->db->escape($data['country']) . "',
+			city  = '" .$this->db->escape($data['city']) . "',
+			init_group_id  = '" .(int)$data['init_group_id'] . "',
+			image = '" . $this->db->escape($data['image']) . "', 
+			date_added = '" . $this->db->escape($data['date_added']) . "', 
+			status = '" . (int)$data['status'] . "'
+		");
+		
+		$news_id = $this->db->getLastId();
+		
+		foreach ($data['news_description'] as $key => $value) {
+			$this->db->query("INSERT INTO " . DB_PREFIX ."news_description SET 
+				news_id = '" . (int)$news_id . "', 
+				language_id = '" . (int)$key . "', 
+				title = '" . $this->db->escape($value['title']) . "', 
+				description = '" . $this->db->escape($value['description']) . "', 
+				short_description = '" . $this->db->escape($value['short_description']) . "'");
+		}
+		
+		if ($data['keyword']) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'news_id=" . (int)$news_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
+		}
+		return $news_id;
+	}
 }

@@ -48,7 +48,7 @@
 
             <li class="hidden"><a href="#blog"           data-toggle="tab" aria-expanded="true">Мой блог</a></li> 
             <li><a href="#promocode" data-toggle="tab" aria-expanded="true">Промокод</a></li> 
-             
+             <li><a href="#promocode" data-toggle="tab" aria-expanded="true">Уведомления</a></li>  
             
           </ul>
 
