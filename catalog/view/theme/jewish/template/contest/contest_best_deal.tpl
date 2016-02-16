@@ -37,7 +37,15 @@
                     </div>
 
                   <?php } ?>
-                <?php } ?>
+                <?php } else { ?>
+                <div class="col-sm-12">
+                  <h5 class="font-alt">Вы не можете принять участие в Конкурсе, пока не внесете в общую базу для обмена опытом свой проект, реализованный в рамках программ, указанных в <a href="<?php echo $contest_href; ?>">положении о Конкурсе</a>.</h5>
+                </div>
+                  
+                <?php }?>
+                <div class="col-sm-6 col-sm-offset-3">
+                  <a href="<?php echo $add_project; ?>" class="btn btn-round btn-block btn-info mb-40 mt-20">Создать проект</a>
+                </div>
             </div>
             <script type="text/javascript">
               var selectProject = 0;
@@ -85,36 +93,7 @@
         <!-- Widget start -->
         <div class="widget ">
           <h5 class="widget-title font-alt">Новости проекта</h5>
-          <ul class="widget-posts">
-      
-            <li class="clearfix">
-              <div class="widget-posts-image">
-                <a href="#"><img src="image/noimage.png" alt=""></a>
-              </div>
-              <div class="widget-posts-body">
-                <div class="widget-posts-title">
-                  <a href="#">Designer Desk Essentials</a>
-                </div>
-                <div class="widget-posts-meta">
-                  23 November
-                </div>
-              </div>
-            </li>
-      
-            <li class="clearfix">
-              <div class="widget-posts-image">
-                <a href="#"><img src="image/noimage.png" alt=""></a>
-              </div>
-              <div class="widget-posts-body">
-                <div class="widget-posts-title">
-                  <a href="#">Realistic Business Card Mockup</a>
-                </div>
-                <div class="widget-posts-meta">
-                  15 November
-                </div>
-              </div>
-            </li>
-          </ul>
+          
         </div>
         <!-- Widget end -->
 

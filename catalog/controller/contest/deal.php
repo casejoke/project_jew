@@ -389,14 +389,18 @@ class ControllerContestDeal extends Controller {
 		}
 
 		
-		
-
+		$data['contest_href'] = $this->url->link('contest/view', 'contest_id='.$contest_id, 'SSL');
+		$data['add_project'] = $this->url->link('project/edit', '', 'SSL'); 
 
 		//получим список проектов из таблицы contest_adaptor где customer_id=customer_id AND contest_id=contest_id
 		//узнаем подавал ли пользователь на адаптацию свой проект 
 	  	$results_personal_adaptive_projects = $this->model_contest_contest->getPersonalAdaptive($customer_id,$contest_id);
-	  	$data['my_adaptive_projects_for_contest'] = array();
-	  	$data['my_adaptive_projects_for_contest'] = $results_personal_adaptive_projects['project_id'];
+
+	  	$data['my_adaptive_projects_for_contest'] = 0;
+	  	if(!empty($results_personal_adaptive_projects)){
+	  		$data['my_adaptive_projects_for_contest'] = $results_personal_adaptive_projects['project_id'];
+	  	}
+	  	
 	  	
 
 

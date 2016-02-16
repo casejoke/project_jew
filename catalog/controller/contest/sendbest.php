@@ -297,8 +297,12 @@ class ControllerContestSendbest extends Controller {
 //************************* инфо огруппе *************************//  
     //подтянем администратора группы если есть группа и в данном конкурсе нужна группа
     $admin_id = $project_info['customer_id'];
-
-    $init_group_information = $data['init_groups'][$project_info['project_init_group_id']] ;
+    if(!empty($data['init_groups'][$project_info['project_init_group_id']])){
+      $init_group_information = $data['init_groups'][$project_info['project_init_group_id']] ;
+    }else{
+      $init_group_information = 0;
+    }
+    
     
     //подменяем инфу о проекте
     $project_info = array();

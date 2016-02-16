@@ -33,11 +33,7 @@
           <?php if (!$is_expert) { ?>
             <div class="row">
               <div class="form-group">
-                
-                <div class="col-sm-6 ">
-                  <a href="<?php echo $add_project; ?>" class="btn btn-round btn-block btn-info mb-40 mt-20">Создать проект</a>
-                </div>
-                <div class="col-sm-6 ">
+                <div class="col-sm-6 col-sm-offset-3">
                   <a href="<?php echo $im_deal; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20"><?php echo $text_im_deal; ?></a>
                 </div>
               </div>  

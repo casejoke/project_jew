@@ -4,7 +4,7 @@ $_['heading_title_add_project']   = 'Добавить проект';
 $_['heading_title_edit_project']  = 'Редактировать проект';
 
 // Text
-$_['text_add']					= 'Создать';
+$_['text_add']					= 'Создать проект';
 $_['text_edit']					= 'Обновить';
 $_['text_account']       		= 'Личный Кабинет';
 $_['text_edit']          		= 'Редактировать информацию';

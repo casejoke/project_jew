@@ -308,28 +308,29 @@
                     </div>
                   </div>
                 </div>
-
-
               </div><!-- /.row -->
-            
-
-
-
-
-
-            
+            </div>
           </div>
-          
-
-
-
-
-
-
-
-
-
         </div>
+      <hr class="divider-w mt-10 mb-20">
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2">
+            <h6 class="font-alt">Укажите промокод для участия в конкурсе Best Practice:</h6>
+
+            <div class="row">
+              <div class="form-group col-xs-6">
+                <input class="form-control" type="text" placeholder="" id="in-promocode">
+              </div>
+              <div class="form-group col-xs-6">
+                <a href="#" class="btn btn-round btn-block btn-info" id="send_promocode">Проверить</a>
+              </div>
+            </div>
+            
+            
+            <div class="alert alert-danger" role="alert">
+              <strong>Alert!</strong> The European languages are members of the same family.
+            </div>
+          </div>
         </div>
       <hr class="divider-w mt-10 mb-20">
         <div class="row">

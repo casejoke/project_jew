@@ -48,6 +48,11 @@ var upload =  {
 	}
 };
 
+
+var promocode = {
+	
+};
+
 $(document).ready(function() {
 	$('#language a:first').tab('show');
 
