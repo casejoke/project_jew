@@ -72,9 +72,11 @@ class ModelAccountPromocode extends Model {
 	      WHERE customer_promocode_id = '" . (int)$customer_promocode_id['customer_promocode_id'] . "'");
 		 return $customer_promocode_id['promocode_id'];
 	}
+
+	
 	public function activatePromocode($promocode_id,$customer_id){
 		 $this->db->query("UPDATE " . DB_PREFIX . "customer_to_promocode SET 
-		  customer_id = '" . (int)$customer_id . "',	
+		  	customer_id = '" . (int)$customer_id . "',	
 	      status = '2'
 	      WHERE promocode_id = '" . $this->db->escape($promocode_id) . "'");
 

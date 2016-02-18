@@ -59,13 +59,18 @@ class ControllerInformationNews extends Controller {
 		$data['all_news'] = array();
 		
 		$this->load->model('tool/image');
-	 
+	 	$this->load->model('tool/upload');
+		
 		foreach ($all_news as $news) {
 			if ($news['image']) {
-				$image = $this->model_tool_image->resize($news['image'], 830, 400, 'w');
+			//	$image = $this->model_tool_image->resize($news['image'], 830, 400, 'w');
+				$upload_info = $this->model_tool_upload->getUploadByCode($news['image']);
+				$filename = $upload_info['filename'];
+				$image = $this->model_tool_upload->resize($filename , 800, 460,'w');
 			} else {
 				$image = $this->model_tool_image->resize('placeholder.png', 830, 400, 'w');
 			}
+			
 			$data['all_news'][] = array (
 				'title' 		=> html_entity_decode($news['title'], ENT_QUOTES),
 				'image'			=> $image,

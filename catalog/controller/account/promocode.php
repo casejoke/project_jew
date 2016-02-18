@@ -30,6 +30,23 @@ class ControllerAccountPromocode extends Controller {
 
 
 	}
+	public function validatecode(){
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/account', '', 'SSL');
+			$this->response->redirect($this->url->link('account/login', '', 'SSL'));
+		}
+		$json = array();
+		$this->load->model('project/project');
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+			$json['success'] = true;
+		}else{
+			$json['error'] = $this->error;
+		}
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+
+	}
+
 	public function activate(){
 		if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->url->link('account/account', '', 'SSL');

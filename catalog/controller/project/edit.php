@@ -45,6 +45,45 @@ class ControllerProjectEdit extends Controller {
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			if (isset($this->request->get['project_id'])) {
 				$this->model_project_project->editProject($this->request->get['project_id'], $this->request->post,$customer_id);
+				//
+				
+				//проверяем не активирован ли уже проект и не являяется победителем
+				if(!empty($this->request->post['promocode'])){
+
+					
+					$this->load->model('account/promocode');
+					$_post = $this->request->post;
+					$promocode_info = $this->model_account_promocode->getPromocodeDescription($_post['promocode']);
+					$activate_code = 1;
+					if(empty($promocode_info)){
+						$activate_code = 0;
+					}
+					if(isset($promocode_info['status']) && $promocode_info['status'] != 1){
+						//$activate_code = false;
+					}
+					if(isset($promocode_info['status']) && $promocode_info['status'] == 0){
+						$activate_code = 0;
+					}
+					print_r('<pre>');
+					print_r($activate_code);
+					print_r('</pre>');
+
+					print_r('<pre>');
+					print_r($promocode_info);
+					print_r('</pre>');
+					
+					if($activate_code){
+						
+						$cwinn_id = $this->model_account_promocode->addWinnerContestBest($this->request->get['project_id'],$customer_id,$this->request->post['promocode']);
+					}
+						print_r('<pre>');
+					print_r($cwinn_id);
+					print_r('</pre>');
+					die();
+					
+				}
+				
+
 			} else {
 				$this->model_project_project->addProject($this->request->post,$customer_id);
 			}
@@ -461,6 +500,11 @@ class ControllerProjectEdit extends Controller {
 			}
 */
 		}
+
+		
+
+
+
 /*
 		if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
 			$this->error['lastname'] = $this->language->get('error_lastname');
