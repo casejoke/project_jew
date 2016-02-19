@@ -49,6 +49,7 @@ class ModelProjectProject extends Model {
 				keyword = '" . $this->db->escape($data['keyword']) . "'
 			");
 		}
+		return $project_id;
 
 	}
 	public function addProjectI($data,$customer_id) {

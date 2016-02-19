@@ -59,6 +59,12 @@ class ModelAccountPromocode extends Model {
 		return $cwinn_id;
 
 	}
+	public function deactivatePromocode($customer_id,$promocode_id){
+		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_promocode SET 
+			customer_id = '" . (int)$customer_id . "',
+		  	status = '0'
+	    WHERE promocode_id = '" . $promocode_id . "'");
+	}
 	public function initPromocode($customer_id){
 		//cстатусы промокодов 
 		//0 исользованный - потрачен на активацию конкурса
