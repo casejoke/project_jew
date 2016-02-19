@@ -313,6 +313,7 @@
           </div>
         </div>
       <hr class="divider-w mt-10 mb-20">
+      <?php if(empty($isset_deactive_promocode_for_project)) { ?>
         <div class="row">
           <div class="col-sm-8 col-sm-offset-2">
             <h6 class="font-alt">Укажите промокод для участия в конкурсе Best Practice:</h6>
@@ -334,7 +335,16 @@
             </div>
           </div>
         </div>
-      <hr class="divider-w mt-10 mb-20">
+        
+        <?php } else { ?>
+          <div class="row">
+          <div class="col-sm-8 ext-center col-sm-offset-2">
+          <h6 class="font-alt t">Для данного проекта активирован промокод: <?php echo $isset_deactive_promocode_for_project['promocode_id'];?></h6>
+          <h6 class="small">Данный проект, может усчаствовать в конкурсе BestPractice.</h6>
+          </div>
+          </div>
+        <?php }?>
+        <hr class="divider-w mt-10 mb-20">
         <div class="row">
 
           <div class="form-group">

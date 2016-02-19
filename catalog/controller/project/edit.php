@@ -38,6 +38,7 @@ class ControllerProjectEdit extends Controller {
 		$this->load->model('project/project');
 		$this->load->model('tool/upload');
 		$this->load->model('tool/image');
+		$this->load->model('account/promocode');
 		//информация о пользователе
 		$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 		$customer_id = $this->customer->getId();
@@ -460,9 +461,18 @@ class ControllerProjectEdit extends Controller {
 			$data['project_relation_id'] = 0;
 		}
 
-		//проверка на промокод
-	
+		
+		$data['isset_deactive_promocode_for_project'] =array();
+		if (isset($this->request->get['project_id']) ) {
+			$data['isset_deactive_promocode_for_project'] = $this->model_account_promocode->getInfoAboutPromocodeProject($this->request->get['project_id']);
+			
+		} 
+		print_r('<pre>');
+		print_r($data['isset_deactive_promocode_for_project']);
+		print_r('</pre>');
 
+		//проверка на промокод
+		
 
 /*
 				'sex_title' 		=> $ssr['name']

@@ -65,6 +65,12 @@ class ModelAccountPromocode extends Model {
 		  	status = '0'
 	    WHERE promocode_id = '" . $promocode_id . "'");
 	}
+
+	public function getInfoAboutPromocodeProject($project_id){
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_winner WHERE project_id = '" . (int)$project_id  . "'");
+		return $query->row;
+	}
+
 	public function initPromocode($customer_id){
 		//cстатусы промокодов 
 		//0 исользованный - потрачен на активацию конкурса
