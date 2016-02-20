@@ -47,8 +47,8 @@
             <?php if(!empty($request_for_expert)){ ?><li><a href="#customer_expert" data-toggle="tab" aria-expanded="true">Заявки для оценки</a></li><?php } ?>
 
             <li class="hidden"><a href="#blog"           data-toggle="tab" aria-expanded="true">Мой блог</a></li> 
-            <li><a href="#promocode" data-toggle="tab" aria-expanded="true">Промокод</a></li> 
-             <li><a href="#promocode" data-toggle="tab" aria-expanded="true">Уведомления</a></li>  
+            <li class="hidden"><a href="#promocode" data-toggle="tab" aria-expanded="true">Промокод</a></li> 
+             <li><a href="#notice" data-toggle="tab" aria-expanded="true">Уведомления</a></li>  
             
           </ul>
 
@@ -251,6 +251,9 @@
               Мой блог
             </div><!-- /.blog -->
 
+            <div class="tab-pane" id="notice">
+              Уведомление
+            </div>
             <div class="tab-pane" id="promocode">
                 <div class="row">
                   

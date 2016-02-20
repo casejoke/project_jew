@@ -467,9 +467,7 @@ class ControllerProjectEdit extends Controller {
 			$data['isset_deactive_promocode_for_project'] = $this->model_account_promocode->getInfoAboutPromocodeProject($this->request->get['project_id']);
 			
 		} 
-		print_r('<pre>');
-		print_r($data['isset_deactive_promocode_for_project']);
-		print_r('</pre>');
+		
 
 		//проверка на промокод
 		
