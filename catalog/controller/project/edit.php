@@ -449,6 +449,16 @@ class ControllerProjectEdit extends Controller {
 		}
 
 
+//видимость проекта для всех
+//0 - не видим для всех
+//1 - виден для всех
+		if (isset($this->request->post['visibility'])) {
+			$data['visibility'] = $this->request->post['visibility'];
+		} elseif (!empty($project_info)) {
+			$data['visibility'] = $project_info['visibility'];
+		} else {
+			$data['visibility'] = 0;
+		}
 
 		$data['relation_statuses'] = $this->model_project_project->getListRelationshipAdaptor();
 		

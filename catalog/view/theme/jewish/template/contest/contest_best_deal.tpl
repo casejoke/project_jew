@@ -58,10 +58,30 @@
 
 
             <h4 class="font-alt mb-0"><?php echo ($my_adaptive_projects_for_contest == 0)?'2. ':'';?>Укажите проект для адаптации </h4>
+              <?php if(!empty($adaptive_projects)) { ?>
+              <div class="row mt-30  mb-30">
+
+                <div class="col-sm-8 col-sm-offset-2">
+
+                  <form role="form">
+                  
+                    <div class="search-box">
+                      <input type="text" class="form-control" placeholder="Укажите название проекта">
+                      <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+
+                  </form>
+
+                </div>
+
+              </div>
+              <?php } ?>
              <div class="row">
             <?php if(!empty($adaptive_projects)) { ?>
-                  <?php foreach ($adaptive_projects as $apc) { ?>
+                    
 
+                  <?php foreach ($adaptive_projects as $apc) { ?>
+                    
                     <div class="col-sm-6 col-md-4 col-lg-4">
                       <div class="price-table font-alt">
                          <a href="<?php echo $apc['project_action']['view']; ?>" target="_blank"><img src="<?php echo  $apc['project_image']; ?>" alt="<?php echo $apc['project_title']; ?>"></a>
@@ -92,7 +112,7 @@
       <div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
         <!-- Widget start -->
         <div class="widget ">
-          <h5 class="widget-title font-alt">Новости проекта</h5>
+          <h5 class="widget-title font-alt">Новости</h5>
           
         </div>
         <!-- Widget end -->

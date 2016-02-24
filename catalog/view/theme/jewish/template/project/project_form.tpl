@@ -136,11 +136,11 @@
                   </select>
                 </div>
               </div>
-
+  
 
               <div class="col-sm-6">
                 <div class="form-group">
-                  <label class="control-label" for="input-project_birthday"><?php echo $entry_project_status; ?></label>
+                  <label class="control-label" for="input-project_status_id"><?php echo $entry_project_status; ?></label>
                   <select class="form-control" name="project_status_id">
                     <option value="0"><?php echo $text_none; ?></option>
                     <?php if (!empty($project_statuses)) { ?>
@@ -155,6 +155,25 @@
                     <?php } ?>
                   </select>
                 </div>
+
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="control-label" for="input-visibility">Видимость проекта</label>
+                  <select class="form-control" name="project_visibility">
+                        <?php if ($visibility == 1) { ?>
+                          
+                          <option value="1" selected="selected">Виден всем</option>
+                          <option value="0">Виден только мне</option>
+                        <?php } else { ?>
+                          <option value="1">Виден всем</option>
+                          <option value="0" selected="selected">Виден только мне</option>
+                        <?php } ?>
+                      
+                  </select>
+                </div>
+
               </div>
 
               <div class="col-sm-6">
@@ -179,7 +198,24 @@
                   </div><!--/.form-group-->
                 </div>
               </div>
-
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="control-label" for="input-relation">Вид сотрудничества <a href="/relation_project_status" target="_blank"><i class="fa fa-info-circle"></i></a></label>
+                  <select class="form-control" name="project_relation_id">
+                    <option value="0"><?php echo $text_none; ?></option>
+                    <?php if (!empty($relation_statuses)) { ?>
+                      <?php foreach ($relation_statuses as $vrs) { ?>
+                        <?php if ($vrs['relation_status_id'] == $project_relation_id) { ?>
+                          <option value="<?php echo $vrs['relation_status_id']; ?>" selected="selected"><?php echo $vrs['relation_status_title']; ?></option>
+                        <?php } else { ?>
+                          <option value="<?php echo $vrs['relation_status_id']; ?>"><?php echo $vrs['relation_status_title']; ?></option>
+                        <?php } ?>
+                        
+                      <?php } ?>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
 
               <div class="col-sm-6">
                 <div class="row">
@@ -202,24 +238,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label class="control-label" for="input-relation">Вид сотрудничества <a href="/relation_project_status" target="_blank"><i class="fa fa-info-circle"></i></a></label>
-                  <select class="form-control" name="project_relation_id">
-                    <option value="0"><?php echo $text_none; ?></option>
-                    <?php if (!empty($relation_statuses)) { ?>
-                      <?php foreach ($relation_statuses as $vrs) { ?>
-                        <?php if ($vrs['relation_status_id'] == $project_relation_id) { ?>
-                          <option value="<?php echo $vrs['relation_status_id']; ?>" selected="selected"><?php echo $vrs['relation_status_title']; ?></option>
-                        <?php } else { ?>
-                          <option value="<?php echo $vrs['relation_status_id']; ?>"><?php echo $vrs['relation_status_title']; ?></option>
-                        <?php } ?>
-                        
-                      <?php } ?>
-                    <?php } ?>
-                  </select>
-                </div>
-              </div>
+              
 
 
              </div><!-- /.row -->

@@ -349,6 +349,20 @@ class ControllerContestDeal extends Controller {
 		$this->load->model('tool/image');
 
 
+/* search filter */
+//возраст
+
+		$filter_data = array();
+		$age_statuses_results = $this->model_project_project->getAgeStatuses($filter_data);
+		$data['age_statuses']  = array();
+		foreach ($age_statuses_results as $ssr) {
+			$data['age_statuses'][]  = array(
+				'age_status_id'	=> $ssr['age_status_id'],
+				'title'  => $ssr['name']
+			);
+		}
+
+/* search filter */
 	  //1 при помощи промокода мы метим проект как победитель (тоесть засовываем его в таблицу победителей contest_winner, в поле конкурс == 0, ), //чуть позже
 
 
