@@ -1,3 +1,4 @@
+<?php if(!empty($all_news)){ ?>
 <!-- WIDGET -->
 <div class="widget">
 	<h5 class="widget-title font-alt"><?php echo $heading_title; ?></h5>
@@ -22,3 +23,4 @@
 	</ul>
 </div>
 <!-- /WIDGET -->
+<?php } ?>

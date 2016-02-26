@@ -28,21 +28,23 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
-                    
+                     
                       <input type="hidden" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][field_id]" value="<?php echo $cfvalue['contest_field_id']; ?>"  id="input-<?php echo 'field_id_'.$cfvalue['contest_field_id']; ?>" class="form-control" />
+
+
                       <label class="control-label font-alt" for="input-<?php echo 'value_'.$cfvalue['contest_field_id']; ?>"><?php echo $cfvalue['contest_field_title']; ?></label>
                       <?php if(!empty($cfvalue['contest_field_description'])) {?> <p class="small"><?php echo $cfvalue['contest_field_description']; ?></p> <?php } ?>
                       <!-- select -->
 
                       
                       <?php if ($cfvalue['contest_field_type'] == 'select') { ?>
-            
+                           
                           <select name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][value]" id="input-<?php echo 'value_'.$cfvalue['contest_field_id']; ?>" class="form-control">
 
                             <option value=""><?php echo $text_select; ?></option>
                             <?php foreach ($cfvalue['contest_field_value'] as $custom_field_value) { ?>
 
-                            <?php if (isset($register_custom_field[$cfvalue['contest_field_id']]) && $cfvalue['contest_field_id'] == $register_custom_field[$custom_field['contest_field_id']]) { ?>
+                            <?php if ($cfvalue['contest_field_id'] == $cfvalue['value_r']) { ?>
                               <option value="<?php echo $custom_field_value['contest_field_value_id']; ?>" selected="selected"><?php echo $custom_field_value['name']; ?></option>
                             <?php } else { ?>
                               <option value="<?php echo $custom_field_value['contest_field_value_id']; ?>"><?php echo $custom_field_value['name']; ?></option>
@@ -64,7 +66,7 @@
                               <?php foreach ($cfvalue['contest_field_value'] as $custom_field_value) { ?>
                               
                               <div class="checkbox">
-                                <?php if (isset($register_custom_field[$cfvalue['contest_field_id']]) && in_array($custom_field_value['contest_field_value_id'], $register_custom_field[$cfvalue['contest_field_id']])) { ?>
+                                <?php if (in_array($custom_field_value['contest_field_value_id'], $cfvalue['value_r'])) { ?>
                                 <label>
                                   <input type="checkbox" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][value][]" value="<?php echo $custom_field_value['contest_field_value_id']; ?>" checked="checked" />
                                   <?php echo $custom_field_value['name']; ?></label>
@@ -84,8 +86,8 @@
 
                       <!-- text -->
                       <?php if ($cfvalue['contest_field_type'] == 'text') { ?>
-                      
-                          <input type="text" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][value]" value="<?php echo $cfvalue['contest_field_value']; ?>"  id="input-<?php echo 'value_'.$cfvalue['contest_field_id']; ?>" class="form-control" />
+
+                          <input type="text" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][value]" value="<?php echo $cfvalue['value_r']; ?>"  id="input-<?php echo 'value_'.$cfvalue['contest_field_id']; ?>" class="form-control" />
 
                           <?php if (isset($error_custom_field[$cfvalue['contest_field_id']])) { ?>
                           <div class="text-danger"><?php echo $error_custom_field[$cfvalue['contest_field_id']]; ?></div>
@@ -99,7 +101,7 @@
 
                         
                           
-                        <textarea name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][value]" rows="5"  id="input-<?php echo 'value_'.$cfvalue['contest_field_id']; ?>" class="form-control summer-text"><?php echo $cfvalue['contest_field_value']; ?></textarea>
+                        <textarea data-editor="summernote" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][value]" rows="5"  id="input-<?php echo 'value_'.$cfvalue['contest_field_id']; ?>" class="form-control summer-text"><?php echo $cfvalue['value_r']; ?></textarea>
                           <?php if (isset($error_custom_field[$cfvalue['contest_field_id']])) { ?>
                             <div class="text-danger"><?php echo $error_custom_field[$cfvalue['custom_field_id']]; ?></div>
                           <?php } ?>
@@ -127,6 +129,23 @@
               <?php } ?>
             <?php } ?>
 
+              <?php if(isset($draft) && $draft) {?>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                     <label class="control-label font-alt">Видимость заявки</label>    
+                     <p class="small">При установке статуса "черновик", заявка будет видна только вам, или по ссылке. Вы сможете в любой момент отредактировать ее и подать заявку.</p>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="draft" value="1" <?php if($draft_check == 3) echo 'checked'; ?> /> черновик
+                        </label>
+                      </div>
+                    </div>
+                </div>
+                 
+              </div>
+            <?php } ?>
+
               <hr class="divider-w mt-10 mb-20">
              <div class="row hidden">
               <div class="col-sm-12">
@@ -136,10 +155,12 @@
             </div>
 
             <div class="row">
+             
               <div class="form-group">
                 <div class="col-sm-6 col-sm-offset-3">
                   <input type="submit" value="<?php echo $text_submit;?>" class="btn btn-round btn-block btn-success" />
                 </div>
+
               </div>  
             </div> 
             </form>
@@ -193,7 +214,7 @@
                   <div class="post-entry">
                   <h4 class="font-alt mb-20">Вид сотрудничества</h4>
                   <ul>
-                      <li>Партнерство</li>
+                      <li>Консультация</li>
                   </ul>
                   </div>
 

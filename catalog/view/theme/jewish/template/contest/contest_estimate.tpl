@@ -41,20 +41,28 @@
 
                       <?php foreach ($cr['category_fields'] as $vcri) { ?>
                   
-                      <?php /*if($vcri['field_type'] == 'list'){ ?>
-                        <div class="col-sm-12">  
+                      <?php if($vcri['field_type'] == 'list'){ ?>
+                        <div class="col-sm-12"> 
+                          <div class="form-group">
+                            <label class="control-label font-alt" ><?php echo $vcri['field_title']; ?> </label>
+                          </div> 
                           <ul> 
                             <?php foreach ($vcri['field_value'] as $vfv) { ?>
                               <li><?php echo $vfv['title']; ?></li>
                             <?php } ?>
                           </ul>
                         </div>
-                      <?php } */?>
+                      <?php } ?>
+
+
 
                       <?php if($vcri['field_type'] == 'text'){ ?>
-                        <div class="col-sm-12">   
+                        <div class="col-sm-12">  
                           <div class="form-group">
                             <label class="control-label font-alt" ><?php echo $vcri['field_title']; ?> </label>
+                          </div> 
+                          <div class="form-group">
+                            
                             <?php echo html_entity_decode($vcri['field_value']); ?> 
                           </div>
                         </div>
@@ -65,7 +73,6 @@
                         <div class="col-sm-12">   
                           <div class="form-group">
                             <label class="control-label font-alt" ><?php echo $vcri['field_title']; ?> </label>
-                            
                           </div>
                           <div class="form-group">
                             <?php echo html_entity_decode($vcri['field_value']); ?> 

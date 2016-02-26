@@ -187,6 +187,8 @@ class ControllerContestEstimate extends Controller {
     $data['customer_field'] = array();
     foreach ($category_request_results as $crr) {
         $data_for_category = array();
+
+        
         foreach ($request_value['custom_fields'] as $kr => $vr) {
           if($crr['category_request_id'] == $kr){
             foreach ($vr as $vvr) {
@@ -199,21 +201,98 @@ class ControllerContestEstimate extends Controller {
              
 
               if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_age' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
+                $type = 'list';
                 $val_project_age = array();
                 $result_project_age = $this->model_contest_contest_field->getProjectAges();
                 foreach ($result_project_age  as $vpa) {
-                  foreach ($vvr['value'] as $vvvr) {
-                    if($vpa['contest_field_value_id'] == $vvvr){
-                      $val_project_age = array(
-                        'title' =>  $vpa['name']
-                      );
+          foreach ($vvr['value'] as $vvvr) {
+                      if($vpa['contest_field_value_id'] == $vvvr){
+                        $val_project_age[] = array(
+                          'title' =>  $vpa['name']
+                        );
+                      }
                     }
-                  }
                 }
                 $value_field = $val_project_age;
-                $type = 'list';
-
+                
+                
               }
+
+              if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_sex' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
+                $type = 'list';
+                $val_project_sex = array();
+                $result_project_sex = $this->model_contest_contest_field->getProjectSexs();
+                foreach ($result_project_age  as $vpa) {
+                  foreach ($vvr['value'] as $vvvr) {
+                              if($vpa['contest_field_value_id'] == $vvvr){
+                                $val_project_sex[] = array(
+                                  'title' =>  $vpa['name']
+                                );
+                              }
+                            }
+                        }
+                        $value_field = $val_project_sex;
+                        
+                        
+                      }
+
+                      if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_nationality' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
+                        $type = 'list';
+                        $val_project_nationality = array();
+                        $result_project_nationality = $this->model_contest_contest_field->getProjectNationalitys();
+                        foreach ($result_project_nationality  as $vpa) {
+                  foreach ($vvr['value'] as $vvvr) {
+                              if($vpa['contest_field_value_id'] == $vvvr){
+                                $val_project_nationality[] = array(
+                                  'title' =>  $vpa['name']
+                                );
+                              }
+                            }
+                        }
+                        $value_field = $val_project_nationality;
+                        
+                        
+                      }
+
+                      if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_professional' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
+                        $type = 'list';
+                        $val_project_professional = array();
+                        $result_project_professional = $this->model_contest_contest_field->getProjectProfessionals();
+                        foreach ($result_project_professional  as $vpa) {
+                  foreach ($vvr['value'] as $vvvr) {
+                              if($vpa['contest_field_value_id'] == $vvvr){
+                                $val_project_professional[] = array(
+                                  'title' =>  $vpa['name']
+                                );
+                              }
+                            }
+                        }
+                        $value_field = $val_project_professional;
+                        
+                        
+                      }
+
+                      if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_demographic' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
+                        $type = 'list';
+                        $val_project_demographic = array();
+                        $result_project_demographic = $this->model_contest_contest_field->getProjectDemographics();
+                        foreach ($result_project_demographic  as $vpa) {
+                  foreach ($vvr['value'] as $vvvr) {
+                              if($vpa['contest_field_value_id'] == $vvvr){
+                                $val_project_demographic[] = array(
+                                  'title' =>  $vpa['name']
+                                );
+                              }
+                            }
+                        }
+                        $value_field = $val_project_demographic;
+                        
+                        
+                      }
+
+
+
+              
               $data_for_category[] = array(
                 'field_id'    => $vvr['field_id'],
                 'field_value' => $value_field,

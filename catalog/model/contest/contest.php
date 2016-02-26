@@ -82,17 +82,36 @@ class ModelContestContest extends Model {
 	}
 
 	//для bestpractice
-	public function addRequest($data=array(),$customer_id,$contest_id,$adaptive_id){
-
+	public function addRequest($data=array(),$customer_id,$contest_id,$adaptive_id,$project_id){
+		$status =2;
+		if(isset($data['draft'])){
+			$status = 3;
+		}
 		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_to_contest SET 
 				contest_id = '" . (int)$contest_id . "',
 				customer_id = '" . (int)$customer_id . "',
+				project_id = '" . (int)$project_id . "',
 				adaptive_id = '" . (int)$adaptive_id . "',
-				status = '2',
+				status = '". (int)$status ."',
 				value  = '" . $this->db->escape(  serialize($data) ) . "', 
 				date_added = NOW()"
 			);
 			$customer_to_contest_id = $this->db->getLastId();
+
+		return $customer_to_contest_id;
+	}
+	//для bestpractice
+	public function editRequest($data=array(),$customer_to_contest_id){
+		$status =2;
+		if(isset($data['draft'])){
+			$status = 3;
+		}
+		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET 
+			value  = '" . $this->db->escape(  serialize($data) ) . "', 
+			status = '". (int)$status ."'
+			WHERE customer_to_contest_id = '" . (int)$customer_to_contest_id . "'
+		");
+			
 
 		return $customer_to_contest_id;
 	}

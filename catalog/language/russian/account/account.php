@@ -27,3 +27,4 @@ $_['text_logout']        = 'Выход';
 $_['text_status_not_accepted']      = 'Не одобрена';
 $_['text_status_accepted']        	= 'Одобрена';
 $_['text_status_processed']        	= 'В обработке';
+$_['text_status_draft']        	    = 'Черновик';

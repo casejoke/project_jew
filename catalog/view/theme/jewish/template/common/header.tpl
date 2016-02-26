@@ -72,7 +72,7 @@
               <li><a href="<?php echo $about_us;?>"><?php echo $text_about; ?></a></li>
               <li><a href="partners-list"><?php echo $text_partners; ?></a></li>
               <li><a href="<?php echo $news;?>"><?php echo $text_news; ?></a></li>
-              <li><a href="/"><?php echo $text_faq; ?></a></li>
+              <li class="hidden"><a href="/"><?php echo $text_faq; ?></a></li>
               <li class="hidden"><a href="#"><?php echo $text_materials; ?></a></li>
               
             </ul>
@@ -91,7 +91,7 @@
 
           
     
-          <li class="dropdown">
+          <li class="dropdown hidden">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-search"></i>
             </a>

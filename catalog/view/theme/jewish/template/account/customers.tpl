@@ -42,14 +42,7 @@
     </div><!-- /.col-sm-10 -->
     <!-- Sidebar column start -->
     <div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
-      <!-- Widget start -->
-      <div class="widget ">
-        <h5 class="widget-title font-alt">Анонсы</h5>
-        <ul class="widget-posts">
-    
-        </ul>
-      </div>
-      <!-- Widget end -->
+     
       <?php echo $column_right; ?>
     </div><!-- Sidebar column end -->
     </div><!-- /.row -->

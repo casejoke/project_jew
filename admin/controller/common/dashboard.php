@@ -28,13 +28,13 @@ class ControllerCommonDashboard extends Controller {
 		}
 
 		$data['token'] = $this->session->data['token'];
-
+		
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['customer'] = $this->load->controller('dashboard/customer');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		
+		$this->response->redirect($this->url->link('contest/contest_request', 'token=' . $this->session->data['token'], 'SSL'));
 		$this->response->setOutput($this->load->view('common/dashboard.tpl', $data));
 	}
 }

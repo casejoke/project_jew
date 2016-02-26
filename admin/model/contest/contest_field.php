@@ -207,4 +207,80 @@ class ModelContestContestField extends Model {
 
 		return $query->row['total'];
 	}
+	public function getProjectAges(){
+			$contest_field_value_data = array();
+
+			$contest_field_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "age_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+			foreach ($contest_field_value_query->rows as $contest_field_value) {
+				$contest_field_value_data[$contest_field_value['age_status_id']] = array(
+					'contest_field_value_id' => $contest_field_value['age_status_id'],
+					'name'                  => $contest_field_value['name']
+				);
+			}
+
+			return $contest_field_value_data;
+	}
+
+	
+	public function getProjectSexs(){
+			$contest_field_value_data = array();
+
+			$contest_field_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "sex_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+			foreach ($contest_field_value_query->rows as $contest_field_value) {
+				$contest_field_value_data[$contest_field_value['sex_status_id']] = array(
+					'contest_field_value_id' => $contest_field_value['sex_status_id'],
+					'name'                  => $contest_field_value['name']
+				);
+			}
+
+			return $contest_field_value_data;
+	}
+
+
+	public function getProjectNationalitys(){
+			$contest_field_value_data = array();
+
+			$contest_field_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "nationality_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+			foreach ($contest_field_value_query->rows as $contest_field_value) {
+				$contest_field_value_data[$contest_field_value['nationality_status_id']] = array(
+					'contest_field_value_id' => $contest_field_value['nationality_status_id'],
+					'name'                  => $contest_field_value['name']
+				);
+			}
+
+			return $contest_field_value_data;
+	}
+
+	public function getProjectProfessionals(){
+			$contest_field_value_data = array();
+
+			$contest_field_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "professional_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+			foreach ($contest_field_value_query->rows as $contest_field_value) {
+				$contest_field_value_data[$contest_field_value['professional_status_id']] = array(
+					'contest_field_value_id' => $contest_field_value['professional_status_id'],
+					'name'                  => $contest_field_value['name']
+				);
+			}
+
+			return $contest_field_value_data;
+	}
+
+	public function getProjectDemographics(){
+			$contest_field_value_data = array();
+
+			$contest_field_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "demographic_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+			foreach ($contest_field_value_query->rows as $contest_field_value) {
+				$contest_field_value_data[$contest_field_value['demographic_status_id']] = array(
+					'contest_field_value_id' => $contest_field_value['demographic_status_id'],
+					'name'                  => $contest_field_value['name']
+				);
+			}
+
+			return $contest_field_value_data;
+	}
 }

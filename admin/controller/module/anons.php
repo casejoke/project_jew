@@ -3,9 +3,9 @@ class ControllerModuleAnons extends Controller {
 	private $error = array();
 
 	public function index() {
-		$this->load->language('module/news');
+		$this->load->language('module/anons');
 
-		$this->document->setTitle($this->language->get('heading_title').'asd');
+		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('setting/setting');
 
@@ -55,21 +55,21 @@ class ControllerModuleAnons extends Controller {
 
 		$data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
 
-		if (isset($this->request->post['news_status'])) {
-			$data['news_status'] = $this->request->post['news_status'];
+		if (isset($this->request->post['anons_status'])) {
+			$data['anons_status'] = $this->request->post['anons_status'];
 		} else {
-			$data['news_status'] = $this->config->get('news_status');
+			$data['anons_status'] = $this->config->get('anons_status');
 		}
 		
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('module/news.tpl', $data));
+		$this->response->setOutput($this->load->view('module/anons.tpl', $data));
 	}
 
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'module/news')) {
+		if (!$this->user->hasPermission('modify', 'module/anons')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 

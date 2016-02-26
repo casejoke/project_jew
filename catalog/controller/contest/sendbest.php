@@ -6,11 +6,7 @@ class ControllerContestSendbest extends Controller {
   private $error = array();
   //создаем группу
   public function index(){
-    if ( !isset($this->request->get['contest_id']) ) {
-      $this->session->data['redirect'] = $this->url->link('contest/contest', '', 'SSL');
-      $this->response->redirect($this->url->link('contest/contest', '', 'SSL'));
-      
-    }
+    
     
     $this->getView();
   }
@@ -46,27 +42,58 @@ class ControllerContestSendbest extends Controller {
     $customer_id = $this->customer->getId();
 
 
+    
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //проверка на то что заявка редактируется
+    $data['draft'] = true;
+    $result_request_information  = array();
+    $register_custom_field =array();
+
+    if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['customer_to_contest_id']>0){
+      $customer_to_contest_id = $this->request->get['customer_to_contest_id'];
+      //получим инфу о заявке
+      $result_request_information = $this->model_contest_contest->getInformationAboutRequest($customer_to_contest_id);
+      $val  = unserialize($result_request_information['value']);
+      $register_custom_field = $val['custom_fields'];
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!
+      //получим номер проекта котрый мы положили в пулл конкурса
+      $project_id = $result_request_information['project_id'];;
+      $contest_id = $result_request_information['contest_id'];
+      $adaptive_id = $result_request_information['adaptive_id'];
+
+      $data['draft'] = ($result_request_information['status'] < 3)? false : true;
+      $data['draft_check'] = ($result_request_information['status'] < 3)? false : true;
+      $data['action'] = $this->url->link('contest/sendbest', 'customer_to_contest_id='.$this->request->get['customer_to_contest_id'], 'SSL');
+     // print_r($result_request_information);
+    }else{
+      $project_id = $this->request->get['project_id'];
+      $contest_id = $this->request->get['contest_id'];
+      //проект для адаптации
+      $adaptive_id = $this->request->get['adaptive_id'];
+      $data['action'] = $this->url->link('contest/sendbest', 'contest_id='.$contest_id.'&project_id='.$project_id.'&adaptive_id='.$adaptive_id, 'SSL');
+      $data['draft_check'] = false;
+    }
+ 
     //проверка на сушествование конкурса
     $contest_info = array();
-    if (isset($this->request->get['contest_id'])) {
-      $contest_info = $this->model_contest_contest->getContest($this->request->get['contest_id']);
-      $contest_id = $this->request->get['contest_id'];
-    }
+    $contest_info = $this->model_contest_contest->getContest($contest_id);
+    
+   
     if ( empty($contest_info) ){
       //редиректим на список конкурсов
       $this->session->data['redirect'] = $this->url->link('contest/contest', '', 'SSL');
       $this->response->redirect($this->url->link('contest/contest', '', 'SSL'));
     }
     //если конкурс в статусе работа - редирект
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    $project_id = $this->request->get['project_id'];
+
+    
 
     //проверка на сушествование проекта
     $project_info = array();
-    if (isset($project_id)) {
-      $project_info = $this->model_project_project->getProject($project_id);
-    }
+    $project_info = $this->model_project_project->getProject($project_id);
+    
     if ( empty($project_info) ){
       //редиректим на список проектов
       $this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
@@ -76,10 +103,8 @@ class ControllerContestSendbest extends Controller {
 
     
 
-    //проект для адаптации
-    $adaptive_id = $this->request->get['adaptive_id'];
-
-   
+    
+    
    
 
 
@@ -96,10 +121,22 @@ class ControllerContestSendbest extends Controller {
 //*************************** проверки ********************************//   
 
     if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+
+      if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['customer_to_contest_id']>0){
+
+        $this->model_contest_contest->editRequest($this->request->post,$this->request->get['customer_to_contest_id']);
+        $this->session->data['success'] = 'Заявка отредактирована/отправлена';
       
-      $this->model_contest_contest->addRequest($this->request->post,$customer_id,$contest_id,$adaptive_id);
-      //отправляю проектв $project_id  в копилку проектов
-      $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
+      }else{
+        $this->model_contest_contest->addRequest($this->request->post,$customer_id,$contest_id,$adaptive_id,$project_id);
+        //отправляю проектв $project_id  в копилку проектов
+        $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
+        $this->session->data['success'] = $this->language->get('text_contest_success');
+      }
+      
+
+
+
 
       $this->session->data['success'] = $this->language->get('text_contest_success');
       // Add to activity log
@@ -114,6 +151,10 @@ class ControllerContestSendbest extends Controller {
 
       $this->response->redirect($this->url->link('account/account', '', 'SSL'));
     }
+
+
+
+
     if (isset($this->error['warning'])) {
       $data['error_warning'] = $this->error['warning'];
     } else {
@@ -138,7 +179,7 @@ class ControllerContestSendbest extends Controller {
     );
     $data['breadcrumbs'][] = array(
       'text' => $contest_info['title'],
-      'href' => $this->url->link('contest/view', 'contest_id=' . $this->request->get['contest_id'], 'SSL')
+      'href' => $this->url->link('contest/view', 'contest_id=' . $contest_id, 'SSL')
     );
 
     $data['entry_title']              = $this->language->get('entry_title');
@@ -270,17 +311,11 @@ class ControllerContestSendbest extends Controller {
       );
     }
 
-  
-
-
-
-
-
 //************************* информация о проекте *************************//  
     
     
-  /*  $data['project_title']      = html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8');
-    $data['project_description']  = html_entity_decode($project_info['description'], ENT_QUOTES, 'UTF-8');
+    $project_title      = html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8');
+    $project_description  = html_entity_decode($project_info['description'], ENT_QUOTES, 'UTF-8');
 
     $data['image'] = '';
     if (!empty($project_info['image'])) {
@@ -291,43 +326,43 @@ class ControllerContestSendbest extends Controller {
       $data['image'] = $this->model_tool_image->resize('no-image.png', 800, 460,'w');
     }
     
-    $data['project_birthday']     = rus_date($this->language->get('date_day_date_format'), strtotime($project_info['project_birthday']));
+    $project_birthday     = rus_date($this->language->get('date_day_date_format'), strtotime($project_info['project_birthday']));
     
-  */
+  
 //************************* инфо огруппе *************************//  
     //подтянем администратора группы если есть группа и в данном конкурсе нужна группа
     $admin_id = $project_info['customer_id'];
     if(!empty($data['init_groups'][$project_info['project_init_group_id']])){
       $init_group_information = $data['init_groups'][$project_info['project_init_group_id']] ;
     }else{
-      $init_group_information = 0;
+      $init_group_information = array();
     }
     
     
     //подменяем инфу о проекте
-    $project_info = array();
+    //$project_info = array();
 
 //************************* информация о конкурсе *************************// 
-    $contest_id = $this->request->get['contest_id'];
+      
 
       //подтянем поля для заполнения
       //СИСТЕМНЫЕ ПОЛЯ
       $data['contest_field_system']['customer'] = array();
       //поля пользователя
       $data['contest_field_system']['customer']['firstname'] = array(
-        'field_value'         => $customer_info['firstname'],
+        'field_value_r'         => $customer_info['firstname'],
         'field_type'          => 'text'
       );
       $data['contest_field_system']['customer']['lastname'] = array(
-        'field_value'         => $customer_info['lastname'],
+        'field_value_r'         => $customer_info['lastname'],
         'field_type'          => 'text'
       );
       $data['contest_field_system']['customer']['email'] = array(
-        'field_value'         => $customer_info['email'],
+        'field_value_r'         => $customer_info['email'],
         'field_type'          => 'text'
       );
       $data['contest_field_system']['customer']['telephone'] = array(
-        'field_value'         => $customer_info['telephone'],
+        'field_value_r'         => $customer_info['telephone'],
         'field_type'          => 'text'
       );
 
@@ -336,43 +371,43 @@ class ControllerContestSendbest extends Controller {
     $data['contest_field_system']['init_group'] = array();
     //поля для группы
     $data['contest_field_system']['init_group']['title'] = array(
-      'field_value'         => $init_group_information['group_title'],
-      'field_type'          => 'text'
+      'field_value_r'         => (!empty($init_group_information))? $init_group_information['group_title']:'',
+      'field_type'            => 'text'
     );
     $data['contest_field_system']['init_group']['group_description'] = array(
-      'field_value'         => $init_group_information['group_description'],
+      'field_value_r'         => (!empty($init_group_information))?$init_group_information['group_description']:'',
       'field_type'          => 'textarea'
     );
-    
+///!!!!!!!!!!    
     //поля для проекта
     $data['contest_field_system']['project'] = array();
     $data['contest_field_system']['project']['title'] = array(
-      'field_value'         => '',
+      'field_value_r'         => $project_title,
       'field_type'          => 'text'
     );
 
     $data['contest_field_system']['project']['project_budget'] = array(
-      'field_value'         => '',
+      'field_value_r'         => '',
       'field_type'          => 'text'
     );
     $data['contest_field_system']['project']['description'] = array(
-      'field_value'         =>'',
+      'field_value_r'         => $project_description,
       'field_type'          => 'textarea'
     );
     $data['contest_field_system']['project']['target'] = array(
-      'field_value'         => '',
-      'field_type'       => 'target'
+      'field_value_r'         => $project_info['target'],
+      'field_type'          => 'target'
     );
     $data['contest_field_system']['project']['product'] = array(
-      'field_value'         => '',
+      'field_value_r'         => $project_info['product'],
       'field_type'       => 'textarea'
     );
     $data['contest_field_system']['project']['result'] = array(
-      'field_value'         => '',
+      'field_value_r'         => $project_info['result'],
       'field_type'       => 'textarea'
     );
     $data['contest_field_system']['project']['project_birthday'] = array(
-      'field_value'         => '',
+      'field_value_r'         => $project_info['project_birthday'],
       'field_type'       => 'textarea'
     );
 
@@ -380,31 +415,31 @@ class ControllerContestSendbest extends Controller {
 
     $data['contest_field_system']['project']['project_age'] = array(
       'field_value'         => $this->model_contest_contest_field->getProjectAges(),
-      'field_value_project' => '',
+      'field_value_r'       => unserialize($project_info['project_age']),
       'field_type'          => 'checkbox'
     );
 
     $data['contest_field_system']['project']['project_sex'] = array(
       'field_value'         => $this->model_contest_contest_field->getProjectSexs(),
-      'field_value_project' => '',
+      'field_value_r'       => unserialize($project_info['project_sex']),
       'field_type'          => 'checkbox'
     );
 
     $data['contest_field_system']['project']['project_nationality'] = array(
       'field_value'         => $this->model_contest_contest_field->getProjectNationalitys(),
-      'field_value_project' => '',
+      'field_value_r'       => unserialize($project_info['project_nationality']),
       'field_type'          => 'checkbox'
     );
 
     $data['contest_field_system']['project']['project_professional'] = array(
       'field_value'         => $this->model_contest_contest_field->getProjectProfessionals(),
-      'field_value_project' => '',
+      'field_value_r'       => unserialize($project_info['project_professional']),
       'field_type'          => 'checkbox'
     );
 
     $data['contest_field_system']['project']['project_demographic'] = array(
       'field_value'         => $this->model_contest_contest_field->getProjectDemographics(),
-      'field_value_project' => '',
+      'field_value_r'       => unserialize($project_info['project_demographic']),
       'field_type'          => 'checkbox'
     );
 
@@ -475,29 +510,87 @@ class ControllerContestSendbest extends Controller {
         }
 
         
+                            
+                 
         
-
         
         $contest_fields_value = '';
         //дклаем проверку на системное или нет поле $cfr['field_system'] => custom - не системное
         if ( ($cfr['type'] == 'select' || $cfr['type'] == 'radio' || $cfr['type'] == 'checkbox') && $cfr['field_system'] == 'custom' )  {
-          //если пречисляемый тип и не системны
+          //если не системны и пречисляемый тип 
           $contest_fields_value = $this->model_contest_contest_field->getContestFieldValues($cfr['contest_field_id']); 
           $type = $cfr['type'];
 
-        }elseif ($cfr['field_system'] != 'custom') {
-          //если тип поля системный
-          $contest_fields_value = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value'];
+          $val_r = array();//значение в заявке
+          if(!empty($register_custom_field[$cfr['location']])){
+            foreach ($register_custom_field[$cfr['location']] as $vrcf) {
+              if($vrcf['field_id'] == $cfr['contest_field_id']){
+
+                $val_r = (!empty($vrcf['value']))?$vrcf['value']:array();
+              }
+            } 
+          }
+        
+        }elseif ($cfr['field_system'] != 'custom'){
+
+          
           $type = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_type'];
+          
+          if(  $type == 'select' || $type == 'radio' || $type == 'checkbox' ){
+            $contest_fields_value = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value'];
+            //если тип поля системный и перечисляемый
+            if(empty($result_request_information['status'])){
+              $val_r = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value_r'];
+            }else{
+              $val_r = array();//значение в заявке
+              if(!empty($register_custom_field[$cfr['location']])){
+                foreach ($register_custom_field[$cfr['location']] as $vrcf) {
+                  if($vrcf['field_id'] == $cfr['contest_field_id']){
+                    $val_r = (!empty($vrcf['value']))?$vrcf['value']:array();
+                  }
+                } 
+              }
+            }
+          }else{
+            $contest_fields_value = '';
+            if(empty($result_request_information['status'])){
+
+              $val_r = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value_r'];
+            }else{
+              $val_r = '';//значение в заявке
+              if(!empty($register_custom_field[$cfr['location']])){
+                foreach ($register_custom_field[$cfr['location']] as $vrcf) {
+                  if($vrcf['field_id'] == $cfr['contest_field_id']){
+                    $val_r = (!empty($vrcf['value']))?$vrcf['value']:'';
+                  }
+                } 
+              }
+            }
+          }
 
 
+   
           ///print_r($contest_fields_value);
-
+      
         }else{
           //если не системны и не перечитсялемый
-          $contest_fields_value = '';
+          $contest_fields_value = '';//$data['register_custom_field'][$cfr['contest_field_id']]['field_value'];;
           $type = $cfr['type'];
+
+          $val_r = '';//значение в заявке
+          if(!empty($register_custom_field[$cfr['location']])){
+            foreach ($register_custom_field[$cfr['location']] as $vrcf) {
+              if($vrcf['field_id'] == $cfr['contest_field_id']){
+                $val_r = $vrcf['value'];
+              }
+            } 
+          }
+
+
         }
+
+
+       
 
           $contest_fields[$cfr['location']][] = array(
             'contest_field_id'              => $cfr['contest_field_id'],
@@ -513,11 +606,14 @@ class ControllerContestSendbest extends Controller {
             
             'contest_field_status'      => $status,
             'sort_order'          => $sort_order,
+
+            'value_r'                       =>  $val_r
           );
 
 
 
       }
+    
 
 
       
@@ -527,30 +623,36 @@ class ControllerContestSendbest extends Controller {
         foreach ($value_cf as $v_cf) {
           if( $v_cf['contest_field_status']!= 0 ){
             $data['contest_fields'][$key_cf][] = array(
-              'contest_field_id'            => $v_cf['contest_field_id'],
+              'contest_field_id'              => $v_cf['contest_field_id'],
               'contest_field_title'           => $v_cf['contest_field_title'],
               'contest_field_description'     => $v_cf['contest_field_description'],
               'contest_field_value'           => $v_cf['contest_field_value'],
               'contest_field_type'            => $v_cf['contest_field_type'],
               'contest_field_system'          => $v_cf['contest_field_system'],
               'contest_field_system_table'    => $v_cf['contest_field_system_table'],
-              'contest_field_status'      => $v_cf['contest_field_status'],
-              'sort_order'          => $v_cf['sort_order'],
+              'contest_field_status'          => $v_cf['contest_field_status'],
+              'sort_order'                    => $v_cf['sort_order'],
+              'value_r'                       => $v_cf['value_r'],
             );
             usort($data['contest_fields'][$key_cf], 'sortBySortOrder');
           }
         }
       }
       
-/*
+    /*
     print_r('<pre>');
     print_r($data['contest_fields']);
     print_r('</pre>');
+    print_r('<pre>');
+    print_r($register_custom_field);
+    print_r('</pre>');
     die();
-*/
-
+  */
 
       ///подтянем поля о проекте адапторе - проект котрый пользователь хочет адаптировать
+
+
+
 
       //проверка что этот проект можно адптировать
       //проверка на сушествование проекта
@@ -604,15 +706,6 @@ class ControllerContestSendbest extends Controller {
         
         //пол
         
-      
-        /*
-        [project_age] => 
-        [project_sex] => 
-        [project_nationality] => 
-        [project_professional] => 
-        [project_demographic] => 
-      */
-
         $filter_data = array();
         $sex_statuses_results = $this->model_project_project->getSexStatuses($filter_data);
         $data['sex_statuses']  = array();
@@ -705,7 +798,9 @@ class ControllerContestSendbest extends Controller {
 
 
 
-    $data['action'] = $this->url->link('contest/sendbest', 'contest_id='.$contest_id.'&project_id='.$project_id.'&adaptive_id='.$adaptive_id, 'SSL');
+    
+
+
 
     if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_best_send.tpl')) {
       $this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest.js');

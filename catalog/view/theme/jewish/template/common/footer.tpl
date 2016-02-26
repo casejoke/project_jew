@@ -33,85 +33,44 @@
 						<!-- Widget end -->
 	
 					</div>
+					<div class="col-sm-3 ">
 	
+						 <!-- Widget start -->
+				        <div class="widget ">
+				         
+				        </div>
+				        <!-- Widget end -->
+	
+					</div>
 					<div class="col-sm-3">
 						<!-- Widget start -->
 				        <div class="widget ">
 				          <h5 class="widget-title font-alt">Анонсы</h5>
 				          <ul class="widget-posts">
-				      
-				            <li class="clearfix">
-				              <div class="widget-posts-image">
-				                <a href="#"><img src="image/noimage.png" alt=""></a>
-				              </div>
-				              <div class="widget-posts-body">
-				                <div class="widget-posts-title">
-				                  <a href="#">Designer Desk Essentials</a>
-				                </div>
-				                <div class="widget-posts-meta">
-				                  23 November
-				                </div>
-				              </div>
-				            </li>
-				      
-				            <li class="clearfix">
-				              <div class="widget-posts-image">
-				                <a href="#"><img src="image/noimage.png" alt=""></a>
-				              </div>
-				              <div class="widget-posts-body">
-				                <div class="widget-posts-title">
-				                  <a href="#">Realistic Business Card Mockup</a>
-				                </div>
-				                <div class="widget-posts-meta">
-				                  15 November
-				                </div>
-				              </div>
-				            </li>
+				      		<?php foreach ($anons as $news) { ?>
+								 <li class="clearfix">
+						              <div class="widget-posts-image">
+						                <a href="<?php echo $news['view']; ?>">
+											<img src="<?php echo $news['image']; ?>" alt="">
+										</a>
+						              </div>
+						              <div class="widget-posts-body">
+						                <div class="widget-posts-title">
+						                 <a href="<?php echo $news['view']; ?>"><?php echo $news['title']; ?></a>
+						                </div>
+						                <div class="widget-posts-meta">
+						                  <?php echo $news['date_added']; ?>
+						                </div>
+						              </div>
+						            </li>
+							  <?php } ?>
 				          </ul>
 				        </div>
 				        <!-- Widget end -->
 	
 					</div>
 	
-					<div class="col-sm-3">
-	
-						 <!-- Widget start -->
-				        <div class="widget ">
-				          <h5 class="widget-title font-alt">Новости портала</h5>
-				          <ul class="widget-posts">
-				      
-				            <li class="clearfix">
-				              <div class="widget-posts-image">
-				                <a href="#"><img src="image/noimage.png" alt=""></a>
-				              </div>
-				              <div class="widget-posts-body">
-				                <div class="widget-posts-title">
-				                  <a href="#">Designer Desk Essentials</a>
-				                </div>
-				                <div class="widget-posts-meta">
-				                  23 November
-				                </div>
-				              </div>
-				            </li>
-				      
-				            <li class="clearfix">
-				              <div class="widget-posts-image">
-				                <a href="#"><img src="image/noimage.png" alt=""></a>
-				              </div>
-				              <div class="widget-posts-body">
-				                <div class="widget-posts-title">
-				                  <a href="#">Realistic Business Card Mockup</a>
-				                </div>
-				                <div class="widget-posts-meta">
-				                  15 November
-				                </div>
-				              </div>
-				            </li>
-				          </ul>
-				        </div>
-				        <!-- Widget end -->
-	
-					</div>
+					
 	
 				</div><!-- .row -->
 	

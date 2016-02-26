@@ -33,7 +33,7 @@ class ControllerInformationNews extends Controller {
 		$filter_data = array(
 			'page' 	=> $page,
 			'limit' => 10,
-			'start' => 10 * ($page - 1),
+			'start' => 10 * ($page - 1)
 		);
 		
 		$total = $this->model_catalog_news->getTotalNews();

@@ -272,6 +272,22 @@ class ControllerAccountAccount extends Controller {
 		//$_['text_status_accepted']        	= 'Одобрена';
 		//$_['text_status_processed']        	= 'В обработке';
 
+
+		//подтянем проекты пользователя с которыми он может участвовать в конкурсах BestPractice
+		//тоеть те проекты котрые он подал в пулл для данного конкурса 1 проект = 1 конкурс
+		$filter_data = array();
+		$filter_data = array(
+			'filter_customer_id'	=>	$customer_id
+		);
+
+		$results_project_for_adaptors = $this->model_project_project->getListAdapiveProjects($filter_data);
+
+		$project_adaptor_for_contest = array();
+		foreach ($results_project_for_adaptors as $vpfa) {
+			$project_adaptor_for_contest[$vpfa['contest_id']] = $vpfa['project_id'];
+
+		}
+		
 		//подтянем все конкурсы
 		$results_contests = $this->model_contest_contest->getContests();
 		$contests = array();
@@ -283,12 +299,15 @@ class ControllerAccountAccount extends Controller {
 			}
 			$contests[$rc['contest_id']] = array(
 				'contest_id'			=> $rc['contest_id'],
+				'project_id'			=> (!empty($project_adaptor_for_contest[$rc['contest_id']]))?$project_adaptor_for_contest[$rc['contest_id']] : 0,
+				'contest_type'			=> $rc['type'],
 				'contest_title'			=> (strlen(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))) > 50 ? mb_strcut(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8')), 0, 55) . '...' : strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))),
 				'contest_image'			=> $image
 			);
 		}
-		//подтянем сипсок заявок для данного пользователя!!!!!
 
+		
+		//подтянем сипсок заявок для данного пользователя!!!!!
 		$filter_data = array();
 		$filter_data = array(
 			'filter_customer_id' 	=> 	$customer_id
@@ -312,12 +331,31 @@ class ControllerAccountAccount extends Controller {
 					//заявка в обработке
 					$status = $this->language->get('text_status_processed');
 					break;
+				case '3':
+					//заявка - черновик
+					$status = $this->language->get('text_status_draft');
+					break;
 				default:
 					$status = $this->language->get('text_status_processed');
 					break;
 			}
-			//добавить проверку на дату приема заявок с конкурса
 			
+
+			//добавить проверку на дату приема заявок с конкурса
+			switch ((int)$contests[$vcc['contest_id']]['contest_type']) {
+				case '3':
+					$action_not_accepted = $this->url->link('contest/sendbest', 'customer_to_contest_id='.$vcc['customer_to_contest_id'], 'SSL');
+
+					//contest_id=4&project_id=155&adaptive_id=2
+					break;
+				
+				default:
+					$action_not_accepted = $this->url->link('contest/deal', 'contest_id='.$vcc['contest_id'], 'SSL');
+					break;
+			}
+			
+
+
 			$data['requests_for_customer'][] = array(
 				'contest_id' 			=> $vcc['contest_id'],
 				'request_status'		=> $vcc['status'],
@@ -325,7 +363,8 @@ class ControllerAccountAccount extends Controller {
 				'request_comment'		=> html_entity_decode($vcc['comment'], ENT_QUOTES, 'UTF-8'),
 				'contest_title'			=> $contests[$vcc['contest_id']]['contest_title'],
 				'contest_image'			=> $contests[$vcc['contest_id']]['contest_image'],
-				'action_not_accepted'   => $this->url->link('contest/deal', 'contest_id='.$vcc['contest_id'], 'SSL')
+				'action_not_accepted'   => $action_not_accepted,
+				'action_request_view'	=> $this->url->link('contest/requestview', 'customer_to_contest_id='.$vcc['customer_to_contest_id'], 'SSL')
 			);
 		}
 	
@@ -486,7 +525,14 @@ if ($customer_info['customer_expert']) {
 			
 		}
 
+		//уведомления
+
+		$data['customer_notice'] = array();
 			
+
+
+
+
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/account.tpl')) {
 			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/account.js');

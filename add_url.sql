@@ -32,3 +32,4 @@ ALTER TABLE `oc_customer` ADD `customer_expert` TINYINT NOT NULL AFTER `customer
 ///********************///
 
 ALTER TABLE `oc_contest_field_description` ADD `description` TEXT NOT NULL AFTER `name`;
+ALTER TABLE `oc_customer_to_contest` ADD `project_id` INT(11) NOT NULL AFTER `contest_id`;

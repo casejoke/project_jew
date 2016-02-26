@@ -28,20 +28,66 @@
 
                 <div role="tabpanel" class="tab-pane active" id="tab-request">
                   <div class="card-body card-padding">
-                    <div class="pmb-block">
-                                
-                      <div class="pmbb-body p-l-30">
-                        <div class="pmbb-view">
+                    <?php foreach ($category_requestes as $cr) { ?>
+                    <?php if ( !empty( $cr['category_request_id'] ) ) { ?>
+
+                    <h4 class="font-alt mb-20"><?php echo $cr['name']; ?></h4>
+
+                      <?php foreach ($cr['category_fields'] as $vcri) { ?>
+                    
+                          
+
+                          <div class="pmb-block">
+                            <?php if($vcri['field_type'] == 'text'){ ?>
+                              <div class="pmbb-header">
+                                  <h5><?php echo $vcri['field_title']; ?></h5>
+                              </div>
+                              <div class="pmbb-body p-l-30">
+                                  <div class="pmbb-view">
+                                       <?php echo (!empty($vcri['field_value']))?html_entity_decode($vcri['field_value']):'Не указано.'; ?> 
+                                  </div>
+                              </div>
+                            <?php }?>
+
+                            <?php if($vcri['field_type'] == 'list'){ ?>
+                              <div class="pmbb-header">
+                                  <h5><?php echo $vcri['field_title']; ?></h5>
+                              </div>
+                              <div class="pmbb-body p-l-30">
+                                  <div class="pmbb-view">
+                                    <ul> 
+                                      <?php foreach ($vcri['field_value'] as $vfv) { ?>
+                                        <li><?php echo $vfv['title']; ?></li>
+                                      <?php } ?>
+                                    </ul>
+                                  </div>
+                              </div>
+                            <?php } ?>
+  
+                            <?php if($vcri['field_type'] == 'textarea'){ ?>
+                              <div class="pmbb-header">
+                                  <h5><?php echo $vcri['field_title']; ?></h5>
+                              </div>
+                              <div class="pmbb-body p-l-30">
+                                  <div class="pmbb-view">
+                                      <?php echo (!empty($vcri['field_value']) || $vcri['field_value'] == '<p><br></p>')?html_entity_decode($vcri['field_value']):'Не указано.'; ?> 
+                                  </div>
+                              </div>
+                            <?php }?>
+
+                          </div>
+
+                          
 
 
-                            <dl class="dl-horizontal hidden">
-                                <dt>Фамилия Имя</dt>
-                                <dd><?php echo $lastname; ?> <?php echo $firstname; ?></dd>
-                            </dl>
-                            
-                        </div>
-                      </div>
-                  </div>
+                          
+      
+                       
+                        
+                        
+                        <?php } ?>
+                      <?php } ?>
+                    <?php } ?>
                   </div>
                 </div><!-- /#tab-general -->
                 <div role="tabpanel" class="tab-pane " id="tab-customer">
@@ -107,7 +153,7 @@
                           <div class="form-group required">
                             <div class="fg-line">
                                 <label class="control-label" for="input-organizer">Комментарий</label>
-                                 <textarea name="contest_comment" row='10' id="input-comment" class="form-control"><?php echo isset($comment) ? $comment : ''; ?></textarea>
+                                 <textarea name="comment" row='10' id="input-comment" class="form-control"><?php echo isset($comment) ? $comment : ''; ?></textarea>
                             </div>
                            
                           </div>

@@ -48,7 +48,7 @@
 
             <li class="hidden"><a href="#blog"           data-toggle="tab" aria-expanded="true">Мой блог</a></li> 
             <li class="hidden"><a href="#promocode" data-toggle="tab" aria-expanded="true">Промокод</a></li> 
-             <li><a href="#notice" data-toggle="tab" aria-expanded="true">Уведомления</a></li>  
+            <li class="hidden"><a href="#notice" data-toggle="tab" aria-expanded="true">Уведомления</a></li>  
             
           </ul>
 
@@ -199,9 +199,37 @@
                 <div class="row multi-columns-row">
 
                   <?php if(!empty($requests_for_customer)) { ?>
-                    <?php foreach ($requests_for_customer as $rfc) { ?>
+                    <div class="col-sm-12">
+                      <table class="table table-striped table-border checkout-table">
+                        <thead>
+                          <th>Конкурс</th>
+                          <th>Статус</th>
+                          <th>Комментарий </th>
+                          <th>Действия</th>
+                        </thead>
+                        <tbody>
+                         <?php foreach ($requests_for_customer as $rfc) { ?>
+                         <tr class="font-alt">
+                            <td><?php echo $rfc['contest_title']; ?></td>
+                            <td><?php echo $rfc['request_status_text']; ?></td>
+                            <td><?php echo ($rfc['request_status'] == 0 )?$rfc['request_comment']:''; ?></td>
 
-                      <div class="col-sm-6 col-md-3 col-lg-3">
+                            <td><?php if ($rfc['request_status'] == 0 ) { ?>
+                              <a href="<?php echo $rfc['action_not_accepted']; ?>" class="btn btn-success btn-round ">Перезаявится</a>
+                            <?php } ?>
+                            <?php if ($rfc['request_status'] == 3 ) { ?>
+                              <a href="<?php echo $rfc['action_not_accepted']; ?>" class="btn btn-success btn-round ">Редактировать</a>
+                              <a href="<?php echo $rfc['action_request_view']; ?>" class="btn btn-info btn-round hidden" style="padding: 6px 8px 6px 12px"><i class="fa fa-external-link"></i></a>
+                            <?php } ?></td>
+
+                         </tr>
+                         
+                         <?php } ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    <?php foreach ($requests_for_customer as $rfc) { ?>
+                      <div class="col-sm-6 col-md-3 col-lg-3 hidden">
                         <div class="price-table font-alt">
                            <img src="<?php echo  $rfc['contest_image']; ?>" alt="<?php echo $rfc['contest_title']; ?>">
                           <div class="borderline"></div>
@@ -209,8 +237,12 @@
                           <ul class="price-details">
                             <li>Статус: <?php echo $rfc['request_status_text']; ?></li>
                           </ul>
-                          <?php if ($rfc['request_status'] == 0) { ?>
+                          <?php if ($rfc['request_status'] == 0 ) { ?>
                             <a href="<?php echo $rfc['action_not_accepted']; ?>" class="btn btn-success btn-round mt-20 ">Перезаявится</a>
+                          <?php } ?>
+                          <?php if ($rfc['request_status'] == 3 ) { ?>
+                            <a href="<?php echo $rfc['action_not_accepted']; ?>" class="btn btn-info btn-round mt-20 ">Ссылка на заявку</a>
+                            <a href="<?php echo $rfc['action_not_accepted']; ?>" class="btn btn-success btn-round mt-20 ">Редактировать</a>
                           <?php } ?>
                           
                         </div>
@@ -252,7 +284,20 @@
             </div><!-- /.blog -->
 
             <div class="tab-pane" id="notice">
-              Уведомление
+              <table class="table table-striped ds-table">
+                <thead>
+                  <tr>
+                    <td>Дата</td>
+                    <th>Уведомление</th>
+                    <th>Сообщение</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <td>23 ноября 2016</td>
+                  <td>Ваш проект использовали для адаптации</td>
+                  <td>Пользователь Василий подал заявку на адаптацию вашего проекта на конкурс</td>
+                </tbody>
+              </table>
             </div>
             <div class="tab-pane" id="promocode">
                 <div class="row">

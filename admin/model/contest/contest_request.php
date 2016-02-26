@@ -6,7 +6,8 @@ class ModelContestContestRequest extends Model {
 
 	public function editRequest($customer_to_contest_id, $data) {
 		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET 
-			status = '" . (int)$data['status'] . "'
+			status = '" . (int)$data['status'] . "',
+			comment = '" . $this->db->escape($data['comment']) . "'
 		WHERE customer_to_contest_id = '" . (int)$customer_to_contest_id . "'");
 
 		$this->cache->delete('customer_to_contest');
@@ -28,7 +29,7 @@ class ModelContestContestRequest extends Model {
 
 	public function getRequests($data = array()) {
 
-		$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest";
+		$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE status != 3";
 
 		$sort_data = array(
 			'customer_id',
@@ -80,7 +81,7 @@ class ModelContestContestRequest extends Model {
 	}
 
 	public function getTotalRequests() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_to_contest");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_to_contest WHERE status != 3");
 
 		return $query->row['total'];
 	}
@@ -90,6 +91,7 @@ class ModelContestContestRequest extends Model {
 
 		return $query->row['total'];
 	}
+	
 	public function getRequestStatusTypes(){
 		//статусы заявки: 
 		// 0 - не принята (есть комментарий)

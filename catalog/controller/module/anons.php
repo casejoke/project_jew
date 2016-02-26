@@ -1,43 +1,12 @@
-<?php
-class ControllerCommonFooter extends Controller {
+<?php  
+class ControllerModuleAnons extends Controller {
 	public function index() {
-		$this->load->language('common/footer');
-
-		$data['scripts'] = $this->document->getScripts();
-		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
-
-		// Whos Online
-		if ($this->config->get('config_customer_online')) {
-			$this->load->model('tool/online');
-
-			if (isset($this->request->server['REMOTE_ADDR'])) {
-				$ip = $this->request->server['REMOTE_ADDR'];
-			} else {
-				$ip = '';
-			}
-
-			if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
-				$url = 'http://' . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
-			} else {
-				$url = '';
-			}
-
-			if (isset($this->request->server['HTTP_REFERER'])) {
-				$referer = $this->request->server['HTTP_REFERER'];
-			} else {
-				$referer = '';
-			}
-
-			$this->model_tool_online->whosonline($ip, $this->customer->getId(), $url, $referer);
-		}
-
-
 		$this->language->load('module/anons');
 		$this->load->model('catalog/news');
 		
 		$filter_data = array(
 			'page' => 1,
-			'limit' => 3,
+			'limit' => 5,
 			'start' => 0,
 		);
 	 
@@ -58,7 +27,7 @@ class ControllerCommonFooter extends Controller {
 			} else {
 				$image = $this->model_tool_image->resize('placeholder.png', 128, 128, 'h');
 			}
-			$data['anons'][] = array (
+			$data['all_news'][] = array (
 				'title' 		=> html_entity_decode($result['title'], ENT_QUOTES),
 				'image'			=> $image,
 				'short_description' 	=> (strlen(strip_tags(html_entity_decode($result['short_description'], ENT_QUOTES))) > 50 ? substr(strip_tags(html_entity_decode($result['short_description'], ENT_QUOTES)), 0, 50) . '...' : strip_tags(html_entity_decode($result['short_description'], ENT_QUOTES))),
@@ -66,14 +35,11 @@ class ControllerCommonFooter extends Controller {
 				'date_added' 	=> date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			);
 		}
-
-
-
-
-		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/footer.tpl')) {
-			return $this->load->view($this->config->get('config_template') . '/template/common/footer.tpl', $data);
+	 
+		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/anons.tpl')) {
+			return $this->load->view($this->config->get('config_template') . '/template/module/anons.tpl', $data);
 		} else {
-			return $this->load->view('default/template/common/footer.tpl', $data);
+			return $this->load->view('default/template/module/anons.tpl', $data);
 		}
 	}
 }

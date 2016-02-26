@@ -110,4 +110,12 @@ var contest = {
 
 $(document).ready(function() {
   contest.init();
+  $('textarea').each(function() {
+    if ($(this).attr('data-editor') == 'summernote') {
+      $(this).summernote({
+          height: 300
+      });
+    }
+    
+  });
 });

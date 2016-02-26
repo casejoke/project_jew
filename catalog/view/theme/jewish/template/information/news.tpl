@@ -31,41 +31,6 @@
       <!-- Content column end -->
        <!-- Sidebar column start -->
       <div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
-      <!-- Widget start -->
-        <div class="widget ">
-          <h5 class="widget-title font-alt">Анонсы </h5>
-          <ul class="widget-posts">
-      
-            <li class="clearfix">
-              <div class="widget-posts-image">
-                <a href="#"><img src="image/noimage.png" alt=""></a>
-              </div>
-              <div class="widget-posts-body">
-                <div class="widget-posts-title">
-                  <a href="#">Designer Desk Essentials</a>
-                </div>
-                <div class="widget-posts-meta">
-                  23 November
-                </div>
-              </div>
-            </li>
-      
-            <li class="clearfix">
-              <div class="widget-posts-image">
-                <a href="#"><img src="image/noimage.png" alt=""></a>
-              </div>
-              <div class="widget-posts-body">
-                <div class="widget-posts-title">
-                  <a href="#">Realistic Business Card Mockup</a>
-                </div>
-                <div class="widget-posts-meta">
-                  15 November
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <!-- Widget end -->
         <?php echo $column_left; ?>
         <?php echo $column_right; ?>
       </div>

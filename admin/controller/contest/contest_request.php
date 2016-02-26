@@ -171,6 +171,20 @@ class ControllerContestContestRequest extends Controller {
 		$data['add'] = $this->url->link('contest/contest_request/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$data['delete'] = $this->url->link('contest/contest_request/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
+		//подтянем список всех пользователей
+		$this->load->model('sale/customer');
+		$filter_data = array();
+		$results = $this->model_sale_customer->getCustomers($filter_data);
+		$customers = array();
+		foreach ($results as $result) {
+			
+			$customers[$result['customer_id']] = array(
+				'customer_id'    => $result['customer_id'],
+				'name'           => $result['name']
+			);
+		}
+
+
 		//подтянем полный список конкурсов
 		$this->load->model('contest/contest');
 		$contests_results = $this->model_contest_contest->getContests();
@@ -230,7 +244,7 @@ class ControllerContestContestRequest extends Controller {
 
 			$data['contest_requests'][] = array(
 				'customer_to_contest_id' 	=> $result['customer_to_contest_id'],
-				'customer_id' 			 	=> $result['customer_id'],
+				'customer_id' 			 	=> $customers[$result['customer_id']]['name'],
 				'contest_id'    			=> (!empty($contests[$result['contest_id']]))?$contests[$result['contest_id']]['title']:'',
 				'status'   					=> $status_text,
 				'date_added'    			=> rus_date($this->language->get('datetime_format'), strtotime($result['date_added'])),
@@ -435,12 +449,7 @@ class ControllerContestContestRequest extends Controller {
 		$data['firstname'] 	= $customer_info['firstname'];//имя
 		$data['email'] 		= $customer_info['email'];//мыло
 		$data['telephone'] 		= $customer_info['telephone'];//мыло
-/*
-		print_r('<pre>');
-		print_r($customer_info);
-		print_r('</pre>');
-		die();
-	*/
+
 
 		$data['token'] = $this->session->data['token'];
 
@@ -454,11 +463,177 @@ class ControllerContestContestRequest extends Controller {
 		if (isset($this->request->get['customer_to_contest_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$request_info = $this->model_contest_contest_request->getRequest($this->request->get['customer_to_contest_id']);
 		}
+		//заявка
+		//**************** сформируем данные заявки ******************//
+
+	    //подтянем данные заявки
+	    $request_value = unserialize($request_info['value']);
+	    //конкурс на который подали заявку
+	    //$contest_id и $contest_info
+	    //пользователь который подал заявку
+	    $request_customer_id = $customer_id;
+
+    //подтянем список каетгорий для заявки на  конкурса
+	$this->load->model('localisation/category_request');
+	$this->load->model('contest/contest_field');
+    $data['category_requestes'] = array();
+    $filter_data = array(
+      'order' => 'ASC'
+    );
+    $category_request_results = $this->model_localisation_category_request->getCategoryRequestes($filter_data);
+    
 
 
-		//print_r('<pre>');
-		//print_r(unserialize($request_info['value']));
-		//print_r('</pre>');
+    //подтянем поля для заполнения
+    $results_contest_fields = $this->model_contest_contest_field->getContestFields();
+    $contest_fields = array();
+    foreach ($results_contest_fields as  $vccf) {
+      $contest_fields[$vccf['contest_field_id']] = array(
+        'contest_field_title'         => $vccf['name'],
+        'contest_field_type'          => $vccf['type'],
+        'contest_field_system'        => $vccf['field_system'],
+        'contest_field_system_table'  => $vccf['field_system_table'],
+      );
+    }
+
+
+
+
+    
+
+    //раcкрутим заявку
+    $data['customer_field'] = array();
+    foreach ($category_request_results as $crr) {
+        $data_for_category = array();
+        foreach ($request_value['custom_fields'] as $kr => $vr) {
+          if($crr['category_request_id'] == $kr){
+            foreach ($vr as $vvr) {
+            
+              $type = $contest_fields[$vvr['field_id']]['contest_field_type'];
+              $value_field = '';
+
+
+
+              if(!empty($vvr['value'])){
+                 $value_field = $vvr['value'];
+              }
+             
+              
+              if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_age' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
+              	$type = 'list';
+                $val_project_age = array();
+                $result_project_age = $this->model_contest_contest_field->getProjectAges();
+                foreach ($result_project_age  as $vpa) {
+					foreach ($vvr['value'] as $vvvr) {
+	                    if($vpa['contest_field_value_id'] == $vvvr){
+	                      $val_project_age[] = array(
+	                        'title' =>  $vpa['name']
+	                      );
+	                    }
+                  	}
+                }
+                $value_field = $val_project_age;
+                
+                
+              }
+
+              if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_sex' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
+              	$type = 'list';
+                $val_project_sex = array();
+                $result_project_sex = $this->model_contest_contest_field->getProjectSexs();
+                foreach ($result_project_age  as $vpa) {
+					foreach ($vvr['value'] as $vvvr) {
+	                    if($vpa['contest_field_value_id'] == $vvvr){
+	                      $val_project_sex[] = array(
+	                        'title' =>  $vpa['name']
+	                      );
+	                    }
+                  	}
+                }
+                $value_field = $val_project_sex;
+                
+                
+              }
+
+              if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_nationality' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
+              	$type = 'list';
+                $val_project_nationality = array();
+                $result_project_nationality = $this->model_contest_contest_field->getProjectNationalitys();
+                foreach ($result_project_nationality  as $vpa) {
+					foreach ($vvr['value'] as $vvvr) {
+	                    if($vpa['contest_field_value_id'] == $vvvr){
+	                      $val_project_nationality[] = array(
+	                        'title' =>  $vpa['name']
+	                      );
+	                    }
+                  	}
+                }
+                $value_field = $val_project_nationality;
+                
+                
+              }
+
+              if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_professional' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
+              	$type = 'list';
+                $val_project_professional = array();
+                $result_project_professional = $this->model_contest_contest_field->getProjectProfessionals();
+                foreach ($result_project_professional  as $vpa) {
+					foreach ($vvr['value'] as $vvvr) {
+	                    if($vpa['contest_field_value_id'] == $vvvr){
+	                      $val_project_professional[] = array(
+	                        'title' =>  $vpa['name']
+	                      );
+	                    }
+                  	}
+                }
+                $value_field = $val_project_professional;
+                
+                
+              }
+
+              if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_demographic' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
+              	$type = 'list';
+                $val_project_demographic = array();
+                $result_project_demographic = $this->model_contest_contest_field->getProjectDemographics();
+                foreach ($result_project_demographic  as $vpa) {
+					foreach ($vvr['value'] as $vvvr) {
+	                    if($vpa['contest_field_value_id'] == $vvvr){
+	                      $val_project_demographic[] = array(
+	                        'title' =>  $vpa['name']
+	                      );
+	                    }
+                  	}
+                }
+                $value_field = $val_project_demographic;
+                
+                
+              }
+	
+
+              $data_for_category[] = array(
+                'field_id'    => $vvr['field_id'],
+                'field_value' => $value_field,
+                'field_title' => $contest_fields[$vvr['field_id']]['contest_field_title'],
+                'field_type' => $type,
+                'field_contest_system_table' => $contest_fields[$vvr['field_id']]['contest_field_system_table']
+              );
+
+
+
+
+
+            }
+          }
+        }
+
+        $data['category_requestes'][] = array(
+          'category_request_id'   => $crr['category_request_id'],
+          'name'                => $crr['name'],
+          'category_fields'     =>$data_for_category
+        );
+    }
+
+  
 		
 		
 

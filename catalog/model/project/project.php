@@ -250,6 +250,44 @@ class ModelProjectProject extends Model {
 		
 	}
 
+	public function getListAdapiveProjects($data =array()){
+
+		
+		if(empty($data)){
+			$sql = "SELECT * FROM " . DB_PREFIX . "contest_adaptor";
+		}else{
+			$sql = "SELECT * FROM " . DB_PREFIX . "contest_adaptor WHERE";
+		}
+
+		$_str =array();
+
+		
+		if (!empty($data['filter_customer_id'])) {
+			$_str[] =	" customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		}
+
+		if (!empty($data['filter_contest_id'])) {
+			$_str[] = "contest_id = '" . (int)$data['filter_contest_id'] . "'";
+		}
+
+		$_sql = '' ;
+		$i = 0;
+		foreach ($_str as $vstr) {
+			if($i > 0){
+				$_sql .= ' AND'.$vstr;
+			}else{
+				$_sql .= $vstr;
+			}
+			$i++;
+		}
+		$query = $this->db->query($sql.$_sql);
+		
+		return $query->rows;
+		
+	}
+
+
+
 	public function getProjectsFromRequestForContest($customer_id,$contest_id){
 		//получим список проектов для адптации  из заявок для данного конкурса
 		$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE customer_id = '".(int)$customer_id."' AND contest_id = '".(int)$contest_id."'";
@@ -552,12 +590,12 @@ class ModelProjectProject extends Model {
 	  	$data_relation_status = array();
 			$data_relation_status[] = array(
 				'relation_status_id' 		=> 1,
-				'relation_status_title' => 'Партнерство',
+				'relation_status_title' => 'Консультации',
 				'relation_status_href'	=> $this->url->link('account/account', '', 'SSL')
 			);
 			$data_relation_status[] = array(
 				'relation_status_id' 		=> 2,
-				'relation_status_title' => 'Консультации',
+				'relation_status_title' => 'Партнерство',
 				'relation_status_href'	=> $this->url->link('account/account', '', 'SSL')
 			);
 			$data_relation_status[] = array(
