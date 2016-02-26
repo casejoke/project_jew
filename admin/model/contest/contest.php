@@ -540,7 +540,7 @@ class ModelContestContest extends Model {
 	}
 
 	public function getEstimateForWinnerList($data = array()){
-			if(empty($data)){
+		if(empty($data)){
 			$sql = "SELECT * FROM " . DB_PREFIX . "customer_estimate";
 		}else{
 			$sql = "SELECT * FROM " . DB_PREFIX . "customer_estimate WHERE";
@@ -574,13 +574,54 @@ class ModelContestContest extends Model {
 	}
 
 	public function addWinner($data = array()){
+		//инфо о конкурсе
+		$contest_info = $this->getContest((int)$data['contest_id']);
 		$this->db->query("INSERT INTO " . DB_PREFIX . "contest_winner SET 
-			contest_id 		= '" . $this->db->escape($data['image']) . "',
-			customer_id 	= '" . (int)$data['type'] . "',
-			place_id 			= '" . (int)$data['place_id'] . "',
+			request_id 		= '" . (int)$data['request_id'] . "',
+			contest_id 		= '" . (int)$data['contest_id'] . "',
+			contest_type_id = '" . $contest_info['type'] . "',
+			customer_id 	= '" . (int)$data['customer_id'] . "',
+			project_id		= '" . (int)$data['project_id'] . "',	
+			place_id 		= '" . (int)$data['place_id'] . "',
 			date_added 		= NOW()
 		");
+
 	}
+
+	public function getWinners($data = array()){
+		if(empty($data)){
+			$sql = "SELECT * FROM " . DB_PREFIX . "contest_winner";
+		}else{
+			$sql = "SELECT * FROM " . DB_PREFIX . "contest_winner WHERE";
+		}
+
+		$_str =array();
+
+		if (!empty($data['filter_contest_id'])) {
+			$_str[] =	" contest_id = '" . (int)$data['filter_contest_id'] . "'";
+		}
+		
+		if (!empty($data['filter_request_id'])) {
+			$_str[] = " request_id = '" . (int)$data['filter_request_id'] . "'";
+		}
+		
+		
+		$_sql = '' ;
+		$i = 0;
+		foreach ($_str as $vstr) {
+			if($i > 0){
+				$_sql .= ' AND'.$vstr;
+			}else{
+				$_sql .= $vstr;
+			}
+			$i++;
+		}
+		
+		$query = $this->db->query($sql.$_sql);
+
+		return $query->rows;
+	}
+
 
 
 

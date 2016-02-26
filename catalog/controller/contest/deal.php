@@ -44,7 +44,7 @@ class ControllerContestDeal extends Controller {
 				$this->dealSimpleContest($contest_info);
 				break;
 			case '2':
-				# code...
+				$this->dealSimpleContest($contest_info);
 				break;
 			case '3':
 				$this->dealBestContest($contest_info);

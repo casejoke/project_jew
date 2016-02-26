@@ -6,7 +6,7 @@
       <div class="card-header">
         <h2><?php echo $form_header; ?></h2>
         <ul class="actions">
-          <li> <button type="submit" form="form-information"  class="btn btn-success"><?php echo $button_save; ?></button></li>
+         
           <li>
               <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>">
                   <i class="md md-replay"></i>
@@ -32,7 +32,7 @@
                       <thead>
                           <tr>
                             
-                            <th>Пользователь</th>
+                            <th>Участник</th>
                             <th>Заявка</th>
                             <th>Полученные очки от экпертов</th>
                             <th>Место</th>
@@ -43,18 +43,24 @@
                         <?php if(!empty($list_request)){ ?>
                           <?php foreach ($list_request as $vlr) { ?>
                             <tr>
-                              <td><?php echo $vlr['customer_id']; ?></td>
+                              <td><?php echo $vlr['customer_name']; ?></td>
                               <td><a href="<?php echo $vlr['action']['view_request']; ?>">Подробно</a></td>
                               <td><?php echo $vlr['score']; ?></td>
-                              <td><?php echo $count_winner_place;?></td>
+                              <td><?php echo $vlr['place'];?></td>
                               <td>
                                 
-                                <a href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" class="btn btn-primary choose-winner">Выбрать</a>
+                                <a href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" data-contest_id="<?php echo $vlr['contest_id']; ?>" title="" class="btn btn-primary choose-winner">Выбрать</a>
                                 <select class="place_winner hidden" >
                                   <option value="0">Укажите место</option>
                                 </select>
 
-                                <a class="btn btn-success accept-winner hidden" data-customer_id="<?php echo $vlr['customer_id']; ?>" data-contest_id="<?php echo $vlr['contest_id']; ?>" data-adaptive_id="<?php echo $vlr['adaptive_id']; ?>" href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-check"></i></a>
+                                <a class="btn btn-success accept-winner hidden" 
+                                  data-customer_id="<?php echo $vlr['customer_id']; ?>" 
+                                  data-project_id="<?php echo $vlr['project_id']; ?>" 
+                                  data-contest_id="<?php echo $vlr['contest_id']; ?>" 
+                                  data-adaptive_id="<?php echo $vlr['adaptive_id']; ?>" 
+                                  data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>"
+                                  href="#" data-toggle="tooltip"  title="" ><i class="fa fa-check"></i></a>
 
                                 <a class="btn btn-danger delete-winner hidden" href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-times"></i></a>
 
@@ -90,9 +96,15 @@
   $('.choose-winner').on('click', function(e) {
     e.preventDefault();
     var _this = $(this);
+    var contest_id = _this.attr('data-contest_id');
+    var data = {
+      'contest_id'  : contest_id
+    };
     $.ajax({
       url: 'index.php?route=contest/estimate/getCountPlaceForContest&token=<?php echo $token; ?>',
       dataType: 'json',
+      type: 'POST',
+      data : data,
       success: function(json) {
         if(json.length){
           console.log(json.length);
@@ -123,19 +135,21 @@
     var request_id = _this.attr('data-request_id');
     var contest_id = _this.attr('data-contest_id');
     var adaptive_id = _this.attr('data-adaptive_id');
-
+    var project_id = _this.attr('data-project_id');
     var data = {
       'customer_id' : customer_id,
       'place_id'    : place_winner,
       'request_id'  : request_id,
       'contest_id'  : contest_id,
-      'adaptive_id' : adaptive_id
+      'adaptive_id' : adaptive_id,
+      'project_id'  : project_id
     };
     console.log(place_winner);
     //отправляем запрос на установку победителя
     $.ajax({
       url: 'index.php?route=contest/estimate/addWinner&token=<?php echo $token; ?>',
       data : data,
+      type: 'POST',
       dataType: 'json',
       success: function(json) {
 

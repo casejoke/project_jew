@@ -327,7 +327,18 @@ class ControllerContestEstimate extends Controller {
 			);
 		}
 
-	
+		//подтянем список всех пользователей
+		$this->load->model('sale/customer');
+		$filter_data = array();
+		$results = $this->model_sale_customer->getCustomers($filter_data);
+		$customers = array();
+		foreach ($results as $result) {
+			
+			$customers[$result['customer_id']] = array(
+				'customer_id'    => $result['customer_id'],
+				'name'           => $result['name']
+			);
+		}
 
 		//получим оценки и баллы для данных заявок
 		$filter_data = array();
@@ -372,13 +383,28 @@ class ControllerContestEstimate extends Controller {
 			$action = array(
 				'view_request' => $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&customer_to_contest_id=' . $vrtc['customer_to_contest_id'], 'SSL')
 			);
+
+			$place_id = 'Не выбрано';
+			$filter_data = array(
+				'filter_request_id'  => $vrtc['customer_to_contest_id']
+			);
+			$data_for_request = $this->model_contest_contest->getWinners($filter_data);
+
+			if(!empty($data_for_request)){
+				//значит место назначено
+				$place_id = $data_for_request[0]['place_id'];
+			}
+
 			$data['list_request'][] = array(
 				'customer_to_contest_id'	=>	$vrtc['customer_to_contest_id'],
 				'customer_id'							=> 	$vrtc['customer_id'],
+				'customer_name'							=> 	$customers[$vrtc['customer_id']]['name'],
 				'contest_id'							=>  $vrtc['contest_id'],
 				'adaptive_id'							=>  $vrtc['adaptive_id'],
-				'score' 									=> 	$request_score,
-				'action'									=>  $action
+				'project_id'							=>  $vrtc['project_id'],
+				'score' 								=> 	$request_score,
+				'place'									=>  $place_id,
+				'action'								=>  $action
 			);
 		}
 		//
@@ -431,18 +457,30 @@ class ControllerContestEstimate extends Controller {
 
 	public function getCountPlaceForContest(){
 		$json =	array();
-		$json[] = array(
-			'place_id' 		=> 1,
-			'place_title' => '1 место'	
+		//получим id конкурса
+		$data = $this->request->post;
+
+		$this->load->model('contest/contest');
+		$contest_id = $data['contest_id'];
+		//получим количество меств
+		$contest_info = $this->model_contest_contest->getContest($contest_id);
+		$count_winner =  $contest_info['count_winner'];
+		
+		//получим список победителей для данного конкурса из таюлицы oc_contest_winner
+		//и получим места
+		$filter_data = array(
+			'filter_contest_id'  => $contest_id
 		);
-		$json[] = array(
-			'place_id' 		=> 3,
-			'place_title' => '3 место'	
-		);
-		$json[] = array(
-			'place_id' 		=> 5,
-			'place_title' => '5 место'	
-		);
+		$contest_winners = $this->model_contest_contest->getWinners($filter_data);
+
+		for ($i=1; $i <= $count_winner; $i++) { 
+
+			$json[] = array(
+				'place_id' 		=> $i,
+				'place_title' => $i.' место'	
+			);
+		}
+
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}

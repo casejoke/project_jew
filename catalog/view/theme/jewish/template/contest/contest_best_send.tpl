@@ -66,7 +66,7 @@
                               <?php foreach ($cfvalue['contest_field_value'] as $custom_field_value) { ?>
                               
                               <div class="checkbox">
-                                <?php if (in_array($custom_field_value['contest_field_value_id'], $cfvalue['value_r'])) { ?>
+                                <?php if (!empty($cfvalue['value_r']) && in_array($custom_field_value['contest_field_value_id'], $cfvalue['value_r'])) { ?>
                                 <label>
                                   <input type="checkbox" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][value][]" value="<?php echo $custom_field_value['contest_field_value_id']; ?>" checked="checked" />
                                   <?php echo $custom_field_value['name']; ?></label>
