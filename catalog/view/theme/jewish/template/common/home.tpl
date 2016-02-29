@@ -6,7 +6,7 @@
         <div class="col-sm-6 col-sm-offset-3 mt-60">
           <h1 class="module-heading__module-title font-alt text-center">Jewish Grassroots</h1>
           <h3 class="module-heading__module-subtitle font-serif text-center mb-0">
-            Платформа для развития еврейских образовательных инициатив
+            Платформа поддержки развития еврейских сообществ
           </h3>
         </div>
       </div><!-- .row -->
@@ -70,7 +70,7 @@
     <hr class="divider-w">
     <!-- Divider -->
     
-    <section id="news" class="module">
+    <section id="news" class="module module--small">
       <div class="container">
 
         <div class="row">
@@ -84,13 +84,13 @@
 
         </div><!-- .row -->
 
-        <div class="row multi-columns-row post-columns mb-60">
+        <div class="row multi-columns-row post-columns">
           
           <?php foreach ($all_news as $news) { ?>
             <!-- Post item start -->
             <div class="col-sm-6 col-md-4 col-lg-4">
 
-              <div class="post mb-20">
+              <div class="post">
                 <div class="post-thumbnail">
                   <a href="<?php echo $news['view']; ?>"><img src="<?php echo $news['image']; ?>" alt="<?php echo $news['title']; ?>"></a>
                 </div>
@@ -118,7 +118,7 @@
       </div>
     </section>
 
-    <section class="module bg-light">
+    <section class="module bg-light module--small">
       <div class="container">
 
         <div class="row">

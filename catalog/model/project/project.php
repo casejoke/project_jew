@@ -192,7 +192,72 @@ class ModelProjectProject extends Model {
 		return $query->rows;
 	}
 
-		
+	public function getListProjects($data = array()) {
+
+		$sql = "SELECT * FROM " . DB_PREFIX . "project d LEFT JOIN " . DB_PREFIX . "project_description dd ON (d.project_id = dd.project_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+
+
+		if (!empty($data['filter_name'])) {
+			$sql .= " AND dd.title LIKE '" . $this->db->escape($data['filter_title']) . "%'";
+		}
+
+		$sort_data = array(
+			'dd.title',
+			'd.date_start'
+		);
+
+		if (!empty($data['filter_contest_id'])) {
+			
+			if(count($data['filter_contest_id']) > 1){
+				$_str[] .= " contest_id IN (" . implode(',', $data['filter_contest_id']) . ")";
+			}else{
+				//если один конкурс
+				$contest_id = $data['filter_contest_id'][0];
+				$_str[] .= " contest_id = '" . (int)$contest_id . "'";
+			}
+		} else{
+			//$_str[] .= " contest_id = '0'";
+		}
+
+		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+			$_str[] .= " ORDER BY " . $data['sort'];
+		} else {
+			$sql .= " ORDER BY d.date_added";
+		}
+
+		if (isset($data['order']) && ($data['order'] == 'ASC')) {
+			$sql .= " ASC";
+		} else {
+			$sql .= " DESC";
+		}
+
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}
+
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}
+
+		$_sql = '' ;
+		$i = 0;
+		foreach ($_str as $vstr) {
+			if($i > 0){
+				$_sql .= ' AND'.$vstr;
+			}else{
+				$_sql .= $vstr;
+			}
+			$i++;
+		}
+		$query = $this->db->query($sql.$_sql);
+
+		return $query->rows;
+	}	
 
 	public function getInviteProjects($data = array()) {
 

@@ -59,22 +59,16 @@
 
             <h4 class="font-alt mb-0"><?php echo ($my_adaptive_projects_for_contest == 0)?'2. ':'';?>Укажите проект для адаптации </h4>
               <?php if(!empty($adaptive_projects)) { ?>
-              <div class="row mt-30  mb-30">
-
-                <div class="col-sm-8 col-sm-offset-2">
-
-                  <form role="form">
-                  
-                    <div class="search-box">
-                      <input type="text" class="form-control" placeholder="Укажите название проекта">
-                      <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
-                    </div>
-
-                  </form>
-
+                <div class="row mt-30  mb-30">
+                  <div class="col-sm-8 col-sm-offset-2">
+                    <form role="form">
+                      <div class="search-box">
+                        <input type="text" class="form-control" placeholder="Укажите название проекта">
+                        <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
-
-              </div>
               <?php } ?>
              <div class="row">
             <?php if(!empty($adaptive_projects)) { ?>
@@ -110,17 +104,8 @@
       <!-- Content column end -->
        <!-- Sidebar column start -->
       <div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
-        <!-- Widget start -->
-        <div class="widget ">
-          <h5 class="widget-title font-alt">Новости</h5>
-          
-        </div>
-        <!-- Widget end -->
-
-   
-
-
         <?php echo $column_left; ?>
+        <?php echo $column_right; ?>
       </div>
       <!-- Sidebar column end -->
       <?php echo $content_bottom; ?>

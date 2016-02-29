@@ -384,7 +384,7 @@ class ControllerContestEstimate extends Controller {
 				'view_request' => $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&customer_to_contest_id=' . $vrtc['customer_to_contest_id'], 'SSL')
 			);
 
-			$place_id = 'Не выбрано';
+			$place_id = 0;
 			$filter_data = array(
 				'filter_request_id'  => $vrtc['customer_to_contest_id']
 			);
@@ -449,7 +449,17 @@ class ControllerContestEstimate extends Controller {
 	public function removeWinner(){
 
 		$json =	array();
-		$json['success'] =	1;
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') ) {
+				$this->load->model('contest/contest');
+				$this->model_contest_contest->removeWinner($this->request->post);
+				//добавить проверочик
+					
+			}
+			if($this->error){
+				$json['error'] = $this->error;
+			}else{
+				$json['success'] = true;
+			}
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
@@ -472,13 +482,19 @@ class ControllerContestEstimate extends Controller {
 			'filter_contest_id'  => $contest_id
 		);
 		$contest_winners = $this->model_contest_contest->getWinners($filter_data);
-
+		$isset_winner_place = array();
+		foreach ($contest_winners as $vcw) {
+			$isset_winner_place[] = $vcw['place_id'];
+		}
+		
 		for ($i=1; $i <= $count_winner; $i++) { 
-
-			$json[] = array(
-				'place_id' 		=> $i,
-				'place_title' => $i.' место'	
-			);
+			if(!in_array($i, $isset_winner_place)){
+				$json[] = array(
+					'place_id' 		=> $i,
+					'place_title' => $i.' место'	
+				);
+			}
+			
 		}
 
 		$this->response->addHeader('Content-Type: application/json');

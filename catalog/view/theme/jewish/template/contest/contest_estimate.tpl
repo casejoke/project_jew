@@ -142,17 +142,8 @@
       <!-- Content column end -->
        <!-- Sidebar column start -->
       <div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
-        <!-- Widget start -->
-        <div class="widget ">
-          <h5 class="widget-title font-alt">Новости проекта</h5>
-          
-        </div>
-        <!-- Widget end -->
-
-   
-
-
         <?php echo $column_left; ?>
+        <?php echo $column_right; ?>
       </div>
       <!-- Sidebar column end -->
       <?php echo $content_bottom; ?>

@@ -587,6 +587,14 @@ class ModelContestContest extends Model {
 		");
 
 	}
+	public function removeWinner($data = array()){
+		//инфо о конкурсе
+		
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contest_winner WHERE 
+			request_id 		= '" . (int)$data['request_id'] . "'
+		");
+
+	}
 
 	public function getWinners($data = array()){
 		if(empty($data)){

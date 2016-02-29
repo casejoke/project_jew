@@ -430,7 +430,6 @@ class ControllerContestDeal extends Controller {
 	 			);
 	 	}
 
-
 	 	
 	 	//подтягиваем проекты котрые предназначены для адаптации
 	 	//список всех проекты
@@ -623,22 +622,33 @@ class ControllerContestDeal extends Controller {
 		$result_customer_req_contest = $this->model_contest_contest->getRequestForCustomer($filter_data);
 
 		
-	  if(count($result_customer_req_contest) > 2){
+	  	if(count($result_customer_req_contest) > 2){
 			$this->session->data['warning'] = 'Количество заявок на конкурс ограничено';
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
 		}
-
-
-
-
-			
-
 		$data['action'] = $this->url->link('contest/sendbest', 'contest_id='.$contest_id, 'SSL');
-
 
 		///нужна ли группа для участия в конкурсе?????
 
 		
+
+		//фильтр проектов
+
+		//получим списки фильтров
+		//целевые аудиториии
+		//пол
+
+		$filter_data = array();
+		$sex_statuses_results = $this->model_project_project->getSexStatuses($filter_data);
+		$data['sex_statuses']  = array();
+		foreach ($sex_statuses_results as $ssr) {
+			$data['sex_statuses'][$ssr['sex_status_id']] = array(
+				'filtet_id'			=> $ssr['sex_status_id']
+				'filtet_title'  	=> $ssr['name']
+			);
+		}
+
+
 
 
 

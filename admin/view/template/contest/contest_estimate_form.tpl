@@ -46,15 +46,17 @@
                               <td><?php echo $vlr['customer_name']; ?></td>
                               <td><a href="<?php echo $vlr['action']['view_request']; ?>">Подробно</a></td>
                               <td><?php echo $vlr['score']; ?></td>
-                              <td><?php echo $vlr['place'];?></td>
+                              <td id="request_id_<?php echo $vlr['customer_to_contest_id']; ?>"><?php echo ($vlr['place']>0)?$vlr['place']:'Не выбрано';?></td>
                               <td>
                                 
-                                <a href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" data-contest_id="<?php echo $vlr['contest_id']; ?>" title="" class="btn btn-primary choose-winner">Выбрать</a>
+                                <a href="#" data-toggle="tooltip" 
+                                  data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" 
+                                  data-contest_id="<?php echo $vlr['contest_id']; ?>" title="" class="btn btn-primary choose-winner <?php echo ($vlr['place'])?'hidden':'';?>">Выбрать</a>
                                 <select class="place_winner hidden" >
                                   <option value="0">Укажите место</option>
                                 </select>
 
-                                <a class="btn btn-success accept-winner hidden" 
+                                <a class="btn btn-success accept-winner hidden " 
                                   data-customer_id="<?php echo $vlr['customer_id']; ?>" 
                                   data-project_id="<?php echo $vlr['project_id']; ?>" 
                                   data-contest_id="<?php echo $vlr['contest_id']; ?>" 
@@ -62,7 +64,8 @@
                                   data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>"
                                   href="#" data-toggle="tooltip"  title="" ><i class="fa fa-check"></i></a>
 
-                                <a class="btn btn-danger delete-winner hidden" href="#" data-toggle="tooltip" data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-times"></i></a>
+                                <a class="btn btn-danger delete-winner <?php echo ($vlr['place'])?'':'hidden';?>" href="#" data-toggle="tooltip" 
+                                data-request_id="<?php echo $vlr['customer_to_contest_id']; ?>" title="" ><i class="fa fa-times"></i></a>
 
                               </td>
                             </tr>  
@@ -157,6 +160,7 @@
           console.log(json);
           _this.addClass('hidden').next().removeClass('hidden');
           _this.prev().addClass('hidden');
+          $('#request_id_'+request_id).html(place_winner);
         }
       }
     });
@@ -166,19 +170,21 @@
   $('.delete-winner').on('click',function(e){
     e.preventDefault();
     var _this = $(this);
+    var request_id = _this.attr('data-request_id');
     var data = {
-      'customer_id' : '5',
-      'contest_id'  : '2'
+      'request_id'  : request_id,
     };
     $.ajax({
       url: 'index.php?route=contest/estimate/removeWinner&token=<?php echo $token; ?>',
       data : data,
+      type: 'POST',
       dataType: 'json',
       success: function(json) {
 
         if(json.success){
           console.log(json);
           _this.addClass('hidden').prev().addClass('hidden').prev().addClass('hidden').prev().removeClass('hidden');
+          $('#request_id_'+request_id).html('Не выбрано');
         }
       }
     });
