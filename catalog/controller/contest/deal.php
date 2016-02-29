@@ -643,10 +643,36 @@ class ControllerContestDeal extends Controller {
 		$data['sex_statuses']  = array();
 		foreach ($sex_statuses_results as $ssr) {
 			$data['sex_statuses'][$ssr['sex_status_id']] = array(
-				'filtet_id'			=> $ssr['sex_status_id']
-				'filtet_title'  	=> $ssr['name']
+				'filtet_id'				=> $ssr['sex_status_id'],
+				'filter_title'  	=> $ssr['name']
 			);
 		}
+
+		//возраст
+		$filter_data = array();
+		$age_statuses_results = $this->model_project_project->getAgeStatuses($filter_data);
+		$data['age_statuses']  = array();
+		foreach ($age_statuses_results as $ssr) {
+			$data['age_statuses'][]  = array(
+				'filtet_id'				=> $ssr['age_status_id'],
+				'filter_title'  	=> $ssr['name']
+			);
+		}
+
+		//национальность и религия
+		$filter_data = array();
+		$nationality_statuses_results = $this->model_project_project->getNationalityStatuses($filter_data);
+		$data['nationality_statuses']  = array();
+		foreach ($nationality_statuses_results as $ssr) {
+			$data['nationality_statuses'][]  = array(
+				'filtet_id'				=> $ssr['nationality_status_id'],
+				'filter_title'  	=> $ssr['name']
+			);
+		}
+
+
+
+
 
 
 
