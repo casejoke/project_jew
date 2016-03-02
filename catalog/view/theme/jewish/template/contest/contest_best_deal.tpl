@@ -58,7 +58,7 @@
             <?php } ?>
 
 
-            <h4 class="font-alt mb-0"><?php echo ($my_adaptive_projects_for_contest == 0)?'2. ':'';?>Укажите проект для адаптации </h4>
+            <h4 class="font-alt mb-0"><?php echo ($my_adaptive_projects_for_contest == 0)?'ШАГ 2. ':'';?>Просмотрите другие проекты-победители и&nbsp;выберите&nbsp;те, которые&nbsp;бы вы&nbsp;хотели&nbsp;бы адаптировать и&nbsp;повторить.</h4>
               <?php if(!empty($adaptive_projects)) { ?>
                 <div class="row mt-30  mb-30">
                   <div class="col-sm-8 col-sm-offset-2">
@@ -73,21 +73,17 @@
               <?php } ?>
              <div class="row">
             <?php if(!empty($adaptive_projects)) { ?>
-                    
-
-                  <?php foreach ($adaptive_projects as $apc) { ?>
-                    
-                    <div class="col-sm-6 col-md-4 col-lg-4">
-                      <div class="price-table font-alt">
-                         <a href="<?php echo $apc['project_action']['view']; ?>" target="_blank"><img src="<?php echo  $apc['project_image']; ?>" alt="<?php echo $apc['project_title']; ?>"></a>
-                        <div class="borderline"></div>
-                        <h4><a href="<?php echo $apc['project_action']['view']; ?>" target="_blank"><?php echo $apc['project_title']; ?></a></h4>
-                        <a href="#select-adaptive" class="btn btn-success btn-round mt-20 select-adaptive" data-adaptive="<?php echo  $apc['project_id']; ?>" id="select-adaptive-<?php echo  $apc['project_id']; ?>" data-complete-text="Отменить выбор" data-init-text="Выбрать">Выбрать</a>
-                      </div>
-                    </div>
-
-                  <?php } ?>
-                <?php } ?>
+              <?php foreach ($adaptive_projects as $apc) { ?>
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                  <div class="price-table font-alt">
+                     <a href="<?php echo $apc['project_action']['view']; ?>" target="_blank"><img src="<?php echo  $apc['project_image']; ?>" alt="<?php echo $apc['project_title']; ?>"></a>
+                    <div class="borderline"></div>
+                    <h4><a href="<?php echo $apc['project_action']['view']; ?>" target="_blank"><?php echo $apc['project_title']; ?></a></h4>
+                    <a href="#select-adaptive" class="btn btn-success btn-round mt-20 select-adaptive" data-adaptive="<?php echo  $apc['project_id']; ?>" id="select-adaptive-<?php echo  $apc['project_id']; ?>" data-complete-text="Отменить выбор" data-init-text="Выбрать">Выбрать</a>
+                  </div>
+                </div>
+              <?php } ?>
+            <?php } ?>
             </div>
             <div class="row">
               <div class="form-group">

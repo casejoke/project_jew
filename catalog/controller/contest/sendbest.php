@@ -803,9 +803,9 @@ class ControllerContestSendbest extends Controller {
 
 
     if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_best_send.tpl')) {
-      $this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest.js');
+      $this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/send_best.js');
     } else {
-      $this->document->addScript('catalog/view/theme/default/assets/js/contest.js');
+      $this->document->addScript('catalog/view/theme/default/assets/js/send_best.js');
     }
 
     $data['column_left'] = $this->load->controller('common/column_left');
