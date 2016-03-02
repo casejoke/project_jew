@@ -12,7 +12,8 @@ var upload =  {
 		      clearInterval(timer);
 
 		      $.ajax({
-		        url: 'upload-file',
+		        //url: 'upload-file',
+		        url: '/?route=tool/upload'
 		        type: 'post',
 		        dataType: 'json',
 		        data: new FormData($('#form-upload')[0]),

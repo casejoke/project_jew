@@ -12,7 +12,8 @@ var upload =  {
 		      clearInterval(timer);
 
 		      $.ajax({
-		        url: 'upload-avatar',
+		        //url: 'upload-avatar',
+		        url:'?route=account/account/upload',
 		        type: 'post',
 		        dataType: 'json',
 		        data: new FormData($('#form-upload')[0]),
@@ -63,7 +64,8 @@ var promocode = {
 			'b':_b
 		};
 		$.ajax({
-	        url: 'activatepromocode',
+	        //url: 'activatepromocode',
+	        url:'?route=account/promocode',
 	        type: 'post',
 	        dataType: 'json',
 	        data: data,

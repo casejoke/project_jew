@@ -22,7 +22,8 @@ var invite = {
 		};
 		var _change_btn  = '#invite_'+_a;
 		$.ajax({
-	        url: 'invite-user',
+	       // url: 'invite-user',
+	        url: '/?route=group/invite/invite',
 	        type: 'post',
 	        dataType: 'json',
 	        data: data,
@@ -68,7 +69,8 @@ var invite = {
 		};
 		var _change_btn  = '#uninvite_'+_a;
 		$.ajax({
-	        url: 'uninvite-user',
+	        //url: 'uninvite-user',
+	        url: '/?route=group/invite/uninvite'
 	        type: 'post',
 	        dataType: 'json',
 	        data: data,
