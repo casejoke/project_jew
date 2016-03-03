@@ -52,6 +52,7 @@ class ControllerProjectProject extends Controller {
 			);
 		}
 
+		$data['add_project'] = $this->url->link('project/edit', '', 'SSL'); 
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');

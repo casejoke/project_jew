@@ -27,6 +27,8 @@
               <?php foreach ($contests as $contest) { ?>
                 
                 <div class="col-sm-6 col-md-4 col-lg-4">
+                  <?php echo $contest['contest_status'];?>
+                  <span aria-hidden="true" class="icon-clock"></span>
                   <div class="price-table font-alt">
                     <a href="<?php echo $contest['action']['view']; ?>"> <img src="<?php echo  $contest['contest_image']; ?>" alt="<?php echo $contest['contest_title']; ?>"></a>
                     <div class="borderline"></div>

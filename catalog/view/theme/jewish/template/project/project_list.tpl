@@ -43,6 +43,7 @@
 
       <!-- Sidebar column start -->
       <div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
+        <a href="<?php echo $add_project; ?>" class="btn btn-round btn-block btn-info mb-40 mt-20">Создать проект</a>
         <?php echo $column_right; ?>
         <?php echo $column_left; ?>
       </div>

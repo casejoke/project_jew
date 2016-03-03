@@ -43,7 +43,8 @@ class ControllerContestContest extends Controller {
 				'view'		=> $this->url->link('contest/view', 'contest_id='.$rc['contest_id'], 'SSL')
 			);
 			$data['contests'][] = array(
-				'contest_id'			=> $rc['contest_id'],
+				'contest_id'				=> $rc['contest_id'],
+				'contest_status'		=> $rc['status'],
 				'contest_title'			=> (strlen(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))) > 50 ? mb_strcut(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8')), 0, 55) . '...' : strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))),
 				'contest_image'			=> $image,
 				'action'				=> $actions

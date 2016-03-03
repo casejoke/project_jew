@@ -137,7 +137,7 @@
                      <p class="small">При установке статуса "черновик", заявка будет видна только вам, или по ссылке. Вы сможете в любой момент отредактировать ее и подать заявку.</p>
                       <div class="checkbox">
                         <label>
-                          <input type="checkbox" name="draft" value="1" <?php if($draft_check == 3) echo 'checked'; ?> /> черновик
+                          <input type="checkbox" name="draft" id="draft"   value="1" <?php if($draft_check == 3) echo 'checked'; ?> /> черновик
                         </label>
                       </div>
                     </div>
@@ -158,12 +158,15 @@
              
               <div class="form-group">
                 <div class="col-sm-6 col-sm-offset-3">
-                  <input type="submit" value="<?php echo $text_submit;?>" class="btn btn-round btn-block btn-success" />
+                  <input type="submit" value="<?php echo $text_submit;?>" id="send_btn" class="btn btn-round btn-block btn-success" />
                 </div>
 
               </div>  
             </div> 
             </form>
+
+
+
           </div>
         </div>
         <!-- Post end -->
