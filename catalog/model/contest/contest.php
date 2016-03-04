@@ -118,9 +118,9 @@ class ModelContestContest extends Model {
 
 	public function addAdaptive($customer_id,$contest_id,$project_id){
 			
-		$isset_project = $this->getPersonalAdaptive($customer_id,$contest_id);
+		//$isset_project = $this->getPersonalAdaptive($customer_id,$contest_id);
 		
-		if(!$isset_project){
+		//if(!$isset_project){
 			$this->db->query("INSERT INTO " . DB_PREFIX . "contest_adaptor SET 
 				contest_id = '" . (int)$contest_id . "',
 				customer_id = '" . (int)$customer_id . "',
@@ -128,9 +128,9 @@ class ModelContestContest extends Model {
 				date_added = NOW()"
 			);
 			$contest_adaptor_id = $this->db->getLastId();
-		}else{
-			$contest_adaptor_id = $isset_project['contest_adaptor_id'];
-		}
+		//}else{
+		//	$contest_adaptor_id = $isset_project['contest_adaptor_id'];
+		//}
 			
 
 		return $contest_adaptor_id;
@@ -176,7 +176,7 @@ class ModelContestContest extends Model {
 
 	public function getPersonalAdaptive($customer_id,$contest_id){
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contest_adaptor WHERE contest_id = '" . (int)$contest_id . "' AND customer_id = '" . (int)$customer_id . "'");
-		return $query->row;
+		return $query->rows;
 	}
 
 

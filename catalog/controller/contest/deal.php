@@ -326,7 +326,7 @@ class ControllerContestDeal extends Controller {
 	protected function dealBestContest($contest_info){
 		//для конкурса BestPractice
 		//1 пользователь должен быть победителем (или иметь промокод при использовани котрого указывает какой проект из его выиграл)
-		//2 пользоватлеь может подать 3 заявки (наврно нужно регулировать), то есть выбирает проект котрые будет адаптировать
+		//2 пользоватлеь может подать 2 заявки (наврно нужно регулировать), то есть выбирает проект котрые будет адаптировать
 		//
 	  $contest_id = $this->request->get['contest_id'];
 	  $customer_id = $this->customer->getId();
@@ -410,9 +410,14 @@ class ControllerContestDeal extends Controller {
 		//узнаем подавал ли пользователь на адаптацию свой проект 
 	  	$results_personal_adaptive_projects = $this->model_contest_contest->getPersonalAdaptive($customer_id,$contest_id);
 
-	  	$data['my_adaptive_projects_for_contest'] = 0;
+	  	
+
+	  	$data['my_adaptive_projects_for_contest'] = array();
 	  	if(!empty($results_personal_adaptive_projects)){
-	  		$data['my_adaptive_projects_for_contest'] = $results_personal_adaptive_projects['project_id'];
+	  		foreach ($results_personal_adaptive_projects as $vrpap) {
+	  			$data['my_adaptive_projects_for_contest'][] = $vrpap['project_id'];
+	  		}
+	  		
 	  	}
 	  	
 	  	
@@ -423,11 +428,14 @@ class ControllerContestDeal extends Controller {
 	  	$results_customer_winner = $this->model_contest_contest->getWinnerContest($customer_id);
 	 	$data['my_project'] = array();
 	 	foreach ($results_customer_winner as $vcw) {
-	 			$data['my_project'][] = array(
-	 				'project_id'			=> $vcw['project_id'],
-					'project_title'		=> $projects_for_customer[$vcw['project_id']]['project_title'],
-					'project_image'		=> $projects_for_customer[$vcw['project_id']]['project_image']
-	 			);
+	 			
+		 			$data['my_project'][] = array(
+		 				'project_id'			=> $vcw['project_id'],
+						'project_title'		=> $projects_for_customer[$vcw['project_id']]['project_title'],
+						'project_image'		=> $projects_for_customer[$vcw['project_id']]['project_image'],
+						'project_status'	=> (in_array($vcw['project_id'], $data['my_adaptive_projects_for_contest']))?'1':'0'
+		 			);
+	 			
 	 	}
 
 	 	

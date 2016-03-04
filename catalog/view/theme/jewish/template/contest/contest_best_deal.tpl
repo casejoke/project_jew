@@ -18,14 +18,14 @@
             <h1 class="post-title">Оформление заявки на конкурс: <?php echo $contest_title; ?> </h1>
           </div>
           <div class="post-entry ">
-            <?php if ($my_adaptive_projects_for_contest == 0) { ?>
+            
               <h4 class="font-alt mb-0">ШАГ 1. Внесите свой проект-победитель указанных в&nbsp;правилах конкурсов в&nbsp;общий пул проектов. Только после этого вы&nbsp;сможете продолжить.</h4>
               <p>Если у&nbsp;вас есть проект-победитель, то&nbsp;вам должен был быть прислан соответствующий код с&nbsp;инструкцией. Если вы&nbsp;ее&nbsp;не&nbsp;получили пожалуйста, обратитесь к&nbsp;администраторам сайта <a href="mailto:info@jewish-grassroots.org">info@jewish-grassroots.org</a> и&nbsp;укажите в&nbsp;письме информацию о&nbsp;проекте (название проекта, в&nbsp;какой грантовой программе участвовал, в&nbsp;каком году, кто руководитель проекта).</p>
             
             
-            
+            <?php if (!empty($my_project)) { ?>
              <div class="row">
-            <?php if(!empty($my_project) && $my_adaptive_projects_for_contest == 0) { ?>
+              <?php if(!empty($my_project)) { ?>
                   <?php foreach ($my_project as $pfc) { ?>
 
                     <div class="col-sm-6 col-md-4 col-lg-4">
@@ -33,11 +33,19 @@
                          <img src="<?php echo  $pfc['project_image']; ?>" alt="<?php echo $pfc['project_title']; ?>">
                         <div class="borderline"></div>
                         <h4><?php echo $pfc['project_title']; ?></h4>
-                        <a href="#select-project" class="btn btn-success btn-round mt-20 select-project" data-project="<?php echo  $pfc['project_id']; ?>" id="select-project-<?php echo  $pfc['project_id']; ?>" data-complete-text="Отменить выбор" data-init-text="Выбрать">Выбрать</a>
+                        <?php if($pfc['project_status']){ ?>
+                          <p>Уже использован</p>
+                        <?php }else{ ?>
+                          <a href="#select-project" class="btn btn-success btn-round mt-20 select-project" data-project="<?php echo  $pfc['project_id']; ?>" id="select-project-<?php echo  $pfc['project_id']; ?>" data-complete-text="Отменить выбор" data-init-text="Выбрать">Выбрать</a>
+                        <?php } ?>
+                        
+
+
                       </div>
                     </div>
 
                   <?php } ?>
+
                 <?php } else { ?>
                 <div class="col-sm-12">
                   <h5 class="font-alt">Вы не можете принять участие в Конкурсе, пока не внесете в общую базу для обмена опытом свой проект, реализованный в рамках программ, указанных в <a href="<?php echo $contest_href; ?>">положении о Конкурсе</a>.</h5>
@@ -58,9 +66,9 @@
             <?php } ?>
 
 
-            <h4 class="font-alt mb-0"><?php echo ($my_adaptive_projects_for_contest == 0)?'ШАГ 2. ':'';?>Просмотрите другие проекты-победители и&nbsp;выберите&nbsp;те, которые&nbsp;бы вы&nbsp;хотели&nbsp;бы адаптировать и&nbsp;повторить.</h4>
+            <h4 class="font-alt mb-0">ШАГ 2. Просмотрите другие проекты-победители и&nbsp;выберите&nbsp;те, которые&nbsp;бы вы&nbsp;хотели&nbsp;бы адаптировать и&nbsp;повторить.</h4>
               <?php if(!empty($adaptive_projects)) { ?>
-                <div class="row mt-30  mb-30">
+                <div class="row mt-30  mb-30 hidden">
                   <div class="col-sm-8 col-sm-offset-2">
                     <form role="form">
                       <div class="search-box">
