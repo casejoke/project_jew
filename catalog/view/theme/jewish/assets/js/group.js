@@ -13,7 +13,7 @@ var upload =  {
 
 		      $.ajax({
 		        //url: 'upload-file',
-		        url: '/?route=tool/upload'
+		        url: '/?route=tool/upload',
 		        type: 'post',
 		        dataType: 'json',
 		        data: new FormData($('#form-upload')[0]),

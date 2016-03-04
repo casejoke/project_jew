@@ -411,11 +411,12 @@ class ControllerContestDeal extends Controller {
 	  	$results_personal_adaptive_projects = $this->model_contest_contest->getPersonalAdaptive($customer_id,$contest_id);
 
 	  	
-
+	  	$data['my_adaptive'] =0;
 	  	$data['my_adaptive_projects_for_contest'] = array();
 	  	if(!empty($results_personal_adaptive_projects)){
 	  		foreach ($results_personal_adaptive_projects as $vrpap) {
 	  			$data['my_adaptive_projects_for_contest'][] = $vrpap['project_id'];
+	  			$data['my_adaptive'] = $vrpap['project_id'];
 	  		}
 	  		
 	  	}

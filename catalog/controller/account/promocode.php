@@ -118,9 +118,9 @@ class ControllerAccountPromocode extends Controller {
 
         return $code;
     }
-    protected function temmFun(){
+    public function generateprmocode(){
     	$this->load->model('account/promocode');
-		/*for ($i=0; $i < 10; $i++) { 
+		for ($i=0; $i < 201; $i++) { 
 			
 			$promocode = $this->_createCode();
 			print_r('<pre>');
@@ -132,7 +132,7 @@ class ControllerAccountPromocode extends Controller {
 			}
 			
 		}
-    */
+    
     $promocode_results = $this->model_account_promocode->getPromocodes();
     print_r('expression');
 		foreach ($promocode_results as $value) {

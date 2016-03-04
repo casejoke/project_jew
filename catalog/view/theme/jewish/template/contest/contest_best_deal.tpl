@@ -23,9 +23,9 @@
               <p>Если у&nbsp;вас есть проект-победитель, то&nbsp;вам должен был быть прислан соответствующий код с&nbsp;инструкцией. Если вы&nbsp;ее&nbsp;не&nbsp;получили пожалуйста, обратитесь к&nbsp;администраторам сайта <a href="mailto:info@jewish-grassroots.org">info@jewish-grassroots.org</a> и&nbsp;укажите в&nbsp;письме информацию о&nbsp;проекте (название проекта, в&nbsp;какой грантовой программе участвовал, в&nbsp;каком году, кто руководитель проекта).</p>
             
             
-            <?php if (!empty($my_project)) { ?>
+           
              <div class="row">
-              <?php if(!empty($my_project)) { ?>
+              <?php $isset_adaptive = false; if(!empty($my_project)) { ?>
                   <?php foreach ($my_project as $pfc) { ?>
 
                     <div class="col-sm-6 col-md-4 col-lg-4">
@@ -34,8 +34,8 @@
                         <div class="borderline"></div>
                         <h4><?php echo $pfc['project_title']; ?></h4>
                         <?php if($pfc['project_status']){ ?>
-                          <p>Уже использован</p>
-                        <?php }else{ ?>
+                          <p>Проект в базе конкурса</p>
+                        <?php }else{ $isset_adaptive = true;?>
                           <a href="#select-project" class="btn btn-success btn-round mt-20 select-project" data-project="<?php echo  $pfc['project_id']; ?>" id="select-project-<?php echo  $pfc['project_id']; ?>" data-complete-text="Отменить выбор" data-init-text="Выбрать">Выбрать</a>
                         <?php } ?>
                         
@@ -52,20 +52,22 @@
                 </div>
                   
                 <?php }?>
-                <div class="col-sm-6 col-sm-offset-3">
-                  <a href="<?php echo $add_project; ?>" class="btn btn-round btn-block btn-info mb-40 mt-20">Создать проект</a>
-                </div>
+                
             </div>
-            <script type="text/javascript">
-              var selectProject = 0;
+            <?php if ($isset_adaptive) { ?>
+              <script type="text/javascript">
+               var selectProject = 0;
               </script>
             <?php } else{ ?>
               <script type="text/javascript">
-              var selectProject = <?php echo $my_adaptive_projects_for_contest; ?>
+              var selectProject = <?php echo $my_adaptive; ?>
               </script>
             <?php } ?>
-
-
+            <div class="row">  
+              <div class="col-sm-6 col-sm-offset-3">
+                <a href="<?php echo $add_project; ?>" class="btn btn-round btn-block btn-info mb-40 mt-20">Создать проект</a>
+              </div>
+            </div>
             <h4 class="font-alt mb-0">ШАГ 2. Просмотрите другие проекты-победители и&nbsp;выберите&nbsp;те, которые&nbsp;бы вы&nbsp;хотели&nbsp;бы адаптировать и&nbsp;повторить.</h4>
               <?php if(!empty($adaptive_projects)) { ?>
                 <div class="row mt-30  mb-30 hidden">
@@ -93,12 +95,15 @@
               <?php } ?>
             <?php } ?>
             </div>
-            <div class="row">
+
+            <div id="send_to_modal" class="hidden">
+            <div class="row " >
               <div class="form-group">
                 <div class="col-sm-6 col-sm-offset-3">
                   <a href="<?php echo $action; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20 disabled" id="send_request_to_contest" ><?php echo $text_im_deal;?></a>
                 </div>
               </div>  
+            </div>
             </div>
           </div>
           

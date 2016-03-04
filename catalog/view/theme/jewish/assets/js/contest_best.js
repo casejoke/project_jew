@@ -93,17 +93,27 @@ var contest = {
 
     if (project_id != 0 && adaptive_id != 0) {
       console.log('hello');
-      $('html,body').animate({
+     /* $('html,body').animate({
           scrollTop: $('#send_request_to_contest').offset().top
-        }, 1000);
+        }, 1000);*/
+     
+
       $('#send_request_to_contest').removeClass('disabled')
       console.log(_href_temp + '&project_id='+project_id);
       //cсделать рефактор и добавить шифрование
       $('#send_request_to_contest').attr('href',_href_temp+ '&project_id='+project_id+'&adaptive_id='+adaptive_id);
-    }else{
-      $('#send_request_to_contest').addClass('disabled');
-      
-    };
+      }else{
+        $('#send_request_to_contest').addClass('disabled');
+        
+      };
+
+
+       var body_modal =  $('#send_to_modal').html();  
+       $('#myModal').find('#body_modal').html(body_modal);
+
+      $('#myModal').modal({
+        keyboard: false
+      });
 
   }
 };
