@@ -122,6 +122,9 @@ $(document).ready(function() {
   $('.filter-tag').on(mouse_down,function(e){
     e.preventDefault();
   });
+  
+  $('#ad_projects').mixItUp();
+  
   $('textarea').each(function() {
     if ($(this).attr('data-editor') == 'summernote') {
       $(this).summernote({

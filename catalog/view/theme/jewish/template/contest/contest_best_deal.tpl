@@ -85,7 +85,7 @@
              <div class="row" id="ad_projects">
             <?php if(!empty($adaptive_projects)) { ?>
               <?php foreach ($adaptive_projects as $apc) { ?>
-                <div class="col-sm-6 col-md-4 col-lg-4">
+                <div class="col-sm-6 col-md-4 col-lg-4 mix filter-<?php echo $apc['project_age']; ?> " >
                   <div class="price-table font-alt">
                      <a href="<?php echo $apc['project_action']['view']; ?>" target="_blank"><img src="<?php echo  $apc['project_image']; ?>" alt="<?php echo $apc['project_title']; ?>"></a>
                     <div class="borderline"></div>
@@ -127,7 +127,7 @@
               <h6 class="font-alt">Возраст группы проекта</h6>
               <div class="tags font-serif">
                 <?php foreach ($age_statuses as  $vas) { ?>
-                 <a href="" rel="tag" class="filter-tag"><?php echo $vas['filter_title'];?></a>
+                 <btn rel="tag" class="filter" data-filter=".filter-<?php echo $vas['filtet_id'];?>"><?php echo $vas['filter_title'];?></btn>
                 <?php } ?>
               </div>
               <h6 class="font-alt">Религия / национальность</h6>

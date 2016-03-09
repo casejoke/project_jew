@@ -460,6 +460,7 @@ class ControllerContestDeal extends Controller {
 				'project_id'			=> $result_p['project_id'],
 				'project_title'			=> (strlen(strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'))) > 40 ? mb_strcut(strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8')), 0, 40) . '...' : strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'))),
 				'project_image'			=> $image,
+				'project_age' 			=> unserialize($result_p['project_age']),
 				'action'				=> $actions
 			);
 		}
@@ -487,6 +488,7 @@ class ControllerContestDeal extends Controller {
 					'project_title'		=> $projects[$vrap['project_id']]['project_title'],
 					'project_image'		=> $projects[$vrap['project_id']]['project_image'],
 					'project_action'		=> $projects[$vrap['project_id']]['action'],
+					'project_age'     => $projects[$vrap['project_id']]['project_age'][0]
 	 			);
 			}
 			
@@ -709,8 +711,11 @@ class ControllerContestDeal extends Controller {
 
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_deal.tpl')) {
+				$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/mixitup.min.js');
 			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest_best.js');
+
 		} else {
+			$this->document->addScript('catalog/view/theme/default/assets/js/mixitup.min.js');
 			$this->document->addScript('catalog/view/theme/default/assets/js/contest_best.js');
 		}
 
