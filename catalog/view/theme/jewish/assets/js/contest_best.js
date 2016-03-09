@@ -102,24 +102,26 @@ var contest = {
       console.log(_href_temp + '&project_id='+project_id);
       //cсделать рефактор и добавить шифрование
       $('#send_request_to_contest').attr('href',_href_temp+ '&project_id='+project_id+'&adaptive_id='+adaptive_id);
+      var body_modal =  $('#send_to_modal').html();  
+       $('#myModal').find('#body_modal').html(body_modal);
+
+      $('#myModal').modal('show');
+      console.log('ff');
       }else{
         $('#send_request_to_contest').addClass('disabled');
         
       };
 
 
-       var body_modal =  $('#send_to_modal').html();  
-       $('#myModal').find('#body_modal').html(body_modal);
-
-      $('#myModal').modal({
-        keyboard: false
-      });
 
   }
 };
 
 $(document).ready(function() {
   contest.init();
+  $('.filter-tag').on(mouse_down,function(e){
+    e.preventDefault();
+  });
   $('textarea').each(function() {
     if ($(this).attr('data-editor') == 'summernote') {
       $(this).summernote({

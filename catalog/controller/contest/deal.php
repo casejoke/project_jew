@@ -680,6 +680,27 @@ class ControllerContestDeal extends Controller {
 		}
 
 
+		//профессиональный статус
+		$filter_data = array();
+		$professional_statuses_results = $this->model_project_project->getProfessionalStatuses($filter_data);
+		$data['professional_statuses']  = array();
+		foreach ($professional_statuses_results as $psr) {
+			$data['professional_statuses'][]  = array(
+				'filtet_id'				=> $psr['professional_status_id'],
+				'filter_title'  	=> $psr['name']
+			);
+		}
+
+		//демографический статус
+		$filter_data = array();
+		$demographic_statuses_results = $this->model_project_project->getDemographicStatuses($filter_data);
+		$data['demographic_statuses']  = array();
+		foreach ($demographic_statuses_results as $psr) {
+			$data['demographic_statuses'][]  = array(
+				'filtet_id'				=> $psr['demographic_status_id'],
+				'filter_title'  	=> $psr['name']
+			);
+		}
 
 
 

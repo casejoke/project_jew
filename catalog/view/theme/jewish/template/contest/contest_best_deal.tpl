@@ -3,14 +3,13 @@
   <div class="container">
   <?php echo $content_top; ?>
     <div class="row">
-      <div class="col-sm-10 col-sm-offset-1">
-        <?php if (!empty($success)) { ?>
-          <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> <?php echo $success; ?></div>
-        <?php } ?>
-      </div><!-- /.col-sm-10 -->
+      
      
       <!-- Content column start -->
       <div class="col-sm-8">
+        <?php if (!empty($success)) { ?>
+          <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> <?php echo $success; ?></div>
+        <?php } ?>
         <!-- Post start -->
         <div class="post">
           
@@ -81,7 +80,9 @@
                   </div>
                 </div>
               <?php } ?>
-             <div class="row">
+              
+            
+             <div class="row" id="ad_projects">
             <?php if(!empty($adaptive_projects)) { ?>
               <?php foreach ($adaptive_projects as $apc) { ?>
                 <div class="col-sm-6 col-md-4 col-lg-4">
@@ -96,26 +97,64 @@
             <?php } ?>
             </div>
 
+
             <div id="send_to_modal" class="hidden">
-            <div class="row " >
-              <div class="form-group">
-                <div class="col-sm-6 col-sm-offset-3">
-                  <a href="<?php echo $action; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20 disabled" id="send_request_to_contest" ><?php echo $text_im_deal;?></a>
-                </div>
-              </div>  
+              <div class="row " >
+                <div class="form-group">
+                  <div class="col-sm-6 col-sm-offset-3">
+                    <a href="<?php echo $action; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20 disabled" id="send_request_to_contest" ><?php echo $text_im_deal;?></a>
+                  </div>
+                </div> 
+              </div>
             </div>
-            </div>
-          </div>
           
 
         </div>
         <!-- Post end -->
       </div>
+      </div>
       <!-- Content column end -->
        <!-- Sidebar column start -->
-      <div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
+      <div class="col-sm-4 col-md-3 col-md-offset-1 sidebar" role="complementary">
+
+
         <?php echo $column_left; ?>
         <?php echo $column_right; ?>
+
+        <div class="widget affix-top" id="filter" data-spy="affix" data-offset-top="54" data-offset-bottom="200">
+              <h5 class="widget-title font-alt">Фильтр проектов</h5>
+
+              <h6 class="font-alt">Возраст группы проекта</h6>
+              <div class="tags font-serif">
+                <?php foreach ($age_statuses as  $vas) { ?>
+                 <a href="" rel="tag" class="filter-tag"><?php echo $vas['filter_title'];?></a>
+                <?php } ?>
+              </div>
+              <h6 class="font-alt">Религия / национальность</h6>
+              <div class="tags font-serif">
+                <?php foreach ($nationality_statuses as  $vns) { ?>
+                 <a href="" rel="tag" class="filter-tag"><?php echo $vns['filter_title'];?></a>
+                <?php } ?>
+              </div>
+
+              <h6 class="font-alt">Профессиональный статус</h6>
+              <div class="tags font-serif">
+                <?php foreach ($professional_statuses as  $vps) { ?>
+                 <a href="" rel="tag" class="filter-tag"><?php echo $vps['filter_title'];?></a>
+                <?php } ?>
+              </div>
+             
+              <h6 class="font-alt">Демографический статус</h6>
+              <div class="tags font-serif">
+                <?php foreach ($demographic_statuses as  $vds) { ?>
+                 <a href="" rel="tag" class="filter-tag"><?php echo $vds['filter_title'];?></a>
+                <?php } ?>
+              </div> 
+              
+             
+
+              
+            </div>
       </div>
       <!-- Sidebar column end -->
       <?php echo $content_bottom; ?>
