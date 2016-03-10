@@ -119,12 +119,20 @@ var contest = {
 
 $(document).ready(function() {
   contest.init();
-  $('.filter-tag').on(mouse_down,function(e){
+  $('.tag').on(mouse_down,function(e){
     e.preventDefault();
   });
+
   
-  $('#ad_projects').mixItUp();
-  
+  $('#ad_projects').mixItUp({
+    load: {
+      filter: 'all'
+    },
+    //controls: {
+      //toggleFilterButtons: true
+    //}
+  });
+
   $('textarea').each(function() {
     if ($(this).attr('data-editor') == 'summernote') {
       $(this).summernote({

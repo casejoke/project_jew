@@ -142,7 +142,16 @@
                       </div>
                     </div>
                 </div>
-                 
+                <div class="col-sm-12">
+                  <div class="form-group">
+                     <label class="control-label font-alt">Уведомления</label>    
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="notice_draft" id="notice_draft"   value="1"  />отправить уведомление автору
+                        </label>
+                      </div>
+                    </div>
+                </div> 
               </div>
             <?php } ?>
 

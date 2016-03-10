@@ -711,7 +711,8 @@ class ControllerContestDeal extends Controller {
 
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_deal.tpl')) {
-				$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/mixitup.min.js');
+	//			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/mixitup.min.js');
+				$this->document->addScript('http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js');
 			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest_best.js');
 
 		} else {

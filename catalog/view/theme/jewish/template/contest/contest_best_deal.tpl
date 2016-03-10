@@ -82,18 +82,86 @@
               <?php } ?>
               
             
-             <div class="row" id="ad_projects">
+             <div class="row" >
             <?php if(!empty($adaptive_projects)) { ?>
+              <div class="col-md-12">
+                <div class="panel-group" id="accordion">
+
+                    <!-- Accordion item start -->
+                    <div class="panel panel-default mt-20">
+                      <div class="panel-heading">
+                        <h4 class="panel-title font-alt">
+                          <a data-toggle="collapse" data-parent="#accordion" href="#support1" class="collapsed">
+                            Фильтр проектов
+                          </a>
+                        </h4>
+                      </div>
+                      <div id="support1" class="panel-collapse collapse ">
+
+                        <div class="panel-body">
+
+
+                           <div class="widget " id="filter">
+                            <div class="filter" data-filter="all">Show All</div>
+                            <h6 class="font-alt">Возраст группы проекта</h6>
+                            <div class="tags font-alt">
+                              <?php foreach ($age_statuses as  $vas) { ?>
+                               <btn  class="tag btn btn-d btn-xs mb-10 filter" data-filter=".filter-<?php echo $vas['filtet_id'];?>"><?php echo $vas['filter_title'];?></btn>
+                              <?php } ?>
+                            </div>
+                            
+                            <h6 class="font-alt">Религия / национальность</h6>
+                            <div class="tags font-alt">
+                              <?php foreach ($nationality_statuses as  $vns) { ?>
+                               <btn class="tag btn btn-d btn-xs mb-10 filter"><?php echo $vns['filter_title'];?></btn>
+                              <?php } ?>
+                            </div>
+
+                            <h6 class="font-alt">Профессиональный статус</h6>
+                            <div class="tags font-alt">
+                              <?php foreach ($professional_statuses as  $vps) { ?>
+                               <btn class="tag btn btn-d btn-xs mb-10 filter"><?php echo $vps['filter_title'];?></btn>
+                              <?php } ?>
+                            </div>
+                           
+                            <h6 class="font-alt">Демографический статус</h6>
+                            <div class="tags font-alt">
+                              <?php foreach ($demographic_statuses as  $vds) { ?>
+                               <btn class="tag btn btn-d btn-xs mb-10 filter"><?php echo $vds['filter_title'];?></btn>
+                              <?php } ?>
+                            </div> 
+
+                          </div>
+
+
+
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Accordion item end -->
+
+
+                  </div>
+
+
+
+
+
+               
+              </div>
+              <div id="ad_projects">
               <?php foreach ($adaptive_projects as $apc) { ?>
                 <div class="col-sm-6 col-md-4 col-lg-4 mix filter-<?php echo $apc['project_age']; ?> " >
                   <div class="price-table font-alt">
                      <a href="<?php echo $apc['project_action']['view']; ?>" target="_blank"><img src="<?php echo  $apc['project_image']; ?>" alt="<?php echo $apc['project_title']; ?>"></a>
                     <div class="borderline"></div>
                     <h4><a href="<?php echo $apc['project_action']['view']; ?>" target="_blank"><?php echo $apc['project_title']; ?></a></h4>
+                    <a href="<?php echo $apc['project_action']['view']; ?>" target="_blank" class="btn btn-info btn-round mt-20" >Просмотреть</a>
                     <a href="#select-adaptive" class="btn btn-success btn-round mt-20 select-adaptive" data-adaptive="<?php echo  $apc['project_id']; ?>" id="select-adaptive-<?php echo  $apc['project_id']; ?>" data-complete-text="Отменить выбор" data-init-text="Выбрать">Выбрать</a>
                   </div>
                 </div>
               <?php } ?>
+              </div>
             <?php } ?>
             </div>
 
@@ -121,40 +189,7 @@
         <?php echo $column_left; ?>
         <?php echo $column_right; ?>
 
-        <div class="widget affix-top" id="filter" data-spy="affix" data-offset-top="54" data-offset-bottom="200">
-              <h5 class="widget-title font-alt">Фильтр проектов</h5>
-
-              <h6 class="font-alt">Возраст группы проекта</h6>
-              <div class="tags font-serif">
-                <?php foreach ($age_statuses as  $vas) { ?>
-                 <btn rel="tag" class="filter" data-filter=".filter-<?php echo $vas['filtet_id'];?>"><?php echo $vas['filter_title'];?></btn>
-                <?php } ?>
-              </div>
-              <h6 class="font-alt">Религия / национальность</h6>
-              <div class="tags font-serif">
-                <?php foreach ($nationality_statuses as  $vns) { ?>
-                 <a href="" rel="tag" class="filter-tag"><?php echo $vns['filter_title'];?></a>
-                <?php } ?>
-              </div>
-
-              <h6 class="font-alt">Профессиональный статус</h6>
-              <div class="tags font-serif">
-                <?php foreach ($professional_statuses as  $vps) { ?>
-                 <a href="" rel="tag" class="filter-tag"><?php echo $vps['filter_title'];?></a>
-                <?php } ?>
-              </div>
-             
-              <h6 class="font-alt">Демографический статус</h6>
-              <div class="tags font-serif">
-                <?php foreach ($demographic_statuses as  $vds) { ?>
-                 <a href="" rel="tag" class="filter-tag"><?php echo $vds['filter_title'];?></a>
-                <?php } ?>
-              </div> 
-              
-             
-
-              
-            </div>
+        
       </div>
       <!-- Sidebar column end -->
       <?php echo $content_bottom; ?>

@@ -8070,6 +8070,7 @@ Widgets
 Tags
 ------------------------------------------------------------------- */
 .tags a {
+  cursor: pointer;
   background: #111;
   display: inline-block;
   font-size: 10px;
@@ -8905,6 +8906,15 @@ end modules
   border-top: 1px solid #202020;
   margin: 0; }
 
+/* -------------------------------------------------------------------
+Tags
+------------------------------------------------------------------- */
+.tag {
+  display: inline-block; }
+
+#ad_projects .mix {
+  display: none; }
+
 /* Button style */
 .btn {
   border-radius: 0;
@@ -8966,6 +8976,9 @@ end modules
 
 .btn.btn-d:hover,
 .btn.btn-d:focus {
+  background: #111111; }
+
+.btn.btn-d.active {
   background: #111111; }
 
 .btn.btn-b {
