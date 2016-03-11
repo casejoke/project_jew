@@ -101,33 +101,33 @@
                         <div class="panel-body">
 
 
-                           <div class="widget " id="filter">
-                            <div class="filter" data-filter="all">Show All</div>
+                           <div class="widget " id="filters">
+                            
                             <h6 class="font-alt">Возраст группы проекта</h6>
                             <div class="tags font-alt">
                               <?php foreach ($age_statuses as  $vas) { ?>
-                               <btn  class="tag btn btn-d btn-xs mb-10 filter" data-filter=".filter-<?php echo $vas['filtet_id'];?>"><?php echo $vas['filter_title'];?></btn>
+                               <btn  class="tag btn btn-d btn-xs mb-10 filter" data-filter=".filter-age-<?php echo $vas['filtet_id'];?>"><?php echo $vas['filter_title'];?></btn>
                               <?php } ?>
                             </div>
                             
                             <h6 class="font-alt">Религия / национальность</h6>
                             <div class="tags font-alt">
                               <?php foreach ($nationality_statuses as  $vns) { ?>
-                               <btn class="tag btn btn-d btn-xs mb-10 filter"><?php echo $vns['filter_title'];?></btn>
+                               <btn class="tag btn btn-d btn-xs mb-10 filter" data-filter=".filter-nationality-<?php echo $vns['filtet_id'];?>"><?php echo $vns['filter_title'];?></btn>
                               <?php } ?>
                             </div>
 
                             <h6 class="font-alt">Профессиональный статус</h6>
                             <div class="tags font-alt">
                               <?php foreach ($professional_statuses as  $vps) { ?>
-                               <btn class="tag btn btn-d btn-xs mb-10 filter"><?php echo $vps['filter_title'];?></btn>
+                               <btn class="tag btn btn-d btn-xs mb-10 filter" data-filter=".filter-professional-<?php echo $vps['filtet_id'];?>"><?php echo $vps['filter_title'];?></btn>
                               <?php } ?>
                             </div>
                            
                             <h6 class="font-alt">Демографический статус</h6>
                             <div class="tags font-alt">
                               <?php foreach ($demographic_statuses as  $vds) { ?>
-                               <btn class="tag btn btn-d btn-xs mb-10 filter"><?php echo $vds['filter_title'];?></btn>
+                               <btn class="tag btn btn-d btn-xs mb-10 filter" data-filter=".filter-demographic-<?php echo $vds['filtet_id'];?>"><?php echo $vds['filter_title'];?></btn>
                               <?php } ?>
                             </div> 
 
@@ -151,13 +151,17 @@
               </div>
               <div id="ad_projects">
               <?php foreach ($adaptive_projects as $apc) { ?>
-                <div class="col-sm-6 col-md-4 col-lg-4 mix filter-<?php echo $apc['project_age']; ?> " >
+                <div class="col-sm-6 col-md-4 col-lg-4 mix <?php echo $apc['project_age']. $apc['project_nationality']. $apc['project_professional']. $apc['project_demographic']; ?> " >
                   <div class="price-table font-alt">
                      <a href="<?php echo $apc['project_action']['view']; ?>" target="_blank"><img src="<?php echo  $apc['project_image']; ?>" alt="<?php echo $apc['project_title']; ?>"></a>
                     <div class="borderline"></div>
                     <h4><a href="<?php echo $apc['project_action']['view']; ?>" target="_blank"><?php echo $apc['project_title']; ?></a></h4>
+
                     <a href="<?php echo $apc['project_action']['view']; ?>" target="_blank" class="btn btn-info btn-round mt-20" >Просмотреть</a>
+
+
                     <a href="#select-adaptive" class="btn btn-success btn-round mt-20 select-adaptive" data-adaptive="<?php echo  $apc['project_id']; ?>" id="select-adaptive-<?php echo  $apc['project_id']; ?>" data-complete-text="Отменить выбор" data-init-text="Выбрать">Выбрать</a>
+
                   </div>
                 </div>
               <?php } ?>

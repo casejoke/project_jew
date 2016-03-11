@@ -117,6 +117,10 @@ var contest = {
   }
 };
 
+
+  
+// On document ready, initialise our code.
+
 $(document).ready(function() {
   contest.init();
   $('.tag').on(mouse_down,function(e){
@@ -124,14 +128,26 @@ $(document).ready(function() {
   });
 
   
+ // Initialize buttonFilter code
+      
+  //buttonFilter.init();
+      
+  // Instantiate MixItUp
+      
   $('#ad_projects').mixItUp({
     load: {
-      filter: 'all'
+      filter: 'all' 
     },
-    //controls: {
-      //toggleFilterButtons: true
-    //}
-  });
+    controls: {
+      toggleFilterButtons: true,
+      toggleLogic: 'and'
+    },
+    callbacks: {
+      onMixEnd: function(state){
+        console.log(state.activeFilter)
+      }
+    }
+  });  
 
   $('textarea').each(function() {
     if ($(this).attr('data-editor') == 'summernote') {

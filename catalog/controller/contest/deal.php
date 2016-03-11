@@ -461,6 +461,9 @@ class ControllerContestDeal extends Controller {
 				'project_title'			=> (strlen(strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'))) > 40 ? mb_strcut(strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8')), 0, 40) . '...' : strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'))),
 				'project_image'			=> $image,
 				'project_age' 			=> unserialize($result_p['project_age']),
+				'project_nationality' 	=> unserialize($result_p['project_nationality']),
+				'project_professional' 			=> unserialize($result_p['project_professional']),
+				'project_demographic' 	=> unserialize($result_p['project_demographic']),
 				'action'				=> $actions
 			);
 		}
@@ -483,18 +486,52 @@ class ControllerContestDeal extends Controller {
 		$data['adaptive_projects'] = array();
 		foreach ($results_adaptive_projects as $vrap) {
 			if(empty($project_request_adaptive[$vrap['project_id']])){
+				$filter_age = '';
+				if(!empty( $projects[$vrap['project_id']]['project_age'])){
+					foreach ($projects[$vrap['project_id']]['project_age'] as $vpa) {
+						$filter_age .=	" filter-age-".$vpa;
+					}
+					
+				}
+
+				$filter_nationality = '';
+				if(!empty( $projects[$vrap['project_id']]['project_nationality'])){
+					foreach ($projects[$vrap['project_id']]['project_nationality'] as $vpn) {
+						$filter_nationality .=	" filter-nationality-".$vpn;
+					}
+					
+				}
+
+				$filter_professional = '';
+				if(!empty( $projects[$vrap['project_id']]['project_professional'])){
+					foreach ($projects[$vrap['project_id']]['project_professional'] as $vpp) {
+						$filter_professional .=	" filter-professional-".$vpp;
+					}
+					
+				}
+
+				$filter_demographic = '';
+				if(!empty( $projects[$vrap['project_id']]['project_demographic'])){
+					foreach ($projects[$vrap['project_id']]['project_demographic'] as $vpd) {
+						$filter_demographic .=	" filter-demographic-".$vpd;
+					}
+					
+				}
+
 				$data['adaptive_projects'][] = array(
-	 				'project_id'			=> $vrap['project_id'],
+	 				'project_id'		=> $vrap['project_id'],
 					'project_title'		=> $projects[$vrap['project_id']]['project_title'],
 					'project_image'		=> $projects[$vrap['project_id']]['project_image'],
-					'project_action'		=> $projects[$vrap['project_id']]['action'],
-					'project_age'     => $projects[$vrap['project_id']]['project_age'][0]
+					'project_action'    => $projects[$vrap['project_id']]['action'],
+					'project_age'       => $filter_age,
+					'project_nationality'       => $filter_nationality,
+					'project_professional'       => $filter_professional,
+					'project_demographic'       => $filter_demographic
 	 			);
 			}
 			
 		}
 
-		
 
 
 
