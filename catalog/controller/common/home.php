@@ -10,7 +10,71 @@ class ControllerCommonHome extends Controller {
 		}
 
 
+		//конкурсы
+		$this->load->model('contest/contest');
+		$this->load->model('tool/upload');
+		$this->load->model('tool/image');
 
+		//подтянем все активные конкурсы
+		$filter_data = array(
+			'page' => 1,
+			'limit' => 3,
+			'start' => 0,
+			'filter_status'	=> 1
+		);
+		$results_contests = $this->model_contest_contest->getContests($filter_data);
+		$data['contests'] = array();
+		foreach ($results_contests as $rc) {
+			if (!empty($rc['image'])) {
+				$image= $this->model_tool_image->resize($rc['image'], 300, 300,'h');
+			}else{
+				$image = $this->model_tool_image->resize('placeholder.png', 300, 300,'h');
+			}
+
+			$actions = array(
+				'view'		=> $this->url->link('contest/view', 'contest_id='.$rc['contest_id'], 'SSL')
+			);
+			$data['contests'][] = array(
+				'contest_id'				=> $rc['contest_id'],
+				'contest_status'		=> $rc['status'],
+				'contest_title'			=> (strlen(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))) > 50 ? mb_strcut(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8')), 0, 55) . '...' : strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))),
+				'contest_image'			=> $image,
+				'action'				=> $actions
+			);
+		}
+
+		//конкурсы архивные
+		$this->load->model('contest/contest');
+		$this->load->model('tool/upload');
+		$this->load->model('tool/image');
+
+		//подтянем все активные конкурсы
+		$filter_data = array(
+			'page' => 1,
+			'limit' => 3,
+			'start' => 0,
+			'filter_status'	=> 2
+		);
+		$results_contests = $this->model_contest_contest->getContests($filter_data);
+		$data['contests_archive'] = array();
+		foreach ($results_contests as $rc) {
+			if (!empty($rc['image'])) {
+				$image= $this->model_tool_image->resize($rc['image'], 300, 300,'h');
+			}else{
+				$image = $this->model_tool_image->resize('placeholder.png', 300, 300,'h');
+			}
+
+			$actions = array(
+				'view'		=> $this->url->link('contest/view', 'contest_id='.$rc['contest_id'], 'SSL')
+			);
+			$data['contests_archive'][] = array(
+				'contest_id'				=> $rc['contest_id'],
+				'contest_status'		=> $rc['status'],
+				'contest_title'			=> (strlen(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))) > 50 ? mb_strcut(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8')), 0, 55) . '...' : strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))),
+				'contest_image'			=> $image,
+				'action'				=> $actions
+			);
+		}
 
 
 		//последние новости проекта

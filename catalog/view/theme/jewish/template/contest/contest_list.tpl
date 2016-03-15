@@ -22,6 +22,8 @@
      
       <!-- Content column start -->
       <div class="col-sm-8">
+        
+
         <div class="row multi-columns-row">
            <?php if(!empty($contests)){ ?> 
               <?php foreach ($contests as $contest) { ?>
@@ -45,6 +47,7 @@
 
           <?php  }?>
         </div>
+
       </div>
       <!-- Content column end -->
 

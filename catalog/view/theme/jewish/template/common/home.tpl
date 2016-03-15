@@ -68,8 +68,89 @@
     <!-- About end -->
     <!-- Divider -->
     <hr class="divider-w">
+    <section id="new_contest" class="module module--small ">
+      <div class="container">
+        <!-- Divider -->
+         <div class="row">
+
+              <div class="col-sm-6 col-sm-offset-3">
+
+                <h2 class="module-title font-alt">Победители конкурсов</h2>
+                <div class="module-subtitle font-serif hidden"></div>
+
+              </div>
+
+            </div><!-- .row -->
+            <div class="row multi-columns-row">
+              <div class="col-sm-8 col-sm-offset-2">
+                   <?php if(!empty($contests_archive)){ ?> 
+                      <?php foreach ($contests_archive as $contest) { ?>
+                        
+                        <div class="col-sm-6 col-md-4 col-lg-4">
+                          <?php //echo $contest['contest_status'];?>
+                          <span aria-hidden="true" class="icon-clock"></span>
+                          <div class="price-table font-alt">
+                            <a href="<?php echo $contest['action']['view']; ?>"> <img src="<?php echo  $contest['contest_image']; ?>" alt="<?php echo $contest['contest_title']; ?>"></a>
+                            <div class="borderline"></div>
+                            <h4><a href="<?php echo $contest['action']['view']; ?>" ><?php echo $contest['contest_title']; ?></a></h4>
+                            <a href="<?php echo $contest['action']['view']; ?>" class="btn btn-info btn-block btn-round mt-20">Подробнее</a>
+                          </div>
+                        </div>
+
+                      <?php } ?>
+                  <?php } else{ ?>
+                    <div class="col-sm-8 col-sm-offset-2 text-center mb-20">
+                      <h3 class="font-alt text-center">Список конкурсов пуст</h3>
+                    </div>
+
+                  <?php  }?>
+                  </div>
+                </div>
+            </div>
+          </section>
+    <section id="contest" class="module module--small pt-0">
+      <div class="container">
     <!-- Divider -->
-    
+     <div class="row">
+
+          <div class="col-sm-6 col-sm-offset-3">
+
+            <h2 class="module-title font-alt">Текущие конкурсы</h2>
+            <div class="module-subtitle font-serif hidden"></div>
+
+          </div>
+
+        </div><!-- .row -->
+        <div class="row multi-columns-row">
+          <div class="col-sm-8 col-sm-offset-2">
+               <?php if(!empty($contests)){ ?> 
+                  <?php foreach ($contests as $contest) { ?>
+                    
+                    <div class="col-sm-6 col-md-4 col-lg-4">
+                      <?php //echo $contest['contest_status'];?>
+                      <span aria-hidden="true" class="icon-clock"></span>
+                      <div class="price-table font-alt">
+                        <a href="<?php echo $contest['action']['view']; ?>"> <img src="<?php echo  $contest['contest_image']; ?>" alt="<?php echo $contest['contest_title']; ?>"></a>
+                        <div class="borderline"></div>
+                        <h4><a href="<?php echo $contest['action']['view']; ?>" ><?php echo $contest['contest_title']; ?></a></h4>
+                        <a href="<?php echo $contest['action']['view']; ?>" class="btn btn-info btn-block btn-round mt-20">Подробнее</a>
+                      </div>
+                    </div>
+
+                  <?php } ?>
+              <?php } else{ ?>
+                <div class="col-sm-8 col-sm-offset-2 text-center mb-20">
+                  <h3 class="font-alt text-center">Список конкурсов пуст</h3>
+                </div>
+
+              <?php  }?>
+              </div>
+            </div>
+        </div>
+      </section>
+
+      
+
     <section id="news" class="module module--small">
       <div class="container">
 

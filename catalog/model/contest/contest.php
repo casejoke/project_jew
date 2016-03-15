@@ -41,6 +41,10 @@ class ModelContestContest extends Model {
 			$sql .= " AND dd.title LIKE '" . $this->db->escape($data['filter_title']) . "%'";
 		}
 
+		if (!empty($data['filter_status'])) {
+			$sql .= " AND d.status = '" . (int)$data['filter_status'] . "'";
+		}
+
 		$sort_data = array(
 			'dd.title',
 			'd.date_start'
@@ -52,10 +56,10 @@ class ModelContestContest extends Model {
 			$sql .= " ORDER BY d.date_start";
 		}
 
-		if (isset($data['order']) && ($data['order'] == 'ASC')) {
-			$sql .= " ASC";
-		} else {
+		if (isset($data['order']) && ($data['order'] == 'DESC')) {
 			$sql .= " DESC";
+		} else {
+			$sql .= " ASC";
 		}
 
 		if (isset($data['start']) || isset($data['limit'])) {
