@@ -20,7 +20,7 @@ class ControllerCommonHome extends Controller {
 			'page' => 1,
 			'limit' => 3,
 			'start' => 0,
-			'filter_status'	=> 1
+			'filter_status'	=> array('1')
 		);
 		$results_contests = $this->model_contest_contest->getContests($filter_data);
 		$data['contests'] = array();
@@ -53,7 +53,7 @@ class ControllerCommonHome extends Controller {
 			'page' => 1,
 			'limit' => 3,
 			'start' => 0,
-			'filter_status'	=> 2
+			'filter_status'	=> array('2')
 		);
 		$results_contests = $this->model_contest_contest->getContests($filter_data);
 		$data['contests_archive'] = array();

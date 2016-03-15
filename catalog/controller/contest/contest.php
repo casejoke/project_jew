@@ -30,7 +30,13 @@ class ControllerContestContest extends Controller {
 		$this->load->model('tool/upload');
 		$this->load->model('tool/image');
 		//подтянем все активные конкурсы
-		$results_contests = $this->model_contest_contest->getContests();
+		//подтянем все активные конкурсы
+		$filter_data = array(
+			'filter_status'	=> array('1','2')
+		);
+		$results_contests = $this->model_contest_contest->getContests($filter_data);
+
+
 		$data['contests'] = array();
 		foreach ($results_contests as $rc) {
 			if (!empty($rc['image'])) {

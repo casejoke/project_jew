@@ -42,8 +42,19 @@ class ModelContestContest extends Model {
 		}
 
 		if (!empty($data['filter_status'])) {
-			$sql .= " AND d.status = '" . (int)$data['filter_status'] . "'";
+
+
+			if(count($data['filter_status']) > 1){
+				$sql .= " AND d.status IN (" . implode(',', $data['filter_status']) . ")";
+			}else{
+				$sql .= " AND d.status = '" . (int)$data['filter_status'][0] . "'";
+			}
+
+			
 		}
+
+
+
 
 		$sort_data = array(
 			'dd.title',

@@ -24,29 +24,57 @@
       <div class="col-sm-8">
         
 
-        <div class="row multi-columns-row">
+        
            <?php if(!empty($contests)){ ?> 
+              <div class="row multi-columns-row">
               <?php foreach ($contests as $contest) { ?>
-                
-                <div class="col-sm-6 col-md-4 col-lg-4">
-                  <?php //echo $contest['contest_status'];?>
-                  <span aria-hidden="true" class="icon-clock"></span>
-                  <div class="price-table font-alt">
-                    <a href="<?php echo $contest['action']['view']; ?>"> <img src="<?php echo  $contest['contest_image']; ?>" alt="<?php echo $contest['contest_title']; ?>"></a>
-                    <div class="borderline"></div>
-                    <h4><a href="<?php echo $contest['action']['view']; ?>" ><?php echo $contest['contest_title']; ?></a></h4>
-                    <a href="<?php echo $contest['action']['view']; ?>" class="btn btn-info btn-block btn-round mt-20">Подробнее</a>
+                <?php if($contest['contest_status'] == 1) { ?>
+                  <div class="col-sm-6 col-md-4 col-lg-4">
+                    <span aria-hidden="true" class="icon-clock"></span>
+                    <div class="price-table font-alt">
+                      <a href="<?php echo $contest['action']['view']; ?>"> <img src="<?php echo  $contest['contest_image']; ?>" alt="<?php echo $contest['contest_title']; ?>"></a>
+                      <div class="borderline"></div>
+                      <h4><a href="<?php echo $contest['action']['view']; ?>" ><?php echo $contest['contest_title']; ?></a></h4>
+                      <a href="<?php echo $contest['action']['view']; ?>" class="btn btn-info btn-block btn-round mt-20">Подробнее</a>
+                    </div>
                   </div>
-                </div>
-
+                <?php }?>
               <?php } ?>
+              </div>
+              <div class="row multi-columns-row">
+              <div class="col-sm-8 col-sm-offset-2 text-center mb-20">
+                <h3 class="font-alt text-center">Завершенные конкурсы</h3>
+              </div>
+              </div>
+              <div class="row multi-columns-row">
+               <?php foreach ($contests as $contest) { ?>
+                <?php if($contest['contest_status'] == 2) { ?>
+                  <div class="col-sm-6 col-md-4 col-lg-4">
+                    <span aria-hidden="true" class="icon-clock"></span>
+                    <div class="price-table font-alt">
+                      <a href="<?php echo $contest['action']['view']; ?>"> <img src="<?php echo  $contest['contest_image']; ?>" alt="<?php echo $contest['contest_title']; ?>"></a>
+                      <div class="borderline"></div>
+                      <h4><a href="<?php echo $contest['action']['view']; ?>" ><?php echo $contest['contest_title']; ?></a></h4>
+                      <a href="<?php echo $contest['action']['view']; ?>" class="btn btn-info btn-block btn-round mt-20">Подробнее</a>
+                    </div>
+                  </div>
+                <?php }?>
+              <?php } ?>
+              </div>
+
+
+
           <?php } else{ ?>
             <div class="col-sm-8 col-sm-offset-2 text-center mb-20">
               <h3 class="font-alt text-center">Список конкурсов пуст</h3>
             </div>
 
           <?php  }?>
-        </div>
+        
+
+
+
+
 
       </div>
       <!-- Content column end -->
