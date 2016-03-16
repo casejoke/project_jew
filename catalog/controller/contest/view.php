@@ -100,7 +100,8 @@ class ControllerContestView extends Controller {
 		$data['text_member'] 				= $this->language->get('text_member');
 		
 
-
+		$data['contest_status']		= $contest_info['status'];
+		$data['contest_id']		= $contest_info['contest_id'];
 		$data['contest_title'] 		=	html_entity_decode($contest_info['title'], ENT_QUOTES, 'UTF-8');
 		$data['contest_description'] 	=	html_entity_decode($contest_info['description'], ENT_QUOTES, 'UTF-8');
 		$data['contest_organizer'] 	=	html_entity_decode($contest_info['organizer'], ENT_QUOTES, 'UTF-8');
