@@ -195,11 +195,25 @@ class ControllerContestContestRequest extends Controller {
 				$contests[$result['contest_id']] = array(
 					'contest_id' 	=> $result['contest_id'],
 					'title'       	=> $result['title'],
+					'contest_type'	=> $result['type'],
 					'contest_date'	=> rus_date($this->language->get('default_date_format'), strtotime($result['date_start'])),
 					'edit'        	=> $this->url->link('contest/contest/edit', 'token=' . $this->session->data['token'] . '&contest_id=' . $result['contest_id'] . $url, 'SSL')
 				);
 			}
 		}
+
+
+		$results_projects = $this->model_contest_contest->getProjects();
+		$projects = array();
+		foreach ($results_projects as $result_p) {
+			$projects[$result_p['project_id']] = array(
+				'project_id'			=> $result_p['project_id'],
+				'project_title'			=> $result_p['title']
+			);
+		}
+
+
+
 
 		$data['contest_requests'] = array();
 
@@ -241,10 +255,33 @@ class ControllerContestContestRequest extends Controller {
 					break;
 			}
 
+			$contest_type = (!empty($contests[$result['contest_id']]))?$contests[$result['contest_id']]['contest_type']:0;
+
+			
+
+			$adaptive_id_text = '';
+
+			switch ((int)$contest_type) {
+				case '1':
+					$adaptive_id_text = '';;
+					break;
+				case '2':
+					$adaptive_id_text = '';;
+					break;
+				case '3':
+						//проект котрый адаптирует
+						$adaptive_id = $result['adaptive_id'];
+						$adaptive_id_text = $projects[$adaptive_id]['project_title'];
+					break;	
+				default:
+					$adaptive_id_text = '';;
+					break;
+			}
 
 			$data['contest_requests'][] = array(
 				'customer_to_contest_id' 	=> $result['customer_to_contest_id'],
 				'customer_id' 			 	=> $customers[$result['customer_id']]['name'],
+				'adaptive_title'			=> $adaptive_id_text,
 				'contest_id'    			=> (!empty($contests[$result['contest_id']]))?$contests[$result['contest_id']]['title']:'',
 				'status'   					=> $status_text,
 				'date_added'    			=> rus_date($this->language->get('datetime_format'), strtotime($result['date_added'])),

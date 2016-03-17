@@ -288,6 +288,12 @@ class ModelContestContest extends Model {
 		return $query->row;
 	}
 
+	public function getProjects() {
+		$query = $this->db->query("SELECT   * FROM " . DB_PREFIX . "project d LEFT JOIN " . DB_PREFIX . "project_description dd ON (d.project_id = dd.project_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		return $query->rows;
+	}
+
+	
 	public function getContests($data = array()) {
 		$sql = "SELECT * FROM " . DB_PREFIX . "contest d LEFT JOIN " . DB_PREFIX . "contest_description dd ON (d.contest_id = dd.contest_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 

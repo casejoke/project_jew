@@ -36,6 +36,7 @@
                    <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
                   <td class="text-left">Конкурс</td>
                   <td class="text-left">Участник</td>
+                  <td class="text-left">Проект</td>
                   <td class="text-center">Статус</td>
                   <td class="text-right">Дата подачи заявки</td>
                   <td class="text-right"><?php echo $column_action; ?></td>
@@ -52,6 +53,7 @@
                     <?php } ?></td>
                   <td class="text-left"><?php echo $cr['contest_id']; ?></td>
                   <td class="text-left"><?php echo $cr['customer_id']; ?></td>
+                  <td class="text-left"><?php echo $cr['adaptive_title']; ?></td>
                   <td class="text-center"><?php echo $cr['status']; ?></td>
                   <td class="text-right"><?php echo $cr['date_added']; ?></td>
                   
