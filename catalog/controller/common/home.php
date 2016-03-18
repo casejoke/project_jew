@@ -55,6 +55,7 @@ class ControllerCommonHome extends Controller {
 			'start' => 0,
 			'filter_status'	=> array('2')
 		);
+
 		$results_contests = $this->model_contest_contest->getContests($filter_data);
 		$data['contests_archive'] = array();
 		foreach ($results_contests as $rc) {
@@ -75,6 +76,7 @@ class ControllerCommonHome extends Controller {
 				'action'				=> $actions
 			);
 		}
+
 
 
 		//последние новости проекта
@@ -113,7 +115,7 @@ class ControllerCommonHome extends Controller {
 			);
 		}
 	 
-
+		
 
 
 	 	
