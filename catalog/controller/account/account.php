@@ -30,7 +30,7 @@ class ControllerAccountAccount extends Controller {
 		} else {
 			$data['warning'] = '';
 		}
- 
+
 		$data['heading_title'] = $this->language->get('heading_title');
 		$data['text_address'] = $this->language->get('text_address');
 		$data['text_edit'] = $this->language->get('text_edit');
@@ -46,7 +46,7 @@ class ControllerAccountAccount extends Controller {
 		$data['text_recurring'] = $this->language->get('text_recurring');
 		$data['text_logout'] = $this->language->get('text_logout');
 
-		
+
 		$data['address'] = $this->url->link('account/address', '', 'SSL');
 		$data['wishlist'] = $this->url->link('account/wishlist');
 		$data['order'] = $this->url->link('account/order', '', 'SSL');
@@ -59,13 +59,13 @@ class ControllerAccountAccount extends Controller {
 		$data['password'] = $this->url->link('account/password', '', 'SSL');
 		$data['logout'] = $this->url->link('account/logout', '', 'SSL');
 
-		
+
 		if ($this->config->get('reward_status')) {
 			$data['reward'] = $this->url->link('account/reward', '', 'SSL');
 		} else {
 			$data['reward'] = '';
 		}
-		
+
 
 		//подгрузим модели
 		$this->load->model('account/customer');
@@ -107,15 +107,15 @@ class ControllerAccountAccount extends Controller {
 			$data['avatar'] = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
 		}
 
+	
 
 
 
 
 
-		
 		/******************* группы *******************/
 		$data['text_add_group'] = $this->language->get('text_add_group');
-		$data['add_group'] = $this->url->link('group/edit', '', 'SSL'); 
+		$data['add_group'] = $this->url->link('group/edit', '', 'SSL');
 
 		//подтянем все активные группы
 		//сделать рефактор заменить на IN () как getInfoCustomersForGroups
@@ -166,7 +166,7 @@ class ControllerAccountAccount extends Controller {
 			);
 		}
 
-		
+
 		//выведем приглашения в группы status = 2
 		$filter_data = array();
 		$filter_data = array(
@@ -181,8 +181,8 @@ class ControllerAccountAccount extends Controller {
 				'group_id'	=> $result_civg['init_group_id'],
 			);
 		}
-		
-		
+
+
 		//группы в котрых состоит пользователь, но не администратор
 		$data['customer_agree_groups'] = array();
 		$filter_data = array();
@@ -203,7 +203,7 @@ class ControllerAccountAccount extends Controller {
 
 		/******************* проекты *******************/
 		$data['text_add_project'] = $this->language->get('text_add_project');
-		$data['add_project'] = $this->url->link('project/edit', '', 'SSL'); 
+		$data['add_project'] = $this->url->link('project/edit', '', 'SSL');
 
 		//подтяем проекты победители где пользователь я вяляется админом
 		$filter_data = array();
@@ -236,13 +236,13 @@ class ControllerAccountAccount extends Controller {
 			}
 			$actions = array();
 			$actions = array(
-				'edit'	=>	$this->url->link('project/edit', 'project_id='.$result_pfc['project_id'], 'SSL') 
+				'edit'	=>	$this->url->link('project/edit', 'project_id='.$result_pfc['project_id'], 'SSL')
 			);
 			$win = 0;
 			$promocode_action = $this->url->link('account/promocode/activate', 'project_id='.$result_pfc['project_id'], 'SSL');
 			if(!empty($projects_winner[$result_pfc['project_id']])){
 				$win = 1;
-				
+
 			}
 			$data['projects_for_customer'][$result_pfc['project_id']] = array(
 				'project_id'			=> $result_pfc['project_id'],
@@ -260,14 +260,14 @@ class ControllerAccountAccount extends Controller {
 
 		/******************* конкурсы *******************/
 		//информация о конкурсах еа которые подана заявка
-		//заявка на котрые отклонена 
+		//заявка на котрые отклонена
 		//завка на котрые проиграна
 		//завка на которые выиграна
-		
-		//статусы заявки: 
+
+		//статусы заявки:
 		// 0 - не принята (есть комментарий)
 		// 1 - принята  (видна экспертам и  ее можно оценивать)
-		// 2 - не обработана () 
+		// 2 - не обработана ()
 		//$_['text_status_not_accepted']      = 'Не одобрена';
 		//$_['text_status_accepted']        	= 'Одобрена';
 		//$_['text_status_processed']        	= 'В обработке';
@@ -287,7 +287,7 @@ class ControllerAccountAccount extends Controller {
 			$project_adaptor_for_contest[$vpfa['contest_id']] = $vpfa['project_id'];
 
 		}
-		
+
 		//подтянем все конкурсы
 		$results_contests = $this->model_contest_contest->getContests();
 		$contests = array();
@@ -306,7 +306,7 @@ class ControllerAccountAccount extends Controller {
 			);
 		}
 
-		
+
 		//подтянем сипсок заявок для данного пользователя!!!!!
 		$filter_data = array();
 		$filter_data = array(
@@ -339,7 +339,7 @@ class ControllerAccountAccount extends Controller {
 					$status = $this->language->get('text_status_processed');
 					break;
 			}
-			
+
 
 			//добавить проверку на дату приема заявок с конкурса
 			switch ((int)$contests[$vcc['contest_id']]['contest_type']) {
@@ -348,12 +348,12 @@ class ControllerAccountAccount extends Controller {
 
 					//contest_id=4&project_id=155&adaptive_id=2
 					break;
-				
+
 				default:
 					$action_not_accepted = $this->url->link('contest/deal', 'contest_id='.$vcc['contest_id'], 'SSL');
 					break;
 			}
-			
+
 
 
 			$data['requests_for_customer'][] = array(
@@ -367,7 +367,7 @@ class ControllerAccountAccount extends Controller {
 				'action_request_view'	=> $this->url->link('contest/requestview', 'customer_to_contest_id='.$vcc['customer_to_contest_id'], 'SSL')
 			);
 		}
-	
+
 
 		/**************** про экспертов ***********************/
 		//если пользователь эксперта
@@ -395,7 +395,7 @@ if ($customer_info['customer_expert']) {
 				'customer_image'				=> $image
 			);
 		}
-		
+
 		//подтянем список активных конкурсов
 		//подтянем все активные конкурсы
 		$results_contests = $this->model_contest_contest->getContests();
@@ -433,12 +433,12 @@ if ($customer_info['customer_expert']) {
 				//собираем массив конкурсов по котрым делаем запрос
 				$implode[] = (int)$vcetc['contest_id'];
 			}
-			
+
 		}
 
 
-		
-		
+
+
 		//подтянем список заявок для каждого конкурса и текущего пользователя
 		//$implode список конкурсов для запроса где пользователь эксперто
 		//подтянем из табли customer_to_contest заявки со  статусом = 1 (прошла модерацию)и где конкурс IN ($implode)
@@ -460,44 +460,44 @@ if ($customer_info['customer_expert']) {
 		$data['request_for_expert'] = array();
 		if(!empty($implode)){
 			$results_request_for_expert = $this->model_contest_contest->getRequestForCustomer($filter_data);
-			
+
 			foreach ($results_request_for_expert as $vrfe) {
 				if(empty($estimate[$vrfe['customer_to_contest_id']])){
 					$data['request_for_expert'][] = array(
 						'customer_to_contest_id'	=>  $vrfe['customer_to_contest_id'],
 						'contest_title' 			=>	$contests[$vrfe['contest_id']]['contest_title'],
 						'customer_name' 			=> 	$customers[$vrfe['customer_id']]['customer_name'],
-						'expert_evaluate'			=> 	$this->url->link('contest/estimate', 'request_id='.$vrfe['customer_to_contest_id'], 'SSL') 
+						'expert_evaluate'			=> 	$this->url->link('contest/estimate', 'request_id='.$vrfe['customer_to_contest_id'], 'SSL')
 					);
 				}
 			}
 		}
-		
 
-		
-		
-		
+
+
+
+
 }//проверка на эксперта
-		//получим список проектов из таблицы победителей для данного пользователя 
+		//получим список проектов из таблицы победителей для данного пользователя
 
 		$result_project_winner = $this->model_contest_contest->getWinnerContest($customer_id);
 		$project_activate_promocode = array();
 
-		
+
 		foreach ($result_project_winner as $vpap) {
 			if (!empty ($vpap['promocode_id']) ){
 				$project_activate_promocode[$vpap['promocode_id']] = array(
 					'project_id'	=> $vpap['project_id'],
 				);
 			}
-			
+
 		}
 
 		//промокоды
-		$data['activate_promocode'] = $this->url->link('account/promocode', '', 'SSL'); 
+		$data['activate_promocode'] = $this->url->link('account/promocode', '', 'SSL');
 
 		//получим список активированных промокодв из табличи промокоды
-		//cстатусы промокодов 
+		//cстатусы промокодов
 		//0 исользованный - потрачен на активацию конкурса
 		//1 активный  - можно отдавать кому угодно
 		//2 активи
@@ -506,7 +506,7 @@ if ($customer_info['customer_expert']) {
 		$data['isset_promocode'] = 0;
 
 		foreach ($results_list_promocode as $vlp) {
-		
+
 			if($vlp['status'] == 0 ){
 
 				$project_id		= $project_activate_promocode[$vlp['promocode_id']]['project_id'];
@@ -522,13 +522,13 @@ if ($customer_info['customer_expert']) {
 			if($vlp['status'] == 2){
 				$data['isset_promocode'] = 1;
 			}
-			
+
 		}
 
 		//уведомления
 
 		$data['customer_notice'] = array();
-			
+
 
 
 
@@ -642,21 +642,21 @@ if ($customer_info['customer_expert']) {
 		}
 
 		if (!$json) {
-			
+
 			$code = md5(mt_rand());
 			if (!$this->customer->isLogged()) {
 				$file = $filename. '.' . $code ;
 			}else{
 				$customer_id = $this->customer->getId();
 				$folder_name = md5($customer_id).'/';
-				//создаем папку с назанием 
+				//создаем папку с назанием
 				if (!is_dir(DIR_UPLOAD . $folder_name)) {
 					mkdir(DIR_UPLOAD . $folder_name, 0777);
 				}
 				$file = $folder_name . $filename. '.' . $code ;
 				//code поправить!!!!!!!
 			}
-			
+
 			move_uploaded_file($this->request->files['file']['tmp_name'], DIR_UPLOAD . $file  );
 
 			// Hide the uploaded file name so people can not link to it directly.
@@ -673,7 +673,7 @@ if ($customer_info['customer_expert']) {
 
 			$json['success'] = $this->language->get('text_upload');
 		}
-		
+
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}

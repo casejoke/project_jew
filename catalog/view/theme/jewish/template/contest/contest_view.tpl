@@ -45,51 +45,51 @@
               <tbody>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/playhead/projects/livequestisrael.html" target="_blank">"Живые квесты"</a></td>
-                <td><a href="iniciativies/playhead/" target="_blank">Игра головой, Санкт Петербург</a></td>
-                <td><a href="iniciativies/20141106025738.html" target="_blank">Теплые встречи, Киев</a></td>
+                <td><a href="/view-project?project_id=128" >"Живые квесты"</a></td>
+                <td><a href="/view-group?group_id=271" >Игра головой, Санкт Петербург</a></td>
+                <td><a href="/view-group?group_id=283" >Теплые встречи, Киев</a></td>
                 <td>Консультации</td>
                 </tr>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/20151019212706/projects/20151030013942.html" target="_blank">Московский / Екатеринбургский Еврейский Кинофестиваль </a></td>
-                <td>Ark Pictures, Москва</td>
-                <td><a href="iniciativies/gilel-ekaterinburg/" target="_blank">Гилель, Екатеринбург</a></td>
+                <td><a href="/view-project?project_id=16" >Московский / Екатеринбургский Еврейский Кинофестиваль </a></td>
+                <td><a href="/view-group?group_id=356">Ark Pictures, Москва</a></td>
+                <td><a href="/view-group?group_id=280" >Гилель, Екатеринбург</a></td>
                 <td>Партнерство</td>
                 </tr>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/netzerrussia/projects/20141111165431.html" target="_blank">Творческий процесс</a></td>
-                <td><a href="iniciativies/netzerrussia.html" target="_blank">Молодежный клуб Нецер, Москва</a></td>
-                <td><a href="iniciativies/gilel-spb/" target="_blank">Гилель, Санкт Петербург</a></td>
+                <td><a href="/view-project?project_id=65" >Творческий процесс</a></td>
+                <td><a href="/view-group?group_id=299" >Молодежный клуб Нецер, Москва</a></td>
+                <td><a href="/view-group?group_id=281" >Гилель, Санкт Петербург</a></td>
                 <td>Консультации</td>
                 </tr>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/netzerrussia/projects/20140519221638.html" target="_blank">Школа еврейского лидерства</a></td>
-                <td><a href="iniciativies/netzerrussia.html" target="_blank">Молодежный клуб Нецер, Москва</a></td>
-                <td><a href="iniciativies/20140806140916.html" target="_blank">Хава Нагила, Челябинск</a></td>
+                <td><a href="/view-project?project_id=63" >Школа еврейского лидерства</a></td>
+                <td><a href="/view-group?group_id=299" >Молодежный клуб Нецер, Москва</a></td>
+                <td><a href="/view-group?group_id=325" >Хава Нагила, Челябинск</a></td>
                 <td>Франчайзинг</td>
                 </tr>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/playhead/projects/livequestisrael.html" target="_blank">"Живые квесты"</a></td>
-                <td><a href="iniciativies/playhead/" target="_blank">Игра головой, Санкт Петербург</a></td>
-                <td>Шиурей Тора Любавич г.Киев</td>
+                <td><a href="/view-group?group_id=128" >"Живые квесты"</a></td>
+                <td><a href="/view-group?group_id=271" >Игра головой, Санкт Петербург</a></td>
+                <td><a href="/view-group?group_id=285">Шиурей Тора Любавич г.Киев</a></td>
                 <td>Консультации</td>
                 </tr>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/netzerrussia/projects/20141111165431.html" target="_blank">Творческий процесс </a></td>
-                <td><a href="iniciativies/netzerrussia.html" target="_blank">Молодежный клуб Нецер, Москва</a></td>
-                <td><a href="iniciativies/20140702151938.html" target="_blank">Шиурей Тора Любавич Днепропетровск</a></td>
+                <td><a href="/view-project?project_id=65" >Творческий процесс </a></td>
+                <td><a href="/view-group?group_id=299" >Молодежный клуб Нецер, Москва</a></td>
+                <td><a href="/view-group?group_id=319" >SEE THE LIGHT</a></td>
                 <td>Франчайзинг</td>
                 </tr>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/20130716092458/projects/20140430221435.html" target="_blank">Таки Да</a></td>
-                <td><a href="iniciativies/20130716092458.html" target="_blank">ОА Vulturas г. Кишинев</a></td>
-                <td>Еврейская община г. Жмеренка</td>
+                <td><a href="/view-project?project_id=106" >Таки Да</a></td>
+                <td><a href="/view-group?group_id=276" >ОА Vulturas г. Кишинев</a></td>
+                <td><a href="/view-group?group_id=356">Еврейская община г. Жмеренка</a></td>
                 <td>Консультации</td>
                 </tr>
                 </tbody>
@@ -103,81 +103,81 @@
                     <tbody>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/meod/projects/coffeeandbrain.html" target="_blank">COFFEE&amp;BRAIN</a></td>
-                    <td><a href="iniciativies/meod/" target="_blank">МЕОД (Молодежное Еврейское Образование Днепропетровска)</a></td>
-                    <td><a href="iniciativies/20140519125014.html" target="_blank">Гилель, Хабаровск</a></td>
+                    <td><a href="/view-project?project_id=125" >COFFEE&amp;BRAIN</a></td>
+                    <td><a href="/view-group?group_id=271" >МЕОД (Молодежное Еврейское Образование Днепропетровска)</a></td>
+                    <td><a href="/view-group?group_id=271" >Гилель, Хабаровск</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/playhead/projects/livequestisrael.html" target="_blank">Живые Квесты</a></td>
-                    <td><a href="iniciativies/playhead/" target="_blank">Игра головой, Санкт Петербург</a></td>
-                    <td><a href="iniciativies/20140513193948.html" target="_blank">Подарок Киев</a></td>
+                    <td><a href="/view-project?project_id=128" >Живые Квесты</a></td>
+                    <td><a href="/view-group?group_id=271" >Игра головой, Санкт Петербург</a></td>
+                    <td><a href="/view-group?group_id=283" >Подарок Киев</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/playhead/projects/livequestisrael.html" target="_blank">Живые Квесты</a></td>
-                    <td><a href="iniciativies/playhead/" target="_blank">Игра головой, Санкт Петербург</a></td>
-                    <td><a href="iniciativies/20140623193339.html" target="_blank">ЕСКЦ «Гилель» г. Симферополь</a></td>
+                    <td><a href="/view-project?project_id=128" >Живые Квесты</a></td>
+                    <td><a href="/view-group?group_id=271" >Игра головой, Санкт Петербург</a></td>
+                    <td><a href="/view-group?group_id=280" >ЕСКЦ «Гилель» г. Симферополь</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/20140509233139/projects/memoryart.html" target="_blank">Memory|Art</a></td>
-                    <td><a href="iniciativies/20140509233139.html" target="_blank">Сохнут Киев</a></td>
-                    <td><a href="iniciativies/gilel-moskva/" target="_blank">Гилель, Москва</a></td>
+                    <td><a href="/view-project?project_id=125" >Memory|Art</a></td>
+                    <td><a href="/view-group?group_id=271" >Сохнут Киев</a></td>
+                    <td><a href="/view-group?group_id=271" >Гилель, Москва</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/jewfish/projects/20140605114933.html" target="_blank">Проект «TextNext»</a></td>
-                    <td><a href="iniciativies/jewfish/" target="_blank">JewF.I.S.H. Project, Москва</a></td>
-                    <td><a href="iniciativies/migrash-baltia/" target="_blank">Культурно-Образовательное Сообщество «Миграш-Балтия», Рига</a></td>
+                    <td><a href="/view-project?project_id=125" >Проект «TextNext»</a></td>
+                    <td><a href="/view-group?group_id=271" >JewF.I.S.H. Project, Москва</a></td>
+                    <td><a href="/view-group?group_id=271" >Культурно-Образовательное Сообщество «Миграш-Балтия», Рига</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/jewfish/projects/20140605114933.html" target="_blank">Проект «TextNext»</a></td>
-                    <td><a href="iniciativies/jewfish/" target="_blank">JewF.I.S.H. Project, Москва</a></td>
-                    <td><a href="iniciativies/migrash-samara/" target="_blank">Migrash.Community of practice Самара</a></td>
+                    <td><a href="/view-project?project_id=125" >Проект «TextNext»</a></td>
+                    <td><a href="/view-group?group_id=271" >JewF.I.S.H. Project, Москва</a></td>
+                    <td><a href="/view-group?group_id=271" >Migrash.Community of practice Самара</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/jewfish/projects/20140605114933.html" target="_blank">Проект «TextNext»</a></td>
-                    <td><a href="iniciativies/jewfish/" target="_blank">JewF.I.S.H. Project, Москва</a></td>
-                    <td><a href="iniciativies/gilel-spb/" target="_blank">Гилель, Петербург</a></td>
+                    <td><a href="/view-project?project_id=125" >Проект «TextNext»</a></td>
+                    <td><a href="/view-group?group_id=271" >JewF.I.S.H. Project, Москва</a></td>
+                    <td><a href="/view-group?group_id=271" >Гилель, Петербург</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/migrash-samara/projects/20140713123744.html" target="_blank">CВОБОДА ОБРАЗОВАНИЯ</a></td>
-                    <td><a href="iniciativies/migrash-samara/" target="_blank">Migrash.Community of practice Самара</a></td>
-                    <td><a href="iniciativies/amuta/" target="_blank">ОО Амута, Харьков</a></td>
+                    <td><a href="/view-project?project_id=125" >CВОБОДА ОБРАЗОВАНИЯ</a></td>
+                    <td><a href="/view-group?group_id=271" >Migrash.Community of practice Самара</a></td>
+                    <td><a href="/view-group?group_id=271" >ОО Амута, Харьков</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/amuta/projects/semsorok.html" target="_blank">Семь Сорок</a></td>
-                    <td><a href="iniciativies/amuta/" target="_blank">ОО «Амута», Харьков</a></td>
-                    <td><a href="iniciativies/20140702151938.html" target="_blank">Шиурей Тора Любавич, Днепропетровск</a></td>
+                    <td><a href="/view-project?project_id=125" >Семь Сорок</a></td>
+                    <td><a href="/view-group?group_id=271" >ОО «Амута», Харьков</a></td>
+                    <td><a href="/view-group?group_id=271" >Шиурей Тора Любавич, Днепропетровск</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/20130716092458/projects/20140430221435.html" target="_blank">Таки ДА</a></td>
-                    <td><a href="iniciativies/20130716092458.html" target="_blank">AO «Vulturas», Кишинев</a></td>
-                    <td><a href="iniciativies/20140620184104.html" target="_blank">ОО «Тульский областной еврейский благотворительный Центр «Хасдэй Нэшама»\»Милосердие», Тула</a></td>
+                    <td><a href="/view-project?project_id=125" >Таки ДА</a></td>
+                    <td><a href="/view-group?group_id=271" >AO «Vulturas», Кишинев</a></td>
+                    <td><a href="/view-group?group_id=271" >ОО «Тульский областной еврейский благотворительный Центр «Хасдэй Нэшама»\»Милосердие», Тула</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/20130716092458/projects/20140430221435.html" target="_blank">Таки ДА</a></td>
-                    <td><a href="iniciativies/20130716092458.html" target="_blank">AO «Vulturas», Кишинев</a></td>
-                    <td><a href="iniciativies/volgo.html" target="_blank">ВГОБО «Еврейский общинный центр», Волгоград</a></td>
+                    <td><a href="/view-project?project_id=125" >Таки ДА</a></td>
+                    <td><a href="/view-group?group_id=271" >AO «Vulturas», Кишинев</a></td>
+                    <td><a href="/view-group?group_id=271" >ВГОБО «Еврейский общинный центр», Волгоград</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/shabbat-xost/projects/shabbat-host.html" target="_blank">Шабат Хост</a></td>
-                    <td><a href="iniciativies/midrasha-czionit-kiev/" target="_blank">Мидраша Ционит, Киев</a></td>
-                    <td><a href="iniciativies/meod/" target="_blank">МЕОД (Молодежное Еврейское Образование Днепропетровска)</a></td>
+                    <td><a href="/view-project?project_id=125" >Шабат Хост</a></td>
+                    <td><a href="/view-group?group_id=271" >Мидраша Ционит, Киев</a></td>
+                    <td><a href="/view-group?group_id=271" >МЕОД (Молодежное Еврейское Образование Днепропетровска)</a></td>
                     </tr>
                     <tr>
                     <th class="hidden"></th>
-                    <td><a href="iniciativies/netzerrussia/projects/20140519221638.html" target="_blank">«Школа еврейского лидерства»</a></td>
-                    <td><a href="iniciativies/netzerrussia.html" target="_blank">НЕЦЕР России, Москва</a></td>
-                    <td><a href="iniciativies/jewishkaliningrad.html" target="_blank">Еврейская община Калининграда</a></td>
+                    <td><a href="/view-project?project_id=125" >«Школа еврейского лидерства»</a></td>
+                    <td><a href="/view-group?group_id=271" >НЕЦЕР России, Москва</a></td>
+                    <td><a href="/view-group?group_id=271" >Еврейская община Калининграда</a></td>
                     </tr>
                     </tbody>
                <?php } ?>
@@ -189,39 +189,39 @@
                 <tbody>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/20140513193948/projects/20140520233924.html" target="_blank">ПОДАРОК</a></td>
-                <td><a href="iniciativies/20140513193948.html" target="_blank">Подарок, Киев</a></td>
-                <td><a href="iniciativies/20141106025738.html" target="_blank">Теплые встречи, Киев</a></td>
+                <td><a href="/view-project?project_id=125" >ПОДАРОК</a></td>
+                <td><a href="/view-group?group_id=272" >Подарок, Киев</a></td>
+                <td><a href="/view-group?group_id=283" >Теплые встречи, Киев</a></td>
                 </tr>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/gilel-moskva/proektyi/20141105162904.html" target="_blank">JEWISH PROFESSIONAL NETWORKING</a></td>
-                <td><a href="iniciativies/gilel-moskva/" target="_blank">Гилель Москва</a></td>
-                <td><a href="iniciativies/20141118205510.html" target="_blank">Platinum Одесса</a></td>
+                <td><a href="/view-project?project_id=89" >JEWISH PROFESSIONAL NETWORKING</a></td>
+                <td><a href="/view-group?group_id=282" >Гилель Москва</a></td>
+                <td><a href="/view-group?group_id=334" >Platinum Одесса</a></td>
                 </tr>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/netzerrussia/projects/20141111165431.html" target="_blank">Творческий процесс</a></td>
-                <td><a href="iniciativies/netzerrussia.html" target="_blank">Молодежный клуб Нецер Москва</a></td>
-                <td><a href="iniciativies/20141125231956.html" target="_blank">Творческая мастерская диалога еврейскрй и европейской культур: Талмуд – Театр – Текст (ТТТ), Москва</a></td>
+                <td><a href="/view-project?project_id=65" >Творческий процесс</a></td>
+                <td><a href="/view-group?group_id=299" >Молодежный клуб Нецер Москва</a></td>
+                <td><a href="/view-group?group_id=332" >Творческая мастерская диалога еврейскрй и европейской культур: Талмуд – Театр – Текст (ТТТ), Москва</a></td>
                 </tr>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/playhead/projects/livequestisrael.html" target="_blank">Образовательные ролевые игры «Живые квесты»</a></td>
-                <td><a href="iniciativies/playhead/" target="_blank">Игра головой, Санкт Петербург</a></td>
-                <td><a href="iniciativies/netzerrussia.html" target="_blank">Молодежный клуб Нецер Москва</a></td>
+                <td><a href="/view-project?project_id=128" >Образовательные ролевые игры «Живые квесты»</a></td>
+                <td><a href="/view-group?group_id=271" >Игра головой, Санкт Петербург</a></td>
+                <td><a href="/view-group?group_id=299" >Молодежный клуб Нецер Москва</a></td>
                 </tr>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/20140703180913/projects/20140704125008.html" target="_blank">Неформальная театральная студия</a></td>
-                <td><a href="iniciativies/20140703180913.html" target="_blank">Неформальная театральная студия "Точка Сборки», Киев</a></td>
-                <td><a href="iniciativies/20130716092458.html" target="_blank">AO "Vulturas", Кишинев</a></td>
+                <td><a href="/view-project?project_id=43" >Неформальная театральная студия</a></td>
+                <td><a href="/view-group?group_id=355" >Неформальная театральная студия "Точка Сборки», Киев</a></td>
+                <td><a href="/view-group?group_id=279" >НЭШАРИМ КИШИНЕВ, Кишинев</a></td>
                 </tr>
                 <tr>
                 <th class="hidden"></th>
-                <td><a href="iniciativies/20130716092458/projects/20140430101329.html" target="_blank">Интеллектуальное казино</a></td>
-                <td><a href="iniciativies/20130716092458.html" target="_blank">AO "Vulturas", Кишинев</a></td>
-                <td><a href="iniciativies/20141117131356.html" target="_blank">Менора, Екатеринбург</a></td>
+                <td><a href="/view-project?project_id=107" >Интеллектуальное казино</a></td>
+                <td><a href="/view-group?group_id=279" >НЭШАРИМ КИШИНЕВ, Кишинев</a></td>
+                <td><a href="/view-group?group_id=330" >Менора, Екатеринбург</a></td>
                 </tr>
                 </tbody>
                   <?php } ?>
