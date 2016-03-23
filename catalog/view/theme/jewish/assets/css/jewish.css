@@ -8797,7 +8797,7 @@ modules
   padding: 60px 0 0px;
   position: relative;
   background-repeat: no-repeat;
-  background-position: center center;
+  background-position: center bottom;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

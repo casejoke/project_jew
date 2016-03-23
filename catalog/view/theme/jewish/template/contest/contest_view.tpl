@@ -8,12 +8,12 @@
           <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> <?php echo $success; ?></div>
         <?php } ?>
       </div><!-- /.col-sm-10 -->
-     
+
       <!-- Content column start -->
       <div class="col-sm-8">
         <!-- Post start -->
         <div class="post">
-          
+
           <div class="post-header font-alt">
             <h1 class="post-title"><?php echo $contest_title; ?></h1>
           </div>
@@ -22,18 +22,18 @@
               <img src="<?php echo $image; ?>" alt="<?php echo $contest_title; ?>">
             </div>
           <?php } ?>
-         
+
 
           <div class="post-entry ">
           <?php if(!empty($contest_propose)) { ?>
             <h4 class="font-alt mb-0"><?php echo $entry_contest_propose; ?></h4>
             <?php echo $contest_propose; ?>
           <?php } ?>
-          
+
           <?php if ($contest_status == 2) { ?>
             <h4 class="font-alt mb-10">Победители</h4>
             <table class="table table-striped table-border checkout-table">
-              
+
               <?php if($contest_id == 7) {?>
               <thead>
               <th class="hidden"></th>
@@ -96,7 +96,7 @@
               <?php } ?>
 
                <?php if($contest_id == 8) {?>
-                 
+                 <!--
                     <thead>
                     <tr><th class="hidden"></th><th>Название проекта</th><th>Автор</th><th>Адаптор</th></tr>
                     </thead>
@@ -180,6 +180,7 @@
                     <td><a href="/view-group?group_id=271" >Еврейская община Калининграда</a></td>
                     </tr>
                     </tbody>
+                  -->
                <?php } ?>
 
                <?php if($contest_id == 6) {?>
@@ -226,7 +227,7 @@
                 </tbody>
                   <?php } ?>
             </table>
-          
+
           <?php } ?>
 
 
@@ -236,11 +237,11 @@
                 <div class="col-sm-6 col-sm-offset-3">
                   <a href="<?php echo $im_deal; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20"><?php echo $text_im_deal; ?></a>
                 </div>
-              </div>  
+              </div>
             </div>
           <?php } ?>
 
-          
+
           <?php if(!empty($contest_description)) { ?>
             <h4 class="font-alt mb-0"><?php echo $entry_description; ?></h4>
             <?php echo $contest_description; ?>
@@ -276,9 +277,9 @@
 
                 </tbody>
               </table>
-            
 
-          
+
+
           <?php if(!empty($contest_location)) { ?>
             <h4 class="font-alt mb-0"><?php echo $entry_contest_location; ?></h4>
             <?php echo $contest_location; ?>
@@ -314,20 +315,20 @@
               </tbody>
             </table>
           <?php } ?>
-          
+
           <?php if (!$is_expert && $contest_status == 1) { ?>
             <div class="row">
               <div class="form-group">
                 <div class="col-sm-6 col-sm-offset-3">
                   <a href="<?php echo $im_deal; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20"><?php echo $text_im_deal; ?></a>
                 </div>
-              </div>  
+              </div>
             </div>
           <?php } ?>
-          
-          
+
+
           </div>
-          
+
 
         </div>
         <!-- Post end -->
