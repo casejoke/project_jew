@@ -12,7 +12,7 @@ var invite = {
 			var _b = $(this).attr('data-b');
 			invite.uninviteUser(_a,_b);
 		});
-		
+
 	},
 	inviteUser:function(_a,_b){
 		var data = {};
@@ -29,14 +29,14 @@ var invite = {
 	        data: data,
 	        cache: false,
 	   		beforeSend: function() {
-	           //старт 
+	           //старт
 	           var _text_loading = $(_change_btn).attr('data-loading-text');
 	           $(_change_btn).html(_text_loading).addClass('disabled');
 	        },
 	        complete: function() {
-	          //стоп 
+	          //стоп
 	           //$(_change_btn).addClass('disabled').button('complete');
-	           
+
 	        },
 	        success: function(json) {
 
@@ -70,20 +70,20 @@ var invite = {
 		var _change_btn  = '#uninvite_'+_a;
 		$.ajax({
 	        //url: 'uninvite-user',
-	        url: '/?route=group/invite/uninvite'
+	        url: '/?route=group/invite/uninvite',
 	        type: 'post',
 	        dataType: 'json',
 	        data: data,
 	        cache: false,
 	   		beforeSend: function() {
-	           //старт 
+	           //старт
 	           var _text_loading = $(_change_btn).attr('data-loading-text');
 	           $(_change_btn).html(_text_loading).addClass('disabled');
 	        },
 	        complete: function() {
-	          //стоп 
+	          //стоп
 	           //$(_change_btn).addClass('disabled').button('complete');
-	           
+
 	        },
 	        success: function(json) {
 
