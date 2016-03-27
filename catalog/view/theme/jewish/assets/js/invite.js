@@ -13,6 +13,11 @@ var invite = {
 			invite.uninviteUser(_a,_b);
 		});
 
+		var options = {
+		  valueNames: [ 'name' ]
+		};
+
+		var userList = new List('users', options);
 	},
 	inviteUser:function(_a,_b){
 		var data = {};

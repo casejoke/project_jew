@@ -5,12 +5,12 @@ class ControllerContestDeal extends Controller {
 		if ( !isset($this->request->get['contest_id']) ) {
 			$this->session->data['redirect'] = $this->url->link('contest/contest', '', 'SSL');
 			$this->response->redirect($this->url->link('contest/contest', '', 'SSL'));
-			
+
 		}
-		
+
 		$this->getView();
 	}
-	
+
 	private function getView(){
 
 		//************** проверки ***************//
@@ -31,13 +31,13 @@ class ControllerContestDeal extends Controller {
 			$contest_info = $this->model_contest_contest->getContest($this->request->get['contest_id']);
 		}
 
-		//проверим сушествоание конкурса 
+		//проверим сушествоание конкурса
 		if ( empty($contest_info) ){
-			//редиректим на список 
+			//редиректим на список
 			$this->session->data['redirect'] = $this->url->link('contest/contest', '', 'SSL');
 			$this->response->redirect($this->url->link('contest/contest', '', 'SSL'));
 		}
-	
+
 
 		switch ((int)$contest_info['type']) {
 			case '1':
@@ -48,12 +48,12 @@ class ControllerContestDeal extends Controller {
 				break;
 			case '3':
 				$this->dealBestContest($contest_info);
-				break;	
+				break;
 			default:
 				$this->dealSimpleContest($contest_info);
 				break;
 		}
-		
+
 	}
 
 
@@ -71,14 +71,14 @@ class ControllerContestDeal extends Controller {
 		//$this->document->setDescription(substr(strip_tags(html_entity_decode($contest_info['meta_description'], ENT_QUOTES)), 0, 150) . '...');
 		//$this->document->setKeywords($contest_info['meta_keyword']);
 
-		
+
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
 			$data['error_warning'] = '';
 		}
 
-		
+
 
 
 
@@ -86,30 +86,30 @@ class ControllerContestDeal extends Controller {
 		$data['entry_description'] 			= $this->language->get('entry_description');
 		$data['entry_image'] 				= $this->language->get('entry_image');
 		$data['entry_contest_birthday'] 	= $this->language->get('entry_contest_birthday');
-		$data['entry_contest_email'] 		= $this->language->get('entry_contest_email'); 
-		
-		$data['entry_contest_dates'] 		= $this->language->get('entry_contest_dates'); 
-		$data['entry_contest_date_start'] 		= $this->language->get('entry_contest_date_start'); 
-		$data['entry_contest_datetime_end'] 	= $this->language->get('entry_contest_datetime_end'); 
-		$data['entry_contest_date_rate'] 		= $this->language->get('entry_contest_date_rate'); 
-		$data['entry_contest_date_result'] 		= $this->language->get('entry_contest_date_result'); 
-		$data['entry_contest_date_finalist'] 	= $this->language->get('entry_contest_date_finalist'); 
+		$data['entry_contest_email'] 		= $this->language->get('entry_contest_email');
 
-		$data['entry_contest_organizer'] 	= $this->language->get('entry_contest_organizer'); 
+		$data['entry_contest_dates'] 		= $this->language->get('entry_contest_dates');
+		$data['entry_contest_date_start'] 		= $this->language->get('entry_contest_date_start');
+		$data['entry_contest_datetime_end'] 	= $this->language->get('entry_contest_datetime_end');
+		$data['entry_contest_date_rate'] 		= $this->language->get('entry_contest_date_rate');
+		$data['entry_contest_date_result'] 		= $this->language->get('entry_contest_date_result');
+		$data['entry_contest_date_finalist'] 	= $this->language->get('entry_contest_date_finalist');
+
+		$data['entry_contest_organizer'] 	= $this->language->get('entry_contest_organizer');
 		$data['entry_contest_budget'] 		= $this->language->get('entry_contest_budget');
-		$data['entry_contest_propose'] 		= $this->language->get('entry_contest_propose'); 
-		$data['entry_contest_location'] 	= $this->language->get('entry_contest_location'); 
-		$data['entry_contest_members'] 		= $this->language->get('entry_contest_members'); 
-		$data['entry_contest_contacts'] 	= $this->language->get('entry_contest_contacts'); 
-		$data['entry_contest_timeline_text']= $this->language->get('entry_contest_timeline_text'); 
-		$data['entry_contest_budget']		= $this->language->get('entry_contest_budget'); 
-		$data['entry_contest_maxprice']		= $this->language->get('entry_contest_maxprice'); 
-		$data['entry_contest_totalprice']	= $this->language->get('entry_contest_totalprice'); 
-		
+		$data['entry_contest_propose'] 		= $this->language->get('entry_contest_propose');
+		$data['entry_contest_location'] 	= $this->language->get('entry_contest_location');
+		$data['entry_contest_members'] 		= $this->language->get('entry_contest_members');
+		$data['entry_contest_contacts'] 	= $this->language->get('entry_contest_contacts');
+		$data['entry_contest_timeline_text']= $this->language->get('entry_contest_timeline_text');
+		$data['entry_contest_budget']		= $this->language->get('entry_contest_budget');
+		$data['entry_contest_maxprice']		= $this->language->get('entry_contest_maxprice');
+		$data['entry_contest_totalprice']	= $this->language->get('entry_contest_totalprice');
+
 
 		$data['text_create'] 				= $this->language->get('text_create');
 		$data['text_member'] 				= $this->language->get('text_member');
-		
+
 
 		$data['breadcrumbs'] = array();
 		$data['breadcrumbs'][] = array(
@@ -127,7 +127,7 @@ class ControllerContestDeal extends Controller {
 
 		//подгрузим модели
 		$this->load->model('account/customer');
-		
+
 		$this->load->model('project/project');
 		$this->load->model('group/group');
 		$this->load->model('tool/upload');
@@ -135,10 +135,10 @@ class ControllerContestDeal extends Controller {
 
 
 
-		
-		
 
-		
+
+
+
 
 
 
@@ -168,9 +168,9 @@ class ControllerContestDeal extends Controller {
 		//ссылка на участие
 
 		$data['text_im_deal'] 				= $this->language->get('text_im_deal');
-		$data['im_deal']  = $this->url->link('contest/deal', 'contest_id=' . $data['contest_id'], 'SSL');	
+		$data['im_deal']  = $this->url->link('contest/deal', 'contest_id=' . $data['contest_id'], 'SSL');
 
-		
+
 		//информация о пользователе
 		$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 		$customer_id = $this->customer->getId();
@@ -279,7 +279,7 @@ class ControllerContestDeal extends Controller {
 			}
 			$actions = array();
 			$actions = array(
-				'edit'	=>	$this->url->link('project/edit', 'project_id='.$result_pfc['project_id'], 'SSL') 
+				'edit'	=>	$this->url->link('project/edit', 'project_id='.$result_pfc['project_id'], 'SSL')
 			);
 			$data['projects_for_customer'][] = array(
 				'project_id'		=> $result_pfc['project_id'],
@@ -296,7 +296,7 @@ class ControllerContestDeal extends Controller {
 
 		///нужна ли группа для участия в конкурсе?????
 
-		
+
 
 
 
@@ -314,10 +314,10 @@ class ControllerContestDeal extends Controller {
 		$data['header'] = $this->load->controller('common/header');
 
 
-		
+
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_deal.tpl')) {
-			
+
 			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/contest/contest_deal.tpl', $data));
 		} else {
 			$this->response->setOutput($this->load->view('default/template/contest/contest_deal.tpl', $data));
@@ -334,12 +334,12 @@ class ControllerContestDeal extends Controller {
 	  $is_winner = false;
 
 	  //получим список конкурсов где пользователь был победителем,
-	  //если у пользователя есть проект победитель в каком то конкурсе 
+	  //если у пользователя есть проект победитель в каком то конкурсе
 
 	  //выведем список проектов для адаптации
 	  //1 пользователь указывает проект для участия в  текущем конкурсе (при этом проект должен быть помечен как победитель)
 	  //2 пользоватеь выбирает проект для адаптации
-	  //3 заполняет заявку - на основе полей указанных   
+	  //3 заполняет заявку - на основе полей указанных
 	  //подгрузим модели
 		$this->load->model('account/customer');
 		$this->load->model('group/group');
@@ -366,8 +366,8 @@ class ControllerContestDeal extends Controller {
 	  //1 при помощи промокода мы метим проект как победитель (тоесть засовываем его в таблицу победителей contest_winner, в поле конкурс == 0, ), //чуть позже
 
 
-	  //2 при заходе на конкурс видит свои проект победители (исключая + те котрые он выбрал зарание) и кладу его в таблицу oc_contest_adaptor 
-	  //3 те проекты котрые сейчас в oc_contest_adaptor (тоесть их можно адаптировать) проект на выбор для адаптации 
+	  //2 при заходе на конкурс видит свои проект победители (исключая + те котрые он выбрал зарание) и кладу его в таблицу oc_contest_adaptor
+	  //3 те проекты котрые сейчас в oc_contest_adaptor (тоесть их можно адаптировать) проект на выбор для адаптации
 	  //4 введем в таблицу победителей поле adapter_id (id проекта  котрый пользовател выбрал и победил)
 	  //5 заявка наполнятеся на отснове данных  о выбранно проетке и пользователе
 	  //6 по заявку надо внести поле adapter_id - для отсечения
@@ -387,7 +387,7 @@ class ControllerContestDeal extends Controller {
 			}
 			$actions = array();
 			$actions = array(
-				'edit'	=>	$this->url->link('project/edit', 'project_id='.$result_pfc['project_id'], 'SSL') 
+				'edit'	=>	$this->url->link('project/edit', 'project_id='.$result_pfc['project_id'], 'SSL')
 			);
 			$win = 0;
 			if(!empty($projects_winner[$result_pfc['project_id']])){
@@ -402,15 +402,15 @@ class ControllerContestDeal extends Controller {
 			);
 		}
 
-		
+
 		$data['contest_href'] = $this->url->link('contest/view', 'contest_id='.$contest_id, 'SSL');
-		$data['add_project'] = $this->url->link('project/edit', '', 'SSL'); 
+		$data['add_project'] = $this->url->link('project/edit', '', 'SSL');
 
 		//получим список проектов из таблицы contest_adaptor где customer_id=customer_id AND contest_id=contest_id
-		//узнаем подавал ли пользователь на адаптацию свой проект 
+		//узнаем подавал ли пользователь на адаптацию свой проект
 	  	$results_personal_adaptive_projects = $this->model_contest_contest->getPersonalAdaptive($customer_id,$contest_id);
 
-	  	
+
 	  	$data['my_adaptive'] =0;
 	  	$data['my_adaptive_projects_for_contest'] = array();
 	  	if(!empty($results_personal_adaptive_projects)){
@@ -418,28 +418,28 @@ class ControllerContestDeal extends Controller {
 	  			$data['my_adaptive_projects_for_contest'][] = $vrpap['project_id'];
 	  			$data['my_adaptive'] = $vrpap['project_id'];
 	  		}
-	  		
+
 	  	}
-	  	
-	  	
 
 
 
-	
+
+
+
 	  	$results_customer_winner = $this->model_contest_contest->getWinnerContest($customer_id);
 	 	$data['my_project'] = array();
 	 	foreach ($results_customer_winner as $vcw) {
-	 			
+
 		 			$data['my_project'][] = array(
 		 				'project_id'			=> $vcw['project_id'],
 						'project_title'		=> $projects_for_customer[$vcw['project_id']]['project_title'],
 						'project_image'		=> $projects_for_customer[$vcw['project_id']]['project_image'],
 						'project_status'	=> (in_array($vcw['project_id'], $data['my_adaptive_projects_for_contest']))?'1':'0'
 		 			);
-	 			
+
 	 	}
 
-	 	
+
 	 	//подтягиваем проекты котрые предназначены для адаптации
 	 	//список всех проекты
 	 	$results_projects = $this->model_project_project->getProjects();
@@ -468,19 +468,19 @@ class ControllerContestDeal extends Controller {
 			);
 		}
 
-		
-		
-	
+
+
+
 		//получим список проектов  из заявок для данного конкурса (те проекты котрые исключаем из  списка adaptive_id)
 		$results_request_projects_for_adaptive = $this->model_project_project->getProjectsFromRequestForContest($customer_id,$contest_id);
 		$project_request_adaptive = array();
-		//список проектов которые уже поданы в заявку данным пользователем 
+		//список проектов которые уже поданы в заявку данным пользователем
 		foreach ($results_request_projects_for_adaptive as $vpra) {
 			$project_request_adaptive[$vpra['adaptive_id']] = array(
 				'adaptive_id' => $vpra['adaptive_id']
 			);
 		}
-		
+
 		//получим список проектов для адаптации из  таблицы contest_adaptor
 		$results_adaptive_projects = $this->model_project_project->getProjectsForAdaptive($customer_id);
 		$data['adaptive_projects'] = array();
@@ -491,7 +491,7 @@ class ControllerContestDeal extends Controller {
 					foreach ($projects[$vrap['project_id']]['project_age'] as $vpa) {
 						$filter_age .=	" filter-age-".$vpa;
 					}
-					
+
 				}
 
 				$filter_nationality = '';
@@ -499,7 +499,7 @@ class ControllerContestDeal extends Controller {
 					foreach ($projects[$vrap['project_id']]['project_nationality'] as $vpn) {
 						$filter_nationality .=	" filter-nationality-".$vpn;
 					}
-					
+
 				}
 
 				$filter_professional = '';
@@ -507,7 +507,7 @@ class ControllerContestDeal extends Controller {
 					foreach ($projects[$vrap['project_id']]['project_professional'] as $vpp) {
 						$filter_professional .=	" filter-professional-".$vpp;
 					}
-					
+
 				}
 
 				$filter_demographic = '';
@@ -515,7 +515,7 @@ class ControllerContestDeal extends Controller {
 					foreach ($projects[$vrap['project_id']]['project_demographic'] as $vpd) {
 						$filter_demographic .=	" filter-demographic-".$vpd;
 					}
-					
+
 				}
 
 				$data['adaptive_projects'][] = array(
@@ -529,7 +529,7 @@ class ControllerContestDeal extends Controller {
 					'project_demographic'       => $filter_demographic
 	 			);
 			}
-			
+
 		}
 
 
@@ -544,14 +544,14 @@ class ControllerContestDeal extends Controller {
 		//$this->document->setDescription(substr(strip_tags(html_entity_decode($contest_info['meta_description'], ENT_QUOTES)), 0, 150) . '...');
 		//$this->document->setKeywords($contest_info['meta_keyword']);
 
-		
+
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
 			$data['error_warning'] = '';
 		}
 
-		
+
 
 
 
@@ -559,30 +559,30 @@ class ControllerContestDeal extends Controller {
 		$data['entry_description'] 			= $this->language->get('entry_description');
 		$data['entry_image'] 				= $this->language->get('entry_image');
 		$data['entry_contest_birthday'] 	= $this->language->get('entry_contest_birthday');
-		$data['entry_contest_email'] 		= $this->language->get('entry_contest_email'); 
-		
-		$data['entry_contest_dates'] 		= $this->language->get('entry_contest_dates'); 
-		$data['entry_contest_date_start'] 		= $this->language->get('entry_contest_date_start'); 
-		$data['entry_contest_datetime_end'] 	= $this->language->get('entry_contest_datetime_end'); 
-		$data['entry_contest_date_rate'] 		= $this->language->get('entry_contest_date_rate'); 
-		$data['entry_contest_date_result'] 		= $this->language->get('entry_contest_date_result'); 
-		$data['entry_contest_date_finalist'] 	= $this->language->get('entry_contest_date_finalist'); 
+		$data['entry_contest_email'] 		= $this->language->get('entry_contest_email');
 
-		$data['entry_contest_organizer'] 	= $this->language->get('entry_contest_organizer'); 
+		$data['entry_contest_dates'] 		= $this->language->get('entry_contest_dates');
+		$data['entry_contest_date_start'] 		= $this->language->get('entry_contest_date_start');
+		$data['entry_contest_datetime_end'] 	= $this->language->get('entry_contest_datetime_end');
+		$data['entry_contest_date_rate'] 		= $this->language->get('entry_contest_date_rate');
+		$data['entry_contest_date_result'] 		= $this->language->get('entry_contest_date_result');
+		$data['entry_contest_date_finalist'] 	= $this->language->get('entry_contest_date_finalist');
+
+		$data['entry_contest_organizer'] 	= $this->language->get('entry_contest_organizer');
 		$data['entry_contest_budget'] 		= $this->language->get('entry_contest_budget');
-		$data['entry_contest_propose'] 		= $this->language->get('entry_contest_propose'); 
-		$data['entry_contest_location'] 	= $this->language->get('entry_contest_location'); 
-		$data['entry_contest_members'] 		= $this->language->get('entry_contest_members'); 
-		$data['entry_contest_contacts'] 	= $this->language->get('entry_contest_contacts'); 
-		$data['entry_contest_timeline_text']= $this->language->get('entry_contest_timeline_text'); 
-		$data['entry_contest_budget']		= $this->language->get('entry_contest_budget'); 
-		$data['entry_contest_maxprice']		= $this->language->get('entry_contest_maxprice'); 
-		$data['entry_contest_totalprice']	= $this->language->get('entry_contest_totalprice'); 
-		
+		$data['entry_contest_propose'] 		= $this->language->get('entry_contest_propose');
+		$data['entry_contest_location'] 	= $this->language->get('entry_contest_location');
+		$data['entry_contest_members'] 		= $this->language->get('entry_contest_members');
+		$data['entry_contest_contacts'] 	= $this->language->get('entry_contest_contacts');
+		$data['entry_contest_timeline_text']= $this->language->get('entry_contest_timeline_text');
+		$data['entry_contest_budget']		= $this->language->get('entry_contest_budget');
+		$data['entry_contest_maxprice']		= $this->language->get('entry_contest_maxprice');
+		$data['entry_contest_totalprice']	= $this->language->get('entry_contest_totalprice');
+
 
 		$data['text_create'] 				= $this->language->get('text_create');
 		$data['text_member'] 				= $this->language->get('text_member');
-		
+
 
 		$data['breadcrumbs'] = array();
 		$data['breadcrumbs'][] = array(
@@ -600,7 +600,7 @@ class ControllerContestDeal extends Controller {
 
 		//подгрузим модели
 		$this->load->model('account/customer');
-		
+
 		$this->load->model('project/project');
 		$this->load->model('group/group');
 		$this->load->model('tool/upload');
@@ -630,9 +630,9 @@ class ControllerContestDeal extends Controller {
 		//ссылка на участие
 
 		$data['text_im_deal'] 				= $this->language->get('text_im_deal');
-		$data['im_deal']  = $this->url->link('contest/deal', 'contest_id=' . $data['contest_id'], 'SSL');	
+		$data['im_deal']  = $this->url->link('contest/deal', 'contest_id=' . $data['contest_id'], 'SSL');
 
-		
+
 		//информация о пользователе
 		$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 		$customer_id = $this->customer->getId();
@@ -669,7 +669,7 @@ class ControllerContestDeal extends Controller {
 		);
 		$result_customer_req_contest = $this->model_contest_contest->getRequestForCustomer($filter_data);
 
-		
+
 	  	if(count($result_customer_req_contest) > 2){
 			$this->session->data['warning'] = 'Количество заявок на конкурс ограничено';
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
@@ -678,7 +678,7 @@ class ControllerContestDeal extends Controller {
 
 		///нужна ли группа для участия в конкурсе?????
 
-		
+
 
 		//фильтр проектов
 
@@ -748,8 +748,8 @@ class ControllerContestDeal extends Controller {
 
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_deal.tpl')) {
-	//			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/mixitup.min.js');
-				$this->document->addScript('http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js');
+				$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/mixitup.min.js');
+		//		$this->document->addScript('http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js');
 			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest_best.js');
 
 		} else {
@@ -765,10 +765,10 @@ class ControllerContestDeal extends Controller {
 		$data['header'] = $this->load->controller('common/header');
 
 
-		
+
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_best_deal.tpl')) {
-			
+
 			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/contest/contest_best_deal.tpl', $data));
 		} else {
 			$this->response->setOutput($this->load->view('default/template/contest/contest_best_deal.tpl', $data));
@@ -776,10 +776,10 @@ class ControllerContestDeal extends Controller {
 
 
 
-		
+
 	}
 	protected function validate() {
-		
+
 
 		foreach ($this->request->post['project_description'] as $language_id => $value) {
 			if ((utf8_strlen($value['title']) < 3) || (utf8_strlen($value['title']) > 255)) {

@@ -12,11 +12,11 @@ class ControllerGroupInvite extends Controller {
 		if (!isset($this->request->get['group_id'])) {
 			$this->session->data['redirect'] = $this->url->link('account/account', '', 'SSL');
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
-		} 
+		}
 
 		$data['group_id_hash'] = $this->request->get['group_id'];
 
-		//добавим расчехление 
+		//добавим расчехление
 		$group_id = $this->request->get['group_id'];
 
 		//делаем проверку на принадлежность администартора к группе
@@ -28,7 +28,7 @@ class ControllerGroupInvite extends Controller {
 		foreach ($results_admingroup as $result) {
 			if((int)$this->request->get['group_id'] == $result['init_group_id']){
 				$isAdminGroup = true;
-				break; 
+				break;
 			}
 		}
 		if (!$isAdminGroup) {
@@ -53,14 +53,15 @@ class ControllerGroupInvite extends Controller {
 			'href' => $this->url->link('group/group', '', 'SSL')
 		);
 
-		
+
 
 		$this->load->model('account/customer');
 		$this->load->model('group/group');
 		$this->load->model('tool/image');
+		$this->load->model('tool/upload');
 
 		//подгрузим список пользователей уже состоящих в группе или ждущих подверждение
-		$filter_data = array(	
+		$filter_data = array(
 			'filter_init_group_id' => $group_id,
 		);
 		$results_customer_in_group = array();
@@ -72,7 +73,7 @@ class ControllerGroupInvite extends Controller {
 				'status'		=> $result_cig['status']
 			);
 		}
-		
+
 
 		//подгрузим список пользователей (не экпертов и  исключая текущего пользователя)
 		if (isset($this->request->get['filter_name'])) {
@@ -155,14 +156,20 @@ class ControllerGroupInvite extends Controller {
 
 			//добавить неболшое шифрование!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		foreach ($results as $result) {
-			if(preg_match('/http/', $result['image'])){
-				$image = $result['image'];
-			}else{
-				if (is_file(DIR_IMAGE . $result['image'])) {
-					$image = $this->model_tool_image->resize($result['image'], 400, 400, 'h');
+			if (!empty($result['image'])){
+				if(preg_match('/http/', $result['image'])){
+					$image = $result['image'];
 				}else{
-					$image = $this->model_tool_image->resize('no-image.png', 400, 400, 'h');
+					$upload_info = $this->model_tool_upload->getUploadByCode($result['image']);
+					$filename = $upload_info['filename'];
+					if (is_file(DIR_UPLOAD . $filename)) {
+						$image = $this->model_tool_upload->resize($filename , 150, 150, 'h');
+					}else{
+						$image = $this->model_tool_image->resize('account.jpg', 150, 150, 'h');
+					}
 				}
+			}else{
+				$image = $this->model_tool_image->resize('account.jpg', 150, 150, 'h');
 			}
 			$customer_id_hash = $result['customer_id'];
 			$actions = array();
@@ -175,26 +182,28 @@ class ControllerGroupInvite extends Controller {
 			if ( array_key_exists( $result['customer_id'], $customer_in_group )) {
 				$status = $customer_in_group[$result['customer_id']]['status'];
 			}
-			
+
 			if($status != 1){
 				$data['customers'][] = array(
 					'customer_id'    			=> $result['customer_id'],
 					'customer_id_hash'			=> $customer_id_hash,
 					'customer_name'     		=> $result['name'],
 					'customer_image'			=> $image,
-					'customer_status_invite'	=> $status,	
-					'action'		 			=> $actions 
+					'customer_status_invite'	=> $status,
+					'action'		 			=> $actions
 				);
 			}
-			   	
-			
-			
+
+
+
 		}
-		
+
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/group/group_invite.tpl')) {
+			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/list.min.js');
 			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/invite.js');
 		} else {
+			$this->document->addScript('catalog/view/theme/default/assets/js/list.min.js');
 			$this->document->addScript('catalog/view/theme/default/assets/js/invite.js');
 		}
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -211,7 +220,7 @@ class ControllerGroupInvite extends Controller {
 			$this->response->setOutput($this->load->view('default/template/group/group_invite.tpl', $data));
 		}
 
-		
+
 	}
 
 	public function invite(){
@@ -249,11 +258,11 @@ class ControllerGroupInvite extends Controller {
 			$this->session->data['redirect'] = $this->url->link('account/account', '', 'SSL');
 			$this->response->redirect($this->url->link('account/login', '', 'SSL'));
 		}
-		
+
 		$this->load->language('group/invite');
 		//догрузим модель
 		$this->load->model('group/group');
-		
+
 
 		if (($this->request->server['REQUEST_METHOD'] == 'GET') && $this->validateAgree()) {
 			$_get = $this->request->get;
@@ -266,7 +275,7 @@ class ControllerGroupInvite extends Controller {
 			$this->session->data['redirect'] = $this->url->link('group/invite/agree', '', 'SSL');
 			$this->response->redirect($this->url->link('group/view', 'group_id='.$data['init_group_id'], 'SSL'));
 		}
-		
+
 
 	}
 	public function uninvite(){
@@ -287,7 +296,7 @@ class ControllerGroupInvite extends Controller {
 			$data_post['status'] = 2;
 			$this->model_group_group->uninviteCustomer($data_post);
 
-			//добавить отправки 
+			//добавить отправки
 			//добавить проверочик
 			if($this->error){
 				$json['error'] = $this->error;
@@ -320,5 +329,5 @@ class ControllerGroupInvite extends Controller {
 		return !$this->error;
 	}
 
-	
+
 }
