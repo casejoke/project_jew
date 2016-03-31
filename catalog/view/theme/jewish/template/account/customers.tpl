@@ -17,32 +17,46 @@
     <?php echo $content_top; ?>
     <!-- Content column start -->
     <div class="col-sm-8">
-      <div class="row multi-columns-row">
-      <?php if (!empty($error_warning)) { ?>
-      <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?></div>
-      <?php } ?>
-        <?php if (!empty($customers)) { ?>
-          <?php foreach ($customers as $customer) { ?>
-            <div class="col-sm-6 col-md-4 col-lg-4">
-              <div class="price-table font-alt">
-                <a href="<?php echo $customer['action']['info']; ?>"><img src="<?php echo $customer['customer_image']; ?>" alt=""></a>
-                <div class="borderline"></div>
-                <h4><?php echo $customer['customer_name']; ?></h4>
-                <a href="<?php echo $customer['action']['info']; ?>" class="btn btn-info btn-block  btn-round mt-20" autocomplete="off">Просмотр</a>
+      <div id="users">
+        <div class="col-sm-8 col-sm-offset-2 mb-20">
+          <div class="widget">
+            <form role="form">
+              <div class="search-box">
+                <input type="text" class="form-control search" placeholder="Поиск пользователя...">
+                <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
               </div>
-            </div>
-          <?php } ?>
-        <?php  } else { ?>
-          <div class="col-sm-8 col-sm-offset-2 text-center mb-20">
-            <h3 class="font-alt text-center">Список пользователей пуст</h3>
+            </form>
           </div>
-        <?php  } ?>
-        <?php echo $content_bottom; ?>
+        </div>
+
+      <div class="col-sm-12 mb-20 customers-list">
+        <ul class="list ">
+        <?php foreach ($customers as $customer) { ?>
+          <?php if($customer['customer_name']!=' ') { ?>
+            <li class="font-alt col-xs-12 col-sm-4">
+              <div class="alt-features-item">
+								<div class="alt-features-icon alt-features-icon--image">
+									<span class="">
+                    <a href="<?php echo $customer['action']['info']; ?>"><img src="<?php echo $customer['customer_image']; ?>" alt=""></a>
+                  </span>
+								</div>
+								<h3 class="alt-features-title font-alt name"><?php echo $customer['customer_name']; ?></h3>
+                <a href="<?php echo $customer['action']['info']; ?>" class="btn btn-info btn-block  btn-round mt-20" autocomplete="off">Просмотр</a>
+							</div>
+            </li>
+          <?php }?>
+        <?php } ?>
+        </ul>
       </div>
+
+      </div>
+
+
+
     </div><!-- /.col-sm-10 -->
     <!-- Sidebar column start -->
     <div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
-     
+
       <?php echo $column_right; ?>
     </div><!-- Sidebar column end -->
     </div><!-- /.row -->

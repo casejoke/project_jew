@@ -16,7 +16,7 @@ class ControllerAccountCustomers extends Controller {
 			'href' => $this->url->link('account/customers', '', 'SSL')
 		);
 
-		
+
 
 		$this->load->model('account/customer');
 		$this->load->model('tool/image');
@@ -108,13 +108,13 @@ class ControllerAccountCustomers extends Controller {
 					$upload_info = $this->model_tool_upload->getUploadByCode($result['image']);
 					$filename = $upload_info['filename'];
 					if (is_file(DIR_UPLOAD . $filename)) {
-						$image = $this->model_tool_upload->resize($filename , 360, 490, 'h');
+						$image = $this->model_tool_upload->resize($filename , 150, 150, 'h');
 					}else{
-						$image = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
+						$image = $this->model_tool_image->resize('account.jpg', 150, 150, 'h');
 					}
 				}
 			}else{
-				$image = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
+				$image = $this->model_tool_image->resize('account.jpg', 150, 150, 'h');
 			}
 
 			$customer_id_hash = $result['customer_id'];
@@ -124,19 +124,27 @@ class ControllerAccountCustomers extends Controller {
 				'uninvite'	=> $this->url->link('group/invite/uninvite', '', 'SSL'),
 				'info'		=> $this->url->link('account/info', 'ch=' . $customer_id_hash, 'SSL'),
 			);
-			
+
 				$data['customers'][] = array(
 					'customer_id'    			=> $result['customer_id'],
 					'customer_id_hash'			=> $customer_id_hash,
 					'customer_name'     		=> $result['name'],
 					'customer_image'			=> $image,
-					'action'		 			=> $actions 
+					'action'		 			=> $actions
 				);
-			   	
-			
-			
+
+
+
 		}
 
+		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/customers.tpl')) {
+
+			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/list.min.js');
+			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/customers.js');
+		} else {
+			$this->document->addScript('catalog/view/theme/default/assets/js/list.min.js');
+			$this->document->addScript('catalog/view/theme/default/assets/js/customers.js');
+		}
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
 		$data['content_top'] = $this->load->controller('common/content_top');
@@ -145,13 +153,14 @@ class ControllerAccountCustomers extends Controller {
 		$data['header'] = $this->load->controller('common/header');
 
 
+
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/customers.tpl')) {
 			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/account/customers.tpl', $data));
 		} else {
 			$this->response->setOutput($this->load->view('default/template/account/customers.tpl', $data));
 		}
 
-		
-		
+
+
 	}
 }
