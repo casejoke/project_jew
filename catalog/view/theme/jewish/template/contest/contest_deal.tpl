@@ -8,19 +8,21 @@
           <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> <?php echo $success; ?></div>
         <?php } ?>
       </div><!-- /.col-sm-10 -->
-     
+
       <!-- Content column start -->
       <div class="col-sm-8">
         <!-- Post start -->
         <div class="post">
-          
+
           <div class="post-header font-alt">
             <h1 class="post-title">Оформление заявки на конкурс: <?php echo $contest_title; ?> </h1>
           </div>
           <div class="post-entry ">
-              <h4 class="font-alt mb-0">Укажите свой проект для участия в конкурсе</h4>
-            <div class="row">
-            <?php if(!empty($projects_for_customer)) { ?>
+
+
+              <?php if(!empty($projects_for_customer)) { ?>
+                <h4 class="font-alt mb-0">Укажите свой проект для участия в конкурсе</h4>
+                <div class="row">
                   <?php foreach ($projects_for_customer as $pfc) { ?>
 
                     <div class="col-sm-6 col-md-4 col-lg-4">
@@ -33,19 +35,32 @@
                     </div>
 
                   <?php } ?>
-                <?php } ?>
-            </div>
-            
-
-            <div class="row">
-              <div class="form-group">
-                <div class="col-sm-6 col-sm-offset-3">
-                  <a href="<?php echo $action; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20 disabled" id="send_request_to_contest" ><?php echo $text_im_deal;?></a>
                 </div>
-              </div>  
-            </div>
+                <div class="row">
+                  <div class="form-group">
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <a href="<?php echo $action; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20 disabled" id="send_request_to_contest" ><?php echo $text_im_deal;?></a>
+                    </div>
+                  </div>
+                </div>
+              <?php } else{ ?>
+                <div class="row">
+                  <div class="form-group">
+                    <div class="col-sm-12 text-center">
+                      <p>Необходимо внести свой проект в&nbsp;общий пул проектов. Только после этого вы&nbsp;сможете продолжить.
+                    </div>
+                    <div class="col-sm-6 col-sm-offset-3">
+                      <a href="<?php echo $add_project; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20">Создать проект</a>
+                    </div>
+                  </div>
+                </div>
+              <?php } ?>
+
+
+
+
           </div>
-          
+
 
         </div>
         <!-- Post end -->

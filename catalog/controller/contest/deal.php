@@ -170,6 +170,9 @@ class ControllerContestDeal extends Controller {
 		$data['text_im_deal'] 				= $this->language->get('text_im_deal');
 		$data['im_deal']  = $this->url->link('contest/deal', 'contest_id=' . $data['contest_id'], 'SSL');
 
+		//ссыдка на создание проекта
+		$data['add_project'] = $this->url->link('project/edit', '', 'SSL'); 
+
 
 		//информация о пользователе
 		$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
