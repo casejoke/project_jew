@@ -21,7 +21,7 @@ class ControllerAccountPromocode extends Controller {
 			$this->model_account_promocode->activatePromocode($_post['b'],$_post['a']);
 			$json['redirect'] = $this->url->link('account/account', '', 'SSL');
 			$json['success'] = true;
-			
+
 		}else{
 			$json['error'] = $this->error;
 		}
@@ -75,7 +75,7 @@ class ControllerAccountPromocode extends Controller {
 			$this->session->data['redirect'] = $this->url->link('account/account', '', 'SSL');
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
 		}
-		
+
 
 	}
 	protected function validate(){
@@ -95,7 +95,7 @@ class ControllerAccountPromocode extends Controller {
 		if(isset($promocode_info['status']) && $promocode_info['status'] == 0){
 			$this->error['promocode'] = 'Промокод не валидный, или уже активирован!';
 		}
-		
+
 		return !$this->error;
 	}
 
@@ -121,8 +121,8 @@ class ControllerAccountPromocode extends Controller {
     public function generateprmocode(){
 
     	$this->load->model('account/promocode');
-		/*for ($i=0; $i < 201; $i++) { 
-			
+		/*for ($i=0; $i < 1500; $i++) {
+
 			$promocode = $this->_createCode();
 			print_r('<pre>');
 			print_r($promocode);
@@ -131,9 +131,9 @@ class ControllerAccountPromocode extends Controller {
 			if (empty($promocode_info)) {
 				$this->model_account_promocode->addPromocode($promocode);
 			}
-			
+
 		}*/
-    
+
    // $promocode_results = $this->model_account_promocode->getPromocodes();
    // print_r('expression');
 			//foreach ($promocode_results as $value) {
