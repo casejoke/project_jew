@@ -107,7 +107,7 @@ class ControllerAccountAccount extends Controller {
 			$data['avatar'] = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
 		}
 
-	
+
 
 
 
@@ -343,6 +343,16 @@ class ControllerAccountAccount extends Controller {
 
 			//добавить проверку на дату приема заявок с конкурса
 			switch ((int)$contests[$vcc['contest_id']]['contest_type']) {
+				case '1':
+					$action_not_accepted = $this->url->link('contest/send', 'customer_to_contest_id='.$vcc['customer_to_contest_id'], 'SSL');
+
+					//contest_id=4&project_id=155&adaptive_id=2
+					break;
+				case '2':
+						$action_not_accepted = $this->url->link('contest/send', 'customer_to_contest_id='.$vcc['customer_to_contest_id'], 'SSL');
+
+						//contest_id=4&project_id=155&adaptive_id=2
+						break;
 				case '3':
 					$action_not_accepted = $this->url->link('contest/sendbest', 'customer_to_contest_id='.$vcc['customer_to_contest_id'], 'SSL');
 

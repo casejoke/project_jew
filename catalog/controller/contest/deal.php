@@ -171,7 +171,7 @@ class ControllerContestDeal extends Controller {
 		$data['im_deal']  = $this->url->link('contest/deal', 'contest_id=' . $data['contest_id'], 'SSL');
 
 		//ссыдка на создание проекта
-		$data['add_project'] = $this->url->link('project/edit', '', 'SSL'); 
+		$data['add_project'] = $this->url->link('project/edit', '', 'SSL');
 
 
 		//информация о пользователе
@@ -212,7 +212,7 @@ class ControllerContestDeal extends Controller {
 
 		//проверка на количесто заявок от данного пользователя
 		if(count($result_customer_req_contest) > 0){
-			$this->session->data['warning'] = $this->language->get('text_contest_error');
+			$this->session->data['warning'] = '';//$this->language->get('text_contest_error');
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
 		}
 
@@ -351,21 +351,6 @@ class ControllerContestDeal extends Controller {
 		$this->load->model('tool/upload');
 		$this->load->model('tool/image');
 
-
-/* search filter */
-//возраст
-
-		$filter_data = array();
-		$age_statuses_results = $this->model_project_project->getAgeStatuses($filter_data);
-		$data['age_statuses']  = array();
-		foreach ($age_statuses_results as $ssr) {
-			$data['age_statuses'][]  = array(
-				'age_status_id'	=> $ssr['age_status_id'],
-				'title'  => $ssr['name']
-			);
-		}
-
-/* search filter */
 	  //1 при помощи промокода мы метим проект как победитель (тоесть засовываем его в таблицу победителей contest_winner, в поле конкурс == 0, ), //чуть позже
 
 

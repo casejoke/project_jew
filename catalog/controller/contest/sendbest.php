@@ -1,16 +1,16 @@
 <?php
 /**
- * Заявка для обыкновенных проектов 
+ * Заявка для обыкновенных проектов
  */
 class ControllerContestSendbest extends Controller {
   private $error = array();
   //создаем группу
   public function index(){
-    
-    
+
+
     $this->getView();
   }
-  
+
   private function getView(){
     //подгрузим язык
     $this->load->language('contest/send');
@@ -19,9 +19,9 @@ class ControllerContestSendbest extends Controller {
     //$this->document->setDescription(substr(strip_tags(html_entity_decode($contest_info['meta_description'], ENT_QUOTES)), 0, 150) . '...');
     //$this->document->setKeywords($contest_info['meta_keyword']);
 
-    
 
-    
+
+
     //подгрузим модели
     $this->load->model('account/customer');
     $this->load->model('contest/contest');
@@ -31,7 +31,7 @@ class ControllerContestSendbest extends Controller {
     $this->load->model('tool/upload');
     $this->load->model('tool/image');
     $this->load->model('localisation/category_request');
-    
+
 //*************************** проверки ********************************//
 
     //проверка на сушествование пользователя и логина в системе
@@ -42,7 +42,7 @@ class ControllerContestSendbest extends Controller {
     $customer_id = $this->customer->getId();
 
 
-    
+
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //проверка на то что заявка редактируется
     $data['draft'] = true;
@@ -74,12 +74,12 @@ class ControllerContestSendbest extends Controller {
       $data['action'] = $this->url->link('contest/sendbest', 'contest_id='.$contest_id.'&project_id='.$project_id.'&adaptive_id='.$adaptive_id, 'SSL');
       $data['draft_check'] = false;
     }
- 
+
     //проверка на сушествование конкурса
     $contest_info = array();
     $contest_info = $this->model_contest_contest->getContest($contest_id);
-    
-   
+
+
     if ( empty($contest_info) ){
       //редиректим на список конкурсов
       $this->session->data['redirect'] = $this->url->link('contest/contest', '', 'SSL');
@@ -88,12 +88,12 @@ class ControllerContestSendbest extends Controller {
     //если конкурс в статусе работа - редирект
 
 
-    
+
 
     //проверка на сушествование проекта
     $project_info = array();
     $project_info = $this->model_project_project->getProject($project_id);
-    
+
     if ( empty($project_info) ){
       //редиректим на список проектов
       $this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
@@ -101,11 +101,11 @@ class ControllerContestSendbest extends Controller {
     }
     $admin_project_id = $project_info['customer_id'];
 
-    
 
-    
-    
-   
+
+
+
+
 
 
 
@@ -118,7 +118,7 @@ class ControllerContestSendbest extends Controller {
      // $this->response->redirect($this->url->link('project/project', '', 'SSL'));
     }
 
-//*************************** проверки ********************************//   
+//*************************** проверки ********************************//
 
     if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 
@@ -126,14 +126,14 @@ class ControllerContestSendbest extends Controller {
 
         $this->model_contest_contest->editRequest($this->request->post,$this->request->get['customer_to_contest_id']);
         $this->session->data['success'] = 'Заявка отредактирована/отправлена';
-      
+
       }else{
         $this->model_contest_contest->addRequest($this->request->post,$customer_id,$contest_id,$adaptive_id,$project_id);
         //отправляю проектв $project_id  в копилку проектов
         $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
         $this->session->data['success'] = $this->language->get('text_contest_success');
       }
-      
+
 
 
 
@@ -166,7 +166,7 @@ class ControllerContestSendbest extends Controller {
     } else {
       $data['error_custom_field'] = array();
     }
-    
+
 
     $data['breadcrumbs'] = array();
     $data['breadcrumbs'][] = array(
@@ -186,26 +186,26 @@ class ControllerContestSendbest extends Controller {
     $data['entry_description']        = $this->language->get('entry_description');
     $data['entry_image']              = $this->language->get('entry_image');
     $data['entry_contest_birthday']   = $this->language->get('entry_contest_birthday');
-    $data['entry_contest_email']      = $this->language->get('entry_contest_email'); 
-    
-    $data['entry_contest_dates']          = $this->language->get('entry_contest_dates'); 
-    $data['entry_contest_date_start']     = $this->language->get('entry_contest_date_start'); 
-    $data['entry_contest_datetime_end']   = $this->language->get('entry_contest_datetime_end'); 
-    $data['entry_contest_date_rate']      = $this->language->get('entry_contest_date_rate'); 
-    $data['entry_contest_date_result']    = $this->language->get('entry_contest_date_result'); 
-    $data['entry_contest_date_finalist']  = $this->language->get('entry_contest_date_finalist'); 
+    $data['entry_contest_email']      = $this->language->get('entry_contest_email');
 
-    $data['entry_contest_organizer']    = $this->language->get('entry_contest_organizer'); 
+    $data['entry_contest_dates']          = $this->language->get('entry_contest_dates');
+    $data['entry_contest_date_start']     = $this->language->get('entry_contest_date_start');
+    $data['entry_contest_datetime_end']   = $this->language->get('entry_contest_datetime_end');
+    $data['entry_contest_date_rate']      = $this->language->get('entry_contest_date_rate');
+    $data['entry_contest_date_result']    = $this->language->get('entry_contest_date_result');
+    $data['entry_contest_date_finalist']  = $this->language->get('entry_contest_date_finalist');
+
+    $data['entry_contest_organizer']    = $this->language->get('entry_contest_organizer');
     $data['entry_contest_budget']       = $this->language->get('entry_contest_budget');
-    $data['entry_contest_propose']      = $this->language->get('entry_contest_propose'); 
-    $data['entry_contest_location']     = $this->language->get('entry_contest_location'); 
-    $data['entry_contest_members']      = $this->language->get('entry_contest_members'); 
-    $data['entry_contest_contacts']     = $this->language->get('entry_contest_contacts'); 
-    $data['entry_contest_timeline_text']  = $this->language->get('entry_contest_timeline_text'); 
-    $data['entry_contest_budget']       = $this->language->get('entry_contest_budget'); 
-    $data['entry_contest_maxprice']     = $this->language->get('entry_contest_maxprice'); 
-    $data['entry_contest_totalprice']   = $this->language->get('entry_contest_totalprice'); 
-    
+    $data['entry_contest_propose']      = $this->language->get('entry_contest_propose');
+    $data['entry_contest_location']     = $this->language->get('entry_contest_location');
+    $data['entry_contest_members']      = $this->language->get('entry_contest_members');
+    $data['entry_contest_contacts']     = $this->language->get('entry_contest_contacts');
+    $data['entry_contest_timeline_text']  = $this->language->get('entry_contest_timeline_text');
+    $data['entry_contest_budget']       = $this->language->get('entry_contest_budget');
+    $data['entry_contest_maxprice']     = $this->language->get('entry_contest_maxprice');
+    $data['entry_contest_totalprice']   = $this->language->get('entry_contest_totalprice');
+
     $data['text_create']          = $this->language->get('text_create');
     $data['text_member']          = $this->language->get('text_member');
     $data['text_submit']          = $this->language->get('text_submit');
@@ -235,9 +235,9 @@ class ControllerContestSendbest extends Controller {
     }
 
 
-//************************* информация о пользователе *************************//     
+//************************* информация о пользователе *************************//
     $customer_info = $this->model_account_customer->getCustomer($customer_id);
-    
+
     //стандартные поля
     $data['firstname'] = $customer_info['firstname'];
     $data['lastname'] = $customer_info['lastname'];
@@ -261,7 +261,7 @@ class ControllerContestSendbest extends Controller {
       $data['avatar'] = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
     }
 
-//************************* информация о группах *************************//    
+//************************* информация о группах *************************//
     //подтянем все активные группы
     //сделать рефактор заменить на IN () как getInfoCustomersForGroups
     $results_groups = $this->model_group_group->getGroups();
@@ -311,9 +311,9 @@ class ControllerContestSendbest extends Controller {
       );
     }
 
-//************************* информация о проекте *************************//  
-    
-    
+//************************* информация о проекте *************************//
+
+
     $project_title      = html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8');
     $project_description  = html_entity_decode($project_info['description'], ENT_QUOTES, 'UTF-8');
 
@@ -325,11 +325,11 @@ class ControllerContestSendbest extends Controller {
     } else {
       $data['image'] = $this->model_tool_image->resize('no-image.png', 800, 460,'w');
     }
-    
+
     $project_birthday     = rus_date($this->language->get('date_day_date_format'), strtotime($project_info['project_birthday']));
-    
-  
-//************************* инфо огруппе *************************//  
+
+
+//************************* инфо огруппе *************************//
     //подтянем администратора группы если есть группа и в данном конкурсе нужна группа
     $admin_id = $project_info['customer_id'];
     if(!empty($data['init_groups'][$project_info['project_init_group_id']])){
@@ -337,13 +337,13 @@ class ControllerContestSendbest extends Controller {
     }else{
       $init_group_information = array();
     }
-    
-    
+
+
     //подменяем инфу о проекте
     //$project_info = array();
 
-//************************* информация о конкурсе *************************// 
-      
+//************************* информация о конкурсе *************************//
+
 
       //подтянем поля для заполнения
       //СИСТЕМНЫЕ ПОЛЯ
@@ -378,7 +378,7 @@ class ControllerContestSendbest extends Controller {
       'field_value_r'         => (!empty($init_group_information))?$init_group_information['group_description']:'',
       'field_type'          => 'textarea'
     );
-///!!!!!!!!!!    
+///!!!!!!!!!!
     //поля для проекта
     $data['contest_field_system']['project'] = array();
     $data['contest_field_system']['project']['title'] = array(
@@ -443,7 +443,7 @@ class ControllerContestSendbest extends Controller {
       'field_type'          => 'checkbox'
     );
 
-    
+
 
       //подтянем список каетгорий для заявки на  конкурса
       $data['category_requestes'] = array();
@@ -464,13 +464,13 @@ class ControllerContestSendbest extends Controller {
       $filter_data = array(
         'order' => 'ASC'
       );
-      $contest_fields_results = $this->model_contest_contest_field->getContestFields($filter_data); 
+      $contest_fields_results = $this->model_contest_contest_field->getContestFields($filter_data);
       /*
             [contest_field_id] => 6
             [type] => textarea
             [field_system] => custom
             [field_system_table] => custom
-            [value] => 
+            [value] =>
             [location] => 14 // id группы в заявке
             [required] => 0
             [status] => 1
@@ -480,9 +480,9 @@ class ControllerContestSendbest extends Controller {
 
       */
 /**********/
-      //поля которые записаны именно в данном конкурсе      
+      //поля которые записаны именно в данном конкурсе
       $data['custom_fields'] = unserialize($contest_info["contest_fields"]) ;
-      
+
 /**********/
       //получим список все полей
       $contest_fields = array();
@@ -509,16 +509,16 @@ class ControllerContestSendbest extends Controller {
           $sort_order   =  0;
         }
 
-        
-                            
-                 
-        
-        
+
+
+
+
+
         $contest_fields_value = '';
         //дклаем проверку на системное или нет поле $cfr['field_system'] => custom - не системное
         if ( ($cfr['type'] == 'select' || $cfr['type'] == 'radio' || $cfr['type'] == 'checkbox') && $cfr['field_system'] == 'custom' )  {
-          //если не системны и пречисляемый тип 
-          $contest_fields_value = $this->model_contest_contest_field->getContestFieldValues($cfr['contest_field_id']); 
+          //если не системны и пречисляемый тип
+          $contest_fields_value = $this->model_contest_contest_field->getContestFieldValues($cfr['contest_field_id']);
           $type = $cfr['type'];
 
           $val_r = array();//значение в заявке
@@ -528,14 +528,14 @@ class ControllerContestSendbest extends Controller {
 
                 $val_r = (!empty($vrcf['value']))?$vrcf['value']:array();
               }
-            } 
+            }
           }
-        
+
         }elseif ($cfr['field_system'] != 'custom'){
 
-          
+
           $type = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_type'];
-          
+
           if(  $type == 'select' || $type == 'radio' || $type == 'checkbox' ){
             $contest_fields_value = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value'];
             //если тип поля системный и перечисляемый
@@ -548,7 +548,7 @@ class ControllerContestSendbest extends Controller {
                   if($vrcf['field_id'] == $cfr['contest_field_id']){
                     $val_r = (!empty($vrcf['value']))?$vrcf['value']:array();
                   }
-                } 
+                }
               }
             }
           }else{
@@ -563,15 +563,15 @@ class ControllerContestSendbest extends Controller {
                   if($vrcf['field_id'] == $cfr['contest_field_id']){
                     $val_r = (!empty($vrcf['value']))?$vrcf['value']:'';
                   }
-                } 
+                }
               }
             }
           }
 
 
-   
+
           ///print_r($contest_fields_value);
-      
+
         }else{
           //если не системны и не перечитсялемый
           $contest_fields_value = '';//$data['register_custom_field'][$cfr['contest_field_id']]['field_value'];;
@@ -583,18 +583,18 @@ class ControllerContestSendbest extends Controller {
               if($vrcf['field_id'] == $cfr['contest_field_id']){
                 $val_r = $vrcf['value'];
               }
-            } 
+            }
           }
 
 
         }
 
 
-       
+
 
           $contest_fields[$cfr['location']][] = array(
             'contest_field_id'              => $cfr['contest_field_id'],
-            
+
             'contest_field_title'           => $cfr['name'],
             'contest_field_description'     => $cfr['description'],
 
@@ -603,7 +603,7 @@ class ControllerContestSendbest extends Controller {
 
             'contest_field_system'          => $cfr['field_system'],
             'contest_field_system_table'    => $cfr['field_system_table'],
-            
+
             'contest_field_status'      => $status,
             'sort_order'          => $sort_order,
 
@@ -613,10 +613,10 @@ class ControllerContestSendbest extends Controller {
 
 
       }
-    
 
 
-      
+
+
       //фнализированный массив с подстановкой
       $data['contest_fields'] = array();
       foreach ($contest_fields as $key_cf => $value_cf) {
@@ -638,7 +638,7 @@ class ControllerContestSendbest extends Controller {
           }
         }
       }
-      
+
     /*
     print_r('<pre>');
     print_r($data['contest_fields']);
@@ -666,17 +666,17 @@ class ControllerContestSendbest extends Controller {
           $this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
           $this->response->redirect($this->url->link('project/project', '', 'SSL'));
         }
-       
+
 
         $data['entry_title']        = $this->language->get('entry_title');
         $data['entry_description']      = $this->language->get('entry_description');
         $data['entry_image']        = $this->language->get('entry_image');
         $data['entry_project_birthday']     = $this->language->get('entry_project_birthday');
-        $data['entry_project_email']      = $this->language->get('entry_project_email'); 
+        $data['entry_project_email']      = $this->language->get('entry_project_email');
 
         $data['text_create']        = $this->language->get('text_create');
         $data['text_member']        = $this->language->get('text_member');
-        
+
 
 
         $data['project_title']    = html_entity_decode($adaptive_info['title'], ENT_QUOTES, 'UTF-8');
@@ -694,7 +694,7 @@ class ControllerContestSendbest extends Controller {
         } else {
           $data['image'] = $this->model_tool_image->resize('no-image.png', 800, 460,'w');
         }
-        
+
         $data['project_birthday']     = rus_date($this->language->get('date_day_date_format'), strtotime($adaptive_info['project_birthday']));
 
         //подтянем администратора группы
@@ -703,14 +703,14 @@ class ControllerContestSendbest extends Controller {
         $data['admin_info'] = $this->model_account_customer->getCustomer($admin_id);
         $data['link_admin'] = $this->url->link('account/info', 'ch=' . $admin_id_hash, 'SSL');
 
-        
+
         //пол
-        
+
         $filter_data = array();
         $sex_statuses_results = $this->model_project_project->getSexStatuses($filter_data);
         $data['sex_statuses']  = array();
         $project_sex = unserialize($adaptive_info['project_sex']);
-        
+
         if(is_array($project_sex)){
           foreach ($sex_statuses_results as $ssr) {
             foreach ($project_sex as $vsex) {
@@ -722,9 +722,9 @@ class ControllerContestSendbest extends Controller {
             }
           }
         }
-        
 
-    
+
+
 
         //возраст
         $filter_data = array();
@@ -794,11 +794,11 @@ class ControllerContestSendbest extends Controller {
             }
           }
         }
-        
 
 
 
-    
+
+
 
 
 
@@ -816,10 +816,10 @@ class ControllerContestSendbest extends Controller {
     $data['header'] = $this->load->controller('common/header');
 
 
-    
+
 
     if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_best_send.tpl')) {
-      
+
       $this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/contest/contest_best_send.tpl', $data));
     } else {
       $this->response->setOutput($this->load->view('default/template/contest/contest_best_send.tpl', $data));
@@ -834,13 +834,13 @@ class ControllerContestSendbest extends Controller {
       $filter_data = array(
         'order' => 'ASC'
       );
-      $contest_fields_results = $this->model_contest_contest_field->getContestFields($filter_data); 
+      $contest_fields_results = $this->model_contest_contest_field->getContestFields($filter_data);
       /*
             [contest_field_id] => 6
             [type] => textarea
             [field_system] => custom
             [field_system_table] => custom
-            [value] => 
+            [value] =>
             [location] => 14 // id группы в заявке
             [required] => 0
             [status] => 1
@@ -849,7 +849,7 @@ class ControllerContestSendbest extends Controller {
             [name] => Дополнителное образование
 
           */
-       
+
 
       //подтянем список каетгорий для заявки на  конкурса
       $filter_data = array(
@@ -859,22 +859,22 @@ class ControllerContestSendbest extends Controller {
       foreach ($category_request_results as $crr) {
         if(!empty($this->request->post['custom_fields'][$crr['category_request_id']])){
           foreach ($this->request->post['custom_fields'][$crr['category_request_id']] as $category_key => $vcf) {
-            
+
             //проверяем на обязательность заполнения
             foreach ($contest_fields_results as $value_cfr) {
               if ($value_cfr['contest_field_id'] == $vcf['field_id']) {
                 //
-                
+
                 //$this->error['custom_fields'][$vcf['field_id']] = $this->language->get('error_email');
 
               }
             }
           }
         }
-        
-        } 
 
-      
+        }
+
+
 
 
     /*

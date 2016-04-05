@@ -1,20 +1,16 @@
 <?php
 /**
- * Заявка для обыкновенных проектов 
+ * Заявка для обыкновенных проектов
  */
 class ControllerContestSend extends Controller {
 	private $error = array();
 	//создаем группу
 	public function index(){
-		if ( !isset($this->request->get['contest_id']) ) {
-			$this->session->data['redirect'] = $this->url->link('contest/contest', '', 'SSL');
-			$this->response->redirect($this->url->link('contest/contest', '', 'SSL'));
-			
-		}
-		
+
+
 		$this->getView();
 	}
-	
+
 	private function getView(){
 		//подгрузим язык
 		$this->load->language('contest/send');
@@ -23,9 +19,9 @@ class ControllerContestSend extends Controller {
 		//$this->document->setDescription(substr(strip_tags(html_entity_decode($contest_info['meta_description'], ENT_QUOTES)), 0, 150) . '...');
 		//$this->document->setKeywords($contest_info['meta_keyword']);
 
-		
 
-		
+
+
 		//подгрузим модели
 		$this->load->model('account/customer');
 		$this->load->model('contest/contest');
@@ -35,8 +31,38 @@ class ControllerContestSend extends Controller {
 		$this->load->model('tool/upload');
 		$this->load->model('tool/image');
 		$this->load->model('localisation/category_request');
-		
+
 //*************************** проверки ********************************//
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//проверка на то что заявка редактируется
+$data['draft'] = true;
+$result_request_information  = array();
+$register_custom_field =array();
+if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['customer_to_contest_id']>0){
+	$customer_to_contest_id = $this->request->get['customer_to_contest_id'];
+	//получим инфу о заявке
+	$result_request_information = $this->model_contest_contest->getInformationAboutRequest($customer_to_contest_id);
+	$val  = unserialize($result_request_information['value']);
+	$register_custom_field = $val['custom_fields'];
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//получим номер проекта котрый мы положили в пулл конкурса
+	$project_id = $result_request_information['project_id'];;
+	$contest_id = $result_request_information['contest_id'];
+
+
+	$data['draft'] = ($result_request_information['status'] < 3)? false : true;
+	$data['draft_check'] = ($result_request_information['status'] < 3)? false : true;
+	$data['action'] = $this->url->link('contest/send', 'customer_to_contest_id='.$this->request->get['customer_to_contest_id'], 'SSL');
+ // print_r($result_request_information);
+}else{
+	$project_id = $this->request->get['project_id'];
+	$contest_id = $this->request->get['contest_id'];
+	//проект для адаптации
+
+	$data['action'] = $this->url->link('contest/send', 'contest_id='.$contest_id.'&project_id='.$project_id, 'SSL');
+	$data['draft_check'] = false;
+}
 
 		//проверка на сушествование пользователя и логина в системе
 		if (!$this->customer->isLogged()) {
@@ -48,10 +74,7 @@ class ControllerContestSend extends Controller {
 
 		//проверка на сушествование конкурса
 		$contest_info = array();
-		if (isset($this->request->get['contest_id'])) {
-			$contest_info = $this->model_contest_contest->getContest($this->request->get['contest_id']);
-			$contest_id = $this->request->get['contest_id'];
-		}
+		$contest_info = $this->model_contest_contest->getContest($contest_id);
 		if ( empty($contest_info) ){
 			//редиректим на список конкурсов
 			$this->session->data['redirect'] = $this->url->link('contest/contest', '', 'SSL');
@@ -64,9 +87,7 @@ class ControllerContestSend extends Controller {
 
 		//проверка на сушествование проекта
 		$project_info = array();
-		if (isset($this->request->get['project_id'])) {
-			$project_info = $this->model_project_project->getProject($this->request->get['project_id']);
-		}
+		$project_info = $this->model_project_project->getProject($project_id);
 		if ( empty($project_info) ){
 			//редиректим на список проектов
 			$this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
@@ -80,12 +101,28 @@ class ControllerContestSend extends Controller {
 			$this->response->redirect($this->url->link('project/project', '', 'SSL'));
 		}
 
-//*************************** проверки ********************************//		
+
+
+//*************************** проверки ********************************//
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 
-			$this->model_contest_contest->addRequestToContest($this->request->post,$customer_id,$contest_id);
-			$this->session->data['success'] = $this->language->get('text_contest_success');
+			if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['customer_to_contest_id']>0){
+
+        $this->model_contest_contest->editRequest($this->request->post,$this->request->get['customer_to_contest_id']);
+        $this->session->data['success'] = 'Заявка отредактирована/отправлена';
+
+      }else{
+				$adaptive_id = 0;
+        $this->model_contest_contest->addRequest($this->request->post,$customer_id,$contest_id,$adaptive_id,$project_id);
+        //отправляю проектв $project_id  в копилку проектов
+      //  $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
+        $this->session->data['success'] = $this->language->get('text_contest_success');
+      }
+
+
+		//	$this->model_contest_contest->addRequestToContest($this->request->post,$customer_id,$contest_id);
+		//	$this->session->data['success'] = $this->language->get('text_contest_success');
 			// Add to activity log
 			$this->load->model('account/activity');
 
@@ -109,7 +146,7 @@ class ControllerContestSend extends Controller {
 		} else {
 			$data['error_custom_field'] = array();
 		}
-		
+
 
 		$data['breadcrumbs'] = array();
 		$data['breadcrumbs'][] = array(
@@ -122,33 +159,33 @@ class ControllerContestSend extends Controller {
 		);
 		$data['breadcrumbs'][] = array(
 			'text' => $contest_info['title'],
-			'href' => $this->url->link('contest/view', 'contest_id=' . $this->request->get['contest_id'], 'SSL')
+			'href' => $this->url->link('contest/view', 'contest_id=' . $contest_id, 'SSL')
 		);
 
 		$data['entry_title'] 							= $this->language->get('entry_title');
 		$data['entry_description'] 				= $this->language->get('entry_description');
 		$data['entry_image'] 							= $this->language->get('entry_image');
 		$data['entry_contest_birthday'] 	= $this->language->get('entry_contest_birthday');
-		$data['entry_contest_email'] 			= $this->language->get('entry_contest_email'); 
-		
-		$data['entry_contest_dates'] 					= $this->language->get('entry_contest_dates'); 
-		$data['entry_contest_date_start'] 		= $this->language->get('entry_contest_date_start'); 
-		$data['entry_contest_datetime_end'] 	= $this->language->get('entry_contest_datetime_end'); 
-		$data['entry_contest_date_rate'] 			= $this->language->get('entry_contest_date_rate'); 
-		$data['entry_contest_date_result'] 		= $this->language->get('entry_contest_date_result'); 
-		$data['entry_contest_date_finalist'] 	= $this->language->get('entry_contest_date_finalist'); 
+		$data['entry_contest_email'] 			= $this->language->get('entry_contest_email');
 
-		$data['entry_contest_organizer'] 		= $this->language->get('entry_contest_organizer'); 
+		$data['entry_contest_dates'] 					= $this->language->get('entry_contest_dates');
+		$data['entry_contest_date_start'] 		= $this->language->get('entry_contest_date_start');
+		$data['entry_contest_datetime_end'] 	= $this->language->get('entry_contest_datetime_end');
+		$data['entry_contest_date_rate'] 			= $this->language->get('entry_contest_date_rate');
+		$data['entry_contest_date_result'] 		= $this->language->get('entry_contest_date_result');
+		$data['entry_contest_date_finalist'] 	= $this->language->get('entry_contest_date_finalist');
+
+		$data['entry_contest_organizer'] 		= $this->language->get('entry_contest_organizer');
 		$data['entry_contest_budget'] 			= $this->language->get('entry_contest_budget');
-		$data['entry_contest_propose'] 			= $this->language->get('entry_contest_propose'); 
-		$data['entry_contest_location'] 		= $this->language->get('entry_contest_location'); 
-		$data['entry_contest_members'] 			= $this->language->get('entry_contest_members'); 
-		$data['entry_contest_contacts'] 		= $this->language->get('entry_contest_contacts'); 
-		$data['entry_contest_timeline_text']	= $this->language->get('entry_contest_timeline_text'); 
-		$data['entry_contest_budget']				= $this->language->get('entry_contest_budget'); 
-		$data['entry_contest_maxprice']			= $this->language->get('entry_contest_maxprice'); 
-		$data['entry_contest_totalprice']		= $this->language->get('entry_contest_totalprice'); 
-		
+		$data['entry_contest_propose'] 			= $this->language->get('entry_contest_propose');
+		$data['entry_contest_location'] 		= $this->language->get('entry_contest_location');
+		$data['entry_contest_members'] 			= $this->language->get('entry_contest_members');
+		$data['entry_contest_contacts'] 		= $this->language->get('entry_contest_contacts');
+		$data['entry_contest_timeline_text']	= $this->language->get('entry_contest_timeline_text');
+		$data['entry_contest_budget']				= $this->language->get('entry_contest_budget');
+		$data['entry_contest_maxprice']			= $this->language->get('entry_contest_maxprice');
+		$data['entry_contest_totalprice']		= $this->language->get('entry_contest_totalprice');
+
 		$data['text_create'] 					= $this->language->get('text_create');
 		$data['text_member'] 					= $this->language->get('text_member');
 		$data['text_submit'] 					= $this->language->get('text_submit');
@@ -178,9 +215,9 @@ class ControllerContestSend extends Controller {
 		}
 
 
-//************************* информация о пользователе *************************//			
+//************************* информация о пользователе *************************//
 		$customer_info = $this->model_account_customer->getCustomer($customer_id);
-		
+
 		//стандартные поля
 		$data['firstname'] = $customer_info['firstname'];
 		$data['lastname'] = $customer_info['lastname'];
@@ -204,7 +241,7 @@ class ControllerContestSend extends Controller {
 			$data['avatar'] = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
 		}
 
-//************************* информация о группах *************************//		
+//************************* информация о группах *************************//
 		//подтянем все активные группы
 		//сделать рефактор заменить на IN () как getInfoCustomersForGroups
 		$results_groups = $this->model_group_group->getGroups();
@@ -254,189 +291,185 @@ class ControllerContestSend extends Controller {
 			);
 		}
 
-	
 
 
 
 
 
-//************************* информация о проекте *************************//	
-		
-		$project_id = $this->request->get['project_id'];
-	/*	$data['project_title'] 			=	html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8');
-		$data['project_description'] 	=	html_entity_decode($project_info['description'], ENT_QUOTES, 'UTF-8');
+//************************* информация о проекте *************************//
 
-		$data['image'] = '';
-		if (!empty($project_info['image'])) {
-			$upload_info = $this->model_tool_upload->getUploadByCode($project_info['image']);
-			$filename = $upload_info['filename'];
-			$data['image'] = $this->model_tool_upload->resize($filename , 800, 460,'w');
-		} else {
-			$data['image'] = $this->model_tool_image->resize('no-image.png', 800, 460,'w');
-		}
-		
-		$data['project_birthday'] 		=	rus_date($this->language->get('date_day_date_format'), strtotime($project_info['project_birthday']));
-		
-	*/
-//************************* инфо огруппе *************************//	
+$project_title      = html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8');
+$project_description  = html_entity_decode($project_info['description'], ENT_QUOTES, 'UTF-8');
+
+$data['image'] = '';
+if (!empty($project_info['image'])) {
+	$upload_info = $this->model_tool_upload->getUploadByCode($project_info['image']);
+	$filename = $upload_info['filename'];
+	$data['image'] = $this->model_tool_upload->resize($filename , 800, 460,'w');
+} else {
+	$data['image'] = $this->model_tool_image->resize('no-image.png', 800, 460,'w');
+}
+
+$project_birthday     = rus_date($this->language->get('date_day_date_format'), strtotime($project_info['project_birthday']));
+
+//************************* инфо огруппе *************************//
 		//подтянем администратора группы если есть группа и в данном конкурсе нужна группа
 		$admin_id = $project_info['customer_id'];
 
 		$init_group_information = $data['init_groups'][$project_info['project_init_group_id']] ;
-		
-//************************* информация о конкурсе *************************//	
-		$contest_id = $this->request->get['contest_id'];
 
-			//подтянем поля для заполнения
-			//СИСТЕМНЫЕ ПОЛЯ
-			$data['contest_field_system']['customer'] = array();
-			//поля пользователя
-			$data['contest_field_system']['customer']['firstname'] = array(
-				'field_value'         => $customer_info['firstname'],
-				'field_type'		    	=> 'text'
-			);
-			$data['contest_field_system']['customer']['lastname'] = array(
-				'field_value'         => $customer_info['lastname'],
-				'field_type'		    	=> 'text'
-			);
-			$data['contest_field_system']['customer']['email'] = array(
-				'field_value'         => $customer_info['email'],
-				'field_type'		    	=> 'text'
-			);
-			$data['contest_field_system']['customer']['telephone'] = array(
-				'field_value'         => $customer_info['telephone'],
-				'field_type'		    	=> 'text'
-			);
+//************************* информация о конкурсе *************************//
 
+//подтянем поля для заполнения
+//СИСТЕМНЫЕ ПОЛЯ
+$data['contest_field_system']['customer'] = array();
+//поля пользователя
+$data['contest_field_system']['customer']['firstname'] = array(
+	'field_value_r'         => $customer_info['firstname'],
+	'field_type'          => 'text'
+);
+$data['contest_field_system']['customer']['lastname'] = array(
+	'field_value_r'         => $customer_info['lastname'],
+	'field_type'          => 'text'
+);
+$data['contest_field_system']['customer']['email'] = array(
+	'field_value_r'         => $customer_info['email'],
+	'field_type'          => 'text'
+);
+$data['contest_field_system']['customer']['telephone'] = array(
+	'field_value_r'         => $customer_info['telephone'],
+	'field_type'          => 'text'
+);
 
 
-		$data['contest_field_system']['init_group'] = array();
-		//поля для группы
-		$data['contest_field_system']['init_group']['title'] = array(
-			'field_value'         => $init_group_information['group_title'],
-			'field_type'		    	=> 'text'
-		);
-		$data['contest_field_system']['init_group']['group_description'] = array(
-			'field_value'         => $init_group_information['group_description'],
-			'field_type'		    	=> 'textarea'
-		);
-		
-		//поля для проекта
-		$data['contest_field_system']['project'] = array();
-		$data['contest_field_system']['project']['title'] = array(
-			'field_value'         => html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8'),
-			'field_type'		    	=> 'text'
-		);
 
-		$data['contest_field_system']['project']['project_budget'] = array(
-			'field_value'         => $project_info['project_budget'],
-			'field_type'		    	=> 'text'
-		);
-		$data['contest_field_system']['project']['description'] = array(
-			'field_value'         => $project_info['description'],
-			'field_type'		    	=> 'textarea'
-		);
-		$data['contest_field_system']['project']['target'] = array(
-			'field_value'         => $project_info['target'],
-			'field_type'		   => 'target'
-		);
-		$data['contest_field_system']['project']['product'] = array(
-			'field_value'         => $project_info['product'],
-			'field_type'		   => 'textarea'
-		);
-		$data['contest_field_system']['project']['result'] = array(
-			'field_value'         => $project_info['result'],
-			'field_type'		   => 'textarea'
-		);
-		$data['contest_field_system']['project']['project_birthday'] = array(
-			'field_value'         => $project_info['project_birthday'],
-			'field_type'		   => 'textarea'
-		);
+$data['contest_field_system']['init_group'] = array();
+//поля для группы
+$data['contest_field_system']['init_group']['title'] = array(
+'field_value_r'         => (!empty($init_group_information))? $init_group_information['group_title']:'',
+'field_type'            => 'text'
+);
+$data['contest_field_system']['init_group']['group_description'] = array(
+'field_value_r'         => (!empty($init_group_information))?$init_group_information['group_description']:'',
+'field_type'          => 'textarea'
+);
+///!!!!!!!!!!
+//поля для проекта
+$data['contest_field_system']['project'] = array();
+$data['contest_field_system']['project']['title'] = array(
+'field_value_r'         => $project_title,
+'field_type'          => 'text'
+);
 
-	//
+$data['contest_field_system']['project']['project_budget'] = array(
+'field_value_r'         => '',
+'field_type'          => 'text'
+);
+$data['contest_field_system']['project']['description'] = array(
+'field_value_r'         => $project_description,
+'field_type'          => 'textarea'
+);
+$data['contest_field_system']['project']['target'] = array(
+'field_value_r'         => $project_info['target'],
+'field_type'          => 'target'
+);
+$data['contest_field_system']['project']['product'] = array(
+'field_value_r'         => $project_info['product'],
+'field_type'       => 'textarea'
+);
+$data['contest_field_system']['project']['result'] = array(
+'field_value_r'         => $project_info['result'],
+'field_type'       => 'textarea'
+);
+$data['contest_field_system']['project']['project_birthday'] = array(
+'field_value_r'         => $project_info['project_birthday'],
+'field_type'       => 'textarea'
+);
 
-		$data['contest_field_system']['project']['project_age'] = array(
-			'field_value'         => $this->model_contest_contest_field->getProjectAges(),
-			'field_value_project' => unserialize($project_info['project_age']),
-			'field_type'		   		=> 'checkbox'
-		);
+//
 
+$data['contest_field_system']['project']['project_age'] = array(
+'field_value'         => $this->model_contest_contest_field->getProjectAges(),
+'field_value_r'       => unserialize($project_info['project_age']),
+'field_type'          => 'checkbox'
+);
 
-    $data['contest_field_system']['project']['project_sex'] = array(
-      'field_value'         => $this->model_contest_contest_field->getProjectSexs(),
-      'field_value_project' => unserialize($project_info['project_sex']),
-      'field_type'          => 'checkbox'
-    );
+$data['contest_field_system']['project']['project_sex'] = array(
+'field_value'         => $this->model_contest_contest_field->getProjectSexs(),
+'field_value_r'       => unserialize($project_info['project_sex']),
+'field_type'          => 'checkbox'
+);
 
-    $data['contest_field_system']['project']['project_nationality'] = array(
-      'field_value'         => $this->model_contest_contest_field->getProjectNationalitys(),
-      'field_value_project' => unserialize($project_info['project_nationality']),
-      'field_type'          => 'checkbox'
-    );
+$data['contest_field_system']['project']['project_nationality'] = array(
+'field_value'         => $this->model_contest_contest_field->getProjectNationalitys(),
+'field_value_r'       => unserialize($project_info['project_nationality']),
+'field_type'          => 'checkbox'
+);
 
-    $data['contest_field_system']['project']['project_professional'] = array(
-      'field_value'         => $this->model_contest_contest_field->getProjectProfessionals(),
-      'field_value_project' => unserialize($project_info['project_professional']),
-      'field_type'          => 'checkbox'
-    );
+$data['contest_field_system']['project']['project_professional'] = array(
+'field_value'         => $this->model_contest_contest_field->getProjectProfessionals(),
+'field_value_r'       => unserialize($project_info['project_professional']),
+'field_type'          => 'checkbox'
+);
 
-    $data['contest_field_system']['project']['project_demographic'] = array(
-      'field_value'         => $this->model_contest_contest_field->getProjectDemographics(),
-      'field_value_project' => unserialize($project_info['project_demographic']),
-      'field_type'          => 'checkbox'
-    );
+$data['contest_field_system']['project']['project_demographic'] = array(
+'field_value'         => $this->model_contest_contest_field->getProjectDemographics(),
+'field_value_r'       => unserialize($project_info['project_demographic']),
+'field_type'          => 'checkbox'
+);
+
 
 
 /*
 		//поля для проекта
-	
 
-		
-		
+
+
+
 		$data['contest_field_system']['project'][] = array(
 			'field_title'          => $this->language->get('text_project_birthday'),
-			'field_source'		   => 'project',		
+			'field_source'		   => 'project',
 			'field_value' 		   => 'project_birthday'
 		);
 		$data['contest_field_system']['project'][] = array(
 			'field_title'          => $this->language->get('text_project_status_id'),
-			'field_source'		   => 'project',		
+			'field_source'		   => 'project',
 			'field_value' 		   => 'project_status_id'
 		);
 		$data['contest_field_system']['project'][] = array(
 			'field_title'          => $this->language->get('text_project_age'),
-			'field_source'		   => 'project',		
+			'field_source'		   => 'project',
 			'field_value' 		   => 'project_age'
 		);
 		$data['contest_field_system']['project'][] = array(
 			'field_title'          => $this->language->get('text_project_sex'),
-			'field_source'		   => 'project',		
+			'field_source'		   => 'project',
 			'field_value' 		   => 'project_sex'
 		);
 		$data['contest_field_system']['project'][] = array(
 			'field_title'          => $this->language->get('text_project_nationality'),
-			'field_source'		   => 'project',		
+			'field_source'		   => 'project',
 			'field_value' 		   => 'project_nationality'
 		);
 		$data['contest_field_system']['project'][] = array(
 			'field_title'          => $this->language->get('text_project_professional'),
-			'field_source'		   => 'project',		
+			'field_source'		   => 'project',
 			'field_value' 		   => 'project_professional'
 		);
 		$data['contest_field_system']['project'][] = array(
 			'field_title'          => $this->language->get('text_project_demographic'),
-			'field_source'		   => 'project',		
+			'field_source'		   => 'project',
 			'field_value' 		   => 'project_demographic'
 		);
-		
+
 		$data['contest_field_system']['project'][] = array(
 			'field_title'          => $this->language->get('text_project_currency_id'),
-			'field_source'		   => 'project',		
+			'field_source'		   => 'project',
 			'field_value' 		   => 'project_currency_id'
 		);
 		$data['contest_field_system']['project'][] = array(
 			'field_title'          => $this->language->get('text_project_image'),
-			'field_source'		   => 'project',		
+			'field_source'		   => 'project',
 			'field_value' 		   => 'project_image'
 		);
 		*/
@@ -461,13 +494,13 @@ class ControllerContestSend extends Controller {
 		  $filter_data = array(
 				'order' => 'ASC'
 			);
-			$contest_fields_results = $this->model_contest_contest_field->getContestFields($filter_data); 
+			$contest_fields_results = $this->model_contest_contest_field->getContestFields($filter_data);
 			/*
 			 			[contest_field_id] => 6
             [type] => textarea
             [field_system] => custom
             [field_system_table] => custom
-            [value] => 
+            [value] =>
             [location] => 14 // id группы в заявке
             [required] => 0
             [status] => 1
@@ -477,9 +510,9 @@ class ControllerContestSend extends Controller {
 
       */
 /**********/
-      //поля которые записаны именно в данном конкурсе      
+      //поля которые записаны именно в данном конкурсе
 			$data['custom_fields'] = unserialize($contest_info["contest_fields"]) ;
-			
+
 /**********/
 			//получим список все полей
 			$contest_fields = array();
@@ -506,15 +539,89 @@ class ControllerContestSend extends Controller {
 					$sort_order  	=  0;
 				}
 
-				
-				
 
-				
+
+				$contest_fields_value = '';
+				//дклаем проверку на системное или нет поле $cfr['field_system'] => custom - не системное
+				if ( ($cfr['type'] == 'select' || $cfr['type'] == 'radio' || $cfr['type'] == 'checkbox') && $cfr['field_system'] == 'custom' )  {
+					//если не системны и пречисляемый тип
+					$contest_fields_value = $this->model_contest_contest_field->getContestFieldValues($cfr['contest_field_id']);
+					$type = $cfr['type'];
+
+					$val_r = array();//значение в заявке
+					if(!empty($register_custom_field[$cfr['location']])){
+						foreach ($register_custom_field[$cfr['location']] as $vrcf) {
+							if($vrcf['field_id'] == $cfr['contest_field_id']){
+
+								$val_r = (!empty($vrcf['value']))?$vrcf['value']:array();
+							}
+						}
+					}
+
+				}elseif ($cfr['field_system'] != 'custom'){
+
+
+					$type = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_type'];
+
+					if(  $type == 'select' || $type == 'radio' || $type == 'checkbox' ){
+						$contest_fields_value = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value'];
+						//если тип поля системный и перечисляемый
+						if(empty($result_request_information['status'])){
+							$val_r = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value_r'];
+						}else{
+							$val_r = array();//значение в заявке
+							if(!empty($register_custom_field[$cfr['location']])){
+								foreach ($register_custom_field[$cfr['location']] as $vrcf) {
+									if($vrcf['field_id'] == $cfr['contest_field_id']){
+										$val_r = (!empty($vrcf['value']))?$vrcf['value']:array();
+									}
+								}
+							}
+						}
+					}else{
+						$contest_fields_value = '';
+						if(empty($result_request_information['status'])){
+
+							$val_r = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value_r'];
+						}else{
+							$val_r = '';//значение в заявке
+							if(!empty($register_custom_field[$cfr['location']])){
+								foreach ($register_custom_field[$cfr['location']] as $vrcf) {
+									if($vrcf['field_id'] == $cfr['contest_field_id']){
+										$val_r = (!empty($vrcf['value']))?$vrcf['value']:'';
+									}
+								}
+							}
+						}
+					}
+
+
+
+					///print_r($contest_fields_value);
+
+				}else{
+					//если не системны и не перечитсялемый
+					$contest_fields_value = '';//$data['register_custom_field'][$cfr['contest_field_id']]['field_value'];;
+					$type = $cfr['type'];
+
+					$val_r = '';//значение в заявке
+					if(!empty($register_custom_field[$cfr['location']])){
+						foreach ($register_custom_field[$cfr['location']] as $vrcf) {
+							if($vrcf['field_id'] == $cfr['contest_field_id']){
+								$val_r = $vrcf['value'];
+							}
+						}
+					}
+
+
+				}
+
+/*
 				$contest_fields_value = '';
 				//дклаем проверку на системное или нет поле $cfr['field_system'] => custom - не системное
 				if ( ($cfr['type'] == 'select' || $cfr['type'] == 'radio' || $cfr['type'] == 'checkbox') && $cfr['field_system'] == 'custom' )  {
 					//если пречисляемый тип и не системны
-					$contest_fields_value = $this->model_contest_contest_field->getContestFieldValues($cfr['contest_field_id']); 
+					$contest_fields_value = $this->model_contest_contest_field->getContestFieldValues($cfr['contest_field_id']);
 					$type = $cfr['type'];
 
 				}elseif ($cfr['field_system'] != 'custom') {
@@ -529,51 +636,55 @@ class ControllerContestSend extends Controller {
 					//если не системны и не перечитсялемый
 					$contest_fields_value = '';
 					$type = $cfr['type'];
-				}
+				}*/
 
-					$contest_fields[$cfr['location']][] = array(
-						'contest_field_id'           		=> $cfr['contest_field_id'],
-						
-						'contest_field_title'           => $cfr['name'],
-						'contest_field_description'     => $cfr['description'],
+				$contest_fields[$cfr['location']][] = array(
+					'contest_field_id'              => $cfr['contest_field_id'],
 
-						'contest_field_value'           => $contest_fields_value,
-						'contest_field_type'          	=> $type,
+					'contest_field_title'           => $cfr['name'],
+					'contest_field_description'     => $cfr['description'],
 
-						'contest_field_system'          => $cfr['field_system'],
-						'contest_field_system_table'    => $cfr['field_system_table'],
-						
-						'contest_field_status'			=> $status,
-						'sort_order'					=> $sort_order,
+					'contest_field_value'           => $contest_fields_value,
+					'contest_field_type'            => $type,
+
+					'contest_field_system'          => $cfr['field_system'],
+					'contest_field_system_table'    => $cfr['field_system_table'],
+
+					'contest_field_status'      => $status,
+					'sort_order'          => $sort_order,
+
+					'value_r'                       =>  $val_r
+				);
+
+
+
+		}
+
+
+
+
+		//фнализированный массив с подстановкой
+		$data['contest_fields'] = array();
+		foreach ($contest_fields as $key_cf => $value_cf) {
+			foreach ($value_cf as $v_cf) {
+				if( $v_cf['contest_field_status']!= 0 ){
+					$data['contest_fields'][$key_cf][] = array(
+						'contest_field_id'              => $v_cf['contest_field_id'],
+						'contest_field_title'           => $v_cf['contest_field_title'],
+						'contest_field_description'     => $v_cf['contest_field_description'],
+						'contest_field_value'           => $v_cf['contest_field_value'],
+						'contest_field_type'            => $v_cf['contest_field_type'],
+						'contest_field_system'          => $v_cf['contest_field_system'],
+						'contest_field_system_table'    => $v_cf['contest_field_system_table'],
+						'contest_field_status'          => $v_cf['contest_field_status'],
+						'sort_order'                    => $v_cf['sort_order'],
+						'value_r'                       => $v_cf['value_r'],
 					);
-
-
-
-			}
-
-
-			
-			//фнализированный массив с подстановкой
-			$data['contest_fields'] = array();
-			foreach ($contest_fields as $key_cf => $value_cf) {
-				foreach ($value_cf as $v_cf) {
-					if( $v_cf['contest_field_status']!= 0 ){
-						$data['contest_fields'][$key_cf][] = array(
-							'contest_field_id'           	=> $v_cf['contest_field_id'],
-							'contest_field_title'           => $v_cf['contest_field_title'],
-							'contest_field_description'     => $v_cf['contest_field_description'],
-							'contest_field_value'           => $v_cf['contest_field_value'],
-							'contest_field_type'          	=> $v_cf['contest_field_type'],
-							'contest_field_system'          => $v_cf['contest_field_system'],
-							'contest_field_system_table'    => $v_cf['contest_field_system_table'],
-							'contest_field_status'			=> $v_cf['contest_field_status'],
-							'sort_order'					=> $v_cf['sort_order'],
-						);
-						usort($data['contest_fields'][$key_cf], 'sortBySortOrder');
-					}
+					usort($data['contest_fields'][$key_cf], 'sortBySortOrder');
 				}
 			}
-			
+		}
+
 /*
 		print_r('<pre>');
 		print_r($data['contest_fields']);
@@ -581,12 +692,12 @@ class ControllerContestSend extends Controller {
 		die();
 */
 
-		$data['action'] = $this->url->link('contest/send', 'contest_id='.$contest_id.'&project_id='.$project_id, 'SSL');
+
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_send.tpl')) {
-			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/contest.js');
+			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/send.js');
 		} else {
-			$this->document->addScript('catalog/view/theme/default/assets/js/contest.js');
+			$this->document->addScript('catalog/view/theme/default/assets/js/send.js');
 		}
 
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -597,10 +708,10 @@ class ControllerContestSend extends Controller {
 		$data['header'] = $this->load->controller('common/header');
 
 
-		
+
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/contest/contest_send.tpl')) {
-			
+
 			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/contest/contest_send.tpl', $data));
 		} else {
 			$this->response->setOutput($this->load->view('default/template/contest/contest_send.tpl', $data));
@@ -615,13 +726,13 @@ class ControllerContestSend extends Controller {
 		  $filter_data = array(
 				'order' => 'ASC'
 			);
-			$contest_fields_results = $this->model_contest_contest_field->getContestFields($filter_data); 
+			$contest_fields_results = $this->model_contest_contest_field->getContestFields($filter_data);
 			/*
 			 			[contest_field_id] => 6
             [type] => textarea
             [field_system] => custom
             [field_system_table] => custom
-            [value] => 
+            [value] =>
             [location] => 14 // id группы в заявке
             [required] => 0
             [status] => 1
@@ -630,7 +741,7 @@ class ControllerContestSend extends Controller {
             [name] => Дополнителное образование
 
       		*/
-       
+
 
       //подтянем список каетгорий для заявки на  конкурса
 			$filter_data = array(
@@ -640,22 +751,22 @@ class ControllerContestSend extends Controller {
 			foreach ($category_request_results as $crr) {
 				if(!empty($this->request->post['custom_fields'][$crr['category_request_id']])){
 					foreach ($this->request->post['custom_fields'][$crr['category_request_id']] as $category_key => $vcf) {
-						
+
 						//проверяем на обязательность заполнения
 						foreach ($contest_fields_results as $value_cfr) {
 							if ($value_cfr['contest_field_id'] == $vcf['field_id']) {
 								//
-								
+
 								//$this->error['custom_fields'][$vcf['field_id']] = $this->language->get('error_email');
 
 							}
 						}
 					}
 				}
-      	
-	    	} 
 
-			
+	    	}
+
+
 
 
 		/*
