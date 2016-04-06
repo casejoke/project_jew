@@ -2,11 +2,11 @@
 class ControllerAccountInfo extends Controller {
 	//отдает инфу о пользователе для просмотра другим пользователем
 	public function index() {
-		if (!$this->customer->isLogged()) {
+		/*if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->url->link('account/account', '', 'SSL');
 			$this->response->redirect($this->url->link('account/login', '', 'SSL'));
-		}
-		$this->response->redirect($this->url->link('common/home', '', 'SSL'));
+		}*/
+	//	$this->response->redirect($this->url->link('common/home', '', 'SSL'));
 		$this->load->language('account/info');
 		$this->document->setTitle($this->language->get('heading_title'));
 		$data['breadcrumbs'] = array();
@@ -39,14 +39,19 @@ class ControllerAccountInfo extends Controller {
 		$this->load->model('tool/upload');
 		$data['custom_fields'] = $this->model_account_custom_field->getCustomFields($this->config->get('config_customer_group_id'));
 		$data['account_custom_field'] = unserialize($customer_info['custom_field']);
-
+		$this->load->model('tool/image');
+		$this->load->model('tool/upload');
 		if (!empty($customer_info) && !empty($customer_info['image'])){
 			if(preg_match('/http/', $customer_info['image'])){
 				$data['avatar'] = $customer_info['image'];
 			}else{
 				$upload_info = $this->model_tool_upload->getUploadByCode($customer_info['image']);
 				$filename = $upload_info['filename'];
-				$data['avatar'] = $this->model_tool_upload->resize($filename , 360, 490, 'h');
+				if (is_file(DIR_UPLOAD . $filename)) {
+					$data['avatar'] = $this->model_tool_upload->resize($filename , 360, 490, 'h');
+				}else{
+					$data['avatar'] = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
+				}
 			}
 		}else{
 			$data['avatar'] = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
