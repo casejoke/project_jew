@@ -5,6 +5,7 @@
 http://makeagency.ru/services/adaptiv
       http://support.martdesign.ru/ - концепт для сайта
      http://kevinchappell.github.io/formBuilder/ - bulderform
+     https://habrahabr.ru/post/108993/
 
 
 -+  Почини просмотр профилей других участников, не работает ни со страницы участников ни в любых других случаях при нажатие на имя участника. Ты обещал это еще вчера!
