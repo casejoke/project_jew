@@ -7,6 +7,11 @@ http://makeagency.ru/services/adaptiv
      http://kevinchappell.github.io/formBuilder/ - bulderform
      https://habrahabr.ru/post/108993/
 
+http://www.magtoapp.ru/ =
+http://code.tutsplus.com/ru/tutorials/ios-8-beta-testing-with-testflight--cms-22224
+bakerfamework
+http://madewith.unity.com/ -всплытие блоков для cityindex и jew
+http://daniellaharel.com/raindrops/ - капли воды
 
 -+  Почини просмотр профилей других участников, не работает ни со страницы участников ни в любых других случаях при нажатие на имя участника. Ты обещал это еще вчера!
 -  Возможность прикреплять разные файлы к заявкам

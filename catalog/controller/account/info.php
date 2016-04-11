@@ -24,6 +24,14 @@ class ControllerAccountInfo extends Controller {
 
 		if (isset($this->request->get['ch']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$this->load->model('account/customer');
+			$this->load->model('account/customer');
+			$this->load->model('group/group');
+			$this->load->model('project/project');
+			$this->load->model('contest/contest');
+			$this->load->model('tool/upload');
+			$this->load->model('tool/image');
+			$this->load->model('account/promocode');
+			
 			$customer_info = $this->model_account_customer->getCustomer($this->request->get['ch']);
 		} else{
 			$this->response->redirect($this->url->link('account/customers', '', 'SSL'));
@@ -55,6 +63,109 @@ class ControllerAccountInfo extends Controller {
 			}
 		}else{
 			$data['avatar'] = $this->model_tool_image->resize('account.jpg', 360, 490, 'h');
+		}
+
+		//подтянем список проектов для данного пользователя
+		$customer_id = $this->request->get['ch'];
+
+		//подтянем все активные группы
+		//сделать рефактор заменить на IN () как getInfoCustomersForGroups
+		$results_groups = $this->model_group_group->getGroups();
+		$data['init_groups'] = array();
+		foreach ($results_groups as $result_g) {
+			if (!empty($result_g['image'])) {
+				$upload_info = $this->model_tool_upload->getUploadByCode($result_g['image']);
+				$filename = $upload_info['filename'];
+				$image = $this->model_tool_upload->resize($filename , 300, 300,'h');
+			} else {
+				$image = $this->model_tool_image->resize('no-image.png', 300, 300,'h');
+			}
+
+			$filter_data = array();
+			$filter_data = array(
+				'filter_status' 		=> 	1,
+				'filter_init_group_id'	=>	$result_g['init_group_id']
+			);
+			$results_count_customer_in_group = array();
+			$results_count_customer_in_group = $this->model_group_group->getInviteGroups($filter_data);
+
+			$count = count($results_count_customer_in_group)+1;
+
+			$actions = array(
+				'view'		=> $this->url->link('group/view', 'group_id='.$result_g['init_group_id'], 'SSL'),
+				'edit'		=> $this->url->link('group/edit', 'group_id='.$result_g['init_group_id'], 'SSL'),
+				'invite'	=> $this->url->link('group/invite', 'group_id='.$result_g['init_group_id'], 'SSL'),
+				'agree'		=> $this->url->link('group/invite/agree', 'group_id='.$result_g['init_group_id'], 'SSL')
+			);
+			$data['init_groups'][$result_g['init_group_id']] = array(
+				'group_id'				=> $result_g['init_group_id'],
+				'group_title'			=> $result_g['title'],
+				'group_image'			=> $image,
+				'group_customer_count' 	=> $count,
+				'action'				=> $actions
+			);
+		}
+
+		$data['customer_id'] = $customer_id;
+		//группы где пользователь администратор
+		$results_admin_groups = $this->model_group_group->getGroupsForAdmin($customer_id);
+
+		$data['admin_init_groups'] = array();
+		foreach ($results_admin_groups as $result) {
+			$data['admin_init_groups'][] = array(
+				'group_id'	=> $result['init_group_id']
+			);
+		}
+
+		//группы в котрых состоит пользователь, но не администратор
+		$data['customer_agree_groups'] = array();
+		$filter_data = array();
+		$filter_data = array(
+			'filter_customer_id'	=>	$customer_id,
+			'filter_status' 		=> 	1
+		);
+		$results_customer_agree_groups = array();
+		$results_customer_agree_groups = $this->model_group_group->getInviteGroups($filter_data);
+		$data['customer_agree_groups'] = array();
+		foreach ($results_customer_agree_groups as $result_cag) {
+			$data['customer_agree_groups'][] = array(
+				'group_id'	=> $result_cag['init_group_id'],
+			);
+		}
+
+		//информация о проектах где пользователь я вляется admin
+		$results_projects_for_customer = $this->model_project_project->getProjectsForAdmin($customer_id);
+		$data['projects_for_customer'] = array();
+		foreach ($results_projects_for_customer  as $result_pfc) {
+
+			if (!empty($result_pfc['image'])) {
+				$upload_info = $this->model_tool_upload->getUploadByCode($result_pfc['image']);
+				$filename = $upload_info['filename'];
+				$image = $this->model_tool_upload->resize($filename , 300, 300,'h');
+			} else {
+				$image = $this->model_tool_image->resize('no-image.png', 300, 300,'h');
+			}
+			$actions = array();
+			$actions = array(
+				'edit'	=>	$this->url->link('project/edit', 'project_id='.$result_pfc['project_id'], 'SSL')
+			);
+			$win = 0;
+			$promocode_action = $this->url->link('account/promocode/activate', 'project_id='.$result_pfc['project_id'], 'SSL');
+			if(!empty($projects_winner[$result_pfc['project_id']])){
+				$win = 1;
+
+			}
+			$data['projects_for_customer'][$result_pfc['project_id']] = array(
+				'project_id'			=> $result_pfc['project_id'],
+				'project_title'		=> $result_pfc['title'],
+				'project_image'		=> $image,
+				'project_winner'  	=> $win,
+				'project_action'	=> $actions,
+				'promocode_action'	=> $promocode_action
+			);
+
+
+
 		}
 
 		$data['column_left'] = $this->load->controller('common/column_left');
