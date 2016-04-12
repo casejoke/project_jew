@@ -225,6 +225,7 @@ class ControllerAccountAccount extends Controller {
 		//информация о проектах где пользователь я вляется admin
 		$results_projects_for_customer = $this->model_project_project->getProjectsForAdmin($customer_id);
 		$data['projects_for_customer'] = array();
+		$projects_for_customer = array();
 		foreach ($results_projects_for_customer  as $result_pfc) {
 
 			if (!empty($result_pfc['image'])) {
@@ -244,6 +245,7 @@ class ControllerAccountAccount extends Controller {
 				$win = 1;
 
 			}
+			$projects_for_customer[] = $result_pfc['project_id'];
 			$data['projects_for_customer'][$result_pfc['project_id']] = array(
 				'project_id'			=> $result_pfc['project_id'],
 				'project_title'		=> $result_pfc['title'],
@@ -291,6 +293,7 @@ class ControllerAccountAccount extends Controller {
 		//подтянем все конкурсы
 		$results_contests = $this->model_contest_contest->getContests();
 		$contests = array();
+		$contest_only_bestpractice  = array();
 		foreach ($results_contests as $rc) {
 			if (!empty($rc['image'])) {
 				$image= $this->model_tool_image->resize($rc['image'], 300, 300,'h');
@@ -304,6 +307,10 @@ class ControllerAccountAccount extends Controller {
 				'contest_title'			=> (strlen(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))) > 50 ? mb_strcut(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8')), 0, 55) . '...' : strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))),
 				'contest_image'			=> $image
 			);
+			if($rc['type'] == 3 ){
+				$contest_only_bestpractice[] = $rc['contest_id'];
+			}
+
 		}
 
 
@@ -377,6 +384,26 @@ class ControllerAccountAccount extends Controller {
 				'action_request_view'	=> $this->url->link('contest/requestview', 'customer_to_contest_id='.$vcc['customer_to_contest_id'], 'SSL')
 			);
 		}
+
+
+		//добавим механизм согласования заявки для BestPractice
+		//$projects_for_customer - список проектов где автор является текущий пользователь
+		//подтянем сипсок заявок  где пользователь != заявителем и  adaptive_id равен одному из его проектов
+
+		$filter_data = array();
+		$filter_data = array(
+			'filter_customer_id' 								=> 	$customer_id,
+			'filter_array_project_customer_id' 	=>	$projects_for_customer,
+			'filter_array_contest_id' 					=>	$contest_only_bestpractice
+		);
+		//список заявок котрые требуют утвержденяи, только для bestpractice
+		$results_list_approved_request = $this->model_contest_contest->getRequestForApproved($filter_data);
+
+		print_r('<pre>');
+		print_r($results_list_approved_request);
+		print_r('</pre>');
+		die();
+
 
 
 		/**************** про экспертов ***********************/
@@ -565,7 +592,7 @@ if ($customer_info['customer_expert']) {
 			$this->response->setOutput($this->load->view('default/template/account/account.tpl', $data));
 		}
 	}
-  
+
 	public function country() {
 		$json = array();
 

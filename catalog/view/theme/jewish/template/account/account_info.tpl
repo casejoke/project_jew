@@ -38,16 +38,13 @@
               <?php if(!empty($projects_for_customer)) { ?>
                 <?php foreach ($projects_for_customer as $pfc) { ?>
 
-                  <div class="col-sm-6 col-md-3 col-lg-3">
+                  <div class="col-sm-6 col-md-6 col-lg-6">
                     <div class="price-table font-alt">
 
                        <img src="<?php echo  $pfc['project_image']; ?>" alt="<?php echo $pfc['project_title']; ?>">
                       <div class="borderline"></div>
                       <h4><?php echo $pfc['project_title']; ?></h4>
-                      <a href="<?php echo $pfc['project_action']['edit']; ?>" class="btn btn-success btn-round mt-20 ">Редактировать</a>
-                      <?php if(!$pfc['project_winner'] && $isset_promocode){?>
-                          <a href="<?php echo $pfc['promocode_action']; ?>" class="btn btn-warning btn-round mt-20 ">Активировать промокод</a>
-                      <?php }?>
+                      
 
                     </div>
                   </div>
