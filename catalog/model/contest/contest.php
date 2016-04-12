@@ -267,7 +267,7 @@ class ModelContestContest extends Model {
 		if (!empty($data['filter_array_contest_id'])) {
 
 			if(count($data['filter_array_contest_id']) > 1){
-				$_str[] .= " contest_id IN (" . implode(',', $data['filter_contest_id']) . ")";
+				$_str[] .= " contest_id IN (" . implode(',', $data['filter_array_contest_id']) . ")";
 			}else{
 				//если один конкурс
 				$contest_id = $data['filter_array_contest_id'][0];
@@ -299,7 +299,7 @@ class ModelContestContest extends Model {
 			}
 			$i++;
 		}
-	//	print_r($sql.$_sql);
+		print_r($sql.$_sql);
 		$query = $this->db->query($sql.$_sql);
 
 

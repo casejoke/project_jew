@@ -21,6 +21,7 @@
           <ul>
             <li><strong>Имя Отчество:</strong><span class="font-serif"> <?php echo $firstname?></span></li>
             <li><strong>Фамилия:</strong><span class="font-serif"> <?php echo $lastname?></span></li>
+            <li><strong>E-mail:</strong><span class="font-serif"> <?php echo $email?></span></li>
             <!-- до вывести кастомные поля -->
           </ul>
         </div>
@@ -44,7 +45,7 @@
                        <img src="<?php echo  $pfc['project_image']; ?>" alt="<?php echo $pfc['project_title']; ?>">
                       <div class="borderline"></div>
                       <h4><?php echo $pfc['project_title']; ?></h4>
-                      
+
 
                     </div>
                   </div>
@@ -74,7 +75,11 @@
                       </div>
                     </div>
                   <?php } ?>
-              <?php } ?>
+                  <?php } else{ ?>
+                    <div class="col-sm-12 text-center">
+                      <p class="font-alt">Групп нет</p>
+                    </div>
+                  <?php }?>
               </div>
             </div>
           </div>

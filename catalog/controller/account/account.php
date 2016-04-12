@@ -392,12 +392,13 @@ class ControllerAccountAccount extends Controller {
 
 		$filter_data = array();
 		$filter_data = array(
-			'filter_customer_id' 								=> 	$customer_id,
+
 			'filter_array_project_customer_id' 	=>	$projects_for_customer,
 			'filter_array_contest_id' 					=>	$contest_only_bestpractice
 		);
 		//список заявок котрые требуют утвержденяи, только для bestpractice
 		$results_list_approved_request = $this->model_contest_contest->getRequestForApproved($filter_data);
+		
 
 		print_r('<pre>');
 		print_r($results_list_approved_request);
