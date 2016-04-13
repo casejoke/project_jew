@@ -33,7 +33,7 @@
         </div>
       <?php } ?>
 
-      
+
       <div class="col-xs-12 col-sm-12 m-b-30">
         <div role="tabpanel">
 
@@ -45,11 +45,11 @@
             <?php if (!empty($requests_for_customer)) { ?><li><a href="#request"  data-toggle="tab" aria-expanded="true" >Мои заявки</a></li> <?php } ?>
             <?php if (!empty($customer_invite_group)) { ?><li class="active"><a href="#invite_me"  data-toggle="tab" aria-expanded="true" >Приглашения</a></li> <?php } ?>
             <?php if(!empty($request_for_expert)){ ?><li><a href="#customer_expert" data-toggle="tab" aria-expanded="true">Заявки для оценки</a></li><?php } ?>
+            <?php if(!empty($list_approved_request)){ ?><li><a href="#approved_request" data-toggle="tab" aria-expanded="true">Утверждение заявки</a></li><?php } ?>
+            <li class="hidden"><a href="#blog"           data-toggle="tab" aria-expanded="true">Мой блог</a></li>
+            <li class="hidden"><a href="#promocode" data-toggle="tab" aria-expanded="true">Промокод</a></li>
+            <li class="hidden"><a href="#notice" data-toggle="tab" aria-expanded="true">Уведомления</a></li>
 
-            <li class="hidden"><a href="#blog"           data-toggle="tab" aria-expanded="true">Мой блог</a></li> 
-            <li class="hidden"><a href="#promocode" data-toggle="tab" aria-expanded="true">Промокод</a></li> 
-            <li class="hidden"><a href="#notice" data-toggle="tab" aria-expanded="true">Уведомления</a></li>  
-            
           </ul>
 
           <div class="tab-content">
@@ -78,7 +78,7 @@
                       <!-- до вывести кастомные поля -->
                     </ul>
                   </div>
-                  
+
                 </div>
                 <div class="col-sm-4 col-md-3 mb-sm-20 wow fadeInUp animated">
                   <div class="work-details text-center">
@@ -88,11 +88,11 @@
                   <div class="work-details text-center">
                     <a class="btn btn-g btn-round  m-b-20 " href="<?php echo $password; ?>"><?php echo $text_password; ?></a>
                   </div>
-                                    
+
                 </div>
               </div>
             </div><!-- /.contact_information -->
-        
+
             <div class="tab-pane " id="projects">
               <div class="row multi-columns-row">
                 <div class="col-sm-6 col-md-3 col-lg-3">
@@ -106,7 +106,7 @@
 
                     <div class="col-sm-6 col-md-3 col-lg-3">
                       <div class="price-table font-alt">
-                          
+
                          <img src="<?php echo  $pfc['project_image']; ?>" alt="<?php echo $pfc['project_title']; ?>">
                         <div class="borderline"></div>
                         <h4><?php echo $pfc['project_title']; ?></h4>
@@ -114,7 +114,7 @@
                         <?php if(!$pfc['project_winner'] && $isset_promocode){?>
                             <a href="<?php echo $pfc['promocode_action']; ?>" class="btn btn-warning btn-round mt-20 ">Активировать промокод</a>
                         <?php }?>
-                        
+
                       </div>
                     </div>
 
@@ -124,14 +124,14 @@
             </div><!-- /.projects -->
 
             <div class="tab-pane " id="customer_group">
-              
+
               <div class="row multi-columns-row">
                 <div class="col-sm-6 col-md-3 col-lg-3">
                   <div class="price-table font-alt price-table--empty">
                     <a href="<?php echo $add_group; ?>" class="btn btn-success btn-round"><?php echo $text_add_group; ?></a>
                   </div>
                 </div>
-                <?php if(!empty($admin_init_groups)){ ?> 
+                <?php if(!empty($admin_init_groups)){ ?>
                     <?php foreach ($admin_init_groups as $aig) { ?>
                       <div class="col-sm-6 col-md-3 col-lg-3">
                         <div class="price-table font-alt">
@@ -148,8 +148,8 @@
                       </div>
                     <?php } ?>
                 <?php } ?>
-                
-                 <?php if(!empty($customer_agree_groups)){ ?> 
+
+                 <?php if(!empty($customer_agree_groups)){ ?>
                     <?php foreach ($customer_agree_groups as $cag) { ?>
 
 
@@ -170,14 +170,14 @@
                     <?php } ?>
                 <?php } ?>
 
-                
 
-                
+
+
 
 
               </div>
             </div><!-- /.customer_group -->
-         
+
             <?php if (!empty($customer_invite_group)) { ?>
               <div class="tab-pane active" id="invite_me">
                 <h3 class="font-alt text-center">Вас пригласили</h3>
@@ -193,7 +193,7 @@
                 <?php } ?>
               </div><!-- /.invite_me -->
             <?php } ?>
-            
+
             <?php if (!empty($requests_for_customer)) { ?>
               <div class="tab-pane" id="request">
                 <div class="row multi-columns-row">
@@ -204,6 +204,7 @@
                         <thead>
                           <th>Конкурс</th>
                           <th>Статус</th>
+                          <th>Подтверждение адаптора </th>
                           <th>Комментарий </th>
                           <th>Действия</th>
                         </thead>
@@ -212,7 +213,8 @@
                          <tr class="font-alt">
                             <td><?php echo $rfc['contest_title']; ?></td>
                             <td><?php echo $rfc['request_status_text']; ?></td>
-                            <td><?php echo ($rfc['request_status'] == 0 )?$rfc['request_comment']:''; ?></td>
+                            <td><?php echo $rfc['request_astatus_text']; ?></td>
+                            <td><?php echo $rfc['request_comment']; ?></td>
 
                             <td><?php if ($rfc['request_status'] == 0 ) { ?>
                               <a href="<?php echo $rfc['action_not_accepted']; ?>" class="btn btn-success btn-round ">Перезаявится</a>
@@ -223,7 +225,7 @@
                             <?php } ?></td>
 
                          </tr>
-                         
+
                          <?php } ?>
                         </tbody>
                       </table>
@@ -244,7 +246,7 @@
                             <a href="<?php echo $rfc['action_not_accepted']; ?>" class="btn btn-info btn-round mt-20 ">Ссылка на заявку</a>
                             <a href="<?php echo $rfc['action_not_accepted']; ?>" class="btn btn-success btn-round mt-20 ">Редактировать</a>
                           <?php } ?>
-                          
+
                         </div>
                       </div>
 
@@ -273,35 +275,52 @@
                           </tr>
                         <?php } ?>
                       </tbody>
-                    </table>  
+                    </table>
                   </div>
                 </div>
               </div>
             <?php } ?>
-            
+
+            <?php if(!empty($list_approved_request)){ ?>
+              <div class="tab-pane" id="approved_request">
+                <div class="row multi-columns-row">
+                  <div class="col-sm-12">
+                    <h4>Один или несколько ваших проектов использовали в конкурсе для адаптации. Необходимо ваше потверждение.</h4>
+                  </div>
+                  <div class="col-sm-12">
+                    <table class="table table-striped table-border ">
+                      <thead>
+                        <th>Конкурс</th>
+                        <th>Участник</th>
+                        <th>Проект для адаптации</th>
+                        <th>Действия</th>
+                      </thead>
+                      <tbody>
+                        <?php foreach ($list_approved_request as $lar) { ?>
+                          <tr>
+                            <td><?php echo $lar['contest_title']; ?></td>
+                            <td><?php echo $lar['customer_name']; ?></td>
+                            <td><?php echo $lar['adaptive_name']; ?></td>
+                            <td><a href="<?php echo $lar['expert_evaluate']; ?>" class="btn btn-info btn-round">Просмотреть заявку</a></td>
+                          </tr>
+                        <?php } ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            <?php } ?>
+
+
+
             <div class="tab-pane" id="blog">
               Мой блог
             </div><!-- /.blog -->
 
-            <div class="tab-pane" id="notice">
-              <table class="table table-striped ds-table">
-                <thead>
-                  <tr>
-                    <td>Дата</td>
-                    <th>Уведомление</th>
-                    <th>Сообщение</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <td>23 ноября 2016</td>
-                  <td>Ваш проект использовали для адаптации</td>
-                  <td>Пользователь Василий подал заявку на адаптацию вашего проекта на конкурс</td>
-                </tbody>
-              </table>
-            </div>
+
             <div class="tab-pane" id="promocode">
                 <div class="row">
-                  
+
                   <div class="col-sm-6 ">
                     <h4 class="font-alt mb-0">Укажите полученный промокод</h4>
                     <hr class="divider-w mt-10 mb-20">
@@ -333,8 +352,8 @@
                           </tr>
                       <?php } ?>
                     <?php } ?>
-                    
-                    
+
+
                   </tbody>
                       </table>
                     </div>
@@ -342,7 +361,7 @@
                   </div>
                 </div>
             </div><!-- /.promocode -->
-            
+
 
             </div>
           </div>

@@ -346,6 +346,25 @@ class ControllerAccountAccount extends Controller {
 					$status = $this->language->get('text_status_processed');
 					break;
 			}
+			$astatus = '';
+			switch ($vcc['adaptive_status']) {
+				case '0':
+					//заявка не проверена
+					$astatus = 'не проверена';
+					break;
+				case '1':
+					//заявка не одобрена
+					$astatus = 'адаптация не одобрена';
+					break;
+				case '2':
+					//заявка
+					$astatus = 'адаптация одобрена';
+					break;
+
+				default:
+					$astatus = 'не проверена';
+					break;
+			}
 
 
 			//добавить проверку на дату приема заявок с конкурса
@@ -371,13 +390,16 @@ class ControllerAccountAccount extends Controller {
 					break;
 			}
 
-
+			$comment = '';
+			$comment .= ($vcc['comment'])?'Комментарий администратора: '.$vcc['comment']:'';
+			$comment .= ($vcc['adaptor_comment'])?'<br>Комментарий адаптора: '.$vcc['adaptor_comment']:'';
 
 			$data['requests_for_customer'][] = array(
 				'contest_id' 			=> $vcc['contest_id'],
 				'request_status'		=> $vcc['status'],
 				'request_status_text'	=> $status,
-				'request_comment'		=> html_entity_decode($vcc['comment'], ENT_QUOTES, 'UTF-8'),
+				'request_astatus_text'	=> $astatus,
+				'request_comment'		=> html_entity_decode($comment, ENT_QUOTES, 'UTF-8'),
 				'contest_title'			=> $contests[$vcc['contest_id']]['contest_title'],
 				'contest_image'			=> $contests[$vcc['contest_id']]['contest_image'],
 				'action_not_accepted'   => $action_not_accepted,
@@ -385,34 +407,6 @@ class ControllerAccountAccount extends Controller {
 			);
 		}
 
-
-		//добавим механизм согласования заявки для BestPractice
-		//$projects_for_customer - список проектов где автор является текущий пользователь
-		//подтянем сипсок заявок  где пользователь != заявителем и  adaptive_id равен одному из его проектов
-
-		$filter_data = array();
-		$filter_data = array(
-
-			'filter_array_project_customer_id' 	=>	$projects_for_customer,
-			'filter_array_contest_id' 					=>	$contest_only_bestpractice
-		);
-		//список заявок котрые требуют утвержденяи, только для bestpractice
-		$results_list_approved_request = $this->model_contest_contest->getRequestForApproved($filter_data);
-		
-
-		print_r('<pre>');
-		print_r($results_list_approved_request);
-		print_r('</pre>');
-		die();
-
-
-
-		/**************** про экспертов ***********************/
-		//если пользователь эксперта
-
-	$data['request_for_expert'] = array();
-//проверка на то что пользователь является ли вообще экспертом
-if ($customer_info['customer_expert']) {
 		$customers = array();
 		$results = $this->model_account_customer->getCustomers();
 		foreach ($results as $result) {
@@ -433,6 +427,52 @@ if ($customer_info['customer_expert']) {
 				'customer_image'				=> $image
 			);
 		}
+
+
+		//добавим механизм согласования заявки для BestPractice
+		//$projects_for_customer - список проектов где автор является текущий пользователь
+		//подтянем сипсок заявок  где пользователь != заявителем и  adaptive_id равен одному из его проектов
+
+		$filter_data = array();
+		$filter_data = array(
+
+			'filter_array_project_customer_id' 	=>	$projects_for_customer,
+			'filter_array_contest_id' 					=>	$contest_only_bestpractice
+		);
+		//список заявок, только для bestpractice, в которых использовали проекты пользователя
+		$results_list_approved_request = $this->model_contest_contest->getRequestForApproved($filter_data);
+		$data['list_approved_request'] = array();
+		foreach ($results_list_approved_request as $vlar) {
+			//если 2 - одобрена
+			//если 1 - то не одобрена
+			//если 0 то не оценена
+			if(!$vlar['adaptive_status']){
+				$data['list_approved_request'][] = array(
+					'customer_to_contest_id'	=>  $vlar['customer_to_contest_id'],
+					'contest_title' 			=>	$contests[$vlar['contest_id']]['contest_title'],
+					'customer_name' 			=> 	$customers[$vlar['customer_id']]['customer_name'],
+					'adaptive_name' 			=> 	$data['projects_for_customer'][$vlar['adaptive_id']]['project_title'],
+					'expert_evaluate'			=> 	$this->url->link('contest/aestimate', 'request_id='.$vlar['customer_to_contest_id'], 'SSL')
+				);
+			}
+
+		}
+
+/*
+		print_r('<pre>');
+		print_r($results_list_approved_request);
+		print_r('</pre>');
+		die();
+*/
+
+
+		/**************** про экспертов ***********************/
+		//если пользователь эксперта
+
+	$data['request_for_expert'] = array();
+//проверка на то что пользователь является ли вообще экспертом
+if ($customer_info['customer_expert']) {
+
 
 		//подтянем список активных конкурсов
 		//подтянем все активные конкурсы
@@ -630,7 +670,7 @@ if ($customer_info['customer_expert']) {
 			$filename = basename(preg_replace('/[^a-zA-Z0-9\.\-\s+]/', '', html_entity_decode($this->request->files['file']['name'], ENT_QUOTES, 'UTF-8')));
 
 			// Validate the filename length
-			if ((utf8_strlen($filename) < 3) || (utf8_strlen($filename) > 64)) {
+			if ((utf8_strlen($filename) < 3) || (utf8_strlen($filename) > 255)) {
 				$json['error'] = $this->language->get('error_filename');
 			}
 

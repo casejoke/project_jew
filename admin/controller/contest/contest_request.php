@@ -113,16 +113,16 @@ class ControllerContestContestRequest extends Controller {
 	protected function getList() {
 
 
-		//статусы заявки: 
+		//статусы заявки:
 		// 0 - не принята (есть комментарий)
 		// 1 - принята  (видна экспертам и  ее можно оценивать)
-		// 2 - не обработана () 
+		// 2 - не обработана ()
 		//$_['text_status_not_accepted']      = 'Не одобрена';
 		//$_['text_status_accepted']        	= 'Одобрена';
 		//$_['text_status_processed']        	= 'В обработке';
 
 
-		
+
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -177,7 +177,7 @@ class ControllerContestContestRequest extends Controller {
 		$results = $this->model_sale_customer->getCustomers($filter_data);
 		$customers = array();
 		foreach ($results as $result) {
-			
+
 			$customers[$result['customer_id']] = array(
 				'customer_id'    => $result['customer_id'],
 				'name'           => $result['name']
@@ -188,7 +188,7 @@ class ControllerContestContestRequest extends Controller {
 		//подтянем полный список конкурсов
 		$this->load->model('contest/contest');
 		$contests_results = $this->model_contest_contest->getContests();
-		
+
 		if (!empty($contests_results)){
 			$contests = array();
 			foreach ($contests_results as $result) {
@@ -229,7 +229,7 @@ class ControllerContestContestRequest extends Controller {
 		$results = $this->model_contest_contest_request->getRequests($filter_data);
 			// 0 - не принята (есть комментарий)
 		// 1 - принята  (видна экспертам и  ее можно оценивать)
-		// 2 - не обработана () 
+		// 2 - не обработана ()
 		//$_['text_status_not_accepted']      = 'Не одобрена';
 		//$_['text_status_accepted']        	= 'Одобрена';
 		//$_['text_status_processed']        	= 'В обработк
@@ -249,15 +249,34 @@ class ControllerContestContestRequest extends Controller {
 					break;
 				case '2':
 					$status_text = $this->language->get('text_status_processed');
-					break;	
+					break;
 				default:
 					$status_text = $this->language->get('text_status_processed');
 					break;
 			}
 
+
+			$status_text = '';
+
+			switch ((int)$result['status']) {
+				case '0':
+					$status_text = '';
+					break;
+				case '1':
+					$status_text = $this->language->get('text_status_accepted');
+					break;
+				case '2':
+					$status_text = $this->language->get('text_status_processed');
+					break;
+				default:
+					$status_text = $this->language->get('text_status_processed');
+					break;
+			}
+
+
 			$contest_type = (!empty($contests[$result['contest_id']]))?$contests[$result['contest_id']]['contest_type']:0;
 
-			
+
 
 			$adaptive_id_text = '';
 
@@ -272,7 +291,7 @@ class ControllerContestContestRequest extends Controller {
 						//проект котрый адаптирует
 						$adaptive_id = $result['adaptive_id'];
 						$adaptive_id_text = $projects[$adaptive_id]['project_title'];
-					break;	
+					break;
 				default:
 					$adaptive_id_text = '';;
 					break;
@@ -336,7 +355,7 @@ class ControllerContestContestRequest extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-	
+
 		$data['sort_contest_id'] = $this->url->link('contest/contest_request', 'token=' . $this->session->data['token'] . '&sort=contest_id' . $url, 'SSL');
 
 		$url = '';
@@ -442,11 +461,11 @@ class ControllerContestContestRequest extends Controller {
 			$customer_to_contest_info = $this->model_contest_contest_request->getRequest($this->request->get['customer_to_contest_id']);
 		}
 
-		
-		//статусы заявки: 
+
+		//статусы заявки:
 		// 0 - не принята (есть комментарий)
 		// 1 - принята  (видна экспертам и  ее можно оценивать)
-		// 2 - не обработана () 
+		// 2 - не обработана ()
 		//$_['text_status_not_accepted']      = 'Не одобрена';
 		//$_['text_status_accepted']        	= 'Одобрена';
 		//$_['text_status_processed']        	= 'В обработке';
@@ -495,8 +514,8 @@ class ControllerContestContestRequest extends Controller {
 		} else {
 			$data['customer_to_contest_id'] = 0;
 		}
-		
-		
+
+
 		if (isset($this->request->get['customer_to_contest_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$request_info = $this->model_contest_contest_request->getRequest($this->request->get['customer_to_contest_id']);
 		}
@@ -518,7 +537,7 @@ class ControllerContestContestRequest extends Controller {
       'order' => 'ASC'
     );
     $category_request_results = $this->model_localisation_category_request->getCategoryRequestes($filter_data);
-    
+
 
 
     //подтянем поля для заполнения
@@ -536,7 +555,7 @@ class ControllerContestContestRequest extends Controller {
 
 
 
-    
+
 
     //раcкрутим заявку
     $data['customer_field'] = array();
@@ -545,7 +564,7 @@ class ControllerContestContestRequest extends Controller {
         foreach ($request_value['custom_fields'] as $kr => $vr) {
           if($crr['category_request_id'] == $kr){
             foreach ($vr as $vvr) {
-            
+
               $type = $contest_fields[$vvr['field_id']]['contest_field_type'];
               $value_field = '';
 
@@ -554,8 +573,8 @@ class ControllerContestContestRequest extends Controller {
               if(!empty($vvr['value'])){
                  $value_field = $vvr['value'];
               }
-             
-              
+
+
               if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_age' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
               	$type = 'list';
                 $val_project_age = array();
@@ -570,8 +589,8 @@ class ControllerContestContestRequest extends Controller {
                   	}
                 }
                 $value_field = $val_project_age;
-                
-                
+
+
               }
 
               if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_sex' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
@@ -588,8 +607,8 @@ class ControllerContestContestRequest extends Controller {
                   	}
                 }
                 $value_field = $val_project_sex;
-                
-                
+
+
               }
 
               if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_nationality' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
@@ -606,8 +625,8 @@ class ControllerContestContestRequest extends Controller {
                   	}
                 }
                 $value_field = $val_project_nationality;
-                
-                
+
+
               }
 
               if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_professional' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
@@ -624,8 +643,8 @@ class ControllerContestContestRequest extends Controller {
                   	}
                 }
                 $value_field = $val_project_professional;
-                
-                
+
+
               }
 
               if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_demographic' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
@@ -642,10 +661,10 @@ class ControllerContestContestRequest extends Controller {
                   	}
                 }
                 $value_field = $val_project_demographic;
-                
-                
+
+
               }
-	
+
 
               $data_for_category[] = array(
                 'field_id'    => $vvr['field_id'],
@@ -670,9 +689,9 @@ class ControllerContestContestRequest extends Controller {
         );
     }
 
-  
-		
-		
+
+
+
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');

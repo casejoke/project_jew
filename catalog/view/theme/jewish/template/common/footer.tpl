@@ -1,24 +1,24 @@
 <!-- Widgets start -->
 		<div class="module module--footer module--bg-dark">
 			<div class="container">
-	
+
 				<div class="row">
-	
+
 					<div class="col-sm-3">
-	
+
 						<!-- Widget start -->
 						<div class="widget">
 							<h5 class="widget-title font-alt">Контактная информация</h5>
-							
+
 							<p>Телефон: +9 72-262 163 29<br>Телефон: +9 72-262 160 66</p>
 							<p>Email: <a href="mailto:info@jewish-grassroots.org">info@jewish-grassroots.org</a></p>
 						</div>
 						<!-- Widget end -->
-	
+
 					</div>
-	
+
 					<div class="col-sm-3">
-	
+
 						<!-- Widget start -->
 						<div class="widget hidden">
 							<h5 class="widget-title font-alt">Recent Comments</h5>
@@ -31,16 +31,16 @@
 							</ul>
 						</div>
 						<!-- Widget end -->
-	
+
 					</div>
 					<div class="col-sm-3 ">
-	
+
 						 <!-- Widget start -->
 				        <div class="widget ">
-				         
+
 				        </div>
 				        <!-- Widget end -->
-	
+
 					</div>
 					<div class="col-sm-3">
 						<!-- Widget start -->
@@ -67,31 +67,31 @@
 				          </ul>
 				        </div>
 				        <!-- Widget end -->
-	
+
 					</div>
-	
-					
-	
+
+
+
 				</div><!-- .row -->
-	
+
 			</div>
 		</div>
 		<!-- Widgets end -->
-	
+
 		<!-- Divider -->
 		<hr class="divider-d">
 		<!-- Divider -->
-	
+
 		<!-- Footer start -->
 		<div class="module module--min-footer module--bg-dark ">
 			<div class="container">
-	
+
 				<div class="row">
-	
+
 					<div class="col-sm-6">
 						<p class="copyright font-alt">© 2012 г. Jewis-grassroots,  Все права защищены</p>
 					</div>
-	
+
 					<div class="col-sm-6">
 						<div class="footer-social-links hidden">
 							<a href="#"><i class="fa fa-facebook"></i></a>
@@ -100,13 +100,30 @@
 							<a href="#"><i class="fa fa-skype"></i></a>
 						</div>
 					</div>
-	
+
 				</div><!-- .row -->
-	
+
 			</div>
 		</div>
 		<!-- Footer end -->
 </div><!-- /.Wrapper end -->
+<!-- Modal -->
+<div class="modal fade" id="first_step_deal_bp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title font-alt" id="myModalLabel">Уведомление</h4>
+	</div>
+	<div class="modal-body" id="body_modal">
+		Вы добавили проект в общий пул проектов конкурса.
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Продолжить</button>
+	</div>
+</div>
+</div>
+</div>
     <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -116,7 +133,7 @@
         <h4 class="modal-title font-alt" id="myModalLabel">Подтверждение выбора</h4>
       </div>
       <div class="modal-body" id="body_modal">
-            
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Выбрать другой проект</button>

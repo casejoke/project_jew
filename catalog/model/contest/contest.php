@@ -278,7 +278,18 @@ class ModelContestContest extends Model {
 		}
 
 
+		if (!empty($data['filter_array_project_customer_id'])) {
 
+			if(count($data['filter_array_project_customer_id']) > 1){
+				$_str[] .= " adaptive_id IN (" . implode(',', $data['filter_array_project_customer_id']) . ")";
+			}else{
+				//если один проект
+				$contest_id = $data['filter_array_project_customer_id'][0];
+				$_str[] .= " adaptive_id = '" . (int)$contest_id . "'";
+			}
+		} else{
+			//$_str[] .= " contest_id = '0'";
+		}
 
 		//statss = 1 значит модератор разрешил оценивать
 		if (!empty($data['filter_status'])) {
@@ -299,7 +310,7 @@ class ModelContestContest extends Model {
 			}
 			$i++;
 		}
-		print_r($sql.$_sql);
+	//	print_r($sql.$_sql);
 		$query = $this->db->query($sql.$_sql);
 
 
@@ -337,6 +348,18 @@ class ModelContestContest extends Model {
 			);
 
 	}
+	//оценка заявки на конкурс
+	public function updateAEstimateToContest($data=array(),$customer_id,$contest_id,$request_id){
+		//записываем утверждение пользователя на использование проекта другим пользователем и отправляем мыло
+		//adaptive_status - оценка
+		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET
+			adaptive_status = '" . (int)$data['adaptive_status'] . "',
+			adaptor_comment = '" . $this->db->escape($data['comment']) . "'
+		WHERE customer_to_contest_id = '" . (int)$request_id . "'");
+
+
+	}
+
 
 
 

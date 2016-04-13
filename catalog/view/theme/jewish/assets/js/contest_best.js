@@ -17,6 +17,7 @@ var contest = {
       e.preventDefault();
       console.log($(this).attr('data-project'));
       contest.chooseProject($(this).attr('data-project'));
+
     });
 
      $(document).on(mouse_down,'.select-adaptive',function(e){
@@ -28,7 +29,7 @@ var contest = {
 
   },
   chooseAdaptive:function(_adaptive_id){
-    
+
     var _project_btn  = '#select-adaptive-'+_adaptive_id;
     if( $(_project_btn).hasClass('btn-success')) {
         contest.disabledAllAdaptive();
@@ -39,37 +40,37 @@ var contest = {
       contest.undisabledAllAdaptive();
       var _text_init = $(_project_btn).attr('data-init-text');
           $(_project_btn).html(_text_init).addClass('btn-success').removeClass('btn-warning');
-      
+
       adaptive_id =  0;
     }
 
     contest.initLinkSend();
 
-    
+
   },
 
   chooseProject:function(_project_id){
-    
+
     var _project_btn  = '#select-project-'+_project_id;
     if( $(_project_btn).hasClass('btn-success')) {
         contest.disabledAllProject();
        var _text_complete = $(_project_btn).attr('data-complete-text');
             $(_project_btn).html(_text_complete).removeClass('btn-success').addClass('btn-warning').removeClass('disabled');
-       project_id = _project_id;  
-       
+       project_id = _project_id;
+       $('#first_step_deal_bp').modal('show');
 
     }else{
       contest.undisabledAllProject();
       var _text_init = $(_project_btn).attr('data-init-text');
           $(_project_btn).html(_text_init).addClass('btn-success').removeClass('btn-warning');
-       
-         project_id = 0;  
-   
+
+         project_id = 0;
+
     }
 
     contest.initLinkSend();
 
-    
+
   },
   disabledAllProject:function(){
     $('.select-project').addClass('disabled');
@@ -96,20 +97,21 @@ var contest = {
      /* $('html,body').animate({
           scrollTop: $('#send_request_to_contest').offset().top
         }, 1000);*/
-     
+
 
       $('#send_request_to_contest').removeClass('disabled')
       console.log(_href_temp + '&project_id='+project_id);
       //cсделать рефактор и добавить шифрование
       $('#send_request_to_contest').attr('href',_href_temp+ '&project_id='+project_id+'&adaptive_id='+adaptive_id);
-      var body_modal =  $('#send_to_modal').html();  
+      var body_modal =  $('#send_to_modal').html();
        $('#myModal').find('#body_modal').html(body_modal);
 
       $('#myModal').modal('show');
+
       console.log('ff');
       }else{
         $('#send_request_to_contest').addClass('disabled');
-        
+
       };
 
 
@@ -118,7 +120,7 @@ var contest = {
 };
 
 
-  
+
 // On document ready, initialise our code.
 
 $(document).ready(function() {
@@ -127,16 +129,16 @@ $(document).ready(function() {
     e.preventDefault();
   });
 
-  
+
  // Initialize buttonFilter code
-      
+
   //buttonFilter.init();
-      
+
   // Instantiate MixItUp
-      
+
   $('#ad_projects').mixItUp({
     load: {
-      filter: 'all' 
+      filter: 'all'
     },
     controls: {
       toggleFilterButtons: true,
@@ -147,7 +149,7 @@ $(document).ready(function() {
         console.log(state.activeFilter)
       }
     }
-  });  
+  });
 
   $('textarea').each(function() {
     if ($(this).attr('data-editor') == 'summernote') {
@@ -155,6 +157,6 @@ $(document).ready(function() {
           height: 300
       });
     }
-    
+
   });
 });
