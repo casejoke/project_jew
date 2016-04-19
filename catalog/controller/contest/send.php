@@ -90,9 +90,9 @@ if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['
 		$project_info = $this->model_project_project->getProject($project_id);
 		if ( empty($project_info) ){
 			//редиректим на список проектов
-			$this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
-			$this->response->redirect($this->url->link('project/project', '', 'SSL'));
-		}
+			//$this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
+		//	$this->response->redirect($this->url->link('project/project', '', 'SSL'));
+	}else{
 		$admin_project_id = $project_info['customer_id'];
 		//проверка на админа группы
 		if ( $admin_project_id != $customer_id ){
@@ -100,6 +100,10 @@ if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['
 			$this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
 			$this->response->redirect($this->url->link('project/project', '', 'SSL'));
 		}
+	}
+
+
+
 
 
 
@@ -114,10 +118,52 @@ if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['
 
       }else{
 				$adaptive_id = 0;
-        $this->model_contest_contest->addRequest($this->request->post,$customer_id,$contest_id,$adaptive_id,$project_id);
-        //отправляю проектв $project_id  в копилку проектов
-      //  $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
-        $this->session->data['success'] = $this->language->get('text_contest_success');
+				//сначала добавляем новый проект
+				$data_post  = array();
+				$data_post = $this->request->post;
+				// информация о проекте  12 категория
+				$project_title = '';
+				if(!empty($data_post['custom_fields'][12])){
+					foreach ($data_post['custom_fields'][12] as $vdp) {
+
+						if($vdp['field_id'] == 13){
+
+							$project_title = $vdp['value'] ;
+						}
+					}
+				}
+				if(!empty($data_post[15])){
+					foreach ($data_post[15] as $vdpb) {
+						if($vdpb['field_id'] == 27){
+
+						}
+					}
+				}
+
+				$data_post['image'] = '';
+				$data_post['project_birthday'] = '';
+				$data_post['project_init_group_id'] = '';
+				$data_post['project_budget'] = '';
+				$data_post['project_status_id'] = 2;
+				$data_post['project_visibility'] = 1;
+				$data_post['project_relation_id'] = 1;
+				$data_post['project_currency_id'] = 4;
+				$data_post['project_description'][2] = array(
+										'title' => $project_title,
+										'target' => '',
+										'product' => '',
+										'description' => '',
+										'result' => ''
+				);
+			
+				$project_id = $this->model_project_project->addProject($data_post,$customer_id);
+				if($project_id){
+					$this->model_contest_contest->addRequest($this->request->post,$customer_id,$contest_id,$adaptive_id,$project_id);
+	        //отправляю проектв $project_id  в копилку проектов
+	      //  $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
+	        $this->session->data['success'] = $this->language->get('text_contest_success');
+				}
+
       }
 
 
@@ -297,26 +343,34 @@ if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['
 
 
 //************************* информация о проекте *************************//
-
-$project_title      = html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8');
-$project_description  = html_entity_decode($project_info['description'], ENT_QUOTES, 'UTF-8');
-
+$project_title = '';
+$project_description  = '';
 $data['image'] = '';
-if (!empty($project_info['image'])) {
-	$upload_info = $this->model_tool_upload->getUploadByCode($project_info['image']);
-	$filename = $upload_info['filename'];
-	$data['image'] = $this->model_tool_upload->resize($filename , 800, 460,'w');
-} else {
-	$data['image'] = $this->model_tool_image->resize('no-image.png', 800, 460,'w');
+$project_birthday = '';
+$admin_id = $customer_id ;
+$init_group_information = '';
+if(!empty($project_info)){
+	$project_title      = html_entity_decode($project_info['title'], ENT_QUOTES, 'UTF-8');
+	$project_description  = html_entity_decode($project_info['description'], ENT_QUOTES, 'UTF-8');
+
+
+	if (!empty($project_info['image'])) {
+		$upload_info = $this->model_tool_upload->getUploadByCode($project_info['image']);
+		$filename = $upload_info['filename'];
+		$data['image'] = $this->model_tool_upload->resize($filename , 800, 460,'w');
+	} else {
+		$data['image'] = $this->model_tool_image->resize('no-image.png', 800, 460,'w');
+	}
+
+	$project_birthday     = rus_date($this->language->get('date_day_date_format'), strtotime($project_info['project_birthday']));
+
+	//************************* инфо огруппе *************************//
+			//подтянем администратора группы если есть группа и в данном конкурсе нужна группа
+			$admin_id = $project_info['customer_id'];
+
+			$init_group_information = $data['init_groups'][$project_info['project_init_group_id']] ;
+
 }
-
-$project_birthday     = rus_date($this->language->get('date_day_date_format'), strtotime($project_info['project_birthday']));
-
-//************************* инфо огруппе *************************//
-		//подтянем администратора группы если есть группа и в данном конкурсе нужна группа
-		$admin_id = $project_info['customer_id'];
-
-		$init_group_information = $data['init_groups'][$project_info['project_init_group_id']] ;
 
 //************************* информация о конкурсе *************************//
 
@@ -366,23 +420,23 @@ $data['contest_field_system']['project']['project_budget'] = array(
 'field_type'          => 'text'
 );
 $data['contest_field_system']['project']['description'] = array(
-'field_value_r'         => $project_description,
+'field_value_r'         => (!empty($project_info))?$project_description:'',
 'field_type'          => 'textarea'
 );
 $data['contest_field_system']['project']['target'] = array(
-'field_value_r'         => $project_info['target'],
+'field_value_r'         => (!empty($project_info))?$project_info['target']:'',
 'field_type'          => 'target'
 );
 $data['contest_field_system']['project']['product'] = array(
-'field_value_r'         => $project_info['product'],
+'field_value_r'         => (!empty($project_info))?$project_info['product']:'',
 'field_type'       => 'textarea'
 );
 $data['contest_field_system']['project']['result'] = array(
-'field_value_r'         => $project_info['result'],
+'field_value_r'         => (!empty($project_info))?$project_info['result']:'',
 'field_type'       => 'textarea'
 );
 $data['contest_field_system']['project']['project_birthday'] = array(
-'field_value_r'         => $project_info['project_birthday'],
+'field_value_r'         => (!empty($project_info))?$project_info['project_birthday']:'',
 'field_type'       => 'textarea'
 );
 
@@ -390,31 +444,31 @@ $data['contest_field_system']['project']['project_birthday'] = array(
 
 $data['contest_field_system']['project']['project_age'] = array(
 'field_value'         => $this->model_contest_contest_field->getProjectAges(),
-'field_value_r'       => unserialize($project_info['project_age']),
+'field_value_r'       => (!empty($project_info))?unserialize($project_info['project_age']):array(),
 'field_type'          => 'checkbox'
 );
 
 $data['contest_field_system']['project']['project_sex'] = array(
 'field_value'         => $this->model_contest_contest_field->getProjectSexs(),
-'field_value_r'       => unserialize($project_info['project_sex']),
+'field_value_r'       => (!empty($project_info))?unserialize($project_info['project_sex']):array(),
 'field_type'          => 'checkbox'
 );
 
 $data['contest_field_system']['project']['project_nationality'] = array(
 'field_value'         => $this->model_contest_contest_field->getProjectNationalitys(),
-'field_value_r'       => unserialize($project_info['project_nationality']),
+'field_value_r'       => (!empty($project_info))?unserialize($project_info['project_nationality']):array(),
 'field_type'          => 'checkbox'
 );
 
 $data['contest_field_system']['project']['project_professional'] = array(
 'field_value'         => $this->model_contest_contest_field->getProjectProfessionals(),
-'field_value_r'       => unserialize($project_info['project_professional']),
+'field_value_r'       => (!empty($project_info))?unserialize($project_info['project_professional']):array(),
 'field_type'          => 'checkbox'
 );
 
 $data['contest_field_system']['project']['project_demographic'] = array(
 'field_value'         => $this->model_contest_contest_field->getProjectDemographics(),
-'field_value_r'       => unserialize($project_info['project_demographic']),
+'field_value_r'       => (!empty($project_info))?unserialize($project_info['project_demographic']):array(),
 'field_type'          => 'checkbox'
 );
 
@@ -684,6 +738,8 @@ $data['contest_field_system']['project']['project_demographic'] = array(
 				}
 			}
 		}
+
+
 
 /*
 		print_r('<pre>');

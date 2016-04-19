@@ -21,7 +21,7 @@
 
 
               <?php if(!empty($projects_for_customer)) { ?>
-                <h4 class="font-alt mb-0">Укажите свой проект для участия в конкурсе</h4>
+                <h4 class="font-alt mb-0">Вы можете выбрать свой проект для участия в конкурсе или создать новый:</h4>
                 <div class="row">
                   <?php foreach ($projects_for_customer as $pfc) { ?>
 
@@ -38,8 +38,11 @@
                 </div>
                 <div class="row">
                   <div class="form-group">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-6">
                       <a href="<?php echo $action; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20 disabled" id="send_request_to_contest" ><?php echo $text_im_deal;?></a>
+                    </div>
+                    <div class="col-sm-6">
+                      <a href="<?php echo $action_n; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20">Создать заявку и проект</a>
                     </div>
                   </div>
                 </div>
@@ -50,7 +53,7 @@
                       <p>Необходимо внести свой проект в&nbsp;общий пул проектов. Только после этого вы&nbsp;сможете продолжить.
                     </div>
                     <div class="col-sm-6 col-sm-offset-3">
-                      <a href="<?php echo $add_project; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20">Создать проект</a>
+                      <a href="<?php echo $action_n; ?>" class="btn btn-round btn-block btn-success mb-40 mt-20">Создать проект</a>
                     </div>
                   </div>
                 </div>

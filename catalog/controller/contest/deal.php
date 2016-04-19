@@ -295,7 +295,7 @@ class ControllerContestDeal extends Controller {
 		/******************* /.проекты *******************/
 
 		$data['action'] = $this->url->link('contest/send', 'contest_id='.$contest_id, 'SSL');
-
+		$data['action_n'] = $this->url->link('contest/send', 'contest_id='.$contest_id.'&project_id=0', 'SSL');
 
 		///нужна ли группа для участия в конкурсе?????
 

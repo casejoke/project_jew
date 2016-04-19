@@ -402,7 +402,7 @@ class ControllerAccountAccount extends Controller {
 				'contest_id' 			=> $vcc['contest_id'],
 				'request_status'		=> $vcc['status'],
 				'request_status_text'	=> $status,
-				'request_astatus_text'	=> $astatus,
+				'request_astatus_text'	=> ((int)$contests[$vcc['contest_id']]['contest_type'] == 3) ? $astatus : '',
 				'request_comment'		=> html_entity_decode($comment, ENT_QUOTES, 'UTF-8'),
 				'contest_title'			=> $contests[$vcc['contest_id']]['contest_title'],
 				'contest_image'			=> $contests[$vcc['contest_id']]['contest_image'],
