@@ -14,7 +14,7 @@
 <?php echo $content_top; ?>
   <div class="container">
     <div class="row hidden">
-      
+
       <div class="col-xs-offset-1 col-xs-10 col-sm-8 col-sm-offset-2">
         <h4 class="module-subtitle"><?php echo $under_form_registration; ?></h4>
       </div>
@@ -22,7 +22,7 @@
     <div class="row">
       <div class="col-sm-10 col-sm-offset-1">
          <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
-   
+
           <div class="form-group required" style="display: <?php echo (count($customer_groups) > 1 ? 'block' : 'none'); ?>;">
             <label class="col-sm-4 control-label"><?php echo $entry_customer_group; ?></label>
             <div class="col-sm-8">
@@ -83,6 +83,35 @@
               <input type="tel" name="telephone" value="<?php echo $telephone; ?>"  id="input-telephone" class="form-control" />
               <?php if ($error_telephone) { ?>
               <div class="text-danger"><?php echo $error_telephone; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-country"><?php echo $entry_country; ?></label>
+            <div class="col-sm-8">
+              <select name="country_id" id="input-country" class="form-control">
+                <option value=""><?php echo $text_select; ?></option>
+                <?php foreach ($countries as $country) { ?>
+                <?php if ($country['country_id'] == $country_id) { ?>
+                <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
+                <?php } else { ?>
+                <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
+                <?php } ?>
+                <?php } ?>
+              </select>
+              <?php if ($error_country) { ?>
+              <div class="text-danger"><?php echo $error_country; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-city"><?php echo $entry_city; ?></label>
+            <div class="col-sm-8">
+              <input type="text" name="city" value="<?php echo $city; ?>" placeholder="" id="input-city" class="form-control" />
+              <?php if ($error_city) { ?>
+              <div class="text-danger"><?php echo $error_city; ?></div>
               <?php } ?>
             </div>
           </div>
@@ -267,7 +296,7 @@
             </div>
           </div>
 
-        
+
           <div class="form-group">
             <label class="col-sm-2 control-label"><?php echo $entry_newsletter; ?></label>
             <div class="col-sm-8">
@@ -288,7 +317,7 @@
               <?php } ?>
             </div>
           </div>
-        
+
 
 
         <?php if ($text_agree) { ?>
@@ -314,7 +343,7 @@
         <?php } ?>
 
       </form>
-       
+
       </div>
     </div>
   </div>

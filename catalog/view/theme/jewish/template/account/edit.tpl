@@ -19,7 +19,7 @@
           <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?></div>
         <?php } ?>
        <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
-          
+
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-firstname"><?php echo $entry_firstname; ?> </label>
           <div class="col-sm-8">
@@ -49,13 +49,44 @@
           </div>
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-telephone"><?php echo $entry_telephone; ?></label>
-          <div class="col-sm-8">
+            <div class="col-sm-8">
               <input type="tel" name="telephone" value="<?php echo $telephone; ?>" placeholder="<?php echo $entry_telephone; ?>" id="input-telephone" class="form-control" />
               <?php if ($error_telephone) { ?>
               <div class="text-danger"><?php echo $error_telephone; ?></div>
               <?php } ?>
             </div>
           </div>
+
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-country"><?php echo $entry_country; ?></label>
+            <div class="col-sm-8">
+              <select name="country_id" id="input-country" class="form-control">
+                <option value=""><?php echo $text_select; ?></option>
+                <?php foreach ($countries as $country) { ?>
+                <?php if ($country['country_id'] == $country_id) { ?>
+                <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
+                <?php } else { ?>
+                <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
+                <?php } ?>
+                <?php } ?>
+              </select>
+              <?php if ($error_country) { ?>
+              <div class="text-danger"><?php echo $error_country; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-city"><?php echo $entry_city; ?></label>
+            <div class="col-sm-8">
+              <input type="text" name="city" value="<?php echo $city; ?>" placeholder="" id="input-city" class="form-control" />
+              <?php if ($error_city) { ?>
+              <div class="text-danger"><?php echo $error_city; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+
+
           <?php foreach ($custom_fields as $custom_field) { ?>
           <?php if ($custom_field['location'] == 'account') { ?>
           <?php if ($custom_field['type'] == 'select') { ?>
@@ -215,7 +246,7 @@
                 </div>
               </div>
       </form>
-       
+
       </div>
     </div>
   </div>

@@ -22,6 +22,9 @@
             <li><strong>Имя Отчество:</strong><span class="font-serif"> <?php echo $firstname?></span></li>
             <li><strong>Фамилия:</strong><span class="font-serif"> <?php echo $lastname?></span></li>
             <li><strong>E-mail:</strong><span class="font-serif"> <?php echo $email?></span></li>
+            <li><strong>Страна:</strong><span class="font-serif"> <?php echo $country?></span></li>
+            <li><strong>Город:</strong><span class="font-serif"> <?php echo $city?></span></li>
+          
             <!-- до вывести кастомные поля -->
           </ul>
         </div>

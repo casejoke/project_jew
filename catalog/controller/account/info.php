@@ -23,7 +23,7 @@ class ControllerAccountInfo extends Controller {
 		//$this->request->get['ch'] = id пользователя
 
 		if (isset($this->request->get['ch']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$this->load->model('account/customer');
+			
 			$this->load->model('account/customer');
 			$this->load->model('group/group');
 			$this->load->model('project/project');
@@ -31,7 +31,7 @@ class ControllerAccountInfo extends Controller {
 			$this->load->model('tool/upload');
 			$this->load->model('tool/image');
 			$this->load->model('account/promocode');
-			
+
 			$customer_info = $this->model_account_customer->getCustomer($this->request->get['ch']);
 		} else{
 			$this->response->redirect($this->url->link('account/customers', '', 'SSL'));
@@ -42,6 +42,10 @@ class ControllerAccountInfo extends Controller {
 		$data['email'] = $customer_info['email'];
 		$data['telephone'] = $customer_info['telephone'];
 
+		$this->load->model('localisation/country');
+		$country = $this->model_localisation_country->getCountry($customer_info['country_id']);
+    $data['country'] = (!empty($country))?$country['name']:'';
+		$data['city'] 			= $customer_info['city'];
 		// Custom Fields
 		$this->load->model('account/custom_field');
 		$this->load->model('tool/upload');

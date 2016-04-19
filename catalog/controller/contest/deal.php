@@ -212,7 +212,7 @@ class ControllerContestDeal extends Controller {
 
 		//проверка на количесто заявок от данного пользователя
 		if(count($result_customer_req_contest) > 0){
-			$this->session->data['warning'] = '';//$this->language->get('text_contest_error');
+			$this->session->data['warning'] = 'Вы превысили количество заявок на данный конкурс';//$this->language->get('text_contest_error');
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
 		}
 

@@ -81,10 +81,14 @@ class ControllerAccountAccount extends Controller {
 		}
 		$customer_id = $this->customer->getId();
 		//стандартные поля
-		$data['firstname'] = $customer_info['firstname'];
-		$data['lastname'] = $customer_info['lastname'];
-		$data['email'] = $customer_info['email'];
-		$data['telephone'] = $customer_info['telephone'];
+		$data['firstname'] 	= $customer_info['firstname'];
+		$data['lastname'] 	= $customer_info['lastname'];
+		$data['email'] 			= $customer_info['email'];
+		$data['telephone'] 	= $customer_info['telephone'];
+		$this->load->model('localisation/country');
+		$country = $this->model_localisation_country->getCountry($customer_info['country_id']);
+    $data['country'] = (!empty($country))?$country['name']:'';
+		$data['city'] 			= $customer_info['city'];
 
 		// Custom Fields
 		$this->load->model('account/custom_field');
@@ -439,6 +443,7 @@ class ControllerAccountAccount extends Controller {
 			'filter_array_project_customer_id' 	=>	$projects_for_customer,
 			'filter_array_contest_id' 					=>	$contest_only_bestpractice
 		);
+
 		//список заявок, только для bestpractice, в которых использовали проекты пользователя
 		$results_list_approved_request = $this->model_contest_contest->getRequestForApproved($filter_data);
 		$data['list_approved_request'] = array();

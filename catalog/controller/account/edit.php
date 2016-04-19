@@ -36,7 +36,7 @@ class ControllerAccountEdit extends Controller {
 
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
 		}
-		
+
 
 		$data['breadcrumbs'] = array();
 
@@ -67,7 +67,8 @@ class ControllerAccountEdit extends Controller {
 		$data['entry_email'] = $this->language->get('entry_email');
 		$data['entry_telephone'] = $this->language->get('entry_telephone');
 		$data['entry_fax'] = $this->language->get('entry_fax');
-
+		$data['entry_city'] = $this->language->get('entry_city');
+		$data['entry_country'] = $this->language->get('entry_country');
 		$data['button_continue'] = $this->language->get('button_continue');
 		$data['button_back'] = $this->language->get('button_back');
 		$data['button_upload'] = $this->language->get('button_upload');
@@ -100,6 +101,19 @@ class ControllerAccountEdit extends Controller {
 			$data['error_telephone'] = $this->error['telephone'];
 		} else {
 			$data['error_telephone'] = '';
+		}
+		if (isset($this->error['city'])) {
+			$data['error_city'] = $this->error['city'];
+		} else {
+			$data['error_city'] = '';
+		}
+
+
+
+		if (isset($this->error['country'])) {
+			$data['error_country'] = $this->error['country'];
+		} else {
+			$data['error_country'] = '';
 		}
 
 		if (isset($this->error['custom_field'])) {
@@ -154,6 +168,21 @@ class ControllerAccountEdit extends Controller {
 			$data['fax'] = '';
 		}
 
+		if (isset($this->request->post['city'])) {
+			$data['city'] = $this->request->post['city'];
+		} else {
+			$data['city'] = '';
+		}
+
+		if (isset($this->request->post['country_id'])) {
+			$data['country_id'] = $this->request->post['country_id'];
+		}else{
+			$data['country_id'] = 0;
+		}
+
+		$this->load->model('localisation/country');
+
+		$data['countries'] = $this->model_localisation_country->getCountries();
 		// Custom Fields
 		$this->load->model('account/custom_field');
 
@@ -204,6 +233,13 @@ class ControllerAccountEdit extends Controller {
 			$this->error['telephone'] = $this->language->get('error_telephone');
 		}
 
+		if ((utf8_strlen(trim($this->request->post['city'])) < 2) || (utf8_strlen(trim($this->request->post['city'])) > 128)) {
+			$this->error['city'] = $this->language->get('error_city');
+		}
+		if ($this->request->post['country_id'] == 0) {
+			$this->error['country'] = $this->language->get('error_country');
+		}
+		
 		// Custom field validation
 		$this->load->model('account/custom_field');
 

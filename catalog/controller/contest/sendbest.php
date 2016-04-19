@@ -137,7 +137,6 @@ class ControllerContestSendbest extends Controller {
 
 
 
-
       $this->session->data['success'] = $this->language->get('text_contest_success');
       // Add to activity log
       $this->load->model('account/activity');

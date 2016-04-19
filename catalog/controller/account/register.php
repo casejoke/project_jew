@@ -14,7 +14,7 @@ class ControllerAccountRegister extends Controller {
 		$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');
 		$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
 		$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
-		
+
 		$this->load->model('tool/image');
 		$main_image_path = 'catalog/default/registration.jpg';
 		if (is_file(DIR_IMAGE . $main_image_path)) {
@@ -27,13 +27,13 @@ class ControllerAccountRegister extends Controller {
 
 
 		$this->load->model('account/customer');
-		
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$customer_id = $this->model_account_customer->addCustomer($this->request->post);
 
 			// Clear any previous login attempts for unregistered accounts.
 			$this->model_account_customer->deleteLoginAttempts($this->request->post['email']);
-			
+
 			$this->customer->login($this->request->post['email'], $this->request->post['password']);
 
 			unset($this->session->data['guest']);
@@ -47,7 +47,7 @@ class ControllerAccountRegister extends Controller {
 			);
 
 			$this->model_account_activity->addActivity('register', $activity_data);
-			
+
 			$this->response->redirect($this->url->link('account/success'));
 		}
 
@@ -231,6 +231,19 @@ class ControllerAccountRegister extends Controller {
 			$data['fax'] = '';
 		}
 
+		if (isset($this->request->post['city'])) {
+			$data['city'] = $this->request->post['city'];
+		} else {
+			$data['city'] = '';
+		}
+
+		if (isset($this->request->post['country_id'])) {
+			$data['country_id'] = $this->request->post['country_id'];
+		}else{
+			$data['country_id'] = 0;
+		}
+
+
 		if (isset($this->request->post['company'])) {
 			$data['company'] = $this->request->post['company'];
 		} else {
@@ -257,19 +270,7 @@ class ControllerAccountRegister extends Controller {
 			$data['postcode'] = '';
 		}
 
-		if (isset($this->request->post['city'])) {
-			$data['city'] = $this->request->post['city'];
-		} else {
-			$data['city'] = '';
-		}
 
-		if (isset($this->request->post['country_id'])) {
-			$data['country_id'] = $this->request->post['country_id'];
-		} elseif (isset($this->session->data['shipping_address']['country_id'])) {
-			$data['country_id'] = $this->session->data['shipping_address']['country_id'];
-		} else {
-			$data['country_id'] = $this->config->get('config_country_id');
-		}
 
 		if (isset($this->request->post['zone_id'])) {
 			$data['zone_id'] = $this->request->post['zone_id'];
@@ -282,7 +283,7 @@ class ControllerAccountRegister extends Controller {
 		$this->load->model('localisation/country');
 
 		$data['countries'] = $this->model_localisation_country->getCountries();
-
+	
 		// Custom Fields
 		$this->load->model('account/custom_field');
 
@@ -294,13 +295,13 @@ class ControllerAccountRegister extends Controller {
 			} else {
 				$account_custom_field = array();
 			}
-			
+
 			if (isset($this->request->post['custom_field']['address'])) {
 				$address_custom_field = $this->request->post['custom_field']['address'];
 			} else {
 				$address_custom_field = array();
-			}			
-			
+			}
+
 			$data['register_custom_field'] = $account_custom_field + $address_custom_field;
 		} else {
 			$data['register_custom_field'] = array();
@@ -375,6 +376,12 @@ class ControllerAccountRegister extends Controller {
 		if ($this->model_account_customer->getTotalCustomersByEmail($this->request->post['email'])) {
 			$this->error['email'] = $this->language->get('error_exists');
 		}
+		if ((utf8_strlen(trim($this->request->post['city'])) < 2) || (utf8_strlen(trim($this->request->post['city'])) > 128)) {
+			$this->error['city'] = $this->language->get('error_city');
+		}
+		if ($this->request->post['country_id'] == 0) {
+			$this->error['country'] = $this->language->get('error_country');
+		}
 		/*
 		if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
 			$this->error['telephone'] = $this->language->get('error_telephone');
@@ -384,10 +391,7 @@ class ControllerAccountRegister extends Controller {
 		if ((utf8_strlen(trim($this->request->post['address_1'])) < 3) || (utf8_strlen(trim($this->request->post['address_1'])) > 128)) {
 			$this->error['address_1'] = $this->language->get('error_address_1');
 		}
-		
-		if ((utf8_strlen(trim($this->request->post['city'])) < 2) || (utf8_strlen(trim($this->request->post['city'])) > 128)) {
-			$this->error['city'] = $this->language->get('error_city');
-		}
+
 
 		$this->load->model('localisation/country');
 
@@ -441,7 +445,7 @@ class ControllerAccountRegister extends Controller {
 				$this->error['warning'] = sprintf($this->language->get('error_agree'), $information_info['title']);
 			}
 		}
-		
+
 		return !$this->error;
 	}
 

@@ -6,7 +6,7 @@ http://makeagency.ru/services/adaptiv
       http://support.martdesign.ru/ - концепт для сайта
      http://kevinchappell.github.io/formBuilder/ - bulderform
      https://habrahabr.ru/post/108993/
-
+http://appfor.ru/ - идея мобильного приложения
 http://www.magtoapp.ru/ =
 http://code.tutsplus.com/ru/tutorials/ios-8-beta-testing-with-testflight--cms-22224
 bakerfamework
@@ -15,6 +15,12 @@ http://daniellaharel.com/raindrops/ - капли воды
 https://github.com/mibamur/opencart-russian-localization/blob/master/country.sql
 ALTER TABLE `oc_customer_to_contest` ADD `adaptive_status` INT(4) NOT NULL AFTER `status`;
 ALTER TABLE `oc_customer_to_contest` ADD `adaptor_comment` TEXT NOT NULL AFTER `comment`;
+
+
+ALTER TABLE `oc_customer` ADD `country_id` INT(11) NOT NULL AFTER `fax`;
+ALTER TABLE `oc_customer` ADD `city` VARCHAR(255) NOT NULL AFTER `country_id`;
+
+
 -  список проектов котрые в черновике
 -  в подаче на конкурс добавить  кнопку содать проект всегда
 -  если адаптор не одобрил сделку, то админ не видит заявки!!!!!!!!!
@@ -26,7 +32,7 @@ ALTER TABLE `oc_customer_to_contest` ADD `adaptor_comment` TEXT NOT NULL AFTER `
 -  Приглашение участников работает только по имени, нет возможности пригласить по e-mail
 -  Добавление новости/анонсы по проектам пользователями
 -  И почему-то невозможно указать дату рождения в заявке
--  В профиле участника, в том числе при регистрации, необходимо указывать ГОРОД и СТРАНУ проживания
+
 -  В выводе списка участников нужно показывать город и страну. кроме этого, раньше, при регистрации указывали username и еще нормальные имена и фамилии. их надо тоже показывать и ПОМЕНЯТЬ вывод участников на более рациональный а то огромные пустые картинки, занимает кучу места и вечный скрол, мы это обсуждали
 -  Убрать из демографии религию/национальность
 -  Давать автору, после того, как адаптор сохранил заявку с галочкой "отправить уведомление автору", просматривать заявку в режиме чтения.
@@ -56,6 +62,7 @@ ALTER TABLE `oc_customer_to_contest` ADD `adaptor_comment` TEXT NOT NULL AFTER `
 +  Вывод конкурса в зависимости от статуса
 +  Выведение списка участников в более сжатом варианте, иначе вечный скрол какой-то
 +  удали всех тестовых участников с 123456
++  В профиле участника, в том числе при регистрации, необходимо указывать ГОРОД и СТРАНУ проживания
 /*********************************************************************************************/
  Текст:
   Добрый день!

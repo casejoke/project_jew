@@ -21,28 +21,30 @@ class ModelAccountCustomer extends Model {
 		if(!isset($data['image'])){
 			$data['image'] = '';
 		}
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET 
-			customer_group_id = '" . (int)$customer_group_id . "', 
-			store_id = '" . (int)$this->config->get('config_store_id') . "', 
-			firstname = '" . $this->db->escape($data['firstname']) . "', 
-			lastname = '" . $this->db->escape($data['lastname']) . "', 
-			email = '" . $this->db->escape($data['email']) . "', 
-			image = '" . $this->db->escape($data['image']) . "', 
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET
+			customer_group_id = '" . (int)$customer_group_id . "',
+			store_id = '" . (int)$this->config->get('config_store_id') . "',
+			firstname = '" . $this->db->escape($data['firstname']) . "',
+			lastname = '" . $this->db->escape($data['lastname']) . "',
+			country_id = '" . (int)$data['country_id'] . "',
+			city = '" . $this->db->escape($data['city']) . "',
+			email = '" . $this->db->escape($data['email']) . "',
+			image = '" . $this->db->escape($data['image']) . "',
 			telephone = '" . $this->db->escape($data['telephone']) . "',
-			custom_field = '" . $this->db->escape(isset($data['custom_field']['account']) ? serialize($data['custom_field']['account']) : '') . "', 
-			salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', 
-			password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', 
-			newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', 
-			ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', 
-			status = '1', 
+			custom_field = '" . $this->db->escape(isset($data['custom_field']['account']) ? serialize($data['custom_field']['account']) : '') . "',
+			salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "',
+			password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "',
+			newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "',
+			ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "',
+			status = '1',
 			approved = '" . (int)!$customer_group_info['approval'] . "', date_added = NOW()");
-	
+
 		$customer_id = $this->db->getLastId();
 /*
-		$this->db->query("INSERT INTO " . DB_PREFIX . "address SET 
-			customer_id = '" . (int)$customer_id . "', 
-			firstname = '" . $this->db->escape($data['firstname']) . "', 
-			lastname = '" . $this->db->escape($data['lastname']) . "', 
+		$this->db->query("INSERT INTO " . DB_PREFIX . "address SET
+			customer_id = '" . (int)$customer_id . "',
+			firstname = '" . $this->db->escape($data['firstname']) . "',
+			lastname = '" . $this->db->escape($data['lastname']) . "',
 			custom_field = '" . $this->db->escape(isset($data['custom_field']['address']) ? serialize($data['custom_field']['address']) : '') . "'");
 */
 	//	$address_id = $this->db->getLastId();
@@ -69,7 +71,7 @@ class ModelAccountCustomer extends Model {
 		$message .= $this->url->link('account/login', '', 'SSL') . "\n\n";
 		$message .= $this->language->get('text_services') . "\n\n";
 
-		
+
 		$message .= $this->language->get('text_thanks') . "\n";
 		$message .= html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
 
@@ -81,7 +83,7 @@ class ModelAccountCustomer extends Model {
 		$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
 		$mail->smtp_port = $this->config->get('config_mail_smtp_port');
 		$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
-			
+
 		$mail->setTo($data['email']);
 		$mail->setFrom($this->config->get('config_email'));
 		$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
@@ -107,7 +109,7 @@ class ModelAccountCustomer extends Model {
 			$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
 			$mail->smtp_port = $this->config->get('config_mail_smtp_port');
 			$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
-			
+
 			$mail->setTo($this->config->get('config_email'));
 			$mail->setFrom($this->config->get('config_email'));
 			$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
@@ -151,27 +153,27 @@ class ModelAccountCustomer extends Model {
 		if(!isset($data['image'])){
 			$data['image'] = '';
 		}
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET 
-			customer_group_id = '" . (int)$customer_group_id . "', 
-			customer_modx_id = '" . (int)$data['customer_modx_id'] . "', 
-			store_id = '" . (int)$this->config->get('config_store_id') . "', 
-			firstname = '" . $this->db->escape($data['firstname']) . "', 
-			lastname = '" . $this->db->escape($data['lastname']) . "', 
-			email = '" . $this->db->escape($data['email']) . "', 
-			image = '" . $this->db->escape($data['image']) . "', 
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET
+			customer_group_id = '" . (int)$customer_group_id . "',
+			customer_modx_id = '" . (int)$data['customer_modx_id'] . "',
+			store_id = '" . (int)$this->config->get('config_store_id') . "',
+			firstname = '" . $this->db->escape($data['firstname']) . "',
+			lastname = '" . $this->db->escape($data['lastname']) . "',
+			email = '" . $this->db->escape($data['email']) . "',
+			image = '" . $this->db->escape($data['image']) . "',
 			telephone = '" . $this->db->escape($data['telephone']) . "',
-			custom_field = '" . $this->db->escape(isset($data['custom_field']['account']) ? serialize($data['custom_field']['account']) : '') . "', 
-			salt = '" . $this->db->escape($data['salt']) . "', 
-			password = '" . $this->db->escape($data['password']) . "', 
-			newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', 
-			ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', 
-			status = '1', 
-			approved = '" . (int)!$customer_group_info['approval'] . "', 
+			custom_field = '" . $this->db->escape(isset($data['custom_field']['account']) ? serialize($data['custom_field']['account']) : '') . "',
+			salt = '" . $this->db->escape($data['salt']) . "',
+			password = '" . $this->db->escape($data['password']) . "',
+			newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "',
+			ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "',
+			status = '1',
+			approved = '" . (int)!$customer_group_info['approval'] . "',
 			date_added = NOW()");
-	
+
 		$customer_id = $this->db->getLastId();
 
-		
+
 
 		$this->event->trigger('post.customer.add', $customer_id);
 
@@ -183,11 +185,13 @@ class ModelAccountCustomer extends Model {
 
 		$customer_id = $this->customer->getId();
 
-		$this->db->query("UPDATE " . DB_PREFIX . "customer SET 
-			firstname = '" . $this->db->escape($data['firstname']) . "', 
-			lastname = '" . $this->db->escape($data['lastname']) . "', 
-			email = '" . $this->db->escape($data['email']) . "', 
-			telephone = '" . $this->db->escape($data['telephone']) . "', 
+		$this->db->query("UPDATE " . DB_PREFIX . "customer SET
+			firstname = '" . $this->db->escape($data['firstname']) . "',
+			lastname = '" . $this->db->escape($data['lastname']) . "',
+			email = '" . $this->db->escape($data['email']) . "',
+			country_id = '" . (int)$data['country_id'] . "',
+			city = '" . $this->db->escape($data['city']) . "', 
+			telephone = '" . $this->db->escape($data['telephone']) . "',
 			custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "' WHERE customer_id = '" . (int)$customer_id . "'");
 
 		$this->event->trigger('post.customer.edit', $customer_id);
@@ -196,7 +200,7 @@ class ModelAccountCustomer extends Model {
 	public function changeAvatar($image){
 		$customer_id = $this->customer->getId();
 
-		$this->db->query("UPDATE " . DB_PREFIX . "customer SET 
+		$this->db->query("UPDATE " . DB_PREFIX . "customer SET
 			image = '" . $image . "' WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 	public function editPassword($email, $password) {
@@ -234,7 +238,7 @@ class ModelAccountCustomer extends Model {
 		$sql = "SELECT * , CONCAT(lastname, ' ', firstname) AS name FROM " . DB_PREFIX . "customer";
 		if (!empty($customers)) {
 			$implode = array();
-			
+
 			foreach ($customers as $customer_id) {
 				$implode[] = (int)$customer_id;
 			}
@@ -277,23 +281,23 @@ class ModelAccountCustomer extends Model {
 
 		return $query->num_rows;
 	}
-	
+
 	public function addLoginAttempt($email) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_login WHERE email = '" . $this->db->escape(utf8_strtolower((string)$email)) . "' AND ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'");
-		
+
 		if (!$query->num_rows) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_login SET email = '" . $this->db->escape(utf8_strtolower((string)$email)) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', total = 1, date_added = '" . $this->db->escape(date('Y-m-d H:i:s')) . "', date_modified = '" . $this->db->escape(date('Y-m-d H:i:s')) . "'");
 		} else {
 			$this->db->query("UPDATE " . DB_PREFIX . "customer_login SET total = (total + 1), date_modified = '" . $this->db->escape(date('Y-m-d H:i:s')) . "' WHERE customer_login_id = '" . (int)$query->row['customer_login_id'] . "'");
-		}			
-	}	
-	
+		}
+	}
+
 	public function getLoginAttempts($email) {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "customer_login` WHERE email = '" . $this->db->escape(utf8_strtolower($email)) . "'");
 
 		return $query->row;
 	}
-	
+
 	public function deleteLoginAttempts($email) {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_login` WHERE email = '" . $this->db->escape(utf8_strtolower($email)) . "'");
 	}
@@ -336,14 +340,14 @@ class ModelAccountCustomer extends Model {
 		}
 
 		if (isset($data['filter_customer_id']) && !is_null($data['filter_customer_id'])) {
-			
+
 			$implode[] = "c.customer_id <> '" . (int)$data['filter_customer_id'] . "'";
 		}
 
 		if ($implode) {
 			$sql .= " AND " . implode(" AND ", $implode);
 		}
-		
+
 
 		$sort_data = array(
 			'name',
@@ -382,5 +386,5 @@ class ModelAccountCustomer extends Model {
 		$query = $this->db->query($sql);
 
 		return $query->rows;
-	}	
+	}
 }

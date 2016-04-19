@@ -102,6 +102,38 @@ class ModelContestContest extends Model {
 		if(isset($data['draft'])){
 			$status = 3;
 		}
+		if(isset($data['notice_draft'])){
+
+			//$adaptive_id проект
+			 $this->load->model('project/project');
+			 $this->load->model('account/customer');
+			 $project_info = $this->model_project_project->getProject($adaptive_id);
+			 $customer_info = $this->model_account_customer->getCustomer($customer_id);
+			 $adaptor_info = $this->model_account_customer->getCustomer($project_info['customer_id']);
+			 $this->load->language('mail/contest');
+			 $message = sprintf($this->language->get('text_mail_for_adaptor'),$project_info['title'],$customer_info['lastname'].''.$customer_info['firstname'],$customer_info['city'],$customer_info['email']);
+			 $subject = 'Конкурс Best Practices - уведомление';
+
+			//отправляем письмо адаптору ()
+
+			$mail = new Mail();
+			$mail->protocol = $this->config->get('config_mail_protocol');
+			$mail->parameter = $this->config->get('config_mail_parameter');
+			$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
+			$mail->smtp_username = $this->config->get('config_mail_smtp_username');
+			$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
+			$mail->smtp_port = $this->config->get('config_mail_smtp_port');
+			$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
+
+			$mail->setTo($adaptor_info['email']);
+			$mail->setFrom($this->config->get('config_email'));
+			$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
+			$mail->setSubject($subject);
+			$mail->setText($message);
+			$mail->send();
+
+
+		}
 		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_to_contest SET
 				contest_id = '" . (int)$contest_id . "',
 				customer_id = '" . (int)$customer_id . "',
@@ -115,11 +147,48 @@ class ModelContestContest extends Model {
 
 		return $customer_to_contest_id;
 	}
+
+
+
 	//для bestpractice
 	public function editRequest($data=array(),$customer_to_contest_id){
 		$status =2;
 		if(isset($data['draft'])){
 			$status = 3;
+		}
+		if(isset($data['notice_draft'])){
+
+			 $request_info = $this->getInformationAboutRequest($customer_to_contest_id);
+			//$adaptive_id проект
+			 $this->load->model('project/project');
+			 $this->load->model('account/customer');
+			 $project_info = $this->model_project_project->getProject($request_info['adaptive_id']);
+			 $customer_info = $this->model_account_customer->getCustomer($request_info['customer_id']);
+			 $adaptor_info = $this->model_account_customer->getCustomer($project_info['customer_id']);
+			 
+			 $this->load->language('mail/contest');
+			 $message = sprintf($this->language->get('text_mail_for_adaptor'),$project_info['title'],$customer_info['lastname'].''.$customer_info['firstname'],$customer_info['city'],$customer_info['email']);
+			 $subject = 'Конкурс Best Practices - уведомление';
+
+			//отправляем письмо адаптору ()
+
+			$mail = new Mail();
+			$mail->protocol = $this->config->get('config_mail_protocol');
+			$mail->parameter = $this->config->get('config_mail_parameter');
+			$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
+			$mail->smtp_username = $this->config->get('config_mail_smtp_username');
+			$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
+			$mail->smtp_port = $this->config->get('config_mail_smtp_port');
+			$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
+
+			$mail->setTo($adaptor_info['email']);
+			$mail->setFrom($this->config->get('config_email'));
+			$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
+			$mail->setSubject($subject);
+			$mail->setText($message);
+			$mail->send();
+
+
 		}
 		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET
 			value  = '" . $this->db->escape(  serialize($data) ) . "',
@@ -288,7 +357,7 @@ class ModelContestContest extends Model {
 				$_str[] .= " adaptive_id = '" . (int)$contest_id . "'";
 			}
 		} else{
-			//$_str[] .= " contest_id = '0'";
+			$_str[] .= " adaptive_id = '0'";
 		}
 
 		//statss = 1 значит модератор разрешил оценивать

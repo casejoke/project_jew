@@ -75,6 +75,9 @@
                       <li><strong>Фамилия:</strong><span class="font-serif"> <?php echo $lastname?></span></li>
                       <li><strong>Email:</strong><span class="font-serif"> <?php echo $email?></span></li>
                       <li><strong>Телефон:</strong><span class="font-serif"> <?php echo $telephone?></span></li>
+                      <li><strong>Страна:</strong><span class="font-serif"> <?php echo $country?></span></li>
+                      <li><strong>Город:</strong><span class="font-serif"> <?php echo $city?></span></li>
+                    
                       <!-- до вывести кастомные поля -->
                     </ul>
                   </div>
