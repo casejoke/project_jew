@@ -13,7 +13,7 @@ bakerfamework
 http://madewith.unity.com/ -всплытие блоков для cityindex и jew
 http://daniellaharel.com/raindrops/ - капли воды
 https://github.com/mibamur/opencart-russian-localization/blob/master/country.sql
-
+http://www.internet-design.ru/clients/
 
 ALTER TABLE `oc_customer_to_contest` ADD `adaptive_status` INT(4) NOT NULL AFTER `status`;
 ALTER TABLE `oc_customer_to_contest` ADD `adaptor_comment` TEXT NOT NULL AFTER `comment`;
