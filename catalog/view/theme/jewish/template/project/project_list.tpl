@@ -19,26 +19,43 @@
           <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> <?php echo $success; ?></div>
         <?php } ?>
       </div><!-- /.col-sm-10 -->
-     
-      <!-- Content column start -->
       <div class="col-sm-8">
-        <div class="row multi-columns-row">
-           <?php if(!empty($projects)){ ?> 
-              <?php foreach ($projects as $p) { ?>
-                
-                <div class="col-sm-6 col-md-4 col-lg-4">
+        <div id="projects">
+          <div class="col-sm-8 col-sm-offset-2 mb-20">
+            <div class="widget">
+              <form role="form">
+                <div class="search-box">
+                  <input type="text" class="form-control search" placeholder="Поиск по названию...">
+                  <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        <div class="col-sm-12 mb-20 projects-list">
+          <ul class="list ">
+
+            <?php if(!empty($projects)){ ?>
+               <?php foreach ($projects as $p) { ?>
+              <li class="font-alt col-xs-12">
+                <div class="hidden">
                   <div class="price-table font-alt">
                     <a href="<?php echo $p['action']['view']; ?>"> <img src="<?php echo  $p['project_image']; ?>" alt="<?php echo $p['project_title']; ?>"></a>
                     <div class="borderline"></div>
-                    <h4><a href="<?php echo $p['action']['view']; ?>" ><?php echo $p['project_title']; ?></a></h4>
+                    <h4><a href="<?php echo $p['action']['view']; ?>" class="name"><?php echo $p['project_title']; ?></a></h4>
                     <a href="<?php echo $p['action']['view']; ?>" class="btn btn-info btn-block btn-round mt-20">Подробнее</a>
                   </div>
                 </div>
-
-              <?php } ?>
+              </li>
+            <?php }?>
           <?php } ?>
+          </ul>
         </div>
-      </div>
+
+        </div>
+      </div><!-- /.col-sm-8 -->
+
+
       <!-- Content column end -->
 
       <!-- Sidebar column start -->

@@ -4,7 +4,7 @@
  */
 class ControllerProjectProject extends Controller {
 	public function index(){
-		
+
 		$this->getList();
 	}
 	private function getList(){
@@ -52,7 +52,17 @@ class ControllerProjectProject extends Controller {
 			);
 		}
 
-		$data['add_project'] = $this->url->link('project/edit', '', 'SSL'); 
+		$data['add_project'] = $this->url->link('project/edit', '', 'SSL');
+
+		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/customers.tpl')) {
+
+			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/list.min.js');
+			$this->document->addScript('catalog/view/theme/'.$this->config->get('config_template') . '/assets/js/projects.js');
+		} else {
+			$this->document->addScript('catalog/view/theme/default/assets/js/list.min.js');
+			$this->document->addScript('catalog/view/theme/default/assets/js/projects.js');
+		}
+
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
