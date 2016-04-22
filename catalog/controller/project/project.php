@@ -29,6 +29,33 @@ class ControllerProjectProject extends Controller {
 		$this->load->model('project/project');
 		$this->load->model('tool/upload');
 		$this->load->model('tool/image');
+		$this->load->model('account/customer');
+
+		$filter_data = array();
+		$filter_data = array(
+			//'filter_name'              => $filter_name,
+			//'filter_email'             => $filter_email,
+			//'filter_customer_group_id' => $filter_customer_group_id,
+			//'filter_status'            => $filter_status,
+			//'filter_approved'          => $filter_approved,
+			//'filter_date_added'        => $filter_date_added,
+			//'filter_ip'                => $filter_ip,
+			//'sort'                     => $sort,
+			//'order'                    => $order,
+			//'start'                    => ($page - 1) * $this->config->get('config_limit_admin'),
+			//'limit'                    => $this->config->get('config_limit_admin')
+		);
+
+		$results_customer = $this->model_account_customer->getCustomers($filter_data);
+		$customers = array();
+		foreach ($results_customer as $vrc) {
+			$customers[$vrc['customer_id']] = array(
+				'customer_name' 	=> $vrc['name'],
+				'customer_link'		=> $this->url->link('account/info', 'ch=' . $vrc['customer_id'], 'SSL')
+
+			);
+		}
+
 		//подтянем все активные группы
 		$results_projects = $this->model_project_project->getProjects();
 		$data['projects'] = array();
@@ -36,9 +63,9 @@ class ControllerProjectProject extends Controller {
 			if (!empty($result_p['image'])) {
 				$upload_info = $this->model_tool_upload->getUploadByCode($result_p['image']);
 				$filename = $upload_info['filename'];
-				$image = $this->model_tool_upload->resize($filename , 300, 300,'h');
+				$image = $this->model_tool_upload->resize($filename , 178, 100,'w');
 			} else {
-				$image = $this->model_tool_image->resize('no-image.png', 300, 300,'h');
+				$image = $this->model_tool_image->resize('no-image.png', 178, 100,'w');
 			}
 
 			$actions = array(
@@ -46,11 +73,18 @@ class ControllerProjectProject extends Controller {
 			);
 			$data['projects'][] = array(
 				'project_id'			=> $result_p['project_id'],
-				'project_title'			=> (strlen(strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'))) > 50 ? mb_strcut(strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8')), 0, 55) . '...' : strip_tags(html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'))),
+				'project_customer'		=> $customers[$result_p['customer_id']],
+				'project_birthday'		=> rus_date($this->language->get('date_day_date_format'), strtotime($result_p['project_birthday'])),
+				'project_title'			=> html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'),
 				'project_image'			=> $image,
 				'action'				=> $actions
 			);
 		}
+
+
+		//$data['admin_info'] = $this->model_account_customer->getCustomer($admin_id);
+		//$data['link_admin'] = $this->url->link('account/info', 'ch=' . $admin_id_hash, 'SSL');
+
 
 		$data['add_project'] = $this->url->link('project/edit', '', 'SSL');
 

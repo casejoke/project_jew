@@ -20,7 +20,9 @@
         <?php } ?>
       </div><!-- /.col-sm-10 -->
       <div class="col-sm-8">
-        <div id="projects">
+        
+        <div id="projects" class="row projects-list">
+          
           <div class="col-sm-8 col-sm-offset-2 mb-20">
             <div class="widget">
               <form role="form">
@@ -32,25 +34,21 @@
             </div>
           </div>
 
-        <div class="col-sm-12 mb-20 projects-list">
-          <ul class="list ">
-
+          <ul class="col-xs-12 list">
             <?php if(!empty($projects)){ ?>
                <?php foreach ($projects as $p) { ?>
               <li class="font-alt col-xs-12">
-                <div class="hidden">
-                  <div class="price-table font-alt">
-                    <a href="<?php echo $p['action']['view']; ?>"> <img src="<?php echo  $p['project_image']; ?>" alt="<?php echo $p['project_title']; ?>"></a>
-                    <div class="borderline"></div>
-                    <h4><a href="<?php echo $p['action']['view']; ?>" class="name"><?php echo $p['project_title']; ?></a></h4>
-                    <a href="<?php echo $p['action']['view']; ?>" class="btn btn-info btn-block btn-round mt-20">Подробнее</a>
-                  </div>
+                <a class="project" href="<?php echo $p['action']['view']; ?>">
+                <img src="<?php echo  $p['project_image']; ?>" alt="<?php echo $p['project_title']; ?>" class="mb-20">
+                <h4 class="name"><?php echo $p['project_title']; ?></h4>
+                <div class="post-meta">
+                  Автор проекта: <?php echo $p['project_customer']['customer_name']; ?>| <?php echo $p['project_birthday']; ?> 
                 </div>
+                </a>
               </li>
             <?php }?>
           <?php } ?>
           </ul>
-        </div>
 
         </div>
       </div><!-- /.col-sm-8 -->
