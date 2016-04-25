@@ -11,11 +11,11 @@ $_['entry_description']     	= 'Описание конкурса';
 $_['entry_image']        	 	= 'Изображение группы';
 
 $_['entry_contest_dates']    			= 'График конкурса';
-$_['entry_contest_date_start']       	= 'Дата начало приема заявок';
-$_['entry_contest_datetime_end']       	= 'Дата завершение приема заявок';
-$_['entry_contest_date_rate']       	= 'Дата завершение оценки заявок';
-$_['entry_contest_date_result']       	= 'Дата объявление результатов';
-$_['entry_contest_date_finalist']       = 'Дата публикация списка финалистов';
+$_['entry_contest_date_start']       	= 'Начало приема заявок';
+$_['entry_contest_datetime_end']       	= 'Завершение приема заявок';
+$_['entry_contest_date_rate']       	= 'Завершение оценки заявок';
+$_['entry_contest_date_result']       	= 'Объявление результатов';
+$_['entry_contest_date_finalist']       = 'Публикация списка победителей';
 
 $_['entry_contest_organizer']    		= 'Организаторы конкурса';
 $_['entry_contest_propose']    			= 'Цель конкурса';

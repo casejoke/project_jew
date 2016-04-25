@@ -247,7 +247,9 @@ class ControllerCommonMenu extends Controller {
 		$data['text_customer_estimate'] 			= $this->language->get('text_customer_estimate');
 		$data['customer_estimate'] = $this->url->link('contest/estimate', 'token=' . $this->session->data['token'], 'SSL');
 
-		
+		$data['text_all_contest_request'] 			= $this->language->get('text_all_contest_request');
+		$data['contest_request'] = $this->url->link('contest/request', 'token=' . $this->session->data['token'], 'SSL');
+
 
 
 		return $this->load->view('common/menu.tpl', $data);
