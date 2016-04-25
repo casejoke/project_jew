@@ -208,7 +208,9 @@ class ControllerContestContestRequest extends Controller {
 		foreach ($results_projects as $result_p) {
 			$projects[$result_p['project_id']] = array(
 				'project_id'			=> $result_p['project_id'],
-				'project_title'			=> $result_p['title']
+				'project_title'			=> $result_p['title'],
+				'customer_id'      => $result_p['customer_id'],
+				'project_link'			=> $this->url->link('project/view', 'project_id='.$result_p['project_id'], 'SSL')		
 			);
 		}
 
@@ -255,56 +257,63 @@ class ControllerContestContestRequest extends Controller {
 					break;
 			}
 
-
-			$status_text = '';
-
-			switch ((int)$result['status']) {
-				case '0':
-					$status_text = '';
-					break;
-				case '1':
-					$status_text = $this->language->get('text_status_accepted');
-					break;
-				case '2':
-					$status_text = $this->language->get('text_status_processed');
-					break;
-				default:
-					$status_text = $this->language->get('text_status_processed');
-					break;
-			}
-
-
 			$contest_type = (!empty($contests[$result['contest_id']]))?$contests[$result['contest_id']]['contest_type']:0;
 
 
 
 			$adaptive_id_text = '';
+			$adaptive_customer_name = '';
+			$adaptive_status_text   = '';
 
 			switch ((int)$contest_type) {
 				case '1':
-					$adaptive_id_text = '';;
+
 					break;
 				case '2':
-					$adaptive_id_text = '';;
+					
 					break;
 				case '3':
 						//проект котрый адаптирует
 						$adaptive_id = $result['adaptive_id'];
 						$adaptive_id_text = $projects[$adaptive_id]['project_title'];
+						$adaptive_customer_id = $projects[$adaptive_id]['customer_id'];
+            $adaptive_customer_name = $customers[$adaptive_customer_id]['name'];
+
+            switch ((int)$result['adaptive_status']) {
+								case '0':
+									//заявка не проверена
+									$adaptive_status_text = 'не проверена';
+									break;
+								case '1':
+									//заявка не одобрена
+									$adaptive_status_text = 'адаптация не одобрена';
+									break;
+								case '2':
+									//заявка
+									$adaptive_status_text = 'адаптация одобрена';
+									break;
+
+								default:
+									$adaptive_status_text = 'не проверена';
+									break;
+							}
 					break;
 				default:
-					$adaptive_id_text = '';;
+					
 					break;
 			}
 
 			$data['contest_requests'][] = array(
 				'customer_to_contest_id' 	=> $result['customer_to_contest_id'],
-				'customer_id' 			 	=> $customers[$result['customer_id']]['name'],
-				'adaptive_title'			=> $adaptive_id_text,
-				'contest_id'    			=> (!empty($contests[$result['contest_id']]))?$contests[$result['contest_id']]['title']:'',
-				'status'   					=> $status_text,
-				'date_added'    			=> rus_date($this->language->get('datetime_format'), strtotime($result['date_added'])),
-				'edit'    					=> $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&customer_to_contest_id=' . $result['customer_to_contest_id'] . $url, 'SSL')
+				'customer_name' 			 		=> $customers[$result['customer_id']]['name'],
+				'adaptive_name'         	=> $adaptive_customer_name,
+				'adaptive_title'					=> $adaptive_id_text,
+				'contest_id'    					=> (!empty($contests[$result['contest_id']]))?$contests[$result['contest_id']]['title']:'',
+				'project_link'						=> HTTP_CATALOG . 'index.php?route=project/view&project_id=' . $result['adaptive_id'],
+				'status'   								=> $status_text,
+				'adaptive_status'   			=> $adaptive_status_text,
+				'date_added'    					=> rus_date($this->language->get('datetime_format'), strtotime($result['date_added'])),
+				'edit'    								=> $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&customer_to_contest_id=' . $result['customer_to_contest_id'] . $url, 'SSL')
 			);
 		}
 

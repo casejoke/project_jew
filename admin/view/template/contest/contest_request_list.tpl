@@ -33,33 +33,40 @@
           <table class="table">
               <thead>
                   <tr>
-                   <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+                  <td>#</td>   
+                  <td style="width: 1px;" class="text-center hidden"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
                   <td class="text-left">Конкурс</td>
-                  <td class="text-left">Участник</td>
+                  <td class="text-left">Участник (Адаптор проекта)</td>
+                  <td class="text-left">Автор проекта (только для BP)</td>
                   <td class="text-left">Проект</td>
-                  <td class="text-center">Статус</td>
+                  <td class="text-center">Оценка автора проекта(только для BP)</td>
+                  <td class="text-center">Статус заявки</td>
                   <td class="text-right">Дата подачи заявки</td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                   </tr>
               </thead>
               <tbody>
                  <?php if ($contest_requests) { ?>
+                 <?php $i = 1; ?>
                 <?php foreach ($contest_requests as $cr) { ?>
                 <tr>
-                  <td class="text-center"><?php if (in_array($cr['customer_to_contest_id'], $selected)) { ?>
+                  <td><?php echo $i; ?></td>
+                  <td class="text-center hidden"><?php if (in_array($cr['customer_to_contest_id'], $selected)) { ?>
                     <input type="checkbox" name="selected[]" value="<?php echo $cr['customer_to_contest_id']; ?>" checked="checked" />
                     <?php } else { ?>
                     <input type="checkbox" name="selected[]" value="<?php echo $cr['customer_to_contest_id']; ?>" />
                     <?php } ?></td>
                   <td class="text-left"><?php echo $cr['contest_id']; ?></td>
-                  <td class="text-left"><?php echo $cr['customer_id']; ?></td>
-                  <td class="text-left"><?php echo $cr['adaptive_title']; ?></td>
+                  <td class="text-left"><?php echo $cr['customer_name']; ?></td>
+                  <td class="text-left"><?php echo $cr['adaptive_name']; ?></td>
+                  <td class="text-left"><a href="<?php echo $cr['project_link']; ?>" target="_blank"><?php echo $cr['adaptive_title']; ?></a></td>
+                  <td class="text-center"><?php echo $cr['adaptive_status']; ?></td>
                   <td class="text-center"><?php echo $cr['status']; ?></td>
                   <td class="text-right"><?php echo $cr['date_added']; ?></td>
                   
                   <td class="text-right"><a href="<?php echo $cr['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
-                <?php } ?>
+               <?php $i++;} ?>
                 <?php } else { ?>
                 <tr>
                   <td class="text-center" colspan="6"><?php echo $text_no_results; ?></td>

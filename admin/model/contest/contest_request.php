@@ -25,11 +25,64 @@ class ModelContestContestRequest extends Model {
 		return $query->row;
 	}
 
-	
+	public function getRequestsForAll(){
+		$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest ";
+
+
+		$sort_data = array(
+			'customer_id',
+			'contest_id',
+			'date_added'
+		);
+
+		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+			$sql .= " ORDER BY " . $data['sort'];
+		} else {
+			$sql .= " ORDER BY date_added";
+		}
+
+		if (isset($data['order']) && ($data['order'] == 'ASC')) {
+			$sql .= " ASC";
+		} else {
+			$sql .= " DESC ";
+		}
+
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}
+
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}
+
+		$query = $this->db->query($sql);
+
+		return $query->rows;
+	}
+
+	public function getTotalRequestsForAll() {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_to_contest");
+
+		return $query->row['total'];
+	}
 
 	public function getRequests($data = array()) {
 
-		$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE status != 3";
+		 //filter_adaptive_status
+			//если 2 - одобрена
+			//если 1 - то не одобрена
+			//если 0 то не оценена
+
+	//	$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE status != 3 AND adaptive_status = 2";
+
+		$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest c LEFT JOIN " . DB_PREFIX . "contest cc ON (c.contest_id = cc.contest_id) WHERE (c.status != 3 AND c.adaptive_status = 2 AND cc.type = 3) OR (c.status != 3 AND c.adaptive_status = 0 AND cc.type != 3)";
+
+
+
 
 		$sort_data = array(
 			'customer_id',
@@ -63,6 +116,9 @@ class ModelContestContestRequest extends Model {
 
 		$query = $this->db->query($sql);
 
+
+		
+
 		return $query->rows;
 	}
 
@@ -81,7 +137,7 @@ class ModelContestContestRequest extends Model {
 	}
 
 	public function getTotalRequests() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_to_contest WHERE status != 3");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_to_contest c LEFT JOIN " . DB_PREFIX . "contest cc ON (c.contest_id = cc.contest_id) WHERE (c.status != 3 AND c.adaptive_status = 2 AND cc.type = 3) OR (c.status != 3 AND c.adaptive_status = 0 AND cc.type != 3)");
 
 		return $query->row['total'];
 	}
