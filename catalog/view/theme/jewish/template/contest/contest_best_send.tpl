@@ -61,7 +61,7 @@
                        <!-- /.select -->
 
                        <!-- /checkbox -->
-                      <?php if ($cfvalue['contest_field_type'] == 'checkbox') { ?>
+                        <?php if ($cfvalue['contest_field_type'] == 'checkbox') { ?>
                         <div>
                               <?php foreach ($cfvalue['contest_field_value'] as $custom_field_value) { ?>
                               
@@ -109,7 +109,35 @@
 
                       <?php } ?><!-- /.textarea -->
 
+                      <?php if ($cfvalue['contest_field_type']== 'file') { ?>
 
+                        <?php if (!empty($cfvalue['value_r'])){ ?>
+                            <?php foreach ($cfvalue['value_r'] as $var) { ?>
+                              <?php if($var['value']){ ?>
+                                <div class="module-upload mb-10">
+                                    <button type="button" id="<?php echo 'value_'.$cfvalue['contest_field_id']; ?>"  class="btn btn-default hidden button-custom-field"><i class="fa fa-upload"></i> Выбрать файл</button>
+                                    <div class="font-alt btn-block">Файл: <span class="file-name"><?php echo $var['file_name']; ?></span> загружен 
+                                      <button type="button" class="btn btn-warning btn-round btn-delete-file-request" data-mark="1"><i class="fa fa-trash-o" aria-hidden="true"></i></button> 
+                                    </div>
+                                    <input type="hidden" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][value][]" class="" value="<?php echo $var['value']; ?>" />
+                                  </div>   
+                              <?php } ?>
+                            <?php } ?>
+                        <?php }?>
+                        
+                        <div class="module-upload mb-10">
+                          <button type="button" id="<?php echo 'value_'.$cfvalue['contest_field_id']; ?>"  class="btn btn-default button-custom-field"><i class="fa fa-upload"></i> Выбрать файл</button>
+                          <div class="font-alt hidden btn-block">Файл: <span class="file-name"></span> загружен 
+                            <button type="button" class="btn btn-warning btn-round btn-delete-file-request" data-mark="1"><i class="fa fa-trash-o" aria-hidden="true"></i></button> 
+                            <button type="button" class="btn btn-success btn-round btn-add-file-request" data-mark="1">Загрузить ещё</button> 
+                          </div>
+                          <input type="hidden" name="custom_fields[<?php echo $cr['category_request_id']?>][<?php echo $custom_field_row; ?>][value][]" class="" value="" />
+                        </div>      
+                         
+                            
+                          
+                        
+                        <?php } ?>  
                       
 
 

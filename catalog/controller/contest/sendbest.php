@@ -495,7 +495,7 @@ class ControllerContestSendbest extends Controller {
           foreach ( $data['custom_fields'][$cfr['location']] as $cvalue) {
 
             if($cvalue['contest_field_id'] == $cfr['contest_field_id']){
-
+              //status - видимость поля в заявке
               $status     =  $cvalue['status'];
               $sort_order   =  $cvalue['sort_order'];
               break;
@@ -529,6 +529,39 @@ class ControllerContestSendbest extends Controller {
               }
             }
           }
+        }elseif ($cfr['type'] == 'file'){
+          $contest_fields_value = array();//$data['register_custom_field'][$cfr['contest_field_id']]['field_value'];
+
+          $type = $cfr['type'];
+
+          $val_r = '';//значение в заявке
+          if(!empty($register_custom_field[$cfr['location']])){
+            foreach ($register_custom_field[$cfr['location']] as $vrcf) {
+              if($vrcf['field_id'] == $cfr['contest_field_id']){
+                
+                $val_r = array();
+                if(!empty($vrcf['value'])){
+                  foreach ($vrcf['value'] as $vcfv) {
+                    $file_name = '';
+                    if(!empty($vcfv)){
+                      $upload_info = $this->model_tool_upload->getUploadByCode($vcfv);
+                      $file_name = $upload_info['name'];
+                    }
+                    $val_r[] = array(
+                      'value'     => $vcfv,
+                      'file_name' => $file_name
+                    );
+                  }
+                }
+
+
+              }
+            }
+          }
+
+
+
+
 
         }elseif ($cfr['field_system'] != 'custom'){
 
@@ -581,6 +614,7 @@ class ControllerContestSendbest extends Controller {
             foreach ($register_custom_field[$cfr['location']] as $vrcf) {
               if($vrcf['field_id'] == $cfr['contest_field_id']){
                 $val_r = $vrcf['value'];
+
               }
             }
           }
@@ -638,7 +672,7 @@ class ControllerContestSendbest extends Controller {
         }
       }
 
-    /*
+  /*  
     print_r('<pre>');
     print_r($data['contest_fields']);
     print_r('</pre>');
@@ -646,8 +680,8 @@ class ControllerContestSendbest extends Controller {
     print_r($register_custom_field);
     print_r('</pre>');
     die();
-  */
-
+  
+*/
       ///подтянем поля о проекте адапторе - проект котрый пользователь хочет адаптировать
 
 

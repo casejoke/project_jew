@@ -611,6 +611,35 @@ $data['contest_field_system']['project']['project_demographic'] = array(
 							}
 						}
 					}
+				}elseif ($cfr['type'] == 'file'){
+			          $contest_fields_value = array();//$data['register_custom_field'][$cfr['contest_field_id']]['field_value'];
+
+			          $type = $cfr['type'];
+
+			          $val_r = '';//значение в заявке
+			          if(!empty($register_custom_field[$cfr['location']])){
+			            foreach ($register_custom_field[$cfr['location']] as $vrcf) {
+			              if($vrcf['field_id'] == $cfr['contest_field_id']){
+			                
+			                $val_r = array();
+			                if(!empty($vrcf['value'])){
+			                  foreach ($vrcf['value'] as $vcfv) {
+			                    $file_name = '';
+			                    if(!empty($vcfv)){
+			                      $upload_info = $this->model_tool_upload->getUploadByCode($vcfv);
+			                      $file_name = $upload_info['name'];
+			                    }
+			                    $val_r[] = array(
+			                      'value'     => $vcfv,
+			                      'file_name' => $file_name
+			                    );
+			                  }
+			                }
+
+
+			              }
+			            }
+			          }
 
 				}elseif ($cfr['field_system'] != 'custom'){
 

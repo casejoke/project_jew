@@ -79,11 +79,19 @@ class ControllerToolUpload extends Controller {
 
 			// Hide the uploaded file name so people can not link to it directly.
 			$this->load->model('tool/upload');
-
+			$this->load->model('tool/image');
 			$json['code'] = $this->model_tool_upload->addUpload($filename, $file);
 
 			//рендерим изображение если это оно
-			$json['thumb'] = $this->model_tool_upload->resize($file , 300, 300,'h');
+			$json['type'] = $this->request->files['file']['type'];
+
+			if ($json['type'] == 'image/gif' || $json['type'] == 'image/png' || $json['type'] == 'image/jpeg') {
+				$json['thumb'] = $this->model_tool_upload->resize($file , 300, 300,'h');
+			} else {
+				$json['thumb'] = $this->model_tool_image->resize('no-image.png', 300, 300,'h');
+			}
+
+			$json['file_name'] = $this->request->files['file']['name'];
 
 			$json['success'] = $this->language->get('text_upload');
 		}
@@ -98,5 +106,8 @@ class ControllerToolUpload extends Controller {
 		$filename = $upload_info['filename'];
 		return $this->model_tool_upload->resize($file , 300, 300,'h');
 	}
+
+
+	
 
 }
