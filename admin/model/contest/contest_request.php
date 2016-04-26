@@ -79,7 +79,7 @@ class ModelContestContestRequest extends Model {
 
 	//	$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE status != 3 AND adaptive_status = 2";
 
-		$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest c LEFT JOIN " . DB_PREFIX . "contest cc ON (c.contest_id = cc.contest_id) WHERE (c.status != 3 AND c.adaptive_status = 2 AND cc.type = 3) OR (c.status != 3 AND c.adaptive_status = 0 AND cc.type != 3)";
+		$sql = "SELECT c.customer_to_contest_id,c.contest_id,c.status,c.customer_id,c.date_added,c.adaptive_status,c.adaptive_id, c.value FROM " . DB_PREFIX . "customer_to_contest c LEFT JOIN " . DB_PREFIX . "contest cc ON (c.contest_id = cc.contest_id) WHERE (c.status != 3 AND c.adaptive_status = 2 AND cc.type = 3) OR (c.status != 3 AND c.adaptive_status = 0 AND cc.type != 3)";
 
 
 

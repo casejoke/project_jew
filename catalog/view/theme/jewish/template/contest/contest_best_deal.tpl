@@ -24,7 +24,8 @@
 
 
              <div class="row">
-              <?php $isset_adaptive = false; if(!empty($my_project)) { ?>
+              <?php $isset_adaptive = false; ?> 
+              <?php if(!empty($my_project)) { ?>
                   <?php foreach ($my_project as $pfc) { ?>
 
                     <div class="col-sm-6 col-md-4 col-lg-4">
@@ -42,20 +43,24 @@
 
                       </div>
                     </div>
-
+                    <?php if($pfc['project_status']){ ?>
+                    <script type="text/javascript">
+                     var selectProject = <?php echo $pfc['project_id']; ?>
+                    </script>
+                    <?php } ?>
                   <?php } ?>
 
-                <?php } else { ?>
+              <?php } else { ?>
                 <div class="col-sm-12">
                   <h5 class="font-alt">Вы не можете принять участие в Конкурсе, пока не внесете в общую базу для обмена опытом свой проект, реализованный в рамках программ, указанных в <a href="<?php echo $contest_href; ?>">положении о Конкурсе</a>.</h5>
                 </div>
 
-                <?php }?>
+              <?php }?>
 
             </div>
             <?php if ($isset_adaptive) { ?>
               <script type="text/javascript">
-               var selectProject = 0;
+              // var selectProject = 0;
               </script>
             <?php } else{ ?>
               <script type="text/javascript">

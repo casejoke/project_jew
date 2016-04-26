@@ -157,9 +157,10 @@ class ModelContestContest extends Model {
 		if(isset($data['draft'])){
 			$status = 3;
 		}
+		$request_info = $this->getInformationAboutRequest($customer_to_contest_id);
 		if(isset($data['notice_draft'])){
 
-			 $request_info = $this->getInformationAboutRequest($customer_to_contest_id);
+			 
 			//$adaptive_id проект
 			 $this->load->model('project/project');
 			 $this->load->model('account/customer');
@@ -191,9 +192,12 @@ class ModelContestContest extends Model {
 
 
 		}
+		if($request_info['adaptive_status']){
+
+		}
 		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET
 			value  = '" . $this->db->escape(  serialize($data) ) . "',
-			adaptive_status = '0',
+			adaptive_status = '".(int)$request_info['adaptive_status']."',
 			status = '". (int)$status ."'
 			WHERE customer_to_contest_id = '" . (int)$customer_to_contest_id . "'
 		");
@@ -424,6 +428,7 @@ class ModelContestContest extends Model {
 	}
 	//оценка заявки на конкурс
 	public function updateAEstimateToContest($data=array(),$customer_id,$contest_id,$request_id){
+
 		//записываем утверждение пользователя на использование проекта другим пользователем и отправляем мыло
 		//adaptive_status - оценка
 		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET

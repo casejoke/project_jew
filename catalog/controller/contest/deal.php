@@ -473,6 +473,8 @@ class ControllerContestDeal extends Controller {
 		$results_adaptive_projects = $this->model_project_project->getProjectsForAdaptive($customer_id);
 		$data['adaptive_projects'] = array();
 		foreach ($results_adaptive_projects as $vrap) {
+
+			
 			if(empty($project_request_adaptive[$vrap['project_id']])){
 				$filter_age = '';
 				if(!empty( $projects[$vrap['project_id']]['project_age'])){
@@ -506,7 +508,7 @@ class ControllerContestDeal extends Controller {
 
 				}
 
-				$data['adaptive_projects'][] = array(
+				$data['adaptive_projects'][$vrap['project_id']] = array(
 	 				'project_id'		=> $vrap['project_id'],
 					'project_title'		=> $projects[$vrap['project_id']]['project_title'],
 					'project_image'		=> $projects[$vrap['project_id']]['project_image'],

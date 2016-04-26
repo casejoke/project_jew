@@ -33,7 +33,9 @@ ALTER TABLE `oc_customer` ADD `city` VARCHAR(255) NOT NULL AFTER `country_id`;
 Полный список всех заявок
 
 
-- добавить письмо когда адаптор подтвердить
+
+-  изменить список  
+-  добавить письмо когда адаптор подтвердить
 -+ Победители Best Practice, и вообще вывод списков победителей текущих конкурсов и архивных
 -+ Анонсы проектов
 -+ Победители Best Practice, и вообще вывод списков победителей текущих конкурсов и архивных
@@ -89,9 +91,6 @@ ALTER TABLE `oc_customer` ADD `city` VARCHAR(255) NOT NULL AFTER `country_id`;
 
 
 
-e.m.lvova@gmail.com
-
-Yuri.Breslavets@d1gitable.ru = =1539
 
 
 

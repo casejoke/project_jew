@@ -238,10 +238,15 @@ class ControllerContestContestRequest extends Controller {
 		$data['text_status_not_accepted'] 	= $this->language->get('text_status_not_accepted');
 		$data['text_status_accepted'] 			= $this->language->get('text_status_accepted');
 		$data['text_status_processed'] 			= $this->language->get('text_status_processed');
+		
+
 		foreach ($results as $result) {
 
 			$status_text = '';
-
+			print_r('<pre>');
+			print_r($result);
+			print_r('</pre>');
+			die();
 			switch ((int)$result['status']) {
 				case '0':
 					$status_text = $this->language->get('text_status_not_accepted');
@@ -317,6 +322,7 @@ class ControllerContestContestRequest extends Controller {
 			);
 		}
 
+	
 		$data['heading_title'] 		= $this->language->get('heading_title');
 
 		$data['text_list'] 			= $this->language->get('text_list');
@@ -480,7 +486,7 @@ class ControllerContestContestRequest extends Controller {
 		//$_['text_status_processed']        	= 'В обработке';
 
 		$data['request_status'] = $this->model_contest_contest_request->getRequestStatusTypes();
-
+		
 		if (isset($this->request->post['status'])) {
 			$data['status'] = $this->request->post['status'];
 		} elseif (!empty($customer_to_contest_info)) {
