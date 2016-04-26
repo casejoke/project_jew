@@ -76,36 +76,45 @@
                     <?php } ?>
                   <?php } ?>
                   <div class="row">
-                  <div class="col-sm-12">
-                  <hr class="divider-w mt-10 mb-20">
-                  <h4 class="font-alt mb-20">Оценка заявки</h4>
-                  <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" >
-                    <div class="form-group">
-                      <label class="control-label font-alt" for="comment">Укажите статус заявки</label>
-                      <p class="btn-list">
-                        <button type="button" class="btn btn-default btn-round btn-estimate disabled" data-mark="2">Одобрено</button>
-                        <button type="button" class="btn btn-default btn-round btn-estimate disabled" data-mark="1">Не одобрено</button>
-                      </p>
-                       <input type="hidden" name="adaptive_status" value=""  id="input-aestimate_request" class="form-control" />
+                  <?php if ($adaptive_status == 0) { ?>
+                      <div class="col-sm-12">
+                        <hr class="divider-w mt-10 mb-20">
+                      <h4 class="font-alt mb-20">Оценка заявки</h4>
+                      <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" >
+                        <div class="form-group">
+                          <label class="control-label font-alt" for="comment">Укажите статус заявки</label>
+                          <p class="btn-list">
+                            <button type="button" class="btn btn-default btn-round btn-estimate disabled" data-mark="2">Одобрено</button>
+                            <button type="button" class="btn btn-default btn-round btn-estimate disabled" data-mark="1">Не одобрено</button>
+                          </p>
+                           <input type="hidden" name="adaptive_status" value=""  id="input-aestimate_request" class="form-control" />
 
-                    </div>
-
-
-                      <div class="form-group">
-                          <label class="control-label font-alt" for="comment">Комментарий</label>
-                          <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
-                      </div>
+                        </div>
 
 
+                          <div class="form-group">
+                              <label class="control-label font-alt" for="comment">Комментарий</label>
+                              <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+                          </div>
 
-                    <div class="form-group">
-                      <div class="col-sm-6 col-sm-offset-3">
-                        <input type="submit" value="<?php echo $text_submit;?>" class="btn btn-round btn-block btn-success btn-send-estimate" disabled/>
-                      </div>
-                    </div>
 
-                  </form>
-                    </div>
+
+                        <div class="form-group">
+                          <div class="col-sm-6 col-sm-offset-3">
+                            <input type="submit" value="<?php echo $text_submit;?>" class="btn btn-round btn-block btn-success btn-send-estimate" disabled/>
+                          </div>
+                        </div>
+
+                      </form>
+                        </div>
+                        <?php } else {?>
+                          <div class="col-sm-12">
+                             <div class="col-sm-6 col-sm-offset-3">
+                             <a href="/my-account" class="btn btn-round btn-block btn-success ">Вернутся в личный кабинет</a>
+                              </div>
+                          </div>
+    
+                        <?php } ?>
                   </div>
 
           </div>

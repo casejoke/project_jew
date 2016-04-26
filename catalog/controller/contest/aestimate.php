@@ -51,10 +51,12 @@ class ControllerContestAestimate extends Controller {
 
     //получим инфу о заявке
     $result_request_information = $this->model_contest_contest->getInformationAboutRequest($request_id);
-    if (empty($result_request_information)) {
+    /*if (empty($result_request_information)) {
       $this->session->data['warning'] = 'Извините. Заявка уже обработана';
       $this->response->redirect($this->url->link('account/account', '', 'SSL'));
-    }
+    }*/
+    //статус оценки адаптора
+    $data['adaptive_status'] =  $result_request_information['adaptive_status'];
     //проверка на сушествование конкурса
     $contest_info = array();
     $contest_id = $result_request_information['contest_id'];

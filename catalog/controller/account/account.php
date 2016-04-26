@@ -308,7 +308,8 @@ class ControllerAccountAccount extends Controller {
 				'contest_id'			=> $rc['contest_id'],
 				'project_id'			=> (!empty($project_adaptor_for_contest[$rc['contest_id']]))?$project_adaptor_for_contest[$rc['contest_id']] : 0,
 				'contest_type'			=> $rc['type'],
-				'contest_title'			=> (strlen(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))) > 50 ? mb_strcut(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8')), 0, 55) . '...' : strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))),
+				'contest_title'			=> $rc['title'],
+			//	'contest_title_old'			=> (strlen(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))) > 50 ? mb_strcut(strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8')), 0, 55) . '...' : strip_tags(html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'))),
 				'contest_image'			=> $image
 			);
 			if($rc['type'] == 3 ){
@@ -441,17 +442,18 @@ class ControllerAccountAccount extends Controller {
 		$filter_data = array(
 
 			'filter_array_project_customer_id' 	=>	$projects_for_customer,
-			'filter_array_contest_id' 					=>	$contest_only_bestpractice
+			'filter_array_contest_id' 			=>	$contest_only_bestpractice
 		);
 
 		//список заявок, только для bestpractice, в которых использовали проекты пользователя
 		$results_list_approved_request = $this->model_contest_contest->getRequestForApproved($filter_data);
 		$data['list_approved_request'] = array();
+		$data['list_approved_request_yes'] = array();
 		foreach ($results_list_approved_request as $vlar) {
 			//если 2 - одобрена
 			//если 1 - то не одобрена
 			//если 0 то не оценена
-			if(!$vlar['adaptive_status']){
+			if($vlar['adaptive_status']!=2){
 				$data['list_approved_request'][] = array(
 					'customer_to_contest_id'	=>  $vlar['customer_to_contest_id'],
 					'contest_title' 			=>	$contests[$vlar['contest_id']]['contest_title'],
@@ -461,7 +463,19 @@ class ControllerAccountAccount extends Controller {
 				);
 			}
 
+			if($vlar['adaptive_status'] == 2){
+				$data['list_approved_request_yes'][] = array(
+					'customer_to_contest_id'	=>  $vlar['customer_to_contest_id'],
+					'contest_title' 			=>	$contests[$vlar['contest_id']]['contest_title'],
+					'customer_name' 			=> 	$customers[$vlar['customer_id']]['customer_name'],
+					'adaptive_name' 			=> 	$data['projects_for_customer'][$vlar['adaptive_id']]['project_title'],
+					'expert_evaluate'			=> 	$this->url->link('contest/aestimate', 'request_id='.$vlar['customer_to_contest_id'], 'SSL')
+				);
+			}
+
 		}
+
+
 
 /*
 		print_r('<pre>');

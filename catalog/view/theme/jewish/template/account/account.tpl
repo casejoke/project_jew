@@ -46,6 +46,7 @@
             <?php if (!empty($customer_invite_group)) { ?><li class="active"><a href="#invite_me"  data-toggle="tab" aria-expanded="true" >Приглашения</a></li> <?php } ?>
             <?php if(!empty($request_for_expert)){ ?><li><a href="#customer_expert" data-toggle="tab" aria-expanded="true">Заявки для оценки</a></li><?php } ?>
             <?php if(!empty($list_approved_request)){ ?><li><a href="#approved_request" data-toggle="tab" aria-expanded="true">Утверждение заявки</a></li><?php } ?>
+            <?php if(!empty($list_approved_request_yes)){ ?><li><a href="#approved_request_yes" data-toggle="tab" aria-expanded="true">Заявки для адаптации</a></li><?php } ?>
             <li class="hidden"><a href="#blog"           data-toggle="tab" aria-expanded="true">Мой блог</a></li>
             <li class="hidden"><a href="#promocode" data-toggle="tab" aria-expanded="true">Промокод</a></li>
             <li class="hidden"><a href="#notice" data-toggle="tab" aria-expanded="true">Уведомления</a></li>
@@ -205,6 +206,7 @@
                     <div class="col-sm-12">
                       <table class="table table-striped table-border checkout-table">
                         <thead>
+                         <th class="hidden"></th>
                           <th>Конкурс</th>
                           <th>Статус</th>
                           <th>Подтверждение адаптора </th>
@@ -214,6 +216,7 @@
                         <tbody>
                          <?php foreach ($requests_for_customer as $rfc) { ?>
                          <tr class="font-alt">
+                             <td class="hidden"></td>
                             <td><?php echo $rfc['contest_title']; ?></td>
                             <td><?php echo $rfc['request_status_text']; ?></td>
                             <td><?php echo $rfc['request_astatus_text']; ?></td>
@@ -233,6 +236,7 @@
                         </tbody>
                       </table>
                     </div>
+
                     <?php foreach ($requests_for_customer as $rfc) { ?>
                       <div class="col-sm-6 col-md-3 col-lg-3 hidden">
                         <div class="price-table font-alt">
@@ -254,6 +258,9 @@
                       </div>
 
                     <?php } ?>
+
+
+
                   <?php } ?>
                 </div>
               </div><!-- /.request -->
@@ -288,7 +295,7 @@
               <div class="tab-pane" id="approved_request">
                 <div class="row multi-columns-row">
                   <div class="col-sm-12">
-                    <h4>Один или несколько ваших проектов использовали в конкурсе для адаптации. Необходимо ваше потверждение.</h4>
+                    <h4 class="font-alt">Один или несколько ваших проектов использовали в конкурсе для адаптации. Необходимо ваше потверждение.</h4>
                   </div>
                   <div class="col-sm-12">
                     <table class="table table-striped table-border ">
@@ -314,7 +321,37 @@
               </div>
             <?php } ?>
 
+            <?php if(!empty($list_approved_request_yes)){ ?>
+              <div class="tab-pane" id="approved_request_yes">
+                <div class="row multi-columns-row">
+                  <div class="col-sm-12">
+                    <h4 class="font-alt">Один или несколько ваших проектов использовали в конкурсе для адаптации.</h4>
+                  </div>
+                  <div class="col-sm-12">
+                    <table class="table table-striped table-border ">
+                      <thead>
+                        <th>Конкурс</th>
+                        <th>Участник</th>
+                        <th>Проект для адаптации</th>
+                        <th>Действия</th>
+                      </thead>
+                      <tbody>
+                        <?php foreach ($list_approved_request_yes as $lary) { ?>
+                          <tr>
+                            <td><?php echo $lary['contest_title']; ?></td>
+                            <td><?php echo $lary['customer_name']; ?></td>
+                            <td><?php echo $lary['adaptive_name']; ?></td>
+                            <td><a href="<?php echo $lary['expert_evaluate']; ?>" class="btn btn-info btn-round">Просмотреть заявку</a></td>
+                          </tr>
+                        <?php } ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            <?php } ?>
 
+            
 
             <div class="tab-pane" id="blog">
               Мой блог

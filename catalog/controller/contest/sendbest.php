@@ -390,23 +390,23 @@ class ControllerContestSendbest extends Controller {
       'field_type'          => 'text'
     );
     $data['contest_field_system']['project']['description'] = array(
-      'field_value_r'         => $project_description,
+      'field_value_r'         => '', //$project_description,
       'field_type'          => 'textarea'
     );
     $data['contest_field_system']['project']['target'] = array(
-      'field_value_r'         => $project_info['target'],
+      'field_value_r'         => '',//$project_info['target'],
       'field_type'          => 'target'
     );
     $data['contest_field_system']['project']['product'] = array(
-      'field_value_r'         => $project_info['product'],
+      'field_value_r'         => '', //$project_info['product'],
       'field_type'       => 'textarea'
     );
     $data['contest_field_system']['project']['result'] = array(
-      'field_value_r'         => $project_info['result'],
+      'field_value_r'         => '',//$project_info['result'],
       'field_type'       => 'textarea'
     );
     $data['contest_field_system']['project']['project_birthday'] = array(
-      'field_value_r'         => $project_info['project_birthday'],
+      'field_value_r'         => '',//$project_info['project_birthday'],
       'field_type'       => 'textarea'
     );
 
@@ -414,31 +414,31 @@ class ControllerContestSendbest extends Controller {
 
     $data['contest_field_system']['project']['project_age'] = array(
       'field_value'         => $this->model_contest_contest_field->getProjectAges(),
-      'field_value_r'       => unserialize($project_info['project_age']),
+      'field_value_r'       => array(),//unserialize($project_info['project_age']),
       'field_type'          => 'checkbox'
     );
 
     $data['contest_field_system']['project']['project_sex'] = array(
       'field_value'         => $this->model_contest_contest_field->getProjectSexs(),
-      'field_value_r'       => unserialize($project_info['project_sex']),
+      'field_value_r'       => array(),// unserialize($project_info['project_sex']),
       'field_type'          => 'checkbox'
     );
 
     $data['contest_field_system']['project']['project_nationality'] = array(
       'field_value'         => $this->model_contest_contest_field->getProjectNationalitys(),
-      'field_value_r'       => unserialize($project_info['project_nationality']),
+      'field_value_r'       => array(),//unserialize($project_info['project_nationality']),
       'field_type'          => 'checkbox'
     );
 
     $data['contest_field_system']['project']['project_professional'] = array(
       'field_value'         => $this->model_contest_contest_field->getProjectProfessionals(),
-      'field_value_r'       => unserialize($project_info['project_professional']),
+      'field_value_r'       => array(),//unserialize($project_info['project_professional']),
       'field_type'          => 'checkbox'
     );
 
     $data['contest_field_system']['project']['project_demographic'] = array(
       'field_value'         => $this->model_contest_contest_field->getProjectDemographics(),
-      'field_value_r'       => unserialize($project_info['project_demographic']),
+      'field_value_r'       => array(),//unserialize($project_info['project_demographic']),
       'field_type'          => 'checkbox'
     );
 

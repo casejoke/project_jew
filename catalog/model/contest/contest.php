@@ -153,6 +153,7 @@ class ModelContestContest extends Model {
 	//для bestpractice
 	public function editRequest($data=array(),$customer_to_contest_id){
 		$status =2;
+		//статус заявки 
 		if(isset($data['draft'])){
 			$status = 3;
 		}
@@ -185,13 +186,14 @@ class ModelContestContest extends Model {
 			$mail->setFrom($this->config->get('config_email'));
 			$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
 			$mail->setSubject($subject);
-			$mail->setText($message);
+			$mail->setHtml($message);
 			$mail->send();
 
 
 		}
 		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET
 			value  = '" . $this->db->escape(  serialize($data) ) . "',
+			adaptive_status = '0',
 			status = '". (int)$status ."'
 			WHERE customer_to_contest_id = '" . (int)$customer_to_contest_id . "'
 		");
@@ -234,6 +236,7 @@ class ModelContestContest extends Model {
 			$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET
 				value  = '" . $this->db->escape(  serialize($data) ) . "',
 				status = '2',
+				adaptive_status = '0',
 				date_added = NOW()
 				WHERE contest_id = '" . (int)$contest_id . "' AND customer_id = '" . (int)$customer_id . "'
 			");
@@ -243,6 +246,7 @@ class ModelContestContest extends Model {
 				contest_id = '" . (int)$contest_id . "',
 				customer_id = '" . (int)$customer_id . "',
 				status = '2',
+				adaptive_status = '0',
 				value  = '" . $this->db->escape(  serialize($data) ) . "',
 				date_added = NOW()"
 			);
@@ -346,6 +350,7 @@ class ModelContestContest extends Model {
 			//$_str[] .= " contest_id = '0'";
 		}
 
+		
 
 		if (!empty($data['filter_array_project_customer_id'])) {
 
