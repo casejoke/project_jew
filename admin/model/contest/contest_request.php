@@ -5,12 +5,49 @@ class ModelContestContestRequest extends Model {
 	}
 
 	public function editRequest($customer_to_contest_id, $data) {
+
+		$request_info = $this->getInformationAboutRequest($customer_to_contest_id);
+
+		 $this->load->model('sale/customer');
+		 $customer_info = $this->model_sale_customer->getCustomer($request_info['customer_id']);
+			 
+			
+		 $message = 'Статус вашей заявки изменился. Узнать статус можно в личном кабинете.';
+		 $subject = 'Сайт  - уведомление';
+
+			//отправляем письмо адаптору ()
+
+			$mail = new Mail();
+			$mail->protocol = $this->config->get('config_mail_protocol');
+			$mail->parameter = $this->config->get('config_mail_parameter');
+			$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
+			$mail->smtp_username = $this->config->get('config_mail_smtp_username');
+			$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
+			$mail->smtp_port = $this->config->get('config_mail_smtp_port');
+			$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
+
+			$mail->setTo($customer_info['email']);
+			$mail->setFrom($this->config->get('config_email'));
+			$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
+			$mail->setSubject($subject);
+			$mail->setHtml($message);
+			$mail->send();
+
+
+
 		$this->db->query("UPDATE " . DB_PREFIX . "customer_to_contest SET 
 			status = '" . (int)$data['status'] . "',
 			comment = '" . $this->db->escape($data['comment']) . "'
 		WHERE customer_to_contest_id = '" . (int)$customer_to_contest_id . "'");
 
 		$this->cache->delete('customer_to_contest');
+	}
+	//получить информацию  о заявке
+	public function getInformationAboutRequest($request_id){
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE customer_to_contest_id = '".(int)$request_id."'");
+
+
+		return $query->row;
 	}
 
 	public function deleteRequest($customer_to_contest_id) {

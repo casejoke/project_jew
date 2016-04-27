@@ -243,10 +243,7 @@ class ControllerContestContestRequest extends Controller {
 		foreach ($results as $result) {
 
 			$status_text = '';
-			print_r('<pre>');
-			print_r($result);
-			print_r('</pre>');
-			die();
+			
 			switch ((int)$result['status']) {
 				case '0':
 					$status_text = $this->language->get('text_status_not_accepted');
