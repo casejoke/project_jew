@@ -130,7 +130,7 @@ class ControllerContestSendbest extends Controller {
       }else{
         $this->model_contest_contest->addRequest($this->request->post,$customer_id,$contest_id,$adaptive_id,$project_id);
         //отправляю проектв $project_id  в копилку проектов
-        $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
+        //$this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
         $this->session->data['success'] = $this->language->get('text_contest_success');
       }
 
@@ -370,7 +370,7 @@ class ControllerContestSendbest extends Controller {
     $data['contest_field_system']['init_group'] = array();
     //поля для группы
     $data['contest_field_system']['init_group']['title'] = array(
-      'field_value_r'         => (!empty($init_group_information))? $init_group_information['group_title']:'',
+      'field_value_r'         => '',//(!empty($init_group_information))? $init_group_information['group_title']:'',
       'field_type'            => 'text'
     );
     $data['contest_field_system']['init_group']['group_description'] = array(
@@ -381,7 +381,7 @@ class ControllerContestSendbest extends Controller {
     //поля для проекта
     $data['contest_field_system']['project'] = array();
     $data['contest_field_system']['project']['title'] = array(
-      'field_value_r'         => $project_title,
+      'field_value_r'         => '',//$project_title,
       'field_type'          => 'text'
     );
 
@@ -860,6 +860,32 @@ class ControllerContestSendbest extends Controller {
 
 
   }
+
+  public function addProjectToPull(){
+    $json = array();
+
+    $this->load->model('contest/contest');
+    
+    if (!$this->customer->isLogged()) {
+      $this->session->data['redirect'] = $this->url->link('account/account', '', 'SSL');
+      $this->response->redirect($this->url->link('account/login', '', 'SSL'));
+    }
+    $json = array();
+    $this->load->model('project/project');
+    if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+
+      $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
+
+      $json['success'] = true;
+    }else{
+      $json['error'] = $this->error;
+    }
+    
+  }
+
+
+
+
   protected function validate() {
     //подтянем все сушествующие поля и правила для них
     //подтянуть список всех полей заявки для каждой категории

@@ -141,6 +141,23 @@
     </div>
   </div>
 </div>
+    <!-- Modal -->
+<div class="modal fade" id="alert-send-best" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title font-alt" id="myModalLabel">Уведомление</h4>
+      </div>
+      <div class="modal-body" id="body_modal">
+			Для участия в конкурсе, необходимо добавить свой проект в общий пулл конкурса.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Продолжить</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Scroll-up -->
 <div class="scroll-up">
 	<a href="#totop"><i class="fa fa-angle-double-up"></i></a>
