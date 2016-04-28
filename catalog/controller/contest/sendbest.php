@@ -79,12 +79,14 @@ class ControllerContestSendbest extends Controller {
     $contest_info = array();
     $contest_info = $this->model_contest_contest->getContest($contest_id);
 
-
+    $data['contest_id']  = $contest_id;
     if ( empty($contest_info) ){
       //редиректим на список конкурсов
       $this->session->data['redirect'] = $this->url->link('contest/contest', '', 'SSL');
       $this->response->redirect($this->url->link('contest/contest', '', 'SSL'));
+
     }
+
     //если конкурс в статусе работа - редирект
 
 
@@ -861,29 +863,47 @@ class ControllerContestSendbest extends Controller {
 
   }
 
-  public function addProjectToPull(){
+  public function addproject(){
     $json = array();
 
     $this->load->model('contest/contest');
-    
+
     if (!$this->customer->isLogged()) {
-      $this->session->data['redirect'] = $this->url->link('account/account', '', 'SSL');
+      $this->session->data['redirect'] = $this->url->link('account/login', '', 'SSL');
       $this->response->redirect($this->url->link('account/login', '', 'SSL'));
+      $json['redirect'] = $this->response->redirect($this->url->link('account/login', '', 'SSL'));
     }
     $json = array();
     $this->load->model('project/project');
-    if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+    if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateAdd()) {
+     
 
-      $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
-
-      $json['success'] = true;
+      $customer_id = $this->customer->getId();
+      $project_id  =$this->request->post['b'];
+      $contest_id  =$this->request->post['a'];
+      $addproject = $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
+      if($addproject){
+        $json['success'] = true;
+      }else{
+        $json['error'] = 'что то пошло нет так';
+      }
+      
     }else{
       $json['error'] = $this->error;
     }
+    $this->response->addHeader('Content-Type: application/json');
+    $this->response->setOutput(json_encode($json));
     
   }
 
-
+  protected function validateAdd(){
+    /*
+    if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
+      $this->error['lastname'] = $this->language->get('error_lastname');
+    }
+    */
+    return !$this->error;
+  }
 
 
   protected function validate() {

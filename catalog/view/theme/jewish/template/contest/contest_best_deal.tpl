@@ -20,9 +20,12 @@
 
               <h4 class="font-alt mb-0">ШАГ 1. Внесите свой проект-победитель указанных в&nbsp;правилах конкурсов в&nbsp;общий пул проектов. Только после этого вы&nbsp;сможете продолжить.</h4>
               <p>Если у&nbsp;вас есть проект-победитель, то&nbsp;вам должен был быть прислан соответствующий код с&nbsp;инструкцией. Если вы&nbsp;ее&nbsp;не&nbsp;получили пожалуйста, обратитесь к&nbsp;администраторам сайта <a href="mailto:info@jewish-grassroots.org">info@jewish-grassroots.org</a> и&nbsp;укажите в&nbsp;письме информацию о&nbsp;проекте (название проекта, в&nbsp;какой грантовой программе участвовал, в&nbsp;каком году, кто руководитель проекта).</p>
-            <script type="text/javascript">
-              var selectProject = 0;
-            </script>
+              
+
+              <script type="text/javascript">
+                var selectProject = 0;
+                var contest_id = <?php echo $contest_id;?>;
+              </script>
 
 
              <div class="row">
@@ -47,7 +50,7 @@
                     </div>
                     <?php if($pfc['project_status']){ ?>
                     <script type="text/javascript">
-                     var selectProject = <?php echo $pfc['project_id']; ?>
+                      selectProject = <?php echo $pfc['project_id']; ?>
                     </script>
                     <?php } ?>
                   <?php } ?>
@@ -60,15 +63,8 @@
               <?php }?>
 
             </div>
-            <?php if ($isset_adaptive) { ?>
-              <script type="text/javascript">
-              // var selectProject = 0;
-              </script>
-            <?php } else{ ?>
-              <script type="text/javascript">
-              var selectProject = <?php echo $my_adaptive; ?>
-              </script>
-            <?php } ?>
+           
+
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
                 <a href="<?php echo $add_project; ?>" class="btn btn-round btn-block btn-info mb-40 mt-20">Создать проект</a>

@@ -116,14 +116,24 @@
 		<h4 class="modal-title font-alt" id="myModalLabel">Уведомление</h4>
 	</div>
 	<div class="modal-body" id="body_modal">
-		Вы добавили проект в общий пул проектов конкурса.
+		<p class="font-alt text-center">Вы хотите добавить проект в общий пул проектов конкурса?</p>
+    <div class="row ">
+      <div class="form-group">
+        <div class="col-sm-6 col-sm-offset-3">
+          <button class="btn btn-round btn-block btn-success mb-40 mt-20" id="send_project_to_pull">Подтвердить</button>
+        </div>
+      </div>
+    </div>
+
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal">Продолжить</button>
+		<button type="button" class="btn btn-default" data-dismiss="modal" id="close_send_project_to_pull">Закрыть</button>
 	</div>
 </div>
 </div>
 </div>
+
+
     <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -136,11 +146,12 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Выбрать другой проект</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel_choose">Выбрать другой проект</button>
       </div>
     </div>
   </div>
 </div>
+
     <!-- Modal -->
 <div class="modal fade" id="alert-send-best" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
   <div class="modal-dialog" role="document">

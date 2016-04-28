@@ -601,7 +601,7 @@ if ($customer_info['customer_expert']) {
 		$results_list_promocode = $this->model_account_promocode->getListPromocodeForCustomer($customer_id);
 		$data['list_promocode'] = array();
 		$data['isset_promocode'] = 0;
-
+/*
 		foreach ($results_list_promocode as $vlp) {
 
 			if($vlp['status'] == 0 ){
@@ -621,7 +621,7 @@ if ($customer_info['customer_expert']) {
 			}
 
 		}
-
+*/
 		//уведомления
 
 		$data['customer_notice'] = array();

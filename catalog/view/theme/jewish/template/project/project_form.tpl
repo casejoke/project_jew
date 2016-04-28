@@ -198,9 +198,9 @@
                   </div><!--/.form-group-->
                 </div>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-6" >
                 <div class="form-group">
-                  <label class="control-label" for="input-relation">Вид сотрудничества <a href="/relation_project_status" target="_blank"><i class="fa fa-info-circle"></i></a></label>
+                  <label class="control-label" for="input-relation">Вид сотрудничества (для Best Practice)<a href="#" class="hidden"><i class="fa fa-info-circle"></i></a></label>
                   <select class="form-control" name="project_relation_id">
                     <option value="0"><?php echo $text_none; ?></option>
                     <?php if (!empty($relation_statuses)) { ?>
