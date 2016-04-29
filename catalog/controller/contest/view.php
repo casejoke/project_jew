@@ -117,6 +117,10 @@ class ControllerContestView extends Controller {
 		$data['contest_date_result'] 		=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['date_result']));
 		$data['contest_date_finalist'] 		=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['date_finalist']));
 
+		$data['maxprice'] 		=	$contest_info['maxprice'];
+		$data['totalprice'] 		=	$contest_info['totalprice'];
+
+
 		$data['image'] = '';
 		if (!empty($contest_info['image'])) {
 			$data['image'] = $this->model_tool_image->resize($contest_info['image'], 800, 460,'w');

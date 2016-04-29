@@ -96,7 +96,7 @@
               <?php } ?>
 
                <?php if($contest_id == 8) {?>
-                 <!--
+                 
                     <thead>
                     <tr><th class="hidden"></th><th>Название проекта</th><th>Автор</th><th>Адаптор</th></tr>
                     </thead>
@@ -180,7 +180,7 @@
                     <td><a href="/view-group?group_id=271" >Еврейская община Калининграда</a></td>
                     </tr>
                     </tbody>
-                  -->
+                  
                <?php } ?>
 
                <?php if($contest_id == 6) {?>
@@ -292,6 +292,25 @@
             <h4 class="font-alt mb-0"><?php echo $entry_contest_members; ?></h4>
             <?php echo $contest_members; ?>
           <?php } ?>
+
+            <h4 class="font-alt mb-10">Бюджет конкурса</h4>
+
+            <table class="table table-striped table-border checkout-table">
+              <tbody>
+                <tr>
+                  <th class="hidden"></th>
+                  <th>Максимальная сумма гранта :</th>
+                  <td><?php echo $maxprice; ?></td>
+                </tr>
+                <tr>
+                  <th class="hidden"></th>
+                  <th>Общий объем финансирования :</th>
+                  <td><?php echo $totalprice; ?></td>
+                </tr>
+              </tbody>
+            </table>
+          
+
           <?php if(!empty($contest_contacts)) { ?>
             <h4 class="font-alt mb-0"><?php echo $entry_contest_contacts; ?></h4>
             <?php echo $contest_contacts; ?>
@@ -300,6 +319,11 @@
             <h4 class="font-alt mb-0"><?php echo $entry_contest_timeline_text; ?></h4>
             <?php echo $contest_timeline_text; ?>
           <?php } ?>
+          
+
+    
+
+
 
           <?php if(!empty($contest_downloads)) { ?>
             <h4 class="font-alt mb-10"><?php echo $entry_contest_downloads; ?></h4>
