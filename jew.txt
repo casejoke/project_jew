@@ -74,9 +74,10 @@ https://habrahabr.ru/post/278459/
 
 
 
-
-
-
+http://xdan.ru/avtorizacija-na-sajte-pri-pomoshhi-curl-php.html
+http://askubuntu.com/questions/183786/bash-script-to-login-to-webpage
+https://forums.cpanel.net/threads/webmail-login-using-curl.121409/
+http://blog.degree.no/2011/09/outlook-web-app-2010-auto-login/
 
 Jn%TE&54_1
 

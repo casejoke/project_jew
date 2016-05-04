@@ -231,7 +231,7 @@
           <?php } ?>
 
 
-          <?php if (!$is_expert && $contest_status == 1) { ?>
+          <?php if (!$is_expert && $contest_status == 1 && $send_request) { ?>
             <div class="row">
               <div class="form-group">
                 <div class="col-sm-6 col-sm-offset-3">
@@ -340,7 +340,7 @@
             </table>
           <?php } ?>
 
-          <?php if (!$is_expert && $contest_status == 1) { ?>
+          <?php if (!$is_expert && $contest_status == 1 && $send_request) { ?>
             <div class="row">
               <div class="form-group">
                 <div class="col-sm-6 col-sm-offset-3">

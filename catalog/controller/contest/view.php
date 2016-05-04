@@ -120,6 +120,12 @@ class ControllerContestView extends Controller {
 		$data['maxprice'] 		=	$contest_info['maxprice'];
 		$data['totalprice'] 		=	$contest_info['totalprice'];
 
+		$data['send_request'] = 1;
+
+		if( strtotime($contest_info['datetime_end']) >= strtotime(date('Y-m-d'))  ){
+			$data['send_request'] = 0;
+		}
+
 
 		$data['image'] = '';
 		if (!empty($contest_info['image'])) {
