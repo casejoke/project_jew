@@ -91,6 +91,6 @@ function rus_date() {
         return $b['score'] - $a['score'];
     }
     function sortByPlace($a, $b) {
-        return $b['place_id'] - $a['place_id'];
+        return $a['place_id'] - $b['place_id'];
     }
 ?>

@@ -35,6 +35,7 @@ class ControllerContestView extends Controller {
 		$this->load->model('contest/contest');
 		$this->load->model('tool/upload');
 		$this->load->model('tool/image');
+		$this->load->model('project/project');
 		$contest_info = array();
 		if (isset($this->request->get['contest_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$contest_info = $this->model_contest_contest->getContest($this->request->get['contest_id']);
@@ -130,6 +131,55 @@ class ControllerContestView extends Controller {
 		//показыввем победителей
 		$data['winners'] = array();
 		if( strtotime($contest_info['date_finalist']) < strtotime(date('Y-m-d'))  ){
+
+			$relation_statuses = $this->model_project_project->getListRelationshipAdaptor();
+			$res_relation_status = array();
+			foreach ($relation_statuses as $vrs) {
+				$res_relation_status[$vrs['relation_status_id']] = $vrs['relation_status_title'];
+			}
+			
+			$filter_data = array();
+
+			$results_customer = $this->model_account_customer->getCustomers($filter_data);
+			$customers = array();
+			foreach ($results_customer as $vrc) {
+				$customers[$vrc['customer_id']] = array(
+					'customer_name' 	=> $vrc['name'],
+					'customer_link'		=> $this->url->link('account/info', 'ch=' . $vrc['customer_id'], 'SSL')
+
+				);
+			}
+
+			//подтянем все активные группы
+			$results_projects = $this->model_project_project->getProjects();
+			$data['projects'] = array();
+			foreach ($results_projects as $result_p) {
+				
+				/*if (!empty($result_p['image'])) {
+					$upload_info = $this->model_tool_upload->getUploadByCode($result_p['image']);
+					$filename = $upload_info['filename'];
+					$image = $this->model_tool_upload->resize($filename , 178, 100,'w');
+				} else {
+					$image = $this->model_tool_image->resize('no-image.png', 178, 100,'w');
+				}*/
+
+				$actions = array(
+					'view'		=> $this->url->link('project/view', 'project_id='.$result_p['project_id'], 'SSL')
+				);
+				$data['projects'][$result_p['project_id']] = array(
+					'project_id'			=> $result_p['project_id'],
+					//'project_relation_name'	=> (!empty($res_relation_status[$result_p['relation_status_id']])) ? $res_relation_status[$result_p['relation_status_id']]: '',
+					'project_customer'		=> $customers[$result_p['customer_id']],
+					'project_relation_id'	=> $result_p['project_relation_id'],
+					//'project_birthday'		=> rus_date($this->language->get('date_day_date_format'), strtotime($result_p['project_birthday'])),
+					'project_title'			=> html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'),
+					//'project_image'			=> $image,
+					'action'				=> $actions
+				);
+			}
+
+
+
 			//типы конкурса
 			//1 - открытый
 			//2 - по приглашению
@@ -140,26 +190,42 @@ class ControllerContestView extends Controller {
 			$filter_data = array(
 				'filter_contest_id'	=> $data['contest_id']
 			);
+
+		//	$contest_type = (!empty($contests[$result['contest_id']]))?$contests[$result['contest_id']]['contest_type']:0;
+
+			$adaptive_id_text = '';
+			$adaptive_customer_name = '';
+			$adaptive_status_text   = '';
+
+
+
 			$results_winners = $this->model_contest_contest->getCustomerForWinner($filter_data);
 			foreach ($results_winners as $vcfw) {
+
+
+
+
 				$data['winners'][] = array(
-					'request_id'	=> $vcfw['request_id'],
-					'place_id'		=> $vcfw['place_id'],
+					'request_id'			=> $vcfw['request_id'],
+					'place_id'				=> $vcfw['place_id'],
+					'customer_name' 		=> $customers[$vcfw['customer_id']]['customer_name'],
+					//'adaptive_name'         	=> $adaptive_customer_name,
+
 				);
 
 			}
 
+			usort($data['winners'], 'sortByPlace');
 
+		//print_r('<pre>');
+		//	print_r($data['winners']);
+		//	print_r('</pre>');
 
-			print_r('<pre>');
-			print_r($results_winners);
-			print_r('</pre>');
-
-			//usort($data['contest_fields'][$key_cf], 'sortBySortOrder');
+			
 		}
 
 
-		die();
+		//die();
 
 		
 		

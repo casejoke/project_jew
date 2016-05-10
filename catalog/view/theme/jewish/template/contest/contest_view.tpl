@@ -34,14 +34,31 @@
 
 
 
-          <?php if ($contest_status != 0 && !empty($winners)  ) { ?>
+          <?php if ($contest_status != 0  ) { ?>
             <h4 class="font-alt mb-10">Победители</h4>
             <table class="table table-striped table-border checkout-table">
-              <?php foreach ($winners as $key => $value) { ?>
-                
+            <?php if(!empty($winners)) { ?>
+              <thead>
+              <tr>
+                <th class="hidden"></th>
+                <th>Название проекта</th>
+                <th>Автор проекта</th>
+                <th>Адаптор проекта</th>
+                <th>Вид взаимодействия</th>
+              </tr>
+              </thead>
+              <tbody>
+              <?php foreach ($winners as $vwin) { ?>
+                  <tr>
+                  <th class="hidden"></th>
+                  <td></td>
+                  <td></td>
+                  <td><?php echo $vwin['customer_name']; ?></td>
+                  <td></td>
+                  </tr>
               <?php } ?>
-              
-
+              </tbody>
+              <?php } ?>
 
 
 
@@ -105,9 +122,9 @@
                 <td>Консультации</td>
                 </tr>
                 </tbody>
-              <?php } ?>
+                <?php } ?>
 
-               <?php if($contest_id == 8) {?>
+                <?php if($contest_id == 8) { ?>
                  
                     <thead>
                     <tr><th class="hidden"></th><th>Название проекта</th><th>Автор</th><th>Адаптор</th></tr>
@@ -193,50 +210,50 @@
                     </tr>
                     </tbody>
                   
-               <?php } ?>
+                  <?php } ?>
 
                <?php if($contest_id == 6) {?>
-               <thead>
-                <tr><th class="hidden"></th><th>Название проекта</th><th>Автор</th><th>Адаптор</th></tr>
-                </thead>
-                <tbody>
-                <tr>
-                <th class="hidden"></th>
-                <td><a href="/view-project?project_id=125" >ПОДАРОК</a></td>
-                <td><a href="/view-group?group_id=272" >Подарок, Киев</a></td>
-                <td><a href="/view-group?group_id=283" >Теплые встречи, Киев</a></td>
-                </tr>
-                <tr>
-                <th class="hidden"></th>
-                <td><a href="/view-project?project_id=89" >JEWISH PROFESSIONAL NETWORKING</a></td>
-                <td><a href="/view-group?group_id=282" >Гилель Москва</a></td>
-                <td><a href="/view-group?group_id=334" >Platinum Одесса</a></td>
-                </tr>
-                <tr>
-                <th class="hidden"></th>
-                <td><a href="/view-project?project_id=65" >Творческий процесс</a></td>
-                <td><a href="/view-group?group_id=299" >Молодежный клуб Нецер Москва</a></td>
-                <td><a href="/view-group?group_id=332" >Творческая мастерская диалога еврейскрй и европейской культур: Талмуд – Театр – Текст (ТТТ), Москва</a></td>
-                </tr>
-                <tr>
-                <th class="hidden"></th>
-                <td><a href="/view-project?project_id=128" >Образовательные ролевые игры «Живые квесты»</a></td>
-                <td><a href="/view-group?group_id=271" >Игра головой, Санкт Петербург</a></td>
-                <td><a href="/view-group?group_id=299" >Молодежный клуб Нецер Москва</a></td>
-                </tr>
-                <tr>
-                <th class="hidden"></th>
-                <td><a href="/view-project?project_id=43" >Неформальная театральная студия</a></td>
-                <td><a href="/view-group?group_id=355" >Неформальная театральная студия "Точка Сборки», Киев</a></td>
-                <td><a href="/view-group?group_id=279" >НЭШАРИМ КИШИНЕВ, Кишинев</a></td>
-                </tr>
-                <tr>
-                <th class="hidden"></th>
-                <td><a href="/view-project?project_id=107" >Интеллектуальное казино</a></td>
-                <td><a href="/view-group?group_id=279" >НЭШАРИМ КИШИНЕВ, Кишинев</a></td>
-                <td><a href="/view-group?group_id=330" >Менора, Екатеринбург</a></td>
-                </tr>
-                </tbody>
+                   <thead>
+                    <tr><th class="hidden"></th><th>Название проекта</th><th>Автор</th><th>Адаптор</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <th class="hidden"></th>
+                    <td><a href="/view-project?project_id=125" >ПОДАРОК</a></td>
+                    <td><a href="/view-group?group_id=272" >Подарок, Киев</a></td>
+                    <td><a href="/view-group?group_id=283" >Теплые встречи, Киев</a></td>
+                    </tr>
+                    <tr>
+                    <th class="hidden"></th>
+                    <td><a href="/view-project?project_id=89" >JEWISH PROFESSIONAL NETWORKING</a></td>
+                    <td><a href="/view-group?group_id=282" >Гилель Москва</a></td>
+                    <td><a href="/view-group?group_id=334" >Platinum Одесса</a></td>
+                    </tr>
+                    <tr>
+                    <th class="hidden"></th>
+                    <td><a href="/view-project?project_id=65" >Творческий процесс</a></td>
+                    <td><a href="/view-group?group_id=299" >Молодежный клуб Нецер Москва</a></td>
+                    <td><a href="/view-group?group_id=332" >Творческая мастерская диалога еврейскрй и европейской культур: Талмуд – Театр – Текст (ТТТ), Москва</a></td>
+                    </tr>
+                    <tr>
+                    <th class="hidden"></th>
+                    <td><a href="/view-project?project_id=128" >Образовательные ролевые игры «Живые квесты»</a></td>
+                    <td><a href="/view-group?group_id=271" >Игра головой, Санкт Петербург</a></td>
+                    <td><a href="/view-group?group_id=299" >Молодежный клуб Нецер Москва</a></td>
+                    </tr>
+                    <tr>
+                    <th class="hidden"></th>
+                    <td><a href="/view-project?project_id=43" >Неформальная театральная студия</a></td>
+                    <td><a href="/view-group?group_id=355" >Неформальная театральная студия "Точка Сборки», Киев</a></td>
+                    <td><a href="/view-group?group_id=279" >НЭШАРИМ КИШИНЕВ, Кишинев</a></td>
+                    </tr>
+                    <tr>
+                    <th class="hidden"></th>
+                    <td><a href="/view-project?project_id=107" >Интеллектуальное казино</a></td>
+                    <td><a href="/view-group?group_id=279" >НЭШАРИМ КИШИНЕВ, Кишинев</a></td>
+                    <td><a href="/view-group?group_id=330" >Менора, Екатеринбург</a></td>
+                    </tr>
+                    </tbody>
                   <?php } ?>
             </table>
 
