@@ -491,9 +491,6 @@ class ControllerAccountAccount extends Controller {
 	$data['request_for_expert'] = array();
 //проверка на то что пользователь является ли вообще экспертом
 if ($customer_info['customer_expert']) {
-
-
-		//подтянем список активных конкурсов
 		//подтянем все активные конкурсы
 		$results_contests = $this->model_contest_contest->getContests();
 		$contests = array();
@@ -511,6 +508,7 @@ if ($customer_info['customer_expert']) {
 				'contest_id'			=> $rc['contest_id'],
 				'contest_title'			=> html_entity_decode($rc['title'], ENT_COMPAT, 'UTF-8'),
 				'contest_image'			=> $image,
+				'contest_type'	=> $rc['type'],
 				'action'				=> $actions
 			);
 		}
@@ -524,6 +522,7 @@ if ($customer_info['customer_expert']) {
 			if (!empty($contests[$vcetc['contest_id']])) {
 				$data['customer_expert_to_contests'][] = array(
 					'contest_id'		=> $vcetc['contest_id'],
+
 					'contest_title'	=> $contests[$vcetc['contest_id']]['contest_title'],
 					'contest_image'	=> $contests[$vcetc['contest_id']]['contest_image']
 				);
@@ -554,11 +553,78 @@ if ($customer_info['customer_expert']) {
 			);
 		}
 
+
 		$data['request_for_expert'] = array();
 		if(!empty($implode)){
+			//получим все заявки для данного пользователя в качестве эксперта
 			$results_request_for_expert = $this->model_contest_contest->getRequestForCustomer($filter_data);
+			
+
+
+			$filter_data = array();
+			$results_projects = $this->3e->getListProjects($filter_data);
+	/*		print_r('<pre>');
+			print_r($results_projects );
+			print_r('</pre>');
+			die();*/
+			$projects = array();
+			foreach ($results_projects as $result_p) {
+				$projects[$result_p['project_id']] = array(
+					'project_id'			=> $result_p['project_id'],
+					'project_title'			=> $result_p['title'],
+					'customer_id'      => $result_p['customer_id'],
+					'project_link'			=> $this->url->link('project/view', 'project_id='.$result_p['project_id'], 'SSL')		
+				);
+			}
+			
 
 			foreach ($results_request_for_expert as $vrfe) {
+				//получим тип конкурса
+				$contest_type = (!empty($contests[$vrfe['contest_id']]))?$contests[$vrfe['contest_id']]['contest_type']:0;
+				$adaptive_id_text = '';
+				$adaptive_customer_name = '';
+				$adaptive_status_text   = '';
+
+				switch ((int)$contest_type) {
+					case '1':
+
+						break;
+					case '2':
+						
+						break;
+					case '3':
+							//проект котрый адаптирует
+							$adaptive_id = $vrfe['adaptive_id'];
+							$adaptive_id_text = $projects[$adaptive_id]['project_title'];
+							$adaptive_customer_id = $projects[$adaptive_id]['customer_id'];
+	            $adaptive_customer_name = $customers[$adaptive_customer_id]['name'];
+
+	            switch ((int)$vrfe['adaptive_status']) {
+									case '0':
+										//заявка не проверена
+										$adaptive_status_text = 'не проверена';
+										break;
+									case '1':
+										//заявка не одобрена
+										$adaptive_status_text = 'адаптация не одобрена';
+										break;
+									case '2':
+										//заявка
+										$adaptive_status_text = 'адаптация одобрена';
+										break;
+
+									default:
+										$adaptive_status_text = 'не проверена';
+										break;
+								}
+						break;
+					default:
+						
+						break;
+				}
+
+
+
 				if(empty($estimate[$vrfe['customer_to_contest_id']])){
 					$data['request_for_expert'][] = array(
 						'customer_to_contest_id'	=>  $vrfe['customer_to_contest_id'],
@@ -568,6 +634,12 @@ if ($customer_info['customer_expert']) {
 					);
 				}
 			}
+
+			print_r('<pre>');
+			print_r($data['request_for_expert']);
+			print_r('</pre>');
+			die();
+
 		}
 
 
