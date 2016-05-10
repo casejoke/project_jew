@@ -35,9 +35,10 @@
 
 
           <?php if ($contest_status != 0  ) { ?>
-            <h4 class="font-alt mb-10">Победители</h4>
-            <table class="table table-striped table-border checkout-table">
+           
             <?php if(!empty($winners)) { ?>
+             <h4 class="font-alt mb-10">Победители</h4>
+            <table class="table table-striped table-border checkout-table">
               <thead>
               <tr>
                 <th class="hidden"></th>
@@ -64,6 +65,8 @@
 
 
               <?php if($contest_id == 7) {?>
+               <h4 class="font-alt mb-10">Победители</h4>
+            <table class="table table-striped table-border checkout-table">
               <thead>
               <th class="hidden"></th>
                 <th>Название проекта</th>
@@ -125,7 +128,8 @@
                 <?php } ?>
 
                 <?php if($contest_id == 8) { ?>
-                 
+                  <h4 class="font-alt mb-10">Победители</h4>
+            <table class="table table-striped table-border checkout-table">
                     <thead>
                     <tr><th class="hidden"></th><th>Название проекта</th><th>Автор</th><th>Адаптор</th></tr>
                     </thead>
@@ -213,6 +217,8 @@
                   <?php } ?>
 
                <?php if($contest_id == 6) {?>
+                <h4 class="font-alt mb-10">Победители</h4>
+            <table class="table table-striped table-border checkout-table">
                    <thead>
                     <tr><th class="hidden"></th><th>Название проекта</th><th>Автор</th><th>Адаптор</th></tr>
                     </thead>
