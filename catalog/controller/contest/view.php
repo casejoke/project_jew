@@ -71,60 +71,100 @@ class ControllerContestView extends Controller {
 		//$this->document->setKeywords($contest_info['meta_keyword']);
 
 
-		$data['entry_title'] 				= $this->language->get('entry_title');
-		$data['entry_description'] 			= $this->language->get('entry_description');
-		$data['entry_image'] 				= $this->language->get('entry_image');
-		$data['entry_contest_birthday'] 	= $this->language->get('entry_contest_birthday');
-		$data['entry_contest_email'] 		= $this->language->get('entry_contest_email'); 
+		$data['entry_title'] 					= $this->language->get('entry_title');
+		$data['entry_description'] 				= $this->language->get('entry_description');
+		$data['entry_image'] 					= $this->language->get('entry_image');
+		$data['entry_contest_birthday'] 		= $this->language->get('entry_contest_birthday');
+		$data['entry_contest_email'] 			= $this->language->get('entry_contest_email'); 
 		
-		$data['entry_contest_dates'] 		= $this->language->get('entry_contest_dates'); 
+		$data['entry_contest_dates'] 			= $this->language->get('entry_contest_dates'); 
 		$data['entry_contest_date_start'] 		= $this->language->get('entry_contest_date_start'); 
 		$data['entry_contest_datetime_end'] 	= $this->language->get('entry_contest_datetime_end'); 
 		$data['entry_contest_date_rate'] 		= $this->language->get('entry_contest_date_rate'); 
 		$data['entry_contest_date_result'] 		= $this->language->get('entry_contest_date_result'); 
 		$data['entry_contest_date_finalist'] 	= $this->language->get('entry_contest_date_finalist'); 
 
-		$data['entry_contest_organizer'] 	= $this->language->get('entry_contest_organizer'); 
-		$data['entry_contest_budget'] 		= $this->language->get('entry_contest_budget');
-		$data['entry_contest_propose'] 		= $this->language->get('entry_contest_propose'); 
-		$data['entry_contest_location'] 	= $this->language->get('entry_contest_location'); 
-		$data['entry_contest_members'] 		= $this->language->get('entry_contest_members'); 
-		$data['entry_contest_contacts'] 	= $this->language->get('entry_contest_contacts'); 
-		$data['entry_contest_timeline_text']= $this->language->get('entry_contest_timeline_text'); 
-		$data['entry_contest_budget']		= $this->language->get('entry_contest_budget'); 
-		$data['entry_contest_maxprice']		= $this->language->get('entry_contest_maxprice'); 
-		$data['entry_contest_totalprice']	= $this->language->get('entry_contest_totalprice'); 
-		$data['entry_contest_downloads']	= $this->language->get('entry_contest_downloads'); 
+		$data['entry_contest_organizer'] 		= $this->language->get('entry_contest_organizer'); 
+		$data['entry_contest_budget'] 			= $this->language->get('entry_contest_budget');
+		$data['entry_contest_propose'] 			= $this->language->get('entry_contest_propose'); 
+		$data['entry_contest_location'] 		= $this->language->get('entry_contest_location'); 
+		$data['entry_contest_members'] 			= $this->language->get('entry_contest_members'); 
+		$data['entry_contest_contacts'] 		= $this->language->get('entry_contest_contacts'); 
+		$data['entry_contest_timeline_text']	= $this->language->get('entry_contest_timeline_text'); 
+		$data['entry_contest_budget']			= $this->language->get('entry_contest_budget'); 
+		$data['entry_contest_maxprice']			= $this->language->get('entry_contest_maxprice'); 
+		$data['entry_contest_totalprice']		= $this->language->get('entry_contest_totalprice'); 
+		$data['entry_contest_downloads']		= $this->language->get('entry_contest_downloads'); 
 
-		$data['text_create'] 				= $this->language->get('text_create');
-		$data['text_member'] 				= $this->language->get('text_member');
+		$data['text_create'] 					= $this->language->get('text_create');
+		$data['text_member'] 					= $this->language->get('text_member');
 		
 
-		$data['contest_status']		= $contest_info['status'];
-		$data['contest_id']		= $contest_info['contest_id'];
-		$data['contest_title'] 		=	html_entity_decode($contest_info['title'], ENT_QUOTES, 'UTF-8');
-		$data['contest_description'] 	=	html_entity_decode($contest_info['description'], ENT_QUOTES, 'UTF-8');
-		$data['contest_organizer'] 	=	html_entity_decode($contest_info['organizer'], ENT_QUOTES, 'UTF-8');
-		$data['contest_propose'] 	=	html_entity_decode($contest_info['propose'], ENT_QUOTES, 'UTF-8');
-		$data['contest_location'] 	=	html_entity_decode($contest_info['location'], ENT_QUOTES, 'UTF-8');
-		$data['contest_members'] 	=	html_entity_decode($contest_info['members'], ENT_QUOTES, 'UTF-8');
-		$data['contest_contacts'] 	=	html_entity_decode($contest_info['contacts'], ENT_QUOTES, 'UTF-8');
-		$data['contest_timeline_text'] 	=	html_entity_decode($contest_info['timeline_text'], ENT_QUOTES, 'UTF-8');
+		$data['contest_status']					= 	$contest_info['status'];
+		$data['contest_type']					= 	$contest_info['type'];
+		$data['contest_id']						= 	$contest_info['contest_id'];
+		$data['contest_title'] 					=	html_entity_decode($contest_info['title'], ENT_QUOTES, 'UTF-8');
+		$data['contest_description']			=	html_entity_decode($contest_info['description'], ENT_QUOTES, 'UTF-8');
+		$data['contest_organizer'] 				=	html_entity_decode($contest_info['organizer'], ENT_QUOTES, 'UTF-8');
+		$data['contest_propose'] 				=	html_entity_decode($contest_info['propose'], ENT_QUOTES, 'UTF-8');
+		$data['contest_location'] 				=	html_entity_decode($contest_info['location'], ENT_QUOTES, 'UTF-8');
+		$data['contest_members'] 				=	html_entity_decode($contest_info['members'], ENT_QUOTES, 'UTF-8');
+		$data['contest_contacts'] 				=	html_entity_decode($contest_info['contacts'], ENT_QUOTES, 'UTF-8');
+		$data['contest_timeline_text'] 			=	html_entity_decode($contest_info['timeline_text'], ENT_QUOTES, 'UTF-8');
 
-		$data['contest_date_start'] 		=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['date_start']));
-		$data['contest_datetime_end'] 		=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['datetime_end']));
-		$data['contest_date_rate'] 			=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['date_rate']));
-		$data['contest_date_result'] 		=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['date_result']));
-		$data['contest_date_finalist'] 		=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['date_finalist']));
+		$data['contest_date_start'] 	=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['date_start']));
+		$data['contest_datetime_end'] 	=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['datetime_end']));
+		$data['contest_date_rate'] 		=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['date_rate']));
+		$data['contest_date_result'] 	=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['date_result']));
+		$data['contest_date_finalist'] 	=	rus_date($this->language->get('date_day_date_format'), strtotime($contest_info['date_finalist']));
 
-		$data['maxprice'] 		=	$contest_info['maxprice'];
-		$data['totalprice'] 		=	$contest_info['totalprice'];
+		$data['maxprice'] 				=	$contest_info['maxprice'];
+		$data['totalprice'] 			=	$contest_info['totalprice'];
 
+		//показыввем кнопку "подать заявку"
 		$data['send_request'] = 1;
-
-		if( strtotime($contest_info['datetime_end']) >= strtotime(date('Y-m-d'))  ){
+		if( strtotime($contest_info['datetime_end']) < strtotime(date('Y-m-d'))  ){
 			$data['send_request'] = 0;
 		}
+
+		//показыввем победителей
+		$data['winners'] = array();
+		if( strtotime($contest_info['date_finalist']) < strtotime(date('Y-m-d'))  ){
+			//типы конкурса
+			//1 - открытый
+			//2 - по приглашению
+			//3 - BP 
+			//собираем победителей
+			$data['winners'] = array();
+			$filter_data = array();
+			$filter_data = array(
+				'filter_contest_id'	=> $data['contest_id']
+			);
+			$results_winners = $this->model_contest_contest->getCustomerForWinner($filter_data);
+			foreach ($results_winners as $vcfw) {
+				$data['winners'][] = array(
+					'request_id'	=> $vcfw['request_id'],
+					'place_id'		=> $vcfw['place_id'],
+				);
+
+			}
+
+
+
+			print_r('<pre>');
+			print_r($results_winners);
+			print_r('</pre>');
+
+			//usort($data['contest_fields'][$key_cf], 'sortBySortOrder');
+		}
+
+
+		die();
+
+		
+		
+
+		//print_r($data['send_request']);
 
 
 		$data['image'] = '';

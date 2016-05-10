@@ -29,10 +29,22 @@
             <h4 class="font-alt mb-0"><?php echo $entry_contest_propose; ?></h4>
             <?php echo $contest_propose; ?>
           <?php } ?>
+          
+          
 
-          <?php if ($contest_status == 2) { ?>
+
+
+          <?php if ($contest_status != 0 && !empty($winners)  ) { ?>
             <h4 class="font-alt mb-10">Победители</h4>
             <table class="table table-striped table-border checkout-table">
+              <?php foreach ($winners as $key => $value) { ?>
+                
+              <?php } ?>
+              
+
+
+
+
 
               <?php if($contest_id == 7) {?>
               <thead>

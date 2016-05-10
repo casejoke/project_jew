@@ -90,4 +90,7 @@ function rus_date() {
     function sortByScore($a, $b) {
         return $b['score'] - $a['score'];
     }
+    function sortByPlace($a, $b) {
+        return $b['place_id'] - $a['place_id'];
+    }
 ?>
