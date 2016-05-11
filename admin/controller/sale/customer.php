@@ -681,6 +681,9 @@ class ControllerSaleCustomer extends Controller {
 
 		$data['stores'] = $this->model_setting_store->getStores();
 
+
+		
+
 		$data['sort'] = $sort;
 		$data['order'] = $order;
 

@@ -163,6 +163,17 @@ class ControllerContestEstimate extends Controller {
     //пользователь который подал заявку
     $request_customer_id = $result_request_information['customer_id'];
 
+
+    //Подтянем данные о пользователе
+
+    
+
+
+
+
+
+
+
     //подтянем список каетгорий для заявки на  конкурса
     $data['category_requestes'] = array();
     $filter_data = array(
@@ -439,7 +450,156 @@ class ControllerContestEstimate extends Controller {
     
 
    */
-  
+$adaptive_info = array();  
+
+$adaptive_id = $result_request_information['adaptive_id'];
+if($contest_info['type'] == 3){
+
+
+   if (isset($adaptive_id)) {
+          $adaptive_info = $this->model_project_project->getProject($adaptive_id);
+          $data['adaptive_info'] =  $adaptive_info;
+        }
+
+        if ( empty($adaptive_info)){
+          //редиректим на список проектов
+          $this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
+          $this->response->redirect($this->url->link('project/project', '', 'SSL'));
+        }
+
+
+        $data['entry_title']        = $this->language->get('entry_title');
+        $data['entry_description']      = $this->language->get('entry_description');
+        $data['entry_image']        = $this->language->get('entry_image');
+        $data['entry_project_birthday']     = $this->language->get('entry_project_birthday');
+        $data['entry_project_email']      = $this->language->get('entry_project_email');
+
+        $data['text_create']        = $this->language->get('text_create');
+        $data['text_member']        = $this->language->get('text_member');
+
+
+
+        $data['project_title']    = html_entity_decode($adaptive_info['title'], ENT_QUOTES, 'UTF-8');
+        $data['project_description']  = html_entity_decode($adaptive_info['description'], ENT_QUOTES, 'UTF-8');
+        $data['project_target']   = html_entity_decode($adaptive_info['target'], ENT_QUOTES, 'UTF-8');
+        $data['project_product']  = html_entity_decode($adaptive_info['product'], ENT_QUOTES, 'UTF-8');
+        $data['project_result']   = html_entity_decode($adaptive_info['result'], ENT_QUOTES, 'UTF-8');
+
+
+        $data['image'] = '';
+        if (!empty($adaptive_info['image'])) {
+          $upload_info = $this->model_tool_upload->getUploadByCode($adaptive_info['image']);
+          $filename = $upload_info['filename'];
+          $data['image'] = $this->model_tool_upload->resize($filename , 800, 460,'w');
+        } else {
+          $data['image'] = $this->model_tool_image->resize('no-image.png', 800, 460,'w');
+        }
+
+        $data['project_birthday']     = rus_date($this->language->get('date_day_date_format'), strtotime($adaptive_info['project_birthday']));
+
+        //подтянем администратора группы
+        $admin_id = $adaptive_info['customer_id'];
+        $admin_id_hash = $admin_id;
+        $data['admin_info'] = $this->model_account_customer->getCustomer($admin_id);
+        $data['link_admin'] = $this->url->link('account/info', 'ch=' . $admin_id_hash, 'SSL');
+
+
+        //пол
+
+        $filter_data = array();
+        $sex_statuses_results = $this->model_project_project->getSexStatuses($filter_data);
+        $data['sex_statuses']  = array();
+        $project_sex = unserialize($adaptive_info['project_sex']);
+
+        if(is_array($project_sex)){
+          foreach ($sex_statuses_results as $ssr) {
+            foreach ($project_sex as $vsex) {
+              if ($ssr['sex_status_id'] == $vsex) {
+                $data['sex_statuses'][] = array(
+                  'title'  => $ssr['name']
+                );
+              }
+            }
+          }
+        }
+
+
+
+
+        //возраст
+        $filter_data = array();
+        $age_statuses_results = $this->model_project_project->getAgeStatuses($filter_data);
+        $data['age_statuses']  = array();
+        $age_statuses = unserialize($adaptive_info['project_age']);
+        if(is_array($age_statuses)){
+        foreach ($age_statuses_results as $ssr) {
+          foreach ($age_statuses as $vas) {
+             if ($ssr['age_status_id'] == $vas) {
+                $data['age_statuses'][] = array(
+                  'title'  => $ssr['name']
+                );
+              }
+            }
+          }
+        }
+
+        //национальность
+        $filter_data = array();
+        $nationality_statuses_results = $this->model_project_project->getNationalityStatuses($filter_data);
+        $data['project_nationality']  = array();
+        $nationality_status = unserialize($adaptive_info['project_nationality']);
+        if(is_array($nationality_status)){
+        foreach ($nationality_statuses_results as $ssr) {
+          foreach ($nationality_status as $vns) {
+             if ($ssr['nationality_status_id'] == $vns) {
+                $data['project_nationality'][] = array(
+                  'title'  => $ssr['name']
+                );
+              }
+            }
+          }
+        }
+
+        //Профессии
+        $filter_data = array();
+        $professional_statuses_results = $this->model_project_project->getProfessionalStatuses($filter_data);
+        $data['project_professional']  = array();
+        $professional_statuses = unserialize($adaptive_info['project_professional']);
+        if(is_array($professional_statuses)){
+        foreach ($professional_statuses_results as $ssr) {
+          foreach ($professional_statuses as $vps) {
+             if ($ssr['professional_status_id'] == $vps) {
+                $data['project_professional'][] = array(
+                  'title'  => $ssr['name']
+                );
+              }
+            }
+          }
+        }
+
+
+        //Демография
+        $filter_data = array();
+        $demographic_statuses_results = $this->model_project_project->getDemographicStatuses($filter_data);
+        $data['project_demographic']  = array();
+        $demographic_statuses = unserialize($adaptive_info['project_demographic']);
+        if(is_array($demographic_statuses)){
+        foreach ($demographic_statuses_results as $ssr) {
+          foreach ($demographic_statuses as $vps) {
+             if ($ssr['demographic_status_id'] == $vps) {
+                $data['project_demographic'][] = array(
+                  'title'  => $ssr['name']
+                );
+              }
+            }
+          }
+        }
+
+
+}
+
+       
+       
 
 
 

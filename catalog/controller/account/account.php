@@ -562,7 +562,7 @@ if ($customer_info['customer_expert']) {
 
 
 			$filter_data = array();
-			$results_projects = $this->3e->getListProjects($filter_data);
+			$results_projects = $this->model_project_project->getListProjects($filter_data);
 	/*		print_r('<pre>');
 			print_r($results_projects );
 			print_r('</pre>');
@@ -597,7 +597,7 @@ if ($customer_info['customer_expert']) {
 							$adaptive_id = $vrfe['adaptive_id'];
 							$adaptive_id_text = $projects[$adaptive_id]['project_title'];
 							$adaptive_customer_id = $projects[$adaptive_id]['customer_id'];
-	            $adaptive_customer_name = $customers[$adaptive_customer_id]['name'];
+	            			$adaptive_customer_name = $customers[$adaptive_customer_id]['customer_name'];//автор проекта
 
 	            switch ((int)$vrfe['adaptive_status']) {
 									case '0':
@@ -627,19 +627,23 @@ if ($customer_info['customer_expert']) {
 
 				if(empty($estimate[$vrfe['customer_to_contest_id']])){
 					$data['request_for_expert'][] = array(
+
 						'customer_to_contest_id'	=>  $vrfe['customer_to_contest_id'],
 						'contest_title' 			=>	$contests[$vrfe['contest_id']]['contest_title'],
 						'customer_name' 			=> 	$customers[$vrfe['customer_id']]['customer_name'],
+						'adaptive_name'         	=>  $adaptive_customer_name,
+						'adaptive_project_title'	=>  $adaptive_id_text,
+
 						'expert_evaluate'			=> 	$this->url->link('contest/estimate', 'request_id='.$vrfe['customer_to_contest_id'], 'SSL')
 					);
 				}
 			}
-
+/*
 			print_r('<pre>');
 			print_r($data['request_for_expert']);
 			print_r('</pre>');
 			die();
-
+*/
 		}
 
 

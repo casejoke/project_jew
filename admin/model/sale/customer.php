@@ -315,6 +315,10 @@ class ModelSaleCustomer extends Model {
 			$implode[] = "customer_group_id = '" . (int)$data['filter_customer_group_id'] . "'";
 		}
 
+		if (!empty($data['filter_customer_expert'])) {
+			$implode[] = "customer_expert = '" . (int)$data['filter_customer_expert'] . "'";
+		}
+
 		if (!empty($data['filter_ip'])) {
 			$implode[] = "customer_id IN (SELECT customer_id FROM " . DB_PREFIX . "customer_ip WHERE ip = '" . $this->db->escape($data['filter_ip']) . "')";
 		}

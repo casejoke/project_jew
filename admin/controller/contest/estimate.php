@@ -353,10 +353,12 @@ class ControllerContestEstimate extends Controller {
 
 
 		$estimate = array();
+		$recommendation = array();
 		foreach ($result_estimate_to_contest as $vetc) {
 			$mark = array();
 			$mark = unserialize($vetc['value']);
 			$total = 0;
+			
 			if(!empty($mark['estimate_request'])){
 				foreach ($mark['estimate_request'] as $km => $vm) {
 					//$km - id критерия
@@ -370,8 +372,14 @@ class ControllerContestEstimate extends Controller {
 			$estimate[$vetc['customer_to_contest_id']]=array(
 				'request_scores' => $total
 			);
+			if(!empty($recommendation[$vetc['customer_to_contest_id']]['recommendation'] )){
+				$recommendation[$vetc['customer_to_contest_id']]['recommendation'] += $vetc['recommendation'];
+			}else{
+				$recommendation[$vetc['customer_to_contest_id']]['recommendation'] = $vetc['recommendation'];
+			}
+			
 		}
-	
+		
 
 		$data['list_request'] = array();
 		foreach ($result_request_to_contest as $vrtc) {
@@ -379,6 +387,12 @@ class ControllerContestEstimate extends Controller {
 			if(!empty($estimate[$vrtc['customer_to_contest_id']]['request_scores'])){
 				$request_score = $estimate[$vrtc['customer_to_contest_id']]['request_scores'];
 			}
+			$recommendation_score = 0;
+			if(!empty($recommendation[$vrtc['customer_to_contest_id']]['recommendation'])){
+				$recommendation_score = $recommendation[$vrtc['customer_to_contest_id']]['recommendation'];
+			}
+			
+
 			$action = array();
 			$action = array(
 				'view_request' => $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&customer_to_contest_id=' . $vrtc['customer_to_contest_id'], 'SSL')
@@ -390,10 +404,14 @@ class ControllerContestEstimate extends Controller {
 			);
 			$data_for_request = $this->model_contest_contest->getWinners($filter_data);
 
+
+
 			if(!empty($data_for_request)){
 				//значит место назначено
 				$place_id = $data_for_request[0]['place_id'];
 			}
+
+
 
 			$data['list_request'][] = array(
 				'customer_to_contest_id'	=>	$vrtc['customer_to_contest_id'],
@@ -402,6 +420,7 @@ class ControllerContestEstimate extends Controller {
 				'contest_id'							=>  $vrtc['contest_id'],
 				'adaptive_id'							=>  $vrtc['adaptive_id'],
 				'project_id'							=>  $vrtc['project_id'],
+				'recommendation_score'					=>  $recommendation_score,
 				'score' 								=> 	$request_score,
 				'place'									=>  $place_id,
 				'action'								=>  $action
@@ -410,7 +429,7 @@ class ControllerContestEstimate extends Controller {
 		//
 		usort($data['list_request'], 'sortByScore');
 
-
+		
 		//подтянем количесвто мест
 		$data['count_winner_place'] =  $contest_info['count_winner'];
 

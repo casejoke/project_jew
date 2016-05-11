@@ -207,7 +207,7 @@ class ModelProjectProject extends Model {
 			'dd.title',
 			'd.date_start'
 		);
-
+		$_str = array();
 		if (!empty($data['filter_contest_id'])) {
 
 			if(count($data['filter_contest_id']) > 1){
@@ -247,6 +247,7 @@ class ModelProjectProject extends Model {
 
 		$_sql = '' ;
 		$i = 0;
+
 		foreach ($_str as $vstr) {
 			if($i > 0){
 				$_sql .= ' AND'.$vstr;

@@ -517,11 +517,18 @@ class ModelContestContest extends Model {
 		//customer_id - id экперта
 		//value - оценка
 		//customer_to_contest_id - id заявки
+		//статус заявки 
+		$recommendation = 0;
+		if(isset($data['recommendation'])){
+			$recommendation = 1;
+		}
+
 		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_estimate SET
 				contest_id = '" . (int)$contest_id . "',
 				customer_id = '" . (int)$customer_id . "',
 				customer_to_contest_id = '".(int)$request_id."',
 				value  = '" . $this->db->escape(  serialize($data) ) . "',
+				recommendation = '". (int)$recommendation . "',
 				date_added = NOW()"
 			);
 

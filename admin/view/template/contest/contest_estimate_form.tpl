@@ -35,6 +35,7 @@
                             <th>Участник</th>
                             <th>Заявка</th>
                             <th>Полученные очки от экпертов</th>
+                            <th>Полученные рекомендации<br> от экпертов</th>
                             <th>Место</th>
                             <th>Действия</th>
                           </tr>
@@ -46,6 +47,7 @@
                               <td><?php echo $vlr['customer_name']; ?></td>
                               <td><a href="<?php echo $vlr['action']['view_request']; ?>">Подробно</a></td>
                               <td><?php echo $vlr['score']; ?></td>
+                              <td><?php echo $vlr['recommendation_score']; ?></td>
                               <td id="request_id_<?php echo $vlr['customer_to_contest_id']; ?>"><?php echo ($vlr['place']>0)?$vlr['place']:'Не выбрано';?></td>
                               <td>
                                 
