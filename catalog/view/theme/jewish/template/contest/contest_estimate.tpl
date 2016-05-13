@@ -34,8 +34,7 @@
 
                 <!-- Tab start -->
                 <div class="tab-pane active" id="request">
-                    
-                     <div class="col-md-6 post">
+                  <div class="col-md-6 post">
                   <div class="post-header font-alt">
                         <h2 class="post-title">Заявка</h2>
                       </div>
@@ -258,6 +257,16 @@
                         </div>
                       </div>
                     </div>
+                    
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <label class="control-label font-alt">Комментарий</label>
+                          <textarea  name="estimate_comment" id="input-estimate_comment" class="form-control" rows="5"></textarea>
+                        </div>
+                      </div>
+                    </div>
+
                     <div class="row">
                       <div class="form-group">
                         <div class="col-sm-6 col-sm-offset-3">

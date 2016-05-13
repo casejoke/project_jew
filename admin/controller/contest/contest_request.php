@@ -702,8 +702,63 @@ class ControllerContestContestRequest extends Controller {
     }
 
 
+    //подтянем список всех пользователей
+		$this->load->model('sale/customer');
+		$filter_data = array();
+		$results = $this->model_sale_customer->getCustomers($filter_data);
+		$customers = array();
+		foreach ($results as $result) {
+
+			$customers[$result['customer_id']] = array(
+				'customer_id'    => $result['customer_id'],
+				'name'           => $result['name']
+			);
+		}
 
 
+		//подтянем веса из описания конкурса
+		$this->load->model('contest/contest');
+		$results_contest_criterias  = $this->model_contest_contest->getContestCriteria($request_info['contest_id']);
+		$result_criterias = array();
+		foreach ($results_contest_criterias as $vcc) {
+			$result_criterias[$vcc['contest_criteria_id']] = array(
+				'criteria_id'					=> $vcc['contest_criteria_id'],
+				'criteria_weight'			=> $vcc['weight']
+			);
+		}
+
+
+
+    //получим оценку и коментари  экспертов по заявке
+    $filter_data = array();
+    $filter_data = array(
+			'filter_customer_to_contest_id'	=> $data['customer_to_contest_id']
+		);
+    $results_estimate = $this->model_contest_contest_request->getEstimate($filter_data);
+    $data['estimate_list'] = array();
+    foreach ($results_estimate as $vre) {
+    	$mark = array();
+			$mark = unserialize($vre['value']);
+			$total = 0;
+			
+			if(!empty($mark['estimate_request'])){
+				foreach ($mark['estimate_request'] as $km => $vm) {
+					//$km - id критерия
+					//$vm - оценка
+					//вес = $result_criterias[$km]['criteria_weight']
+					$total +=  $result_criterias[$km]['criteria_weight']*$vm;
+
+				}
+			}
+    	$data['estimate_list'][] = array(
+    			'customer_expert_name' 		=> $customers[$vre['customer_id']]['name'],
+    			'customer_recommendation'	=> $vre['recommendation'],
+    			'customer_score'					=> $total,
+    			'customer_comment'	=> $vre['comment'],
+			);
+    }
+
+    
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');

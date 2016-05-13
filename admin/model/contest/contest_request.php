@@ -185,6 +185,102 @@ class ModelContestContestRequest extends Model {
 		return $query->row['total'];
 	}
 	
+	public function getEstimate($data){
+
+		$_str =array();
+
+		if (!empty($data['filter_customer_to_contest_id'])) {
+			$_str[] =	" customer_to_contest_id = '" . (int)$data['filter_customer_to_contest_id'] . "'";
+		}
+		if (!empty($data['filter_customer_id'])) {
+			$_str[] =	" customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		}
+		if (!empty($data['filter_contest_id'])) {
+			//$_str[] =	" contest_id = '" . (int)$data['filter_contest_id'] . "'";
+		}
+		
+
+		/*if (!empty($data['filter_array_project_customer_id'])) {
+
+			if(count($data['filter_array_project_customer_id']) > 1){
+				$_str[] .= " adaptive_id IN (" . implode(',', $data['filter_array_project_customer_id']) . ")";
+			}else{
+				//если один проект
+				$contest_id = $data['filter_array_project_customer_id'][0];
+				$_str[] .= " adaptive_id = '" . (int)$contest_id . "'";
+			}
+		} else{
+			$_str[] .= " adaptive_id = '0'";
+		}*/
+
+		if (!empty($data['filter_status'])) {
+			$_str[] = " status = '" . (int)$data['filter_status'] . "'";
+		}
+		
+
+		
+		$_sql = '' ;
+		$i = 0;
+		foreach ($_str as $vstr) {
+			if($i > 0){
+				$_sql .= ' AND'.$vstr;
+			}else{
+				$_sql .= $vstr;
+			}
+			$i++;
+		}
+
+		if(!$_sql){
+			$sql = "SELECT * FROM " . DB_PREFIX . "customer_estimate";
+		}else{
+			$sql = "SELECT * FROM " . DB_PREFIX . "customer_estimate WHERE";
+		}
+
+
+
+		
+		$sort_data = array(
+			'team_title',
+			'team_status',
+			'date_added'
+		);
+
+		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+			$_sql .= " ORDER BY " . $data['sort'];
+		} else {
+			$_sql .= " ORDER BY date_added";
+		}
+
+		if (isset($data['order']) && ($data['order'] == 'DESC')) {
+			$_sql .= " DESC";
+		} else {
+			$_sql .= " ASC";
+		}
+
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}
+
+			$_sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}
+
+		
+		$query = $this->db->query($sql.$_sql);
+
+		return $query->rows;
+	}
+
+
+
+
+
+
+
 	public function getRequestStatusTypes(){
 		//статусы заявки: 
 		// 0 - не принята (есть комментарий)

@@ -22,14 +22,15 @@
                 <li class="active"><a href="#tab-request" aria-controls="tab-request" role="tab" data-toggle="tab"><?php echo $tab_request; ?></a></li>
                 <li><a href="#tab-customer" aria-controls="tab-customer" role="tab" data-toggle="tab"><?php echo $tab_customer; ?></a></li>
                 <li><a href="#tab-status" aria-controls="tab-status" role="tab" data-toggle="tab"><?php echo $tab_status; ?></a></li>
+                <li><a href="#tab-mark" aria-controls="tab-mark" role="tab" data-toggle="tab">Оценки и рекомендации</a></li>
             </ul>
           
             <div class="tab-content">
 
-                <div role="tabpanel" class="tab-pane active" id="tab-request">
+                <div role="tabpanel" class="tab-pane activec" id="tab-request">
                   <div class="card-body card-padding">
                     <?php foreach ($category_requestes as $cr) { ?>
-                    <?php if ( !empty( $cr['category_request_id'] ) ) { ?>
+                    <?php if ( !empty( $cr['category_request_id']) && !empty( $cr['category_fields']) ) { ?>
 
                     <h4 class="font-alt mb-20"><?php echo $cr['name']; ?></h4>
 
@@ -110,10 +111,6 @@
                                             <dd><?php echo $telephone; ?></dd>
                                         </dl>
                                     </div>
-                                    
-                                   
-
-
                                 </div>
                             </div>
 
@@ -164,7 +161,42 @@
                    </div>
                   </div>
                 </div><!-- /#tab-timeline -->
-				
+				        
+                <div role="tabpanel" class="tab-pane active" id="tab-mark">
+                  <div class="card-body card-padding">
+                    <table class="table">
+                      <thead>
+                          <tr>
+                            <th class="text-center">Эксперт</th>
+                            <th class="text-center">Оценка</th>
+                            <th class="text-center">Рекомендация</th>
+                            <th class="text-center">Комментарий</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      <?php if (!empty($estimate_list)) { ?>
+                      
+                          <?php foreach ($estimate_list as $vel) { ?>
+                            <tr>
+                              <td class="text-center"><?php echo $vel['customer_expert_name']; ?></td>
+                              <td class="text-center"><?php echo $vel['customer_score']; ?></td>
+                              <td class="text-center"><?php echo $vel['customer_recommendation']; ?></td>
+                              <td class="text-center"><?php echo $vel['customer_comment']; ?></td>
+                        </tr>
+                          <?php } ?>
+                      <?php } else {?>
+                        
+                        <tr>
+                          <td colspan="4" class="text-center">Нет оценок</td>
+                          
+                        </tr>
+                       <?php } ?>
+                        
+                      </tbody>   
+                    </table>
+                  </div>
+                </div>
+
 				       
             
             </div><!-- /.tab-content-->

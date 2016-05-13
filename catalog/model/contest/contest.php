@@ -528,6 +528,7 @@ class ModelContestContest extends Model {
 				customer_id = '" . (int)$customer_id . "',
 				customer_to_contest_id = '".(int)$request_id."',
 				value  = '" . $this->db->escape(  serialize($data) ) . "',
+				comment  = '" . $this->db->escape( $data['estimate_comment'] ) . "',
 				recommendation = '". (int)$recommendation . "',
 				date_added = NOW()"
 			);
