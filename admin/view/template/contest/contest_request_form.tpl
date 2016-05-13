@@ -27,7 +27,7 @@
           
             <div class="tab-content">
 
-                <div role="tabpanel" class="tab-pane activec" id="tab-request">
+                <div role="tabpanel" class="tab-pane active" id="tab-request">
                   <div class="card-body card-padding">
                     <?php foreach ($category_requestes as $cr) { ?>
                     <?php if ( !empty( $cr['category_request_id']) && !empty( $cr['category_fields']) ) { ?>
@@ -162,7 +162,7 @@
                   </div>
                 </div><!-- /#tab-timeline -->
 				        
-                <div role="tabpanel" class="tab-pane active" id="tab-mark">
+                <div role="tabpanel" class="tab-pane " id="tab-mark">
                   <div class="card-body card-padding">
                     <table class="table">
                       <thead>
