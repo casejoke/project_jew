@@ -545,7 +545,7 @@ if ($customer_info['customer_expert']) {
 			'filter_contest_id' => $implode,
 			'filter_status'			=> 1
 		);
-		//узнаем что уже оценивали
+		//узнаем что уже оценивали 
 		$results_estimate_for_expert = $this->model_contest_contest->getEstimateForCustomer($customer_id);
 		foreach ($results_estimate_for_expert as $vrefe) {
 			$estimate[$vrefe['customer_to_contest_id']] = array(
@@ -556,6 +556,11 @@ if ($customer_info['customer_expert']) {
 
 		$data['request_for_expert'] = array();
 		if(!empty($implode)){
+			$filter_data = array();
+			$filter_data = array(
+				'filter_contest_id' => $implode,
+				'filter_status'			=> 1
+			);
 			//получим все заявки для данного пользователя в качестве эксперта
 			$results_request_for_expert = $this->model_contest_contest->getRequestForCustomer($filter_data);
 			
@@ -563,10 +568,6 @@ if ($customer_info['customer_expert']) {
 
 			$filter_data = array();
 			$results_projects = $this->model_project_project->getListProjects($filter_data);
-	/*		print_r('<pre>');
-			print_r($results_projects );
-			print_r('</pre>');
-			die();*/
 			$projects = array();
 			foreach ($results_projects as $result_p) {
 				$projects[$result_p['project_id']] = array(
@@ -624,8 +625,12 @@ if ($customer_info['customer_expert']) {
 				}
 
 
-
+				$status_estimate = 0;
 				if(empty($estimate[$vrfe['customer_to_contest_id']])){
+					$status_estimate = 1;
+				}
+				
+
 					$data['request_for_expert'][] = array(
 
 						'customer_to_contest_id'	=>  $vrfe['customer_to_contest_id'],
@@ -633,10 +638,12 @@ if ($customer_info['customer_expert']) {
 						'customer_name' 			=> 	$customers[$vrfe['customer_id']]['customer_name'],
 						'adaptive_name'         	=>  $adaptive_customer_name,
 						'adaptive_project_title'	=>  $adaptive_id_text,
-
+						'status_estimate'			=>  $status_estimate,
 						'expert_evaluate'			=> 	$this->url->link('contest/estimate', 'request_id='.$vrfe['customer_to_contest_id'], 'SSL')
 					);
-				}
+				
+
+
 			}
 /*
 			print_r('<pre>');

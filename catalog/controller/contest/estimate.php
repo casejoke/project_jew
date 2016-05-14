@@ -49,12 +49,14 @@ class ControllerContestEstimate extends Controller {
      //номер заявки в системе
     $request_id = $this->request->get['request_id'];
 
-    //получим инфу о заявке
+    //получим инфу о заявке ???
     $result_request_information = $this->model_contest_contest->getInformationAboutRequest($request_id);
+
     if (empty($result_request_information)) {
-      $this->session->data['warning'] = 'Извините. Заявка уже обработана';
+      $this->session->data['warning'] = 'Извините. Такой заявки нет.';
       $this->response->redirect($this->url->link('account/account', '', 'SSL'));
     }
+
     //проверка на сушествование конкурса
     $contest_info = array();
     $contest_id = $result_request_information['contest_id'];
@@ -64,6 +66,22 @@ class ControllerContestEstimate extends Controller {
       $this->session->data['redirect'] = $this->url->link('contest/contest', '', 'SSL');
       $this->response->redirect($this->url->link('contest/contest', '', 'SSL'));
     }
+
+    //подтянем оценку если есть
+    //  customer_to_contest_id  == $request_id номер заявки
+    //  $customer_id == id эксперта
+    $estimate_request = $this->model_contest_contest->getInfoAboutEstimate($customer_id,$request_id);
+    $data['comment'] = '';
+    $data['recommendation'] = 0;
+    $data['estimate_mark'] = array();
+    if(!empty($estimate_request)){
+        $data['comment']          = $estimate_request['comment'];
+        $data['recommendation']   = $estimate_request['recommendation'];
+        $data['estimate_mark']    = unserialize($estimate_request['value']);
+       
+    }
+
+
     //если конкурс в статусе работа - редирект
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -73,6 +91,8 @@ class ControllerContestEstimate extends Controller {
 //*************************** проверки ********************************//   
 
     if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+
+   
 
       $this->model_contest_contest->addEstimateToContest($this->request->post,$customer_id,$contest_id,$request_id);
       $this->session->data['success'] = $this->language->get('text_expert_request_contest_success');

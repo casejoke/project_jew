@@ -283,9 +283,9 @@
                           <tr>
                             <td><?php echo $rfe['contest_title']; ?></td>
                             <td><?php echo $rfe['customer_name']; ?></td>
-                             <td><?php echo $rfe['adaptive_name']; ?></td>
-                              <td><?php echo $rfe['adaptive_project_title']; ?></td>
-                            <td><a href="<?php echo $rfe['expert_evaluate']; ?>" class="btn btn-info btn-round">Оценить</a></td>
+                            <td><?php echo $rfe['adaptive_name']; ?></td>
+                            <td><?php echo $rfe['adaptive_project_title']; ?></td>
+                            <td><a href="<?php echo $rfe['expert_evaluate']; ?>" class="btn <?php echo ($rfe['status_estimate'])?'btn-info':'btn-success'; ?>  btn-round"><?php echo ($rfe['status_estimate'])?'Оценить':'Пересмотреть оценку'; ?></a></td>
                           </tr>
                         <?php } ?>
                       </tbody>

@@ -18,31 +18,52 @@ var estimate ={
 				estimate.enableSend();
 			}
 		});
+
 	},
 	enableSend:function(){
-		var enableSendButton = false;
+		var enableSendButton = 0;
 		$('.btn-list').each(function(index) {
 			//активируем кнопки
             var valInput = $(this).next().val();
-            console.log(valInput);
             if(valInput){
-            	enableSendButton = true;
-            }else{
-            	enableSendButton = false;
+            	enableSendButton++;
             }
         });
+       
 
-        if(enableSendButton){
+        if($('.btn-list').length === enableSendButton){
  			$(".btn-send-estimate").removeAttr('disabled');	
         }
 	},
+
 	initButton:function(){
 		$('.btn-list').each(function(index) {
 			//активируем кнопки
             $(this).find('.btn').removeClass('disabled');
         });
 
+		//activate send button
         $(".btn-send-estimate").attr('disabled','disabled');
+
+        if(estimate_mark){
+        	$('.btn-list').each(function(index) {
+        		
+				//активируем кнопки
+	            var mark = $(this).next().val();
+	            console.log('index ->>'+mark);
+	            $(this).find('.btn').each(function(index) {
+	            	if($(this).attr('data-mark') === mark){
+	            		$(this).addClass('btn-success').blur();
+	            	}
+
+	            });
+	            estimate.enableSend();
+	        });
+        }
+
+
+
+
 	}
 
 };

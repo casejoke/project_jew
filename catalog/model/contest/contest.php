@@ -494,7 +494,12 @@ class ModelContestContest extends Model {
 
 
 
-
+	public function getInfoAboutEstimate($customer_id,$customer_to_contest_id){
+		$sql = "SELECT * FROM " . DB_PREFIX . "customer_estimate WHERE 
+			customer_id = '".(int)$customer_id."' AND customer_to_contest_id = '".(int)$customer_to_contest_id."' ";
+		$query = $this->db->query($sql);
+		return $query->row;
+	}
 	public function getEstimateForCustomer($customer_id){
 		$sql = "SELECT * FROM " . DB_PREFIX . "customer_estimate WHERE customer_id = '".(int)$customer_id."'";
 		$query = $this->db->query($sql);
@@ -523,7 +528,17 @@ class ModelContestContest extends Model {
 			$recommendation = 1;
 		}
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_estimate SET
+
+		$estimate_request = $this->getInfoAboutEstimate($customer_id,$request_id);
+		
+		if(!empty($estimate_request)){
+			$this->db->query("UPDATE " . DB_PREFIX . "customer_estimate SET
+				value  = '" . $this->db->escape( serialize($data) ) . "',
+				comment  = '" . $this->db->escape( $data['estimate_comment'] ) . "',
+				recommendation = '". (int)$recommendation . "'
+			WHERE customer_estimate_id = '" . (int)$estimate_request['customer_estimate_id'] . "'");
+		}else{
+			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_estimate SET
 				contest_id = '" . (int)$contest_id . "',
 				customer_id = '" . (int)$customer_id . "',
 				customer_to_contest_id = '".(int)$request_id."',
@@ -532,6 +547,8 @@ class ModelContestContest extends Model {
 				recommendation = '". (int)$recommendation . "',
 				date_added = NOW()"
 			);
+		}
+		
 
 	}
 	//оценка заявки на конкурс

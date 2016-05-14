@@ -177,4 +177,12 @@
 <?php foreach ($scripts as $script) { ?>
   <script src="<?php echo $script; ?>" type="text/javascript"></script>
 <?php } ?>
+<script type="text/javascript">
+   function pingServer() {
+      $.ajax({ url: location.href });
+   }
+   $(document).ready(function() {
+      setInterval('pingServer()', 60000);
+   });
+</script>
 </body></html>

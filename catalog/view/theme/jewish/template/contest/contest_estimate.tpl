@@ -25,7 +25,7 @@
                 <li class="hidden"><a href="#contest" data-toggle="tab">О конкурсе</a></li>
                 <li class="active" ><a href="#request" data-toggle="tab">Заявка</a></li>
 
-                <li><a href="#estimate" data-toggle="tab">Оценить</a></li>
+                <li><a href="#estimate" data-toggle="tab">Оценка</a></li>
               </ul>
               <!-- Nav tabs end -->
 
@@ -226,18 +226,34 @@
 
                 <!-- Tab start -->
                 <div class="tab-pane " id="estimate">
-                  
+                  <script type="text/javascript">
+                    
+                    <?php if(!empty($estimate_mark['estimate_request'])){ ?>
+                      var estimate_mark = 1;
+                    <?php } else { ?>
+                      var estimate_mark = 0;
+                    <?php } ?>
+                  </script>
                   <?php if(!empty($contest_criteria)){ ?>
                     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" >
+
                     <?php foreach ($contest_criteria as $vcc) { ?>
                         <div class="row">
                          <div class="col-sm-5 col-md-3">
                             <p class="btn-list">
+
                               <button type="button" class="btn btn-default btn-round btn-estimate disabled" data-mark="1">1</button>
                               <button type="button" class="btn btn-default btn-round btn-estimate disabled" data-mark="2">2</button>
                               <button type="button" class="btn btn-default btn-round btn-estimate disabled" data-mark="3">3</button>
                             </p>
-                             <input type="hidden" name="estimate_request[<?php echo $vcc['contest_criteria_id']; ?>]" value=""  id="input-<?php echo $vcc['contest_criteria_id']; ?>" class="form-control" />
+
+                            <?php if(!empty($estimate_mark['estimate_request']) && $estimate_mark['estimate_request'][$vcc['contest_criteria_id']] ){ ?>
+                              <input type="hidden" name="estimate_request[<?php echo $vcc['contest_criteria_id']; ?>]" value="<?php echo $estimate_mark['estimate_request'][$vcc['contest_criteria_id']]; ?>"  id="input-<?php echo $vcc['contest_criteria_id']; ?>" class="form-control" />
+                            <?php } else {?>
+                              <input type="hidden" name="estimate_request[<?php echo $vcc['contest_criteria_id']; ?>]" value=""  id="input-<?php echo $vcc['contest_criteria_id']; ?>" class="form-control" />
+                            <?php } ?>
+
+
                           </div>
                           <div class="col-sm-7 col-md-9">
                             <h5 class="font-alt mb-0 "><?php echo $vcc['criteria_title']; ?></h5>
@@ -251,7 +267,7 @@
                           <label class="control-label font-alt">Отметка о пользе заявки</label>
                           <div class="checkbox">
                               <label>
-                                <input type="checkbox" name="recommendation" id="recommendation"   value="1" /> Я рекомендую проект
+                                <input type="checkbox" name="recommendation" id="recommendation"   value="1" <?php echo ($recommendation)?'checked':'' ; ?> /> Я рекомендую проект
                               </label>
                           </div>
                         </div>
@@ -262,7 +278,7 @@
                       <div class="col-sm-12">
                         <div class="form-group">
                           <label class="control-label font-alt">Комментарий</label>
-                          <textarea  name="estimate_comment" id="input-estimate_comment" class="form-control" rows="5"></textarea>
+                          <textarea  name="estimate_comment" id="input-estimate_comment" class="form-control" rows="5" ><?php echo ($comment)?$comment:''; ?></textarea>
                         </div>
                       </div>
                     </div>
