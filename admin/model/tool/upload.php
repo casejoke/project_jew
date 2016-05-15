@@ -23,7 +23,15 @@ class ModelToolUpload extends Model {
 
 		return $query->row;
 	}
+	
 
+
+
+
+
+
+
+	
 	public function getUploads($data = array()) {
 		$sql = "SELECT * FROM " . DB_PREFIX . "upload";
 

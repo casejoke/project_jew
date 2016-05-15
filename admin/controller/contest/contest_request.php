@@ -544,6 +544,7 @@ class ControllerContestContestRequest extends Controller {
     //подтянем список каетгорий для заявки на  конкурса
 	$this->load->model('localisation/category_request');
 	$this->load->model('contest/contest_field');
+	$this->load->model('tool/upload');
     $data['category_requestes'] = array();
     $filter_data = array(
       'order' => 'ASC'
@@ -604,6 +605,7 @@ class ControllerContestContestRequest extends Controller {
 
 
               }
+
 
               if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_sex' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
               	$type = 'list';
@@ -677,12 +679,38 @@ class ControllerContestContestRequest extends Controller {
 
               }
 
+              if($type == 'file'){
+              
+              	$data_value = array();
+              	foreach ($vvr['value'] as $vcfile) {
+              		$file_info = $this->model_tool_upload->getUploadByCode($vcfile);
+              		$result_code = explode('.', $file_info['filename']);
+	              	$count_array = count($result_code);
+	              	$new_file = str_replace('.' . $result_code[$count_array-1],'', $file_info['filename']);
+	              
+
+	              	if(!is_file( DIR_UPLOAD . $new_file )){
+						copy( DIR_UPLOAD . $file_info['filename'], DIR_UPLOAD . $new_file );
+					}	
+					if (is_file(DIR_UPLOAD . $new_file)) {	
+						$data_value[] = array(
+	              			'title'	=> $file_info['name'],
+	              			'link'	=> HTTPS_CATALOG .'upload/' . $new_file
+	              		);
+					}
+              	}
+
+              	$value_field = $data_value;
+              	
+              }
+
+
 
               $data_for_category[] = array(
                 'field_id'    => $vvr['field_id'],
                 'field_value' => $value_field,
                 'field_title' => $contest_fields[$vvr['field_id']]['contest_field_title'],
-                'field_type' => $type,
+                'field_type'  => $type,
                 'field_contest_system_table' => $contest_fields[$vvr['field_id']]['contest_field_system_table']
               );
 
@@ -750,7 +778,7 @@ class ControllerContestContestRequest extends Controller {
 
 				}
 			}
-    	$data['estimate_list'][] = array(
+    		$data['estimate_list'][] = array(
     			'customer_expert_name' 		=> $customers[$vre['customer_id']]['name'],
     			'customer_recommendation'	=> $vre['recommendation'],
     			'customer_score'					=> $total,

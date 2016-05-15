@@ -64,6 +64,21 @@
                                   </div>
                               </div>
                             <?php } ?>
+
+                            <?php if($vcri['field_type'] == 'file'){ ?>
+                              <div class="pmbb-header">
+                                  <h5><?php echo $vcri['field_title']; ?></h5>
+                              </div>
+                              <div class="pmbb-body p-l-30">
+                                  <div class="pmbb-view">
+                                    <ul> 
+                                      <?php foreach ($vcri['field_value'] as $vfv) { ?>
+                                        <li><a href="<?php echo $vfv['link']; ?>" target="_blank"><?php echo $vfv['title']; ?></a></li>
+                                      <?php } ?>
+                                    </ul>
+                                  </div>
+                              </div>
+                            <?php } ?>
   
                             <?php if($vcri['field_type'] == 'textarea'){ ?>
                               <div class="pmbb-header">
