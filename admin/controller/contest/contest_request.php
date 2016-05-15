@@ -681,24 +681,27 @@ class ControllerContestContestRequest extends Controller {
 
               if($type == 'file'){
               
-              	$data_value = array();
-              	foreach ($vvr['value'] as $vcfile) {
-              		$file_info = $this->model_tool_upload->getUploadByCode($vcfile);
-              		$result_code = explode('.', $file_info['filename']);
-	              	$count_array = count($result_code);
-	              	$new_file = str_replace('.' . $result_code[$count_array-1],'', $file_info['filename']);
-	              
+              		$data_value = array();
+              		foreach ($vvr['value'] as $vcfile) {
+	              		$file_info = $this->model_tool_upload->getUploadByCode($vcfile);
+	              		if(!empty($file_info)){
+	              			$result_code = explode('.', $file_info['filename']);
+			              	$count_array = count($result_code);
+			              	$new_file = str_replace('.' . $result_code[$count_array-1],'', $file_info['filename']);
+			              
 
-	              	if(!is_file( DIR_UPLOAD . $new_file )){
-						copy( DIR_UPLOAD . $file_info['filename'], DIR_UPLOAD . $new_file );
-					}	
-					if (is_file(DIR_UPLOAD . $new_file)) {	
-						$data_value[] = array(
-	              			'title'	=> $file_info['name'],
-	              			'link'	=> HTTPS_CATALOG .'upload/' . $new_file
-	              		);
-					}
-              	}
+			              	if(!is_file( DIR_UPLOAD . $new_file )){
+								copy( DIR_UPLOAD . $file_info['filename'], DIR_UPLOAD . $new_file );
+							}	
+							if (is_file(DIR_UPLOAD . $new_file)) {	
+								$data_value[] = array(
+			              			'title'	=> $file_info['name'],
+			              			'link'	=> HTTP_CATALOG .'upload/' . $new_file
+			              		);
+							}
+	              		}
+	              		
+          			}
 
               	$value_field = $data_value;
               	
