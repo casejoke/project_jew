@@ -50,7 +50,7 @@
                  <?php $i = 1; ?>
                 <?php foreach ($contest_requests as $cr) { ?>
                 <tr>
-                  <td><?php echo $i; ?></td>
+                  <td><?php echo $cr['customer_to_contest_id']; ?></td>
                   <td class="text-center hidden"><?php if (in_array($cr['customer_to_contest_id'], $selected)) { ?>
                     <input type="checkbox" name="selected[]" value="<?php echo $cr['customer_to_contest_id']; ?>" checked="checked" />
                     <?php } else { ?>

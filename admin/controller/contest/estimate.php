@@ -354,7 +354,9 @@ class ControllerContestEstimate extends Controller {
 
 		$estimate = array();
 		$recommendation = array();
+		
 		foreach ($result_estimate_to_contest as $vetc) {
+
 			$mark = array();
 			$mark = unserialize($vetc['value']);
 			$total = 0;
@@ -368,10 +370,17 @@ class ControllerContestEstimate extends Controller {
 
 				}
 			}
+
 			
-			$estimate[$vetc['customer_to_contest_id']]=array(
-				'request_scores' => $total
-			);
+			if(!empty($estimate[$vetc['customer_to_contest_id']]['request_scores'])){
+				$estimate[$vetc['customer_to_contest_id']]['request_scores'] += $total;
+			}else{
+				$estimate[$vetc['customer_to_contest_id']]['request_scores'] = $total;
+			}
+			
+
+
+
 			if(!empty($recommendation[$vetc['customer_to_contest_id']]['recommendation'] )){
 				$recommendation[$vetc['customer_to_contest_id']]['recommendation'] += $vetc['recommendation'];
 			}else{
@@ -379,7 +388,7 @@ class ControllerContestEstimate extends Controller {
 			}
 			
 		}
-		
+	
 
 		$data['list_request'] = array();
 		foreach ($result_request_to_contest as $vrtc) {

@@ -31,7 +31,7 @@
                     <table class="table">
                       <thead>
                           <tr>
-                            
+                            <th>#</th>
                             <th>Участник</th>
                             <th>Заявка</th>
                             <th>Полученные очки от экпертов</th>
@@ -44,6 +44,7 @@
                         <?php if(!empty($list_request)){ ?>
                           <?php foreach ($list_request as $vlr) { ?>
                             <tr>
+                              <td><?php echo $vlr['customer_to_contest_id']; ?></td>
                               <td><?php echo $vlr['customer_name']; ?></td>
                               <td><a href="<?php echo $vlr['action']['view_request']; ?>">Подробно</a></td>
                               <td><?php echo $vlr['score']; ?></td>

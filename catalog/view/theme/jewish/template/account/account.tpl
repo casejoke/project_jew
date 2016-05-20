@@ -272,6 +272,7 @@
                   <div class="col-sm-12">
                     <table class="table table-striped table-border ">
                       <thead>
+                        <th>Номер заявки</th>
                         <th>Конкурс</th>
                         <th>Адаптор проекта</th>
                         <th>Автор проекта</th>
@@ -281,6 +282,7 @@
                       <tbody>
                         <?php foreach ($request_for_expert as $rfe) { ?>
                           <tr>
+                            <td><?php echo $rfe['customer_to_contest_id']; ?> </td>
                             <td><?php echo $rfe['contest_title']; ?></td>
                             <td><?php echo $rfe['customer_name']; ?></td>
                             <td><?php echo $rfe['adaptive_name']; ?></td>

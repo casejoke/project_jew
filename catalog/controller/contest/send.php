@@ -38,31 +38,10 @@ class ControllerContestSend extends Controller {
 $data['draft'] = true;
 $result_request_information  = array();
 $register_custom_field =array();
-if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['customer_to_contest_id']>0){
-	$customer_to_contest_id = $this->request->get['customer_to_contest_id'];
-	//получим инфу о заявке
-	$result_request_information = $this->model_contest_contest->getInformationAboutRequest($customer_to_contest_id);
-	$val  = unserialize($result_request_information['value']);
-	$register_custom_field = $val['custom_fields'];
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//получим номер проекта котрый мы положили в пулл конкурса
-	$project_id = $result_request_information['project_id'];;
-	$contest_id = $result_request_information['contest_id'];
 
 
-	$data['draft'] = ($result_request_information['status'] < 3)? false : true;
-	$data['draft_check'] = ($result_request_information['status'] < 3)? false : true;
-	$data['action'] = $this->url->link('contest/send', 'customer_to_contest_id='.$this->request->get['customer_to_contest_id'], 'SSL');
- // print_r($result_request_information);
-}else{
-	$project_id = $this->request->get['project_id'];
-	$contest_id = $this->request->get['contest_id'];
-	//проект для адаптации
 
-	$data['action'] = $this->url->link('contest/send', 'contest_id='.$contest_id.'&project_id='.$project_id, 'SSL');
-	$data['draft_check'] = false;
-}
+
 
 		//проверка на сушествование пользователя и логина в системе
 		if (!$this->customer->isLogged()) {
@@ -72,44 +51,80 @@ if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['
 		$customer_id = $this->customer->getId();
 
 
-		//проверка на сушествование конкурса
-		$contest_info = array();
-		$contest_info = $this->model_contest_contest->getContest($contest_id);
-		if ( empty($contest_info) ){
-			//редиректим на список конкурсов
-			$this->session->data['redirect'] = $this->url->link('contest/contest', '', 'SSL');
-			$this->response->redirect($this->url->link('contest/contest', '', 'SSL'));
-		}
-		//если конкурс в статусе работа - редирект
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
 
 
 
-		//проверка на сушествование проекта
-		$project_info = array();
-		$project_info = $this->model_project_project->getProject($project_id);
-		if ( empty($project_info) ){
-			//редиректим на список проектов
-			//$this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
-		//	$this->response->redirect($this->url->link('project/project', '', 'SSL'));
-	}else{
-		$admin_project_id = $project_info['customer_id'];
-		//проверка на админа группы
-		if ( $admin_project_id != $customer_id ){
-			//редиректим на список проектов
-			$this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
-			$this->response->redirect($this->url->link('project/project', '', 'SSL'));
-		}
-	}
+			if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['customer_to_contest_id']>0){
+				$customer_to_contest_id = $this->request->get['customer_to_contest_id'];
+				//получим инфу о заявке
+				$result_request_information = $this->model_contest_contest->getInformationAboutRequest($customer_to_contest_id);
+
+				$val  = unserialize($result_request_information['value']);
+				$register_custom_field = $val['custom_fields'];
+
+				/*print_r('<pre>');
+				print_r($register_custom_field);
+				print_r('</pre>');
+				die();
+				*/
+			
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!
+				//получим номер проекта котрый мы положили в пулл конкурса
+				$project_id = $result_request_information['project_id'];;
+				$contest_id = $result_request_information['contest_id'];
+
+
+				$data['draft'] = ($result_request_information['status'] < 3)? false : true;
+				$data['draft_check'] = ($result_request_information['status'] < 3)? false : true;
+				$data['action'] = $this->url->link('contest/send', 'customer_to_contest_id='.$this->request->get['customer_to_contest_id'], 'SSL');
+			 // print_r($result_request_information);
+
+
+			}else{
+				$project_id = $this->request->get['project_id'];
+				$contest_id = $this->request->get['contest_id'];
+				//проект для адаптации
+
+				$data['action'] = $this->url->link('contest/send', 'contest_id='.$contest_id.'&project_id='.$project_id, 'SSL');
+				$data['draft_check'] = false;
+			}
+			//проверка на сушествование конкурса
+			$contest_info = array();
+			$contest_info = $this->model_contest_contest->getContest($contest_id);
+			if ( empty($contest_info) ){
+				//редиректим на список конкурсов
+				$this->session->data['redirect'] = $this->url->link('contest/contest', '', 'SSL');
+				$this->response->redirect($this->url->link('contest/contest', '', 'SSL'));
+			}
+			//если конкурс в статусе работа - редирект
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
-
+			//проверка на сушествование проекта
+			$project_info = array();
+			$project_info = $this->model_project_project->getProject($project_id);
+			if ( empty($project_info) ){
+				//редиректим на список проектов
+				//$this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
+			//	$this->response->redirect($this->url->link('project/project', '', 'SSL'));
+				}else{
+					$admin_project_id = $project_info['customer_id'];
+					//проверка на админа группы
+					if ( $admin_project_id != $customer_id ){
+						//редиректим на список проектов
+						$this->session->data['redirect'] = $this->url->link('project/project', '', 'SSL');
+						$this->response->redirect($this->url->link('project/project', '', 'SSL'));
+					}
+				}
 
 
 //*************************** проверки ********************************//
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+
+
 
 			if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['customer_to_contest_id']>0){
 
@@ -161,11 +176,16 @@ if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['
 					$this->model_contest_contest->addRequest($this->request->post,$customer_id,$contest_id,$adaptive_id,$project_id);
 	        //отправляю проектв $project_id  в копилку проектов
 	      //  $this->model_contest_contest->addAdaptive($customer_id,$contest_id,$project_id);
-	        $this->session->data['success'] = $this->language->get('text_contest_success');
+					if($this->request->post['draft']){
+						$this->session->data['success'] = 'Заявка сохранена';
+					}else{
+						$this->session->data['success'] = $this->language->get('text_contest_success');
+					}
+	        
 				}
 
-      }
 
+      }
 
 		//	$this->model_contest_contest->addRequestToContest($this->request->post,$customer_id,$contest_id);
 		//	$this->session->data['success'] = $this->language->get('text_contest_success');
@@ -181,6 +201,13 @@ if(isset($this->request->get['customer_to_contest_id']) && $this->request->get['
 
 			$this->response->redirect($this->url->link('account/account', '', 'SSL'));
 		}
+
+
+
+
+
+
+
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
@@ -368,7 +395,7 @@ if(!empty($project_info)){
 			//подтянем администратора группы если есть группа и в данном конкурсе нужна группа
 			$admin_id = $project_info['customer_id'];
 
-			$init_group_information = $data['init_groups'][$project_info['project_init_group_id']] ;
+			$init_group_information = (!empty($data['init_groups'][$project_info['project_init_group_id']]))?$data['init_groups'][$project_info['project_init_group_id']]:'' ;
 
 }
 
@@ -429,7 +456,7 @@ $data['contest_field_system']['project']['target'] = array(
 );
 $data['contest_field_system']['project']['product'] = array(
 'field_value_r'         => (!empty($project_info))?$project_info['product']:'',
-'field_type'       => 'textarea'
+'field_type'       		=> 'textarea'
 );
 $data['contest_field_system']['project']['result'] = array(
 'field_value_r'         => (!empty($project_info))?$project_info['result']:'',
@@ -573,7 +600,7 @@ $data['contest_field_system']['project']['project_demographic'] = array(
 
 			foreach ($contest_fields_results as  $cfr) {
 				//проверка если вдруг добавили новое поле а вконкурсе его нет
-				//проверяемсушествоваеник аегории
+				//проверяем сушествоваени к аегории
 				if(!empty( $data['custom_fields'][$cfr['location']])){
 					//проверяем что такая категория есть в самом конкурсе
 					//прокрутим поля именно в конкурсе
@@ -603,7 +630,7 @@ $data['contest_field_system']['project']['project_demographic'] = array(
 					$type = $cfr['type'];
 
 					$val_r = array();//значение в заявке
-					if(!empty($register_custom_field[$cfr['location']])){
+				if(!empty($register_custom_field[$cfr['location']])){
 						foreach ($register_custom_field[$cfr['location']] as $vrcf) {
 							if($vrcf['field_id'] == $cfr['contest_field_id']){
 
@@ -647,35 +674,68 @@ $data['contest_field_system']['project']['project_demographic'] = array(
 					$type = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_type'];
 
 					if(  $type == 'select' || $type == 'radio' || $type == 'checkbox' ){
+
 						$contest_fields_value = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value'];
 						//если тип поля системный и перечисляемый
 						if(empty($result_request_information['status'])){
 							$val_r = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value_r'];
 						}else{
 							$val_r = array();//значение в заявке
+							//print_r(expression)
 							if(!empty($register_custom_field[$cfr['location']])){
+
 								foreach ($register_custom_field[$cfr['location']] as $vrcf) {
 									if($vrcf['field_id'] == $cfr['contest_field_id']){
 										$val_r = (!empty($vrcf['value']))?$vrcf['value']:array();
 									}
 								}
-							}
-						}
-					}else{
-						$contest_fields_value = '';
-						if(empty($result_request_information['status'])){
 
-							$val_r = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value_r'];
-						}else{
-							$val_r = '';//значение в заявке
-							if(!empty($register_custom_field[$cfr['location']])){
-								foreach ($register_custom_field[$cfr['location']] as $vrcf) {
-									if($vrcf['field_id'] == $cfr['contest_field_id']){
-										$val_r = (!empty($vrcf['value']))?$vrcf['value']:'';
-									}
-								}
 							}
 						}
+						/*****/	
+					}else{
+							//си=стемное поле
+						 $contest_fields_value = '';
+					 	if(!isset($result_request_information['status'])){
+	           		
+	           		$val_r = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value_r'];
+	           	
+	           		//print_r('<pre>');
+		            //	print_r('--->>'.$vrcf['field_id']);
+		            //print_r('</pre>');
+
+	          } else {
+	              $val_r = '';//значение в заявке
+	              if(!empty($register_custom_field[$cfr['location']])){
+
+	                foreach ($register_custom_field[$cfr['location']] as $vrcf) {
+
+	                //	print_r('--->>'.$vrcf['field_id']);
+	                  
+	                  if($vrcf['field_id'] == $cfr['contest_field_id']){
+	                    $val_r = (!empty($vrcf['value']))?$vrcf['value'] : '';
+	                  }
+
+
+	                }
+
+	              }
+	            
+	          }
+	            //$cfr['location'] - категория
+	            //$val_r - занчения из заявки
+	          /*  print_r('<pre>');
+	            print_r($cfr['location'].' ---- '.$val_r.' ---- '.$result_request_information['status']);
+	            print_r('</pre>');
+	            print_r('<pre>');
+	            print_r($result_request_information);
+	            print_r('</pre>');
+							print_r('<pre>');
+	           // print_r($register_custom_field);
+	            print_r('</pre>');*/
+	            
+
+						/******/
 					}
 
 
@@ -688,7 +748,7 @@ $data['contest_field_system']['project']['project_demographic'] = array(
 					$type = $cfr['type'];
 
 					$val_r = '';//значение в заявке
-					if(!empty($register_custom_field[$cfr['location']])){
+						if(!empty($register_custom_field[$cfr['location']])){
 						foreach ($register_custom_field[$cfr['location']] as $vrcf) {
 							if($vrcf['field_id'] == $cfr['contest_field_id']){
 								$val_r = $vrcf['value'];
@@ -742,9 +802,12 @@ $data['contest_field_system']['project']['project_demographic'] = array(
 
 
 		}
+/*
+		print_r('<pre>');
+		print_r($contest_fields_results);
+		print_r('</pre>');
 
-
-
+die();*/
 
 		//фнализированный массив с подстановкой
 		$data['contest_fields'] = array();

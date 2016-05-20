@@ -574,13 +574,16 @@ class ControllerContestContestRequest extends Controller {
     $data['customer_field'] = array();
     foreach ($category_request_results as $crr) {
         $data_for_category = array();
+       /* print_r('<pre>');
+        print_r($request_value['custom_fields']);
+        print_r('</pre>');*/
         foreach ($request_value['custom_fields'] as $kr => $vr) {
           if($crr['category_request_id'] == $kr){
             foreach ($vr as $vvr) {
 
               $type = $contest_fields[$vvr['field_id']]['contest_field_type'];
               $value_field = '';
-
+       
 
 
               if(!empty($vvr['value'])){
@@ -593,18 +596,16 @@ class ControllerContestContestRequest extends Controller {
                 $val_project_age = array();
                 $result_project_age = $this->model_contest_contest_field->getProjectAges();
                 foreach ($result_project_age  as $vpa) {
-					foreach ($vvr['value'] as $vvvr) {
-	                    if($vpa['contest_field_value_id'] == $vvvr){
-	                      $val_project_age[] = array(
-	                        'title' =>  $vpa['name']
-	                      );
-	                    }
-                  	}
+									foreach ($vvr['value'] as $vvvr) {
+                    if($vpa['contest_field_value_id'] == $vvvr){
+                      $val_project_age[] = array(
+                        'title' =>  $vpa['name']
+                      );
+                    }
+                	}
                 }
                 $value_field = $val_project_age;
-
-
-              }
+							}
 
 
               if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_sex' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
@@ -666,7 +667,7 @@ class ControllerContestContestRequest extends Controller {
                 $val_project_demographic = array();
                 $result_project_demographic = $this->model_contest_contest_field->getProjectDemographics();
                 foreach ($result_project_demographic  as $vpa) {
-					foreach ($vvr['value'] as $vvvr) {
+									foreach ($vvr['value'] as $vvvr) {
 	                    if($vpa['contest_field_value_id'] == $vvvr){
 	                      $val_project_demographic[] = array(
 	                        'title' =>  $vpa['name']
@@ -691,14 +692,14 @@ class ControllerContestContestRequest extends Controller {
 			              
 
 			              	if(!is_file( DIR_UPLOAD . $new_file )){
-								copy( DIR_UPLOAD . $file_info['filename'], DIR_UPLOAD . $new_file );
-							}	
-							if (is_file(DIR_UPLOAD . $new_file)) {	
-								$data_value[] = array(
-			              			'title'	=> $file_info['name'],
-			              			'link'	=> HTTP_CATALOG .'upload/' . $new_file
-			              		);
-							}
+												copy( DIR_UPLOAD . $file_info['filename'], DIR_UPLOAD . $new_file );
+											}	
+												if (is_file(DIR_UPLOAD . $new_file)) {	
+													$data_value[] = array(
+								              			'title'	=> $file_info['name'],
+								              			'link'	=> HTTP_CATALOG .'upload/' . $new_file
+								              		);
+												}
 	              		}
 	              		
           			}
@@ -731,6 +732,8 @@ class ControllerContestContestRequest extends Controller {
           'category_fields'     =>$data_for_category
         );
     }
+
+
 
 
     //подтянем список всех пользователей

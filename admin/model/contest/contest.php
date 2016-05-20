@@ -545,6 +545,8 @@ class ModelContestContest extends Model {
 		return $query->rows;
 	}
 
+
+
 	public function getEstimateForWinnerList($data = array()){
 		if(empty($data)){
 			$sql = "SELECT * FROM " . DB_PREFIX . "customer_estimate";

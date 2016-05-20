@@ -88,8 +88,14 @@ function rus_date() {
         return $b['sort_order'] - $a['sort_order'];
     }
     function sortByScore($a, $b) {
-        return $b['score'] - $a['score'];
+        if ($a['recommendation_score'] == $b['recommendation_score']) {
+            return $b['score'] - $a['score'];
+        }
+        return strcmp( $b['recommendation_score'],$a['recommendation_score']);
     }
+    
+
+
     function sortByPlace($a, $b) {
         return $a['place_id'] - $b['place_id'];
     }
