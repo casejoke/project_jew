@@ -150,33 +150,26 @@ class ControllerContestView extends Controller {
 				);
 			}
 
-			//подтянем все активные группы
-			$results_projects = $this->model_project_project->getProjects();
-			$data['projects'] = array();
-			foreach ($results_projects as $result_p) {
-				
-				/*if (!empty($result_p['image'])) {
-					$upload_info = $this->model_tool_upload->getUploadByCode($result_p['image']);
-					$filename = $upload_info['filename'];
-					$image = $this->model_tool_upload->resize($filename , 178, 100,'w');
-				} else {
-					$image = $this->model_tool_image->resize('no-image.png', 178, 100,'w');
-				}*/
+			$implode[] = (int)$contest_id;
+			$filter_data = array();
+			$filter_data = array(
+				'filter_contest_id' => $implode,
+				'filter_status'			=> 1
+			);
+			
 
-				$actions = array(
-					'view'		=> $this->url->link('project/view', 'project_id='.$result_p['project_id'], 'SSL')
-				);
-				$data['projects'][$result_p['project_id']] = array(
+			$filter_data = array();
+			$results_projects = $this->model_project_project->getListProjects($filter_data);
+			$projects = array();
+			foreach ($results_projects as $result_p) {
+				$projects[$result_p['project_id']] = array(
 					'project_id'			=> $result_p['project_id'],
-					//'project_relation_name'	=> (!empty($res_relation_status[$result_p['relation_status_id']])) ? $res_relation_status[$result_p['relation_status_id']]: '',
-					'project_customer'		=> $customers[$result_p['customer_id']],
-					'project_relation_id'	=> $result_p['project_relation_id'],
-					//'project_birthday'		=> rus_date($this->language->get('date_day_date_format'), strtotime($result_p['project_birthday'])),
-					'project_title'			=> html_entity_decode($result_p['title'], ENT_COMPAT, 'UTF-8'),
-					//'project_image'			=> $image,
-					'action'				=> $actions
+					'project_title'			=> $result_p['title'],
+					'customer_id'      		=> $result_p['customer_id'],
+					'project_link'			=> $this->url->link('project/view', 'project_id='.$result_p['project_id'], 'SSL')		
 				);
 			}
+			
 
 
 
@@ -191,17 +184,42 @@ class ControllerContestView extends Controller {
 				'filter_contest_id'	=> $data['contest_id']
 			);
 
-		//	$contest_type = (!empty($contests[$result['contest_id']]))?$contests[$result['contest_id']]['contest_type']:0;
+		
+			
 
-			$adaptive_id_text = '';
-			$adaptive_customer_name = '';
-			$adaptive_status_text   = '';
-
+			
+			
 
 
 			$results_winners = $this->model_contest_contest->getCustomerForWinner($filter_data);
+			
 			foreach ($results_winners as $vcfw) {
 
+				$adaptive_id_text = '';
+				$adaptive_customer_name = '';
+				$adaptive_status_text   = '';
+
+
+				switch ((int)$data['contest_type']) {
+					case '1':
+
+						break;
+					case '2':
+						
+						break;
+					case '3':
+							//проект котрый адаптирует
+							$info_req = $this->model_contest_contest->getInfoRequest($vcfw['request_id']);
+							$adaptive_id = $info_req['adaptive_id'];
+							$adaptive_id_text = $projects[$adaptive_id]['project_title'];
+							$adaptive_customer_id = $projects[$adaptive_id]['customer_id'];
+	            			$adaptive_customer_name = $customers[$adaptive_customer_id]['customer_name'];//автор проекта
+
+						break;
+					default:
+						
+						break;
+				}
 
 
 
@@ -209,7 +227,8 @@ class ControllerContestView extends Controller {
 					'request_id'			=> $vcfw['request_id'],
 					'place_id'				=> $vcfw['place_id'],
 					'customer_name' 		=> $customers[$vcfw['customer_id']]['customer_name'],
-					//'adaptive_name'         	=> $adaptive_customer_name,
+					'adaptive_name'         	=>  $adaptive_customer_name,
+					'adaptive_project_title'	=>  $adaptive_id_text,
 
 				);
 

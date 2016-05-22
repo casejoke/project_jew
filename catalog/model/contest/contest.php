@@ -267,7 +267,11 @@ class ModelContestContest extends Model {
 	}
 
 
-
+	public function getInfoRequest($customer_to_contest_id){
+		$sql = "SELECT * FROM " . DB_PREFIX . "customer_to_contest WHERE customer_to_contest_id ='". (int)$customer_to_contest_id ."'";
+		$query = $this->db->query($sql);
+		return $query->row;
+	}
 
 	//получение заявок
 	public function getRequestForCustomer($data=array()){

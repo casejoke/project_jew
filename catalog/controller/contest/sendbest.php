@@ -585,11 +585,10 @@ class ControllerContestSendbest extends Controller {
                 }
               }
             }
-          
           }else{
-          
             $contest_fields_value = '';
             if(empty($result_request_information['status'])){
+
               $val_r = $data['contest_field_system'][$cfr['field_system_table']][$cfr['field_system']]['field_value_r'];
             }else{
               $val_r = '';//значение в заявке
@@ -600,7 +599,6 @@ class ControllerContestSendbest extends Controller {
                   }
                 }
               }
-            
             }
           }
 

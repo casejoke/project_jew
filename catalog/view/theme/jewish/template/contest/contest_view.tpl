@@ -45,17 +45,17 @@
                 <th>Название проекта</th>
                 <th>Автор проекта</th>
                 <th>Адаптор проекта</th>
-                <th>Вид взаимодействия</th>
+               
               </tr>
               </thead>
               <tbody>
               <?php foreach ($winners as $vwin) { ?>
                   <tr>
                   <th class="hidden"></th>
-                  <td></td>
-                  <td></td>
+                  <td><?php echo $vwin['adaptive_project_title']; ?></td>
+                  <td><?php echo $vwin['adaptive_name']; ?></td>
                   <td><?php echo $vwin['customer_name']; ?></td>
-                  <td></td>
+                  
                   </tr>
               <?php } ?>
               </tbody>
