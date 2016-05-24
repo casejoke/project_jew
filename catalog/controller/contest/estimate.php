@@ -215,6 +215,7 @@ class ControllerContestEstimate extends Controller {
         'contest_field_system_table'  => $vccf['field_system_table'],
       );
     }
+
     //раcкрутим заявку
     $data['customer_field'] = array();
     foreach ($category_request_results as $crr) {
@@ -222,6 +223,8 @@ class ControllerContestEstimate extends Controller {
 
         
         foreach ($request_value['custom_fields'] as $kr => $vr) {
+
+
           if($crr['category_request_id'] == $kr){
             foreach ($vr as $vvr) {
             
@@ -230,6 +233,36 @@ class ControllerContestEstimate extends Controller {
               if(!empty($vvr['value'])){
                  $value_field = $vvr['value'];
               }
+
+              if($type == 'file'){
+              
+                  $data_value = array();
+                  foreach ($vvr['value'] as $vcfile) {
+                    $file_info = $this->model_tool_upload->getUploadByCode($vcfile);
+                    if(!empty($file_info)){
+                      $result_code = explode('.', $file_info['filename']);
+                      $count_array = count($result_code);
+                      $new_file = str_replace('.' . $result_code[$count_array-1],'', $file_info['filename']);
+                    
+
+                      if(!is_file( DIR_UPLOAD . $new_file )){
+                        copy( DIR_UPLOAD . $file_info['filename'], DIR_UPLOAD . $new_file );
+                      } 
+                        if (is_file(DIR_UPLOAD . $new_file)) {  
+                          $data_value[] = array(
+                                    'title' => $file_info['name'],
+                                    'link'  => 'upload/' . $new_file
+                                  );
+                        }
+                    }
+                    
+                }
+
+                $value_field = $data_value;
+                
+              }
+
+
              
 
               if( $contest_fields[$vvr['field_id']]['contest_field_system'] == 'project_age' && ( !empty($vvr['value']) && is_array($vvr['value']) == true) ){
@@ -273,7 +306,7 @@ class ControllerContestEstimate extends Controller {
                         $val_project_nationality = array();
                         $result_project_nationality = $this->model_contest_contest_field->getProjectNationalitys();
                         foreach ($result_project_nationality  as $vpa) {
-                  foreach ($vvr['value'] as $vvvr) {
+                        foreach ($vvr['value'] as $vvvr) {
                               if($vpa['contest_field_value_id'] == $vvvr){
                                 $val_project_nationality[] = array(
                                   'title' =>  $vpa['name']
@@ -321,6 +354,8 @@ class ControllerContestEstimate extends Controller {
                         
                         
                       }
+
+
 
 
 

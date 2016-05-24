@@ -44,6 +44,20 @@
                     <h4 class="font-alt mb-20"><?php echo $cr['name']; ?></h4>
 
                       <?php foreach ($cr['category_fields'] as $vcri) { ?>
+
+                       <?php if($vcri['field_type'] == 'file'){ ?>
+                         <div class="col-sm-12"> 
+                            <div class="form-group">
+                              <label class="control-label font-alt" >Прикрепленные файлы к заявке</label>
+                            </div> 
+                            <ul> 
+                              <?php foreach ($vcri['field_value'] as $vfv) { ?>
+                                <p><a href="<?php echo $vfv['link']; ?>" target="_blank"><?php echo $vfv['title']; ?></a></p>
+                              <?php } ?>
+                            </ul>
+                          </div>
+                            <?php } ?>
+                               
                   
                       <?php if($vcri['field_type'] == 'list'){ ?>
                         <div class="col-sm-12"> 
