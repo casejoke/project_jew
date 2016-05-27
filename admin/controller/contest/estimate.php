@@ -76,6 +76,37 @@ class ControllerContestEstimate extends Controller {
 
 		$this->getForm();
 	}
+	public function view() {
+		$this->load->language('contest/estimate');
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->load->model('contest/contest');
+		$this->load->model('contest/contest_request');
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+			$this->model_contest_contest->editEstimateContest($this->request->get['contest_id'], $this->request->post);
+
+			$this->session->data['success'] = $this->language->get('text_success');
+
+			$url = '';
+
+			if (isset($this->request->get['sort'])) {
+				$url .= '&sort=' . $this->request->get['sort'];
+			}
+
+			if (isset($this->request->get['order'])) {
+				$url .= '&order=' . $this->request->get['order'];
+			}
+
+			if (isset($this->request->get['page'])) {
+				$url .= '&page=' . $this->request->get['page'];
+			}
+
+			$this->response->redirect($this->url->link('contest/estimate', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+		}
+
+		$this->getFormView();
+	}
 
 	public function delete() {
 		$this->load->language('contest/estimate');
@@ -166,7 +197,8 @@ class ControllerContestEstimate extends Controller {
 					'contest_id' 	=> $result['contest_id'],
 					'title'       	=> $result['title'],
 					'contest_date'	=> rus_date($this->language->get('default_date_format'), strtotime($result['date_start'])),
-					'edit'        	=> $this->url->link('contest/estimate/edit', 'token=' . $this->session->data['token'] . '&contest_id=' . $result['contest_id'] . $url, 'SSL')
+					'edit'        	=> $this->url->link('contest/estimate/edit', 'token=' . $this->session->data['token'] . '&contest_id=' . $result['contest_id'] . $url, 'SSL'),
+					'view'        	=> $this->url->link('contest/estimate/view', 'token=' . $this->session->data['token'] . '&contest_id=' . $result['contest_id'] . $url, 'SSL')
 				);
 			}
 		}
@@ -452,6 +484,242 @@ class ControllerContestEstimate extends Controller {
 		$this->response->setOutput($this->load->view('contest/contest_estimate_form.tpl', $data));
 	}
 
+	protected function getFormView() {
+	
+		// инициализация подписей к полям
+		$data['heading_title'] = $this->language->get('heading_title');
+		$data['form_header'] = $this->language->get('form_header');
+
+		$data['text_form'] = !isset($this->request->get['contest_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+		$data['text_none'] = $this->language->get('text_none');
+		$data['text_enabled'] = $this->language->get('text_enabled');
+		$data['text_disabled'] = $this->language->get('text_disabled');
+
+	
+		$data['button_save'] = $this->language->get('button_save');
+		$data['button_cancel'] = $this->language->get('button_cancel');
+
+		$data['tab_general'] 	= $this->language->get('tab_general');
+		$data['tab_expert'] 	= $this->language->get('tab_expert');
+		
+		$data['tab_criteria'] 	= $this->language->get('tab_criteria');
+		
+		// инициализация ошибок
+		if (isset($this->error['warning'])) {
+			$data['error_warning'] = $this->error['warning'];
+		} else {
+			$data['error_warning'] = '';
+		}
+
+		$url = '';
+
+		if (!isset($this->request->get['contest_id'])) {
+			$data['action'] = $this->url->link('contest/estimate/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		} else {
+			$data['action'] = $this->url->link('contest/estimate/edit', 'token=' . $this->session->data['token'] . '&contest_id=' . $this->request->get['contest_id'] . $url, 'SSL');
+		}
+
+		$data['cancel'] = $this->url->link('contest/estimate', 'token=' . $this->session->data['token'] . $url, 'SSL');
+
+		$this->load->model('localisation/language');
+
+		$data['languages'] = $this->model_localisation_language->getLanguages();
+
+		$data['token'] = $this->session->data['token'];
+
+		if (isset($this->request->get['contest_id'])) {
+			$data['contest_id'] = $this->request->get['contest_id'];
+		} else {
+			$data['contest_id'] = 0;
+		}
+		
+		
+		if (isset($this->request->get['contest_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$contest_info = $this->model_contest_contest->getContest($this->request->get['contest_id']);
+		}
+
+		
+		//получим список заявок для данного конкурса
+		//у заявок статус одобрена status = 1
+		$filter_data = array();
+		$filter_data = array(
+			'filter_status_id' 	=> 1,
+			'filter_contest_id'	=> $data['contest_id']
+		);
+		$result_request_to_contest = $this->model_contest_contest->getRequestsForWinnerList($filter_data);
+
+
+		//подтянем веса из описания конкурса
+		$results_contest_criterias  = $this->model_contest_contest->getContestCriteria($this->request->get['contest_id']);
+		$result_criterias = array();
+		foreach ($results_contest_criterias as $vcc) {
+			$result_criterias[$vcc['contest_criteria_id']] = array(
+				'criteria_id'					=> $vcc['contest_criteria_id'],
+				'criteria_weight'			=> $vcc['weight']
+			);
+		}
+
+		//подтянем список всех пользователей
+		$this->load->model('sale/customer');
+		$filter_data = array();
+		$results = $this->model_sale_customer->getCustomers($filter_data);
+		$customers = array();
+		foreach ($results as $result) {
+			
+			$customers[$result['customer_id']] = array(
+				'customer_id'    => $result['customer_id'],
+				'name'           => $result['name']
+			);
+		}
+
+		//получим оценки и баллы для данных заявок
+		$filter_data = array();
+		$filter_data = array(
+			'filter_contest_id'	=> $data['contest_id']
+		);
+		$result_estimate_to_contest = $this->model_contest_contest->getEstimateForWinnerList($filter_data);
+		//customer_to_contest_id 	- id заявки
+		//customer_id 						- id эксперта
+		//value 									- id оценка
+		//customer_to_contest_id - id заявки
+
+
+		$estimate = array();
+		$recommendation = array();
+		
+		foreach ($result_estimate_to_contest as $vetc) {
+
+			$mark = array();
+			$mark = unserialize($vetc['value']);
+			$total = 0;
+			
+			if(!empty($mark['estimate_request'])){
+				foreach ($mark['estimate_request'] as $km => $vm) {
+					//$km - id критерия
+					//$vm - оценка
+					//вес = $result_criterias[$km]['criteria_weight']
+					$total +=  $result_criterias[$km]['criteria_weight']*$vm;
+
+				}
+			}
+
+			
+			if(!empty($estimate[$vetc['customer_to_contest_id']]['request_scores'])){
+				$estimate[$vetc['customer_to_contest_id']]['request_scores'] += $total;
+			}else{
+				$estimate[$vetc['customer_to_contest_id']]['request_scores'] = $total;
+			}
+			
+
+
+
+			if(!empty($recommendation[$vetc['customer_to_contest_id']]['recommendation'] )){
+				$recommendation[$vetc['customer_to_contest_id']]['recommendation'] += $vetc['recommendation'];
+			}else{
+				$recommendation[$vetc['customer_to_contest_id']]['recommendation'] = $vetc['recommendation'];
+			}
+			
+		}
+	
+
+		$data['list_request'] = array();
+		foreach ($result_request_to_contest as $vrtc) {
+			$request_score = 0;
+			if(!empty($estimate[$vrtc['customer_to_contest_id']]['request_scores'])){
+				$request_score = $estimate[$vrtc['customer_to_contest_id']]['request_scores'];
+			}
+			$recommendation_score = 0;
+			if(!empty($recommendation[$vrtc['customer_to_contest_id']]['recommendation'])){
+				$recommendation_score = $recommendation[$vrtc['customer_to_contest_id']]['recommendation'];
+			}
+			
+
+			$action = array();
+			$action = array(
+				'view_request' => $this->url->link('contest/contest_request/edit', 'token=' . $this->session->data['token'] . '&customer_to_contest_id=' . $vrtc['customer_to_contest_id'], 'SSL')
+			);
+
+			$place_id = 0;
+			$filter_data = array(
+				'filter_request_id'  => $vrtc['customer_to_contest_id']
+			);
+			$data_for_request = $this->model_contest_contest->getWinners($filter_data);
+
+
+
+			if(!empty($data_for_request)){
+				//значит место назначено
+				$place_id = $data_for_request[0]['place_id'];
+			}
+
+
+
+			  //получим оценку и коментари  экспертов по заявке
+		    $filter_data_c = array();
+		    $filter_data_c = array(
+					'filter_customer_to_contest_id'	=> $vrtc['customer_to_contest_id']
+				);
+		    $results_estimate = $this->model_contest_contest_request->getEstimate($filter_data_c);
+		    $estimate_list = array();
+		    foreach ($results_estimate as $vre) {
+		    	$mark = array();
+					$mark = unserialize($vre['value']);
+					$total = 0;
+					
+					if(!empty($mark['estimate_request'])){
+						foreach ($mark['estimate_request'] as $km => $vm) {
+							//$km - id критерия
+							//$vm - оценка
+							//вес = $result_criterias[$km]['criteria_weight']
+							$total +=  $result_criterias[$km]['criteria_weight']*$vm;
+
+						}
+					}
+		    		$estimate_list[] = array(
+		    			'customer_expert_name' 		=> $customers[$vre['customer_id']]['name'],
+		    			'customer_recommendation'	=> $vre['recommendation'],
+		    			'customer_score'					=> $total,
+		    			'customer_comment'	=> $vre['comment'],
+					);
+		    }
+
+
+
+
+			$data['list_request'][] = array(
+				'customer_to_contest_id'	=>	$vrtc['customer_to_contest_id'],
+				'estimate_list'				=> $estimate_list,
+				'customer_id'							=> 	$vrtc['customer_id'],
+				'customer_name'							=> 	$customers[$vrtc['customer_id']]['name'],
+				'contest_id'							=>  $vrtc['contest_id'],
+				'adaptive_id'							=>  $vrtc['adaptive_id'],
+				'project_id'							=>  $vrtc['project_id'],
+				'recommendation_score'					=>  $recommendation_score,
+				'score' 								=> 	$request_score,
+				'place'									=>  $place_id,
+				'action'								=>  $action
+			);
+		}
+		//
+		usort($data['list_request'], 'sortByScore');
+
+		
+		//подтянем количесвто мест
+		$data['count_winner_place'] =  $contest_info['count_winner'];
+
+		//print_r('<pre>');
+		//print_r($data['list_request']);
+		//print_r('</pre>');
+
+		//die();
+
+
+		$data['header'] = $this->load->controller('common/header');
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['footer'] = $this->load->controller('common/footer');
+
+		$this->response->setOutput($this->load->view('contest/contest_estimate_view.tpl', $data));
+	}
 	//add winner
 	public function addWinner(){
 		$json =	array();

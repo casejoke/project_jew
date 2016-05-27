@@ -47,7 +47,10 @@
                     
                     <td class="text-left"><?php echo $contest['title']; ?></td>
                     <td class="text-center"><?php echo $contest['contest_date']; ?></td>
-                    <td class="text-right"><a href="<?php echo $contest['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                    <td class="text-right">
+                      <a href="<?php echo $contest['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+                      <a href="<?php echo $contest['view']; ?>"  class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                    </td>
                   </tr>
                   <?php } ?>
                   <?php } else { ?>
