@@ -132,6 +132,11 @@ class ControllerContestView extends Controller {
 		$data['winners'] = array();
 		if( strtotime($contest_info['date_finalist']) < strtotime(date('Y-m-d'))  ){
 
+			$data['winner_text'] = 0;
+			if(strtotime($contest_info['date_result']) < strtotime(date('Y-m-d'))){
+				$data['winner_text'] = 1;
+			}
+
 			$relation_statuses = $this->model_project_project->getListRelationshipAdaptor();
 			$res_relation_status = array();
 			foreach ($relation_statuses as $vrs) {
@@ -189,6 +194,8 @@ class ControllerContestView extends Controller {
 
 			
 			
+			$data['contest_type'] = (int)$data['contest_type'];
+
 
 
 			$results_winners = $this->model_contest_contest->getCustomerForWinner($filter_data);
@@ -205,6 +212,16 @@ class ControllerContestView extends Controller {
 
 						break;
 					case '2':
+						$info_req = $this->model_contest_contest->getInfoRequest($vcfw['request_id']);
+						//print_r('<pre>');
+						//print_r(unserialize($info_req['value']));
+						//print_r('</pre>');
+						$arr_req = unserialize($info_req['value']);
+						foreach ( $arr_req['custom_fields'][12] as $value) {
+							if($value['field_id'] == 13){
+								$adaptive_id_text = $value['value'];
+							}
+						}
 						
 						break;
 					case '3':
@@ -237,8 +254,8 @@ class ControllerContestView extends Controller {
 			usort($data['winners'], 'sortByPlace');
 
 		//print_r('<pre>');
-		//	print_r($data['winners']);
-		//	print_r('</pre>');
+		//print_r($data['winners']);
+		//print_r('</pre>');
 
 			
 		}

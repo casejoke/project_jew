@@ -37,31 +37,52 @@
           <?php if ($contest_status != 0  ) { ?>
            
             <?php if(!empty($winners)) { ?>
-             <h4 class="font-alt mb-10">Победители</h4>
+
+             <h4 class="font-alt mb-10"><?php echo ($winner_text)?'Победители':'Финалисты'; ?></h4>
             <table class="table table-striped table-border checkout-table">
               <thead>
-              <tr>
-                <th class="hidden"></th>
-                <th>Название проекта</th>
-                <th>Автор проекта</th>
-                <th>Адаптор проекта</th>
-               
-              </tr>
-              </thead>
-              <tbody>
-              <?php foreach ($winners as $vwin) { ?>
-                  <tr>
+              <?php if($contest_type == 3) { ?>
+                <tr>
                   <th class="hidden"></th>
-                  <td><?php echo $vwin['adaptive_project_title']; ?></td>
-                  <td><?php echo $vwin['adaptive_name']; ?></td>
-                  <td><?php echo $vwin['customer_name']; ?></td>
-                  
-                  </tr>
+                  <th>Название проекта</th>
+                  <th>Автор проекта</th>
+                  <th>Адаптор проекта</th>
+                 
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($winners as $vwin) { ?>
+                    <tr>
+                    <th class="hidden"></th>
+                    <td><?php echo $vwin['adaptive_project_title']; ?></td>
+                    <td><?php echo $vwin['adaptive_name']; ?></td>
+                    <td><?php echo $vwin['customer_name']; ?></td>
+                    
+                    </tr>
+                <?php } ?>
+                </tbody>
+                
+              <?php } else { ?>
+                <tr>
+                  <th class="hidden"></th>
+                  <th>Название проекта</th>
+                  <th>Автор проекта</th>
+                 
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($winners as $vwin) { ?>
+                    <tr>
+                    <th class="hidden"></th>
+                    <td><?php echo $vwin['adaptive_project_title']; ?></td>
+                    <td><?php echo $vwin['customer_name']; ?></td>
+                    
+                    </tr>
+                <?php } ?>
+                </tbody>
               <?php } ?>
-              </tbody>
-              <?php } ?>
-
-
+              </table>
+            <?php } ?>  
 
 
               <?php if($contest_id == 7) {?>
@@ -301,14 +322,16 @@
                   </tr>
                   <tr>
                     <th class="hidden"></th>
-                    <th><?php echo $entry_contest_date_result; ?> :</th>
-                    <td><?php echo $contest_date_result; ?></td>
-                  </tr>
-                  <tr>
-                    <th class="hidden"></th>
                     <th><?php echo $entry_contest_date_finalist; ?> :</th>
                     <td><?php echo $contest_date_finalist; ?></td>
                   </tr>
+                  <tr>
+                    <th class="hidden"></th>
+                    <th><?php echo $entry_contest_date_result; ?> :</th>
+                    <td><?php echo $contest_date_result; ?></td>
+                  </tr>
+
+                  
 
                 </tbody>
               </table>
